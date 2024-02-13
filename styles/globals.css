@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* create css variable */
+
+body,main{
+    background: -webkit-linear-gradient(to right, #000000, #0a0822);
+    background: linear-gradient(to right, #000000, #0a0822);
+}

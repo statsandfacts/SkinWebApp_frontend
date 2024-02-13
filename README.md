@@ -1,2 +1,1 @@
-# SkinWebApp_frontend
-Completely website
+# Skin Web
