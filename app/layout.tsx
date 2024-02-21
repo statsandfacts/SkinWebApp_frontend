@@ -5,6 +5,7 @@ import { fontInter } from "@/config/fonts";
 import { Providers } from "./providers";
 import { Navbar } from "@/components/navbar";
 import { Inter } from 'next/font/google'
+import Footer from "@/components/Footer";
 const inter = Inter({
 	subsets: ['latin'],
 	display: 'swap',
@@ -28,15 +29,16 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en" suppressHydrationWarning className={inter.className}>
+		<html lang="en" suppressHydrationWarning={true} className={inter.className}>
 			<head />
 			<body>
 				<Providers>
 					<div className="relative flex flex-col h-screen">
 						<Navbar />
-						<main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+						<main className="w-full ">
 							{children}
 						</main>
+						<Footer />
 					</div>
 				</Providers>
 			</body>

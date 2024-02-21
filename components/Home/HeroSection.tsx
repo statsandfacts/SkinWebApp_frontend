@@ -1,55 +1,50 @@
 import React from 'react'
+import { Button } from "@nextui-org/react";
 
 type Props = {}
 
 const HeroSection = (props: Props) => {
     return (
         <>
-            <div className="relative" id="home">
-                <div aria-hidden="true" className="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20">
-                    <div className="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-700"></div>
-                    <div className="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-600"></div>
-                </div>
-                <div className="max-w-7xl mx-auto px-6 md:px-12 xl:px-6">
-                    <div className="relative pt-36 ml-auto">
-                        <div className="lg:w-2/3 text-center mx-auto">
-                            <h1 className="text-white font-bold text-5xl md:text-6xl xl:text-7xl">Discover Your Personalized<span className="text-primary dark:text-white"> Treatment</span></h1>
-                            <p className="mt-8 text-gray-300">Harness the power of innovation for your best skin yet. We offer [mention specific technology - lasers, radiofrequency, etc.] treatments, personalized to target your unique concerns. From reversing signs of aging to addressing acne and hyperpigmentation</p>
-                            <div className="mt-16 flex flex-wrap justify-center gap-y-4 gap-x-6">
-                                <a
-                                    href="#"
-                                    className="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
-                                >
-                                    <span className="relative text-base font-semibold text-white"
-                                    >Get started</span >
-                                </a>
-                                <a
-                                    href="#"
-                                    className="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:bg-primary/10 before:bg-gradient-to-b before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 sm:w-max"
-                                >
-                                    <span
-                                        className="relative text-base font-semibold text-primary dark:text-white"
-                                    >Learn more</span>
-                                </a>
+            <div className="w-full bg-red-200 px-10 py-5 h-screen">
+                <div className="flex gap-5 max-md:flex-col max-md:gap-0 max-md:">
+                    <div className="flex flex-col w-[54%] max-md:ml-0 max-md:w-full">
+                        <div className="flex flex-col self-stretch my-auto font-bold text-zinc-800 max-md:mt-10 max-md:max-w-full">
+                            <div className="text-8xl max-md:max-w-full max-md:text-4xl">
+                                An unique <br />
+                                approach to <br />
+                                skin care
                             </div>
-                            <div className="hidden py-8 mt-16 border-y border-gray-100 dark:border-gray-800 sm:flex justify-between">
-                                <div className="text-left">
-                                    <h6 className="text-lg font-semibold text-gray-700 dark:text-white">Smoother texture & reduced wrinkles</h6>
-                                    <p className="mt-2 text-gray-500">Some text here</p>
-                                </div>
-                                <div className="text-left">
-                                    <h6 className="text-lg font-semibold text-gray-700 dark:text-white">Firmer, more youthful appearance</h6>
-                                    <p className="mt-2 text-gray-500">Some text here</p>
-                                </div>
-                                <div className="text-left">
-                                    <h6 className="text-lg font-semibold text-gray-700 dark:text-white">Brighter, even skin tone</h6>
-                                    <p className="mt-2 text-gray-500">Some text here</p>
-                                </div>
+                            <div className="mt-5 text-md max-md:mt-5 max-md:max-w-full font-bold">
+                                AI-based skin care that’s tailored to you
                             </div>
+
+                            <Button className="justify-center w-fit py-8 mt-10 text-2xl text-center text-white bg-violet-500 rounded-full">
+                                FIND YOUR TREATMENT
+                            </Button>
+                        </div>
+                    </div>
+                    <div className="flex flex-col ml-5 w-[46%] max-md:ml-0 max-md:w-full">
+                        <div className="flex relative flex-col grow max-md:mt-10 max-md:max-w-full">
+                            <div className='absolute top-5 left-[-5rem] z-10'>
+                                <img
+                                    loading="lazy"
+                                    srcSet="/images/hero1.png"
+                                    className="z-10 max-w-full aspect-[0.94] w-[350px]"
+                                />
+                            </div>
+                            <div className='absolute top-40 right-1'>
+                                <img
+                                    loading="lazy"
+                                    srcSet="/images/hero2.svg"
+                                    className="self-end max-w-full aspect-[1.1] w-[350px]"
+                                />
+                            </div>
+
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     )
 }
