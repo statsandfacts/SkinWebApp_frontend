@@ -27,7 +27,6 @@
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.2.2",
     "@types/node": "20.5.7",
-    "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.16",
     "aws-sdk": "^2.1585.0",
@@ -58,6 +57,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.17.0",
-    "@types/md5": "^2.3.5"
+    "@types/md5": "^2.3.5",
+    "@types/react": "^18.2.78"
   }
 }
