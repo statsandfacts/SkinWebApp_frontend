@@ -2,6 +2,7 @@
   "name": "next-app-template",
   "version": "0.0.1",
   "private": true,
+  "homepage": ".",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.1",
     "@nextui-org/button": "2.0.26",
     "@nextui-org/code": "2.0.24",
     "@nextui-org/input": "2.1.16",
@@ -22,22 +24,40 @@
     "@nextui-org/theme": "2.1.17",
     "@react-aria/ssr": "^3.8.0",
     "@react-aria/visually-hidden": "^3.8.6",
+    "@react-oauth/google": "^0.12.1",
+    "@reduxjs/toolkit": "^2.2.2",
     "@types/node": "20.5.7",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.16",
+    "aws-sdk": "^2.1585.0",
+    "axios": "^1.6.7",
     "clsx": "^2.0.0",
     "eslint": "8.48.0",
     "eslint-config-next": "14.0.2",
+    "formik": "^2.4.5",
     "framer-motion": "^10.18.0",
     "intl-messageformat": "^10.5.0",
+    "lodash": "^4.17.21",
+    "md5": "^2.3.0",
     "next": "14.0.2",
     "next-themes": "^0.2.1",
     "postcss": "8.4.31",
+    "razorpay": "^0.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-error-boundary": "^4.0.13",
+    "react-redux": "^9.1.0",
+    "react-to-print": "^2.15.1",
+    "react-toastify": "^10.0.4",
+    "swr": "^2.2.5",
     "tailwind-variants": "^0.1.18",
     "tailwindcss": "3.3.5",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "yup": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.0",
+    "@types/md5": "^2.3.5"
   }
 }

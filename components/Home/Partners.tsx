@@ -5,55 +5,43 @@ import React from 'react';
 const Partners = () => {
   return (
     <>
-      <div className='flex justify-center items-center self-stretch px-16 py-12 w-full bg-violet-500'>
-        <div className='flex flex-col mt-4 mb-9 w-full max-w-[1122px] max-md:max-w-full'>
-          <div className='self-center text-6xl font-bold text-white max-md:max-w-full max-md:text-4xl'>
+      <div className='flex flex-col items-center px-16 pt-10 mt-10 mb-4 max-md:px-5 max-md:max-w-full'>
+        <div className='flex flex-col max-w-full '>
+          <div className='self-center text-3xl font-semibold text-gray-800 capitalize whitespace-nowrap'>
             Our product partners
           </div>
-          <div className='mt-16 max-md:mt-10 max-md:max-w-full'>
-            <div className='flex gap-5 flex-wrap items-center justify-center'>
-              <Card shadow='sm' isPressable className='bg-red-200/60'>
-                <CardBody className='overflow-visible p-0'>
-                  <Image
-                    width={200}
-                    height={200}
-                    alt={'cilpla'}
-                    className='w-full object-cover rounded-lg shadow-sm'
-                    src='/images/clipla.png'
-                  />
-                </CardBody>
-                <CardFooter className='text-xl font-bold flex  justify-center items-center'>
-                  <p className='text-center text-black'>Cipla</p>
-                </CardFooter>
-              </Card>
-              <Card shadow='sm' isPressable className='bg-red-200/60'>
-                <CardBody className='overflow-visible p-0'>
-                  <Image
-                    width={200}
-                    height={200}
-                    alt={'manKind'}
-                    className='w-full object-cover rounded-lg shadow-sm'
-                    src='/images/manKind.png'
-                  />
-                </CardBody>
-                <CardFooter className='text-xl font-bold flex  justify-center items-center'>
-                  <p className='text-center text-black'>Man Kind</p>
-                </CardFooter>
-              </Card>
-              <Card shadow='sm' isPressable className='bg-red-200/60'>
-                <CardBody className='overflow-visible p-0'>
-                  <Image
-                    width={200}
-                    height={200}
-                    alt={'sunFrame'}
-                    className='w-full object-cover rounded-lg shadow-sm'
-                    src='/images/sunFrame.png'
-                  />
-                </CardBody>
-                <CardFooter className='text-xl font-bold flex  justify-center items-center'>
-                  <p className='text-center text-black'>Sun Pharma</p>
-                </CardFooter>
-              </Card>
+          <div className='mt-10 w-full'>
+            <div className='flex flex-wrap gap-5 w-full justify-center'>
+              <div className=''>
+                <Image
+                  loading='lazy'
+                  src='/images/partners1.png'
+                  className='grow shrink-0 max-w-full border border-solid aspect-[1.01] border-zinc-300 w-[142px] max-md:mt-6'
+                  alt='clipla'
+                  width={100}
+                  height={200}
+                />
+              </div>
+              <div className='w-40'>
+                <Image
+                  loading='lazy'
+                  src='/images/partners2.png'
+                  className='grow shrink-0 max-w-full border border-solid aspect-[1.01] border-zinc-300 w-[142px] max-md:mt-6'
+                  alt='sunFrame'
+                  width={100}
+                  height={200}
+                />
+              </div>
+              <div className='w-40'>
+                <Image
+                  loading='lazy'
+                  src='/images/partners3.png'
+                  className='grow shrink-0 max-w-full border border-solid aspect-[1.01] border-zinc-300 w-[142px] max-md:mt-6'
+                  alt='sunFrame'
+                  width={100}
+                  height={200}
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -1,7 +1,5 @@
 import HeroSection from './HeroSection'
 import Section2 from './Section2'
-import Section3 from './Section3'
-import Partners from './Partners'
-import OurClients from './OurClients'
+import Results from './Results'
 
-export { Section2, HeroSection, Section3, Partners, OurClients } 
+export { Section2, HeroSection, Results } 
