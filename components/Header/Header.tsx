@@ -21,17 +21,19 @@ export default function Header() {
   const menuItems = ['Home', 'About', 'Products', 'FAQ', 'Contact US', 'Login'];
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen}>
+    <Navbar onMenuOpenChange={setIsMenuOpen} className='px-5' maxWidth='full'>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           className='sm:hidden'
         />
         <NavbarBrand>
-          <div className='grow my-auto text-3xl font-bold text-[#31382E] whitespace-nowrap'>
+          <Link
+            href='/'
+            className='grow my-auto text-3xl font-bold text-[#31382E] whitespace-nowrap'>
             NEXT<span className='text-green-500'>.</span>CARE
             <span className='text-gray-400 text-xs font-normal'>Beta</span>
-          </div>
+          </Link>
         </NavbarBrand>
       </NavbarContent>
 

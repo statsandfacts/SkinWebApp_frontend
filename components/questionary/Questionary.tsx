@@ -133,7 +133,7 @@ const Questionary = () => {
                     <RadioGroup
                       label={kc[1]}
                       name={kc[1]}
-                      className='w-full text-black'
+                      className='w-full text-black mb-3'
                       onChange={(e) => handleSelect(e, kc)}>
                       {kc[2] &&
                         kc[2].length > 0 &&

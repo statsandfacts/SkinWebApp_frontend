@@ -6,6 +6,7 @@ import { Providers } from './providers';
 import { Inter } from 'next/font/google';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header/Header';
+import PrimaryLayout from '@/components/layout/PrimaryLayout';
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -29,14 +30,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en' suppressHydrationWarning={true} className={inter.className}>
+    <html lang='en' suppressHydrationWarning={true}>
       <head />
       <body suppressHydrationWarning={true}>
         <Providers>
-          <div className='light relative flex flex-col min-h-screen text-foreground bg-background'>
-            <Header />
-            <main className='w-full '>{children}</main>
-            <Footer />
+          <div className='w-full light relative flex flex-col min-h-screen text-foreground bg-background'>
+            <PrimaryLayout>{children}</PrimaryLayout>
           </div>
         </Providers>
       </body>

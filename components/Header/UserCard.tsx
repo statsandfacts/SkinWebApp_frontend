@@ -11,6 +11,7 @@ import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
 import { useUser } from '@/context/UserContext';
 import Link from 'next/link';
 import * as api from '@/services/app.service';
+import { toast } from 'react-toastify';
 
 export const UserTwitterCard = ({ userDetails, isMobile }: any) => {
   const { user: userId, setLogout } = useUser();
@@ -21,6 +22,7 @@ export const UserTwitterCard = ({ userDetails, isMobile }: any) => {
       if (data) {
         console.log(data);
       }
+      toast.success('Logout successfully');
       setLogout();
     }
   };

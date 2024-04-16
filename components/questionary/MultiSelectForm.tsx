@@ -68,7 +68,7 @@ function InputBox({ question }: any) {
   const dispatch = useDispatch();
   const [input, setInput] = useState<{ [key: string]: string }>({});
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setInput({
       ...input,
@@ -91,18 +91,19 @@ function InputBox({ question }: any) {
 
   return (
     <>
-      <InputField
+      <textarea
         onBlur={handleBlurred}
         onChange={handleInputChange}
         name={question.question_id}
         value={input[question.question_id]}
-        type='text'
         placeholder='Type your problem'
-        className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-      />
+        className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+        {input[question.question_id]}
+      </textarea>
     </>
   );
 }
+
 const imageUrl = 'https://nextcare.s3.us-east-2.amazonaws.com';
 // Main Component
 const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
@@ -267,12 +268,12 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
                   <div
                     key={question.question_id}
                     className='flex flex-col w-full'>
-                    <span className='text-lg p-3'>
+                    <p className='text-xl font-bold p-3'>
                       <span>
                         {currentStep + 1} {'. '}
                       </span>{' '}
                       {question.question_type}
-                    </span>
+                    </p>
                     <>
                       {/* if values length is greater then one then it is select one else it is input box */}
                       {question?.allowed_values.length > 1 ? (
@@ -366,14 +367,14 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
               isDisabled={disableNext}
               onClick={handlePhotoUpload}
               className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
-              Photo Upload
+              Next
             </Button>
           )}
 
           {photoUploadEnable && (
             <Button
               onClick={handlePayment}
-              className='grow justify-center px-5 py-2.5 text-white bg-blue-600 rounded-[96.709px]'>
+              className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
               Payment
             </Button>
           )}
