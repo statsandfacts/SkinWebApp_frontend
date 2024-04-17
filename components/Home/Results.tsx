@@ -10,7 +10,7 @@ const Results = () => {
       <div className='self-center mt-20 text-5xl font-semibold text-gray-800 capitalize max-md:mt-10 max-md:max-w-full max-md:text-4xl'>
         Results of our clients
       </div>
-      <div className='self-center px-5 mt-10 w-full max-w-screen-xl max-md:max-w-full'>
+      <div className='self-center px-5 mt-10 w-full max-w-screen-xl max-md:max-w-full mb-20'>
         <div className='flex gap-5 max-md:flex-col max-md:gap-0'>
           <div className='flex flex-col w-[33%] max-md:ml-0 max-md:w-full'>
             <div className='flex flex-col grow py-0.5 max-md:mt-10'>

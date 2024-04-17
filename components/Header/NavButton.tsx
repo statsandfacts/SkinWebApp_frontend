@@ -141,18 +141,11 @@ const NavButton = () => {
         </>
       );
     } else {
-      if (pathname === '/auth/login') {
-        return <div className='hidden md:block'>{signupJSX}</div>;
-      } else if (pathname === '/auth/signup') {
-        return <div className='hidden md:block'>{loginJSX}</div>;
-      } else {
-        return (
-          <div className='hidden md:flex flex-col justify-start gap-2 md:justify-center md:flex-row whitespace-nowrap '>
-            {loginJSX}
-            {signupJSX}
-          </div>
-        );
-      }
+      return (
+        <div className='hidden md:flex flex-col justify-start gap-2 md:justify-center md:flex-row whitespace-nowrap '>
+          {loginJSX}
+        </div>
+      );
     }
   };
 

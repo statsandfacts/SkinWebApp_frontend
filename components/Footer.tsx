@@ -6,7 +6,7 @@ const Footer = (props: Props) => {
   return (
     <>
       <footer className='bg-white' id='contact'>
-        <div className='flex flex-col px-16 pt-16 pb-10 mt-20 w-full bg-white max-md:px-5 max-md:mt-10 max-md:max-w-full'>
+        <div className='flex flex-col px-16 pb-10 mt-10 w-full bg-white max-md:px-5 max-md:mt-10 max-md:max-w-full'>
           <div className='flex gap-5 justify-between mx-5 max-md:flex-wrap max-md:mr-2.5 max-md:max-w-full'>
             <div className='flex flex-col'>
               <div className='text-2xl font-bold text-green-500'>
