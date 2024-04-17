@@ -9,8 +9,8 @@ const HowItsWorks = () => {
         <div className='text-5xl font-semibold whitespace-nowrap max-md:text-4xl'>
           How it works
         </div>
-        <div className='flex gap-5 justify-between items-start self-stretch px-20 mt-12 text-center max-md:flex-wrap max-md:px-5 max-md:mt-10'>
-          <div className='flex flex-col flex-1 items-center whitespace-nowrap'>
+        <div className='flex gap-5 justify-center items-center flex-wrap max-md:max-w-full mt-10'>
+          <div className='flex flex-col items-center justify-center'>
             <Image
               loading='lazy'
               src='/images/step-1.png'
@@ -19,10 +19,12 @@ const HowItsWorks = () => {
               width={200}
               height={200}
             />
-            <div className='mt-4 text-xl font-semibold'>Step 1</div>
-            <div className='self-stretch mt-1 text-sm'>Tell us about you</div>
+            <div className='mt-4 text-xl text-center font-semibold'>Step 1</div>
+            <div className='self-stretch text-center mt-1 text-sm'>
+              Tell us about you
+            </div>
           </div>
-          <div className='flex flex-col flex-1 items-center whitespace-nowrap'>
+          <div className='flex flex-col items-center'>
             <Image
               loading='lazy'
               src='/images/step-2.png'
@@ -31,10 +33,12 @@ const HowItsWorks = () => {
               width={200}
               height={200}
             />
-            <div className='mt-4 text-xl font-semibold'>Step 2</div>
-            <div className='self-stretch mt-1 text-sm'>Upload your picture</div>
+            <div className='mt-4 text-xl text-center font-semibold'>Step 2</div>
+            <div className='self-stretch mt-1 text-center text-sm'>
+              Upload your picture
+            </div>
           </div>
-          <div className='flex flex-col flex-1 items-center self-stretch'>
+          <div className='flex flex-col items-center '>
             <Image
               loading='lazy'
               src='/images/step-3.png'
@@ -43,14 +47,14 @@ const HowItsWorks = () => {
               width={200}
               height={200}
             />
-            <div className='mt-4 text-xl font-semibold whitespace-nowrap'>
+            <div className='mt-4 text-xl text-center font-semibold whitespace-nowrap'>
               Step 3
             </div>
-            <div className='self-stretch mt-1 text-sm'>
+            <div className='self-stretch text-center mt-1 text-sm'>
               Dermatologist review your case
             </div>
           </div>
-          <div className='flex flex-col flex-1 items-center whitespace-nowrap'>
+          <div className='flex flex-col items-center'>
             <Image
               loading='lazy'
               src='/images/step-4.png'
@@ -59,12 +63,12 @@ const HowItsWorks = () => {
               width={200}
               height={200}
             />
-            <div className='mt-4 text-xl font-semibold'>Step 4</div>
-            <div className='self-stretch mt-1 text-sm'>
+            <div className='mt-4 text-xl text-center font-semibold'>Step 4</div>
+            <div className='self-stretch text-center mt-1 text-sm'>
               Personalised prescription
             </div>
           </div>
-          <div className='flex flex-col flex-1 items-center self-stretch'>
+          <div className='flex flex-col items-center'>
             <Image
               loading='lazy'
               src='/images/step-5.png'
@@ -73,10 +77,10 @@ const HowItsWorks = () => {
               width={200}
               height={200}
             />
-            <div className='mt-4 text-xl font-semibold whitespace-nowrap'>
+            <div className='mt-4 text-xl text-center font-semibold whitespace-nowrap'>
               Step 5
             </div>
-            <div className='self-stretch mt-1 text-sm'>
+            <div className='self-stretch  text-center mt-1 text-sm'>
               Recommend skin care products
             </div>
           </div>

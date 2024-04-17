@@ -17,11 +17,13 @@ import { useEffect } from 'react';
 import { UserTwitterCard } from './UserCard';
 import useSWR from 'swr';
 import * as api from '@/services/app.service';
+import Link from 'next/link';
+
 const NavButton = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { user: userId, userDetailsSet } = useUser();
+  const { user: userId, userDetailsSet, setLogout } = useUser();
 
   const {
     data: userDetails,
@@ -108,15 +110,21 @@ const NavButton = () => {
         <DropdownMenu aria-label='Profile Actions' variant='flat'>
           <DropdownItem key='profile' className='h-14 gap-2'>
             <p className='font-semibold'>Signed in as</p>
-            <p className='font-semibold'>zoey@example.com</p>
+            <p className='font-semibold'>{userDetails?.first_name}</p>
           </DropdownItem>
-          <DropdownItem key='settings'>My Settings</DropdownItem>
-          <DropdownItem key='team_settings'>Team Settings</DropdownItem>
-          <DropdownItem key='analytics'>Analytics</DropdownItem>
-          <DropdownItem key='system'>System</DropdownItem>
-          <DropdownItem key='configurations'>Configurations</DropdownItem>
-          <DropdownItem key='help_and_feedback'>Help & Feedback</DropdownItem>
-          <DropdownItem key='logout' color='danger'>
+          <DropdownItem key='settings'>
+            <Link href='/user/sessions'>View Case</Link>
+          </DropdownItem>
+          <DropdownItem key='configurations'>
+            <Link href='/user/edit-user'>Edit User</Link>
+          </DropdownItem>
+          <DropdownItem key='help_and_feedback'>Change Password</DropdownItem>
+          <DropdownItem
+            key='logout'
+            color='danger'
+            onClick={() => {
+              setLogout();
+            }}>
             Log Out
           </DropdownItem>
         </DropdownMenu>

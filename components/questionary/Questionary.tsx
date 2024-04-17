@@ -130,21 +130,27 @@ const Questionary = () => {
               return (
                 <div key={i} className='w-full'>
                   {kc && kc.length > 0 && (
-                    <RadioGroup
-                      label={kc[1]}
-                      name={kc[1]}
-                      className='w-full text-black mb-3'
-                      onChange={(e) => handleSelect(e, kc)}>
-                      {kc[2] &&
-                        kc[2].length > 0 &&
-                        kc[2].split(',').map((option: any, index: number) => (
-                          <CustomRadio
-                            key={option + '_' + index}
-                            value={option}>
-                            {option}
-                          </CustomRadio>
-                        ))}
-                    </RadioGroup>
+                    <div className='w-full flex flex-col items-center justify-center'>
+                      <p className='w-full text-start pb-2 pl-1'>
+                        <span className='text-xl font-semibold text-start'>
+                          {kc[1]}
+                        </span>
+                      </p>
+                      <RadioGroup
+                        name={kc[1]}
+                        className='w-full text-black mb-3'
+                        onChange={(e) => handleSelect(e, kc)}>
+                        {kc[2] &&
+                          kc[2].length > 0 &&
+                          kc[2].split(',').map((option: any, index: number) => (
+                            <CustomRadio
+                              key={option + '_' + index}
+                              value={option}>
+                              {option}
+                            </CustomRadio>
+                          ))}
+                      </RadioGroup>
+                    </div>
                   )}
                 </div>
               );

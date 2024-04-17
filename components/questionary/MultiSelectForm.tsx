@@ -268,11 +268,10 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
                   <div
                     key={question.question_id}
                     className='flex flex-col w-full'>
-                    <p className='text-xl font-bold p-3'>
-                      <span>
-                        {currentStep + 1} {'. '}
+                    <p className=' pb-2 pl-1'>
+                      <span className='text-xl font-semibold text-start'>
+                        {question.question_type}
                       </span>{' '}
-                      {question.question_type}
                     </p>
                     <>
                       {/* if values length is greater then one then it is select one else it is input box */}
