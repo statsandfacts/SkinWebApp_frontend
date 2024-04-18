@@ -44,7 +44,7 @@ export default function Header() {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href='#' color='foreground' aria-current='page'>
+          <Link href='#about' color='foreground' aria-current='page'>
             About
           </Link>
         </NavbarItem>
@@ -59,7 +59,7 @@ export default function Header() {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color='foreground' href='#'>
+          <Link color='foreground' href='#contact'>
             Contact us
           </Link>
         </NavbarItem>
