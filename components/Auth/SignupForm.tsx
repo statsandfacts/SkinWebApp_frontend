@@ -75,7 +75,7 @@ const SignupForm = () => {
     <>
       <form
         autoComplete='off'
-        className='flex flex-col gap-5 w-full max-w-md'
+        className='flex flex-col gap-5 w-full max-w-md px-5'
         onSubmit={formik.handleSubmit}>
         <InputField
           onChange={formik.handleChange}

@@ -8,7 +8,7 @@ type Props = {};
 const HeroSection = (props: Props) => {
   return (
     <>
-      <div className='px-20 bg-gradient-to-r from-[#9DEAF4]  to-[#F0936C] py-16 w-full h-screen '>
+      <div className='px:1 md:px-20 bg-gradient-to-r from-[#9DEAF4]  to-[#F0936C] py-16 w-full h-screen '>
         <div className='flex gap-5 max-md:flex-col max-md:gap-0'>
           <div className='flex flex-col w-6/12 max-md:ml-0 max-md:w-full'>
             <div className='flex flex-col self-stretch my-auto max-md:mt-10 max-md:max-w-full'>

@@ -21,12 +21,11 @@ export default function Header() {
   const menuItems = ['Home', 'About', 'Products', 'FAQ', 'Contact US', 'Login'];
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} className='px-5' maxWidth='full'>
+    <Navbar
+      onMenuOpenChange={setIsMenuOpen}
+      className='px-1 md:px-5'
+      maxWidth='full'>
       <NavbarContent>
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-          className='sm:hidden'
-        />
         <NavbarBrand>
           <Link
             href='/'
@@ -67,7 +66,7 @@ export default function Header() {
       <NavbarContent justify='end'>
         <NavButton />
       </NavbarContent>
-      <NavbarMenu className='flex flex-col text-center gap-2'>
+      {/* <NavbarMenu className='flex flex-col text-center gap-2'>
         {menuItems.map((item, index) => (
           <NavbarMenuItem
             key={`${item}-${index}`}
@@ -101,7 +100,7 @@ export default function Header() {
             )}
           </NavbarMenuItem>
         ))}
-      </NavbarMenu>
+      </NavbarMenu> */}
     </Navbar>
   );
 }

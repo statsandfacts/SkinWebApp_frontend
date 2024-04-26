@@ -18,6 +18,7 @@ import { UserTwitterCard } from './UserCard';
 import useSWR from 'swr';
 import * as api from '@/services/app.service';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 const NavButton = () => {
   const router = useRouter();
@@ -36,6 +37,11 @@ const NavButton = () => {
     router.push('/auth/' + route);
   };
 
+  const handleLogout = () => {
+    toast.success('Logout successfully');
+    setLogout();
+  };
+
   useEffect(() => {
     if (userDetails) {
       userDetailsSet(userDetails);
@@ -50,51 +56,22 @@ const NavButton = () => {
     </Button>
   );
 
-  const signupJSX = (
-    <Button
-      onClick={(e) => handleLoginClick('signup')}
-      className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
-      Sign Up
-    </Button>
-  );
-
   const profileElement = (
-    <Popover showArrow placement='bottom'>
-      <PopoverTrigger>
-        <User
-          as='button'
-          name={userDetails?.first_name}
-          description={userDetails?.email_id}
-          className='transition-transform'
-          avatarProps={{
-            name: userDetails?.first_name,
-          }}
-        />
-      </PopoverTrigger>
-      <PopoverContent className='p-1'>
-        <UserTwitterCard userDetails={userDetails} isMobile={false} />
-      </PopoverContent>
-    </Popover>
+    <Link href='/user/sessions'>
+      <User
+        as='button'
+        name={userDetails?.first_name}
+        description={userDetails?.email_id}
+        className='transition-transform'
+        avatarProps={{
+          name: userDetails?.first_name,
+        }}
+      />
+    </Link>
   );
 
   const mobileProfileElement = (
     <>
-      {/* <Popover showArrow placement='bottom'>
-      <PopoverTrigger>
-        <User
-          as='button'
-          name={''}
-          description={''}
-          className='transition-transform'
-          avatarProps={{
-            name: userDetails?.first_name,
-          }}
-        />
-      </PopoverTrigger>
-      <PopoverContent className='p-1'>
-        <UserTwitterCard userDetails={userDetails} isMobile={true} />
-      </PopoverContent>
-    </Popover> */}
       <Dropdown placement='bottom-end'>
         <DropdownTrigger>
           <Avatar
@@ -119,12 +96,7 @@ const NavButton = () => {
             <Link href='/user/edit-user'>Edit User</Link>
           </DropdownItem>
           <DropdownItem key='help_and_feedback'>Change Password</DropdownItem>
-          <DropdownItem
-            key='logout'
-            color='danger'
-            onClick={() => {
-              setLogout();
-            }}>
+          <DropdownItem key='logout' color='danger' onClick={handleLogout}>
             Log Out
           </DropdownItem>
         </DropdownMenu>
@@ -141,11 +113,7 @@ const NavButton = () => {
         </>
       );
     } else {
-      return (
-        <div className='hidden md:flex flex-col justify-start gap-2 md:justify-center md:flex-row whitespace-nowrap '>
-          {loginJSX}
-        </div>
-      );
+      return <div className='flex sm:mr-10'>{loginJSX}</div>;
     }
   };
 

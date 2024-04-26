@@ -16,6 +16,7 @@ import { Button } from '@nextui-org/button';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const MyProfile = () => {
   const { user: userId, setLogout } = useUser();
@@ -23,10 +24,7 @@ const MyProfile = () => {
   const pathname = usePathname();
   const handleLogout = () => {
     if (userId) {
-      // const data = await api.LogoutUser(userId);
-      // if (data) {
-      //   console.log(data);
-      // }
+      toast.success('Logout successfully');
       setLogout();
     }
   };
@@ -55,7 +53,7 @@ const MyProfile = () => {
                   </p>
                 </div>
               </Link>
-              <Link
+              {/* <Link
                 href='/user/upcoming'
                 className='flex justify-between items-center self-stretch relative py-3  '>
                 <div className='flex justify-start items-center relative gap-2'>
@@ -64,7 +62,7 @@ const MyProfile = () => {
                     Upcoming Sessions
                   </p>
                 </div>
-              </Link>
+              </Link> */}
             </div>
             <div className='flex flex-col justify-start items-start self-stretch pt-2'>
               <div className='flex flex-col justify-start items-start self-stretch relative gap-1 pt-4 pb-1'>
