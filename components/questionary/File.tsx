@@ -45,20 +45,20 @@ const FileUpload = ({
         }
         updatedFiles[file.name] = file;
       }
-    }    
+    }
     return updatedFiles;
   };
 
   const callUpdateFilesCb = (files: any) => {
-    const filesAsArray = convertNestedObjectToArray(files);        
+    const filesAsArray = convertNestedObjectToArray(files);
     updateFilesCb(filesAsArray);
   };
 
-  const handleNewFileUpload = (e: any) => {    
+  const handleNewFileUpload = (e: any) => {
     const { files: newFiles } = e.target;
     if (newFiles.length) {
       let updatedFiles = addNewFiles(newFiles);
-      setFiles(updatedFiles); 
+      setFiles(updatedFiles);
       callUpdateFilesCb(updatedFiles);
     }
   };
@@ -77,7 +77,7 @@ const FileUpload = ({
         {/* Label */}
 
         {/* Drag & Drop Text */}
-        <div className='font-bold text-center mb-4'>Upload your problem</div>
+        <div className='font-bold text-center mb-4'>Upload Images</div>
 
         {/* Upload Button */}
         <button

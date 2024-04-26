@@ -9,7 +9,7 @@ const PDFGenerate = ({ data, componentRef }: any) => {
       <div className='px-3 print:px-10' ref={componentRef}>
         <div className='flex flex-row items-center justify-between'>
           <div>
-            <Image src='/Nclogo.png' alt='logo' width={200} height={100} />
+            <Image src='/NClogo.png' alt='logo' width={200} height={100} />
           </div>
           <div className='flex flex-col gap-2 items-center'>
             <p>

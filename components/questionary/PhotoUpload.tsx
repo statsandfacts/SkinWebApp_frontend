@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { deleteImages, uploadImages } from '@/redux/slices/questionary.slice';
 
-const S3_BUCKET = 'nextcare'; // Replace with your bucket name
+const S3_BUCKET = 'nextcare.life'; // Replace with your bucket name
 const REGION = 'us-east-2'; // Replace with your region
 
 AWS.config.update({
