@@ -163,6 +163,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
     }
     const ans = value?.join(',');
     dispatch(setAnswers({ id, value: ans }));
+    dispatch(increaseStep());
   };
 
   const handlePayment = () => {

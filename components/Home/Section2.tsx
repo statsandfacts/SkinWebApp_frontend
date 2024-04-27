@@ -87,7 +87,7 @@ const Section2 = () => {
             </div>
           </div>
         </div>
-        <div className='mt-12 rounded-2xl max-md:mt-10 max-md:max-w-full'>
+        <div className='mt-12 rounded-2xl max-md:mt-10 max-md:max-w-full flex justify-center'>
           <div className='flex gap-5 max-md:flex-col max-md:gap-0'>
             <div className='mt-3 relative overflow-hidden bg-cover bg-no-repeat'>
               <Image

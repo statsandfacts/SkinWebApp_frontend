@@ -27,9 +27,10 @@ const SignupForm = () => {
       last_name: '',
       email_id: '',
       phone_number: '',
-      password: '',
       gender: '',
       dob: '',
+      password: '',
+      confirmPassword: '',
     },
     validationSchema: Yup.object({
       first_name: Yup.string().required('First Name Required'),
@@ -39,6 +40,9 @@ const SignupForm = () => {
       password: Yup.string().required('Password Required'),
       dob: Yup.string().required('Date of Birth Required'),
       gender: Yup.string().required('Gender Required'),
+      confirmPassword: Yup.string()
+        .required('Confirm Password Required')
+        .oneOf([Yup.ref('password'), ''], 'Passwords must match'),
     }),
     onSubmit: async (values) => {
       try {
@@ -133,20 +137,6 @@ const SignupForm = () => {
           onBlur={formik.handleBlur}
           className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
         />
-        <InputField
-          onChange={formik.handleChange}
-          value={formik.values.password}
-          type='password'
-          name='password'
-          placeholder='Password'
-          error={
-            formik.errors.password && formik.touched.password
-              ? formik.errors.password
-              : null
-          }
-          onBlur={formik.handleBlur}
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-        />
 
         <InputField
           onChange={formik.handleChange}
@@ -175,6 +165,36 @@ const SignupForm = () => {
             </SelectItem>
           ))}
         </Select>
+
+        <InputField
+          onChange={formik.handleChange}
+          value={formik.values.password}
+          type='password'
+          name='password'
+          placeholder='Password'
+          error={
+            formik.errors.password && formik.touched.password
+              ? formik.errors.password
+              : null
+          }
+          onBlur={formik.handleBlur}
+          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+        />
+
+        <InputField
+          onChange={formik.handleChange}
+          value={formik.values.confirmPassword}
+          type='password'
+          name='confirmPassword'
+          placeholder='Confirm Password'
+          error={
+            formik.errors.confirmPassword && formik.touched.confirmPassword
+              ? formik.errors.confirmPassword
+              : null
+          }
+          onBlur={formik.handleBlur}
+          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+        />
 
         <Button
           isLoading={isLoading}
