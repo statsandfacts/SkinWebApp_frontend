@@ -2,18 +2,35 @@
 import React, { useEffect, useState } from 'react';
 import FileUpload from './File';
 import AWS from 'aws-sdk';
+import {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectCommand,
+} from '@aws-sdk/client-s3';
+
 import Loader from '../Loader';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { deleteImages, uploadImages } from '@/redux/slices/questionary.slice';
 
+// const S3_BUCKET = 'nextcare.life'; // Replace with your bucket name
+// const REGION = 'us-east-2'; // Replace with your region
+
 const S3_BUCKET = 'nextcare.life'; // Replace with your bucket name
 const REGION = 'us-east-2'; // Replace with your region
 
-AWS.config.update({
-  accessKeyId: 'AKIAZI2LCNUH7TCAU7XU',
-  secretAccessKey: 'IPfV7fxJHyRwOY54PHbqanocBoBvUAg9Dj54HLTH',
+const s3Client = new S3Client({
+  region: REGION,
+  credentials: {
+    accessKeyId: 'AKIAZI2LCNUH7TCAU7XU',
+    secretAccessKey: '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',
+  },
 });
+
+// AWS.config.update({
+//   accessKeyId: 'AKIAZI2LCNUH7TCAU7XU',
+//   secretAccessKey: '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',
+// });
 
 const s3 = new AWS.S3({
   params: { Bucket: S3_BUCKET },
@@ -63,7 +80,9 @@ const Photo = () => {
       };
 
       try {
-        await s3.putObject(params).promise();
+        // await s3.putObject(params).promise();
+        await s3Client.send(new PutObjectCommand(params));
+
         setUploading(false);
         toast.success('Image Uploaded Successfully');
         dispatch(uploadImages(file.name));
@@ -86,7 +105,8 @@ const Photo = () => {
       };
 
       try {
-        await s3.deleteObject(params).promise();
+        // await s3.deleteObject(params).promise();
+        await s3Client.send(new DeleteObjectCommand(params));
         setUploading(false);
         toast.success('Image Deleted Successfully');
         dispatch(deleteImages(file.name));

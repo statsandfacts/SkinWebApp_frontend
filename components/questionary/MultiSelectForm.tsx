@@ -151,6 +151,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
 
     dispatch(setAnswers({ id, value }));
     dispatch(setDisableNext(false));
+    // dispatch(increaseStep());
   };
 
   const handleCheckboxChange = (value: any, id: string) => {
@@ -163,7 +164,6 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
     }
     const ans = value?.join(',');
     dispatch(setAnswers({ id, value: ans }));
-    dispatch(increaseStep());
   };
 
   const handlePayment = () => {

@@ -2,23 +2,25 @@
 import useSWR from 'swr';
 import * as api from '@/services/app.service';
 import md5 from 'md5';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import MultiSelectForm from './MultiSelectForm';
 import { Button, Radio, RadioGroup, cn } from '@nextui-org/react';
 import { toast } from 'react-toastify';
 import Loader from '../Loader';
 import { redirect } from 'next/navigation';
-import { orderBy } from 'lodash';
+import _, { orderBy } from 'lodash';
 import AuthProvider from '@/app/AuthProvider';
 import { useDispatch } from 'react-redux';
 import { resetQuestions } from '@/redux/slices/questionary.slice';
 import { useUser } from '@/context/UserContext';
+import { getLocalStorage, setLocalStorage } from '@/utils/localStore';
 
 export const CustomRadio = (props: any) => {
-  const { children, ...otherProps } = props;
+  const { children, value, ...otherProps } = props;
 
   return (
     <Radio
+      value={value} // Set the value prop here
       {...otherProps}
       classNames={{
         base: cn(
@@ -29,6 +31,39 @@ export const CustomRadio = (props: any) => {
       }}>
       {children}
     </Radio>
+  );
+};
+
+const KeyCriteriaQuestion = ({
+  question,
+  options,
+  onSelect,
+  defaultSelected,
+}: any) => {
+  const combinedValue = defaultSelected?.[question] || ''; // Use optional chaining
+  return (
+    <div className='w-full'>
+      {question && question.length > 0 && (
+        <div className='w-full flex flex-col items-center justify-center'>
+          <p className='w-full text-start pb-2 pl-1'>
+            <span className='text-xl font-semibold text-start'>{question}</span>
+          </p>
+          <RadioGroup
+            name={question}
+            className='w-full text-black mb-3'
+            value={combinedValue}
+            onChange={(e) => onSelect(e)}>
+            {options &&
+              options.length > 0 &&
+              options.split(',').map((option: string, index: string) => (
+                <CustomRadio key={option + '_' + index} value={option}>
+                  {option}
+                </CustomRadio>
+              ))}
+          </RadioGroup>
+        </div>
+      )}
+    </div>
   );
 };
 
@@ -45,29 +80,36 @@ const Questionary = () => {
     }
   );
 
-  const [keyCriteria, setKeyCriteria] = useState([]);
+  const [keyCriteria, setKeyCriteria] = useState({});
   const [movetoQuestionary, setMovetoQuestionary] = useState(false);
   const [questionary, setQuestionary] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const key_criteria = kc?.key_criteria;
 
-  const handleSelect = (e: any, kc: any) => {
-    const { value } = e.target;
+  useEffect(() => {
+    if (kc && kc?.key_criteria) {
+      const storedCriteria = getLocalStorage('keyCriteria');
+      if (storedCriteria) {
+        setKeyCriteria(() => {
+          return storedCriteria;
+        });
+      }
+    }
+  }, [kc]);
 
-    setKeyCriteria((prev) => {
-      const newKeyCriteria: any = { ...prev };
-      const kcName = kc[0];
-      newKeyCriteria[kcName] = value;
-      return newKeyCriteria;
-    });
+  const handleSelect = (e: Event, question: any) => {
+    setKeyCriteria((prev) => ({
+      ...prev,
+      [question]: (e?.target as HTMLInputElement)?.value || '',
+    }));
   };
-
   const submitKc = async (e: any) => {
     try {
       e.preventDefault();
       setLoading(true);
       let selectedKc = '';
+      setLocalStorage('keyCriteria', keyCriteria);
       if (keyCriteria) {
         Object.values(keyCriteria).forEach((kc: any) => {
           if (kc) {
@@ -117,6 +159,12 @@ const Questionary = () => {
     setMovetoQuestionary(value);
   };
 
+  const defaultValue = {
+    Gender: 'Male', // Default selection for "question 1"
+    // 'question 2 key': 'option 1', // Default selection for "question 2"
+    // ...other questions
+  };
+
   return (
     <>
       {isLoading ? (
@@ -126,35 +174,15 @@ const Questionary = () => {
           {/* key criteria */}
           {key_criteria &&
             !movetoQuestionary &&
-            key_criteria.map((kc: any, i: number) => {
-              return (
-                <div key={i} className='w-full'>
-                  {kc && kc.length > 0 && (
-                    <div className='w-full flex flex-col items-center justify-center'>
-                      <p className='w-full text-start pb-2 pl-1'>
-                        <span className='text-xl font-semibold text-start'>
-                          {kc[1]}
-                        </span>
-                      </p>
-                      <RadioGroup
-                        name={kc[1]}
-                        className='w-full text-black mb-3'
-                        onChange={(e) => handleSelect(e, kc)}>
-                        {kc[2] &&
-                          kc[2].length > 0 &&
-                          kc[2].split(',').map((option: any, index: number) => (
-                            <CustomRadio
-                              key={option + '_' + index}
-                              value={option}>
-                              {option}
-                            </CustomRadio>
-                          ))}
-                      </RadioGroup>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+            key_criteria.map((kc: any, i: number) => (
+              <KeyCriteriaQuestion
+                key={kc[0] + '_' + i}
+                question={kc[1]}
+                options={kc[2]}
+                defaultSelected={keyCriteria}
+                onSelect={(e: Event) => handleSelect(e, kc[1])}
+              />
+            ))}
           {!movetoQuestionary && (
             <div className='w-full flex justify-center mt-5'>
               <Button
