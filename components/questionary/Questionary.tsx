@@ -7,9 +7,9 @@ import MultiSelectForm from './MultiSelectForm';
 import { Button, Radio, RadioGroup, cn } from '@nextui-org/react';
 import { toast } from 'react-toastify';
 import Loader from '../Loader';
-import { redirect } from 'next/navigation';
-import _, { orderBy } from 'lodash';
-import AuthProvider from '@/app/AuthProvider';
+// import { redirect } from 'next/navigation';
+// import _, { orderBy } from 'lodash';
+// import AuthProvider from '@/app/AuthProvider';
 import { useDispatch } from 'react-redux';
 import { resetQuestions } from '@/redux/slices/questionary.slice';
 import { useUser } from '@/context/UserContext';
@@ -70,15 +70,19 @@ const KeyCriteriaQuestion = ({
 const Questionary = () => {
   const { isLoggedIn } = useUser();
   const dispatch = useDispatch();
-  const { data: kc, isLoading } = useSWR(
-    isLoggedIn && '/view_key_criteria',
-    () => api.getKeyCriteria(),
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      revalidateIfStale: false,
-    }
-  );
+  const {
+    data: kc,
+    isLoading,
+    error,
+  } = useSWR(isLoggedIn && '/view_key_criteria', () => api.getKeyCriteria(), {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    revalidateIfStale: false,
+  });
+
+  if (error) {
+    throw error;
+  }
 
   const [keyCriteria, setKeyCriteria] = useState({});
   const [movetoQuestionary, setMovetoQuestionary] = useState(false);
@@ -126,7 +130,7 @@ const Questionary = () => {
         let ids: String[] = [];
         const res = await api.showRecords(hash);
 
-        if (res && res.records.length > 0) {
+        if (res && res.records?.length > 0) {
           res.records.map((record: any) => {
             const id = record[record.length - 3];
             const i = id && id.toString();
@@ -157,12 +161,6 @@ const Questionary = () => {
 
   const backToKeyCriteria = (value: boolean) => {
     setMovetoQuestionary(value);
-  };
-
-  const defaultValue = {
-    Gender: 'Male', // Default selection for "question 1"
-    // 'question 2 key': 'option 1', // Default selection for "question 2"
-    // ...other questions
   };
 
   return (

@@ -17,10 +17,10 @@ export default function Error({
   return (
     <div className='h-screen flex flex-col items-center justify-center'>
       <div className='text-center mt-4'>
-        <h1 className='mb-4 text-6xl font-semibold text-red-500'>We are under maintenance</h1>
-        <p className='mb-4 text-lg text-gray-600'>
-          we wil up soon
-        </p>
+        <h1 className='mb-4 text-6xl font-semibold text-red-500'>
+          We are under maintenance
+        </h1>
+        <p className='mb-4 text-lg text-gray-600'>we wil up soon</p>
         <div className='animate-bounce'>
           <svg
             className='mx-auto h-16 w-16 text-red-500'
@@ -35,11 +35,16 @@ export default function Error({
           </svg>
         </div>
         <p className='mt-4 text-gray-600'>
-          Let&apos;s get you back{' '}
-          <a href='/' className='text-blue-500'>
-            home
-          </a>
-          .
+          <button onClick={reset} className='text-blue-500'>
+            Refresh
+          </button>
+          <div>
+            Let&apos;s get you back{' '}
+            <a href='/' className='text-blue-500'>
+              home
+            </a>
+            .
+          </div>
         </p>
       </div>
     </div>

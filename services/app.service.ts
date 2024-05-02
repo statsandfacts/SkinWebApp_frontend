@@ -1,5 +1,5 @@
 import { env } from '@/config/environment';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const baseUrl = env.BASE_URL;
 
@@ -98,9 +98,13 @@ export const getKeyCriteria = async () => {
       }
     );
     return data;
-  } catch (e: any) {
-    console.log(e);
-    return false;
+  } catch (e) {
+    const axiosError = e as AxiosError; // Assert as AxiosError (if using Axios)
+    if (axiosError.code === 'ECONNABORTED') {
+      throw new Error('timeout');
+    } else {
+      throw e;
+    }
   }
 };
 
@@ -120,7 +124,19 @@ export const showRecords = async (id: string) => {
     );
     return data;
   } catch (error) {
-    console.log(error);
+    const axiosError = error as AxiosError; // Assert as AxiosError (if using Axios)
+    console.log(axiosError);
+    if (axiosError.code === 'ECONNABORTED') {
+      console.log('timeout');
+      throw new Error('timeout');
+    }
+
+    // if (error.isAxiosError && error.response.status === 404) {
+    //   throw new MyCustomError('Data not found on the server');
+    // } else {
+    //   // Handle other errors
+    //   throw error;
+    // }
   }
 };
 

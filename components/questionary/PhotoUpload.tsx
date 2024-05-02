@@ -1,7 +1,7 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import FileUpload from './File';
-import AWS from 'aws-sdk';
+// import AWS from 'aws-sdk';
 import {
   S3Client,
   PutObjectCommand,
@@ -32,10 +32,10 @@ const s3Client = new S3Client({
 //   secretAccessKey: 'IPfV7fxJHyRwOY54PHbqanocBoBvUAg9Dj54HLTH',
 // });
 
-const s3 = new AWS.S3({
-  params: { Bucket: S3_BUCKET },
-  region: REGION,
-});
+// const s3 = new AWS.S3({
+//   params: { Bucket: S3_BUCKET },
+//   region: REGION,
+// });
 
 const Photo = () => {
   const dispatch = useDispatch();

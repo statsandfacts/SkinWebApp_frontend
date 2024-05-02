@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import InputField from '../common/InputField';
 import { useRouter } from 'next/navigation';
 import Loader from '../Loader';
+import { removeLocalStorage } from '@/utils/localStore';
 
 // Radio Component
 const CustomRadio = (props: any) => {
@@ -97,9 +98,8 @@ function InputBox({ question }: any) {
         name={question.question_id}
         value={input[question.question_id]}
         placeholder='Type your problem'
-        className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
-        {input[question.question_id]}
-      </textarea>
+        className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+      />
     </>
   );
 }
@@ -233,6 +233,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
 
           const res = await api.createCase(createCasePayload);
           if (res && res.status === 200) {
+            removeLocalStorage('keyCriteria');
             toast.success(res.message || 'Case created successfully');
             router.replace('/user/sessions');
           } else {
