@@ -104,7 +104,7 @@ function InputBox({ question }: any) {
   );
 }
 
-const imageUrl = 'https://nextcare.s3.us-east-2.amazonaws.com';
+const imageUrl = 'https://s3.us-east-2.amazonaws.com/nextcare.life';
 // Main Component
 const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
   const { currentStep, answers, disableNext, photoUploadEnable, uploadImages } =
