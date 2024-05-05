@@ -27,18 +27,18 @@ const EditUser = () => {
       last_name: userDetails?.last_name || '',
       email_id: userDetails?.email_id || '',
       phone_number: userDetails?.phone_number || '',
-      password: '',
-      confirmPassword: '',
+      // password: '',
+      // confirmPassword: '',
     },
     validationSchema: Yup.object({
       first_name: Yup.string().required('First Name Required'),
       last_name: Yup.string().required('Last Name Required'),
       email_id: Yup.string().required('Email Required'),
       phone_number: Yup.string().required('Phone Number Required'),
-      password: Yup.string().required('Password Required'),
-      confirmPassword: Yup.string()
-        .required('Confirm Password Required')
-        .oneOf([Yup.ref('password'), ''], 'Passwords must match'),
+      // password: Yup.string().required('Password Required'),
+      // confirmPassword: Yup.string()
+      //   .required('Confirm Password Required')
+      //   .oneOf([Yup.ref('password'), ''], 'Passwords must match'),
     }),
     onSubmit: async (values) => {
       try {
@@ -54,7 +54,7 @@ const EditUser = () => {
           specialization: '',
           user_id: userDetails?.user_id || '',
         };
-        const { confirmPassword, ...userPayload } = payload;
+        const { ...userPayload } = payload;
         const data = await api.EditUser(userPayload);
         if (data && data.status === 200) {
           toast.success('User created successfully');
@@ -136,7 +136,7 @@ const EditUser = () => {
           onBlur={formik.handleBlur}
           className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
         />
-        <InputField
+        {/* <InputField
           onChange={formik.handleChange}
           value={formik.values.password}
           type='password'
@@ -163,7 +163,7 @@ const EditUser = () => {
           }
           onBlur={formik.handleBlur}
           className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-        />
+        /> */}
 
         <Button
           isLoading={isLoading}

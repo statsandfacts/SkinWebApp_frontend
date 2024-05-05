@@ -107,7 +107,7 @@ const SessionList = () => {
                         {data?.cases?.map((item: any, index: number) => (
                           <tr
                             key={index}
-                            className='border-b border-neutral-200 dark:border-white/10'>
+                            className='border-b border-neutral-200 dark:border-white/10 hover:bg-neutral-50 '>
                             <td className='whitespace-nowrap font-medium px-4 md:px-0'>
                               <Link
                                 href={`/user/sessions/${item?.case_id}`}
@@ -136,7 +136,7 @@ const SessionList = () => {
                                 {item?.created_date}
                               </Link>
                             </td>
-                            <td className='whitespace-nowrap px-4 md:px-0'>
+                            <td className='whitespace-nowrap px-4 md:px-0 text-center'>
                               <Link
                                 href={`/user/sessions/${item?.case_id}`}
                                 className='block w-full py-4'>

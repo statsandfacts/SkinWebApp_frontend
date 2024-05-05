@@ -84,7 +84,7 @@ const MyProfile = () => {
                 </div>
               </Link>
               <Link
-                href='/user/browserFAQ'
+                href='/user/change-password'
                 className='flex justify-between items-center self-stretch relative py-3'>
                 <div className='flex justify-start items-center relative gap-2'>
                   <QuestionMarkCircleIcon className='w-7 md:w-5 h-7 md:h-5' />
