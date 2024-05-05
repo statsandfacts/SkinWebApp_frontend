@@ -1,6 +1,7 @@
 import React from 'react';
 import ClientButton from '../ClientButton';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const HowItsWorks = () => {
   return (
@@ -86,11 +87,11 @@ const HowItsWorks = () => {
           </div>
         </div>
 
-        <ClientButton
-          path='/treatment'
-          title='Find Your Treatment'
-          className='justify-center self-center px-8 py-6 mt-8 text-lg font-medium text-white whitespace-nowrap bg-violet-600 shadow rounded-[96.709px] max-md:px-5'
-        />
+        <Link
+          href='/treatment'
+          className='justify-center self-center px-8 py-3 mt-8 text-lg font-medium text-white whitespace-nowrap bg-violet-600 shadow rounded-[96.709px] max-md:px-5'>
+          Get Started
+        </Link>
       </div>
     </>
   );

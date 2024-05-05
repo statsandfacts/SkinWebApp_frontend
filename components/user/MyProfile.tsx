@@ -20,10 +20,11 @@ import { toast } from 'react-toastify';
 
 const MyProfile = () => {
   const { user: userId, setLogout } = useUser();
-
+  const router = useRouter();
   const pathname = usePathname();
   const handleLogout = () => {
     if (userId) {
+      router.replace('/login');
       toast.success('Logout successfully');
       setLogout();
     }
