@@ -73,9 +73,16 @@ const Questionary = () => {
       [question]: (e?.target as HTMLInputElement)?.value || '',
     }));
   };
-  const submitKc = async (e: any) => {
+  const submitKc = async (e: any, kc: any) => {
     try {
       e.preventDefault();
+
+      // check if this KC selected or not
+      if (!keyCriteria.hasOwnProperty(kc)) {
+        toast.error('Please select any option');
+        return;
+      }
+
       setLoading(true);
       let selectedKc = '';
       setLocalStorage('keyCriteria', keyCriteria);
@@ -127,6 +134,16 @@ const Questionary = () => {
   const backToKeyCriteria = (value: boolean) => {
     setMovetoQuestionary(value);
   };
+  const [step, setStep] = useState(0);
+
+  const handleNextKc = (e: any, kc: any) => {
+    e.preventDefault();
+    if (!keyCriteria.hasOwnProperty(kc)) {
+      toast.error('Please select any option');
+      return;
+    }
+    setStep(step + 1);
+  };
 
   return (
     <>
@@ -138,15 +155,50 @@ const Questionary = () => {
           {key_criteria &&
             !movetoQuestionary &&
             key_criteria.map((kc: any, i: number) => (
-              <KeyCriteriaQuestion
-                key={kc[0] + '_' + i}
-                question={kc[1]}
-                options={kc[2]}
-                defaultSelected={keyCriteria}
-                onSelect={(e: Event) => handleSelect(e, kc[1])}
-              />
+              <div key={kc[0] + '_' + i} className='w-full'>
+                {step === i && (
+                  <>
+                    <KeyCriteriaQuestion
+                      key={kc[0] + '_' + i}
+                      question={kc[1]}
+                      options={kc[2]}
+                      defaultSelected={keyCriteria}
+                      onSelect={(e: Event) => handleSelect(e, kc[1])}
+                    />
+                    <div className='w-full flex justify-center gap-4'>
+                      <Button
+                        onClick={(e) => setStep(step - 1)}
+                        color='primary'
+                        className='grow justify-center px-5 py-2.5 text-white bg-black
+                      rounded-[96.709px] disabled:bg-gray-600'
+                        disabled={step === 0}>
+                        Prev
+                      </Button>
+
+                      {key_criteria.length - 1 === step ? (
+                        <Button
+                          onClick={(e) => submitKc(e, kc[1])}
+                          color='primary'
+                          isLoading={loading}
+                          className='grow justify-center px-5 py-2.5 text-white bg-violet-600
+                        rounded-[96.709px]'>
+                          Submit
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={(e) => handleNextKc(e, kc[1])}
+                          color='primary'
+                          className='grow justify-center px-5 py-2.5 text-white bg-violet-600
+                      rounded-[96.709px]'>
+                          Next
+                        </Button>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
             ))}
-          {!movetoQuestionary && (
+          {/* {!movetoQuestionary && (
             <div className='w-full flex justify-center mt-5'>
               <Button
                 onClick={submitKc}
@@ -156,7 +208,7 @@ const Questionary = () => {
                 Next
               </Button>
             </div>
-          )}
+          )} */}
 
           {movetoQuestionary && (
             <MultiSelectForm

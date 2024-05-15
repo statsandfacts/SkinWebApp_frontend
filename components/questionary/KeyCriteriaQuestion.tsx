@@ -32,7 +32,10 @@ const KeyCriteriaQuestion = ({
       {question && question.length > 0 && (
         <div className='w-full flex flex-col items-center justify-center'>
           <p className='w-full text-start pb-2 pl-1'>
-            <span className='text-xl font-semibold text-start'>{question}</span>
+            <span className='text-xl font-semibold text-start'>
+              {question}
+              <span className='text-red-500'> *</span>
+            </span>
           </p>
           <RadioGroup
             name={question}
