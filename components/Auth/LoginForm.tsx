@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
 import Link from 'next/link';
+import LoginModal from './LoginModal';
 
 const LoginForm = () => {
   const { setLogin, setSession } = useUser();
@@ -71,7 +72,7 @@ const LoginForm = () => {
           error={
             formik.errors.email_or_phone_no && formik.touched.email_or_phone_no
               ? formik.errors.email_or_phone_no
-              : null
+              : ''
           }
           className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
         />
@@ -86,7 +87,7 @@ const LoginForm = () => {
           error={
             formik.errors.password && formik.touched.password
               ? formik.errors.password
-              : null
+              : ''
           }
           className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
         />

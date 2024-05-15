@@ -13,19 +13,22 @@ import {
   User,
 } from '@nextui-org/react';
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { UserTwitterCard } from './UserCard';
 import useSWR from 'swr';
 import * as api from '@/services/app.service';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
+import Drawer from '../Drawer';
+import LoginModal from '../Auth/LoginModal';
+import { setLoginModal } from '@/redux/slices/loginModal.slice';
+import { useDispatch } from 'react-redux';
 
 const NavButton = () => {
   const router = useRouter();
   const pathname = usePathname();
-
   const { user: userId, userDetailsSet, setLogout } = useUser();
-
+  const dispatch = useDispatch();
   const {
     data: userDetails,
     isLoading,
@@ -34,7 +37,8 @@ const NavButton = () => {
     api.getUser(userId)
   );
   const handleLoginClick = (route: String) => {
-    router.push('/auth/' + route);
+    dispatch(setLoginModal(true));
+    // router.push('/auth/' + route);
   };
 
   const handleLogout = () => {
@@ -121,6 +125,8 @@ const NavButton = () => {
     <>
       <div className='flex gap-2 justify-center whitespace-nowrap sm:flex-col sm:justify-start sm:gap-0'>
         {isLoading ? <span>loading...</span> : renderButton()}
+
+        <LoginModal />
       </div>
     </>
   );

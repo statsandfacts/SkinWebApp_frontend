@@ -15,16 +15,8 @@ import clsx from 'clsx';
 import { useUser } from '@/context/UserContext';
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user: userId } = useUser();
-
-  const menuItems = ['Home', 'About', 'Products', 'FAQ', 'Contact US', 'Login'];
-
   return (
-    <Navbar
-      onMenuOpenChange={setIsMenuOpen}
-      className='px-1 md:px-5'
-      maxWidth='full'>
+    <Navbar className='px-1 md:px-5' maxWidth='full'>
       <NavbarContent>
         <NavbarBrand>
           <Link

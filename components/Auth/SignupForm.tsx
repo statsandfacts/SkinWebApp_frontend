@@ -21,6 +21,8 @@ const gender = [
 const SignupForm = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+
   const formik = useFormik({
     initialValues: {
       first_name: '',
@@ -32,17 +34,27 @@ const SignupForm = () => {
       password: '',
       confirmPassword: '',
     },
-    validationSchema: Yup.object({
-      first_name: Yup.string().required('First Name Required'),
-      last_name: Yup.string().required('Last Name Required'),
-      email_id: Yup.string().required('Email Required'),
-      phone_number: Yup.string().required('Phone Number Required'),
-      password: Yup.string().required('Password Required'),
-      dob: Yup.string().required('Date of Birth Required'),
-      gender: Yup.string().required('Gender Required'),
-      confirmPassword: Yup.string()
-        .required('Confirm Password Required')
-        .oneOf([Yup.ref('password'), ''], 'Passwords must match'),
+    validationSchema: Yup.object().shape({
+      ...(currentStep === 1 && {
+        first_name: Yup.string().required('First Name Required'),
+        last_name: Yup.string().required('Last Name Required'),
+      }),
+      ...(currentStep === 2 && {
+        email_id: Yup.string().email().required('Email Required'),
+        phone_number: Yup.string()
+          .required('Phone Number Required')
+          .matches(/^\d{6,15}$/, 'Invalid phone number format'),
+      }),
+      ...(currentStep === 3 && {
+        gender: Yup.string().required('Gender Required'),
+        dob: Yup.date().required('Date of Birth Required'),
+      }),
+      ...(currentStep === 4 && {
+        password: Yup.string().required('Password Required'),
+        confirmPassword: Yup.string()
+          .required('Confirm Password Required')
+          .oneOf([Yup.ref('password'), ''], 'Passwords must match'),
+      }),
     }),
     onSubmit: async (values) => {
       try {
@@ -75,136 +87,200 @@ const SignupForm = () => {
       }
     },
   });
+
+  // Render Step form
+
+  const renderStepContent = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <>
+            <InputField
+              onChange={formik.handleChange}
+              isLabel={true}
+              value={formik.values.first_name}
+              type='text'
+              name='first_name'
+              placeholder='First Name'
+              error={formik.errors.first_name ? formik.errors.first_name : ''}
+              onBlur={formik.handleBlur}
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            />
+            <InputField
+              onChange={formik.handleChange}
+              isLabel={true}
+              value={formik.values.last_name}
+              type='text'
+              name='last_name'
+              placeholder='Last Name'
+              error={formik.errors.last_name ? formik.errors.last_name : ''}
+              onBlur={formik.handleBlur}
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            />
+          </>
+        );
+      case 2:
+        return (
+          <>
+            <InputField
+              onChange={formik.handleChange}
+              isLabel={true}
+              value={formik.values.email_id}
+              type='text'
+              name='email_id'
+              placeholder='Email'
+              error={formik.errors.email_id ? formik.errors.email_id : ''}
+              onBlur={formik.handleBlur}
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            />
+            <InputField
+              onChange={formik.handleChange}
+              isLabel={true}
+              value={formik.values.phone_number}
+              type='text'
+              name='phone_number'
+              placeholder='Phone Number'
+              error={
+                formik.errors.phone_number ? formik.errors.phone_number : ''
+              }
+              onBlur={formik.handleBlur}
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            />
+          </>
+        );
+      case 3:
+        return (
+          <>
+            <InputField
+              onChange={formik.handleChange}
+              isLabel={true}
+              value={formik.values.dob}
+              type='date'
+              name='dob'
+              placeholder='Date of Birth'
+              error={formik.errors.dob ? formik.errors.dob : ''}
+              onBlur={formik.handleBlur}
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            />
+
+            <Select
+              placeholder='Select an gender'
+              labelPlacement='outside'
+              className='w-full '
+              size='lg'
+              radius='sm'
+              onChange={formik.handleChange}
+              name='gender'>
+              {gender.map((g) => (
+                <SelectItem key={g.value} value={g.value}>
+                  {g.label}
+                </SelectItem>
+              ))}
+            </Select>
+          </>
+        );
+      case 4:
+        return (
+          <>
+            <InputField
+              onChange={formik.handleChange}
+              isLabel={true}
+              value={formik.values.password}
+              type='password'
+              name='password'
+              placeholder='Password'
+              error={formik.errors.password ? formik.errors.password : ''}
+              onBlur={formik.handleBlur}
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            />
+
+            <InputField
+              onChange={formik.handleChange}
+              isLabel={true}
+              value={formik.values.confirmPassword}
+              type='password'
+              name='confirmPassword'
+              placeholder='Confirm Password'
+              error={
+                formik.errors.confirmPassword
+                  ? formik.errors.confirmPassword
+                  : ''
+              }
+              onBlur={formik.handleBlur}
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            />
+          </>
+        );
+    }
+  };
+
+  const handleNextStep = () => {
+    // validate current step before moving to next step
+    const validate = async () => {
+      const v = await formik.validateForm();
+      if (v && Object.keys(v).length > 0) {
+        formik.setErrors(v);
+      } else {
+        setCurrentStep(currentStep + 1);
+      }
+    };
+    validate();
+  };
+
+  const handleBackStep = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
   return (
     <>
       <form
         autoComplete='off'
-        className='flex flex-col gap-5 w-full max-w-md px-5'
+        className='flex flex-col gap-5 w-full max-w-md px-5 '
         onSubmit={formik.handleSubmit}>
-        <InputField
-          onChange={formik.handleChange}
-          value={formik.values.first_name}
-          type='text'
-          name='first_name'
-          placeholder='First Name'
-          onBlur={formik.handleBlur}
-          error={
-            formik.errors.first_name && formik.touched.first_name
-              ? formik.errors.first_name
-              : null
-          }
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-        />
-        <InputField
-          onChange={formik.handleChange}
-          value={formik.values.last_name}
-          type='text'
-          name='last_name'
-          placeholder='Last Name'
-          error={
-            formik.errors.last_name && formik.touched.last_name
-              ? formik.errors.last_name
-              : null
-          }
-          onBlur={formik.handleBlur}
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-        />
-        <InputField
-          onChange={formik.handleChange}
-          value={formik.values.email_id}
-          type='text'
-          name='email_id'
-          placeholder='Email'
-          error={
-            formik.errors.email_id && formik.touched.email_id
-              ? formik.errors.email_id
-              : null
-          }
-          onBlur={formik.handleBlur}
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-        />
-        <InputField
-          onChange={formik.handleChange}
-          value={formik.values.phone_number}
-          type='text'
-          name='phone_number'
-          placeholder='Phone Number'
-          error={
-            formik.errors.phone_number && formik.touched.phone_number
-              ? formik.errors.phone_number
-              : null
-          }
-          onBlur={formik.handleBlur}
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-        />
+        {renderStepContent()}
 
-        <InputField
-          onChange={formik.handleChange}
-          value={formik.values.dob}
-          type='date'
-          name='dob'
-          placeholder=''
-          error={
-            formik.errors.dob && formik.touched.dob ? formik.errors.dob : null
-          }
-          onBlur={formik.handleBlur}
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-        />
+        {currentStep < 4 && ( // Show buttons only for steps before the last one
+          <div className='flex justify-end gap-2'>
+            <Button
+              type='button'
+              disabled={currentStep === 1}
+              onClick={handleBackStep}
+              color='primary'
+              className='grow justify-center px-5 py-2.5 text-white bg-black
+                      rounded-[96.709px] disabled:bg-gray-600'>
+              Back
+            </Button>
+            <Button
+              type='button'
+              onClick={handleNextStep}
+              color='primary'
+              className='grow justify-center px-5 py-2.5 text-white bg-violet-600
+                      rounded-[96.709px] '>
+              Next
+            </Button>
+          </div>
+        )}
 
-        <Select
-          placeholder='Select an gender'
-          labelPlacement='outside'
-          className='w-full '
-          size='lg'
-          radius='sm'
-          onChange={formik.handleChange}
-          name='gender'>
-          {gender.map((g) => (
-            <SelectItem key={g.value} value={g.value}>
-              {g.label}
-            </SelectItem>
-          ))}
-        </Select>
-
-        <InputField
-          onChange={formik.handleChange}
-          value={formik.values.password}
-          type='password'
-          name='password'
-          placeholder='Password'
-          error={
-            formik.errors.password && formik.touched.password
-              ? formik.errors.password
-              : null
-          }
-          onBlur={formik.handleBlur}
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-        />
-
-        <InputField
-          onChange={formik.handleChange}
-          value={formik.values.confirmPassword}
-          type='password'
-          name='confirmPassword'
-          placeholder='Confirm Password'
-          error={
-            formik.errors.confirmPassword && formik.touched.confirmPassword
-              ? formik.errors.confirmPassword
-              : null
-          }
-          onBlur={formik.handleBlur}
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-        />
-
-        <Button
-          isLoading={isLoading}
-          type='submit'
-          className='p-6 w-full text-white bg-violet-600 rounded-[96.709px]'>
-          SignUp
-        </Button>
-        <Link href={'/auth/login'} className='text-blue-950'>
-          Already have an account? <span className='font-bold'>Login</span>
-        </Link>
+        {currentStep === 4 && (
+          <div className='flex justify-end gap-2'>
+            <Button
+              type='button'
+              onClick={handleBackStep}
+              color='primary'
+              className='grow justify-center px-5 py-2.5 text-white bg-black
+                      rounded-[96.709px] disabled:bg-gray-600'>
+              Back
+            </Button>
+            <Button
+              isLoading={isLoading}
+              type='submit'
+              color='primary'
+              className='grow justify-center px-5 py-2.5 text-white bg-violet-600
+                      rounded-[96.709px] '>
+              Submit
+            </Button>
+          </div>
+        )}
       </form>
     </>
   );

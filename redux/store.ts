@@ -1,7 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from './slices/questionary.slice';
+import loginModalSlice from './slices/loginModal.slice';
 export const store = configureStore({
-  reducer: { questionary: counterReducer },
+  reducer: {
+    questionary: counterReducer,
+    loginModal: loginModalSlice,
+  },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

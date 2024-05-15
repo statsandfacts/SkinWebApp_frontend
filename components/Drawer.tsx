@@ -1,50 +1,46 @@
-'use client'
-import React, { useState, useEffect } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, RadioGroup, Radio } from "@nextui-org/react";
+'use client';
+import React, { useState, useEffect } from 'react';
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+} from '@nextui-org/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoginModal } from '@/redux/slices/loginModal.slice';
+import { XMarkIcon } from '@heroicons/react/24/solid';
 
-export default function Drawer({ isOpen }: any) {
-    // const { onOpenChange, onOpen } = useDisclosure();
-    const [open, setOpen] = useState(false);
-    useEffect(() => {
-        setOpen(isOpen)
-    }, [isOpen])
-    const onClose = () => setOpen(false);
-    return (
-        <>
-            <Modal
-                isOpen={open}
-                placement='bottom'
-                size="3xl"
+export default function Drawer({ children, title }: any) {
+  const { isModalOpen } = useSelector((state: any) => state.loginModal);
+  const dispatch = useDispatch();
+  const onClose = () => dispatch(setLoginModal(false));
 
-            >
-                <ModalContent>
-
-                    <>
-                        <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
-                        <ModalBody>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Nullam pulvinar risus non risus hendrerit venenatis.
-                                Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                            </p>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Nullam pulvinar risus non risus hendrerit venenatis.
-                                Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                            </p>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button color="danger" variant="light" onPress={onClose}>
-                                Close
-                            </Button>
-                            <Button color="primary" onPress={onClose}>
-                                Action
-                            </Button>
-                        </ModalFooter>
-                    </>
-
-                </ModalContent>
-            </Modal>
-        </>
-    );
+  return (
+    <>
+      <Modal
+        isOpen={isModalOpen}
+        placement='bottom-center'
+        hideCloseButton={true}
+        backdrop={'blur'}>
+        <ModalContent>
+          <>
+            <ModalHeader className='flex flex-col gap-1 relative bg-green-100'>
+              <div className='flex w-full'>
+                <div>{title}</div>
+              </div>
+              <button
+                className='absolute right-4 top-4 w-7 h-7 rounded-full flex justify-center items-center hover:bg-gray-100'
+                onClick={onClose}>
+                <XMarkIcon className='w-5 h-5 text-gray-500' />
+              </button>
+            </ModalHeader>
+            <ModalBody>{children}</ModalBody>
+            <ModalFooter></ModalFooter>
+          </>
+        </ModalContent>
+      </Modal>
+    </>
+  );
 }
