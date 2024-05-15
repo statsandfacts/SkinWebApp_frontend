@@ -7,13 +7,11 @@ import MultiSelectForm from './MultiSelectForm';
 import { Button, Radio, RadioGroup, cn } from '@nextui-org/react';
 import { toast } from 'react-toastify';
 import Loader from '../Loader';
-// import { redirect } from 'next/navigation';
-// import _, { orderBy } from 'lodash';
-// import AuthProvider from '@/app/AuthProvider';
 import { useDispatch } from 'react-redux';
 import { resetQuestions } from '@/redux/slices/questionary.slice';
 import { useUser } from '@/context/UserContext';
 import { getLocalStorage, setLocalStorage } from '@/utils/localStore';
+import KeyCriteriaQuestion from './KeyCriteriaQuestion';
 
 export const CustomRadio = (props: any) => {
   const { children, value, ...otherProps } = props;
@@ -31,39 +29,6 @@ export const CustomRadio = (props: any) => {
       }}>
       {children}
     </Radio>
-  );
-};
-
-const KeyCriteriaQuestion = ({
-  question,
-  options,
-  onSelect,
-  defaultSelected,
-}: any) => {
-  const combinedValue = defaultSelected?.[question] || ''; // Use optional chaining
-  return (
-    <div className='w-full'>
-      {question && question.length > 0 && (
-        <div className='w-full flex flex-col items-center justify-center'>
-          <p className='w-full text-start pb-2 pl-1'>
-            <span className='text-xl font-semibold text-start'>{question}</span>
-          </p>
-          <RadioGroup
-            name={question}
-            className='w-full text-black mb-3'
-            value={combinedValue}
-            onChange={(e) => onSelect(e)}>
-            {options &&
-              options.length > 0 &&
-              options.split(',').map((option: string, index: string) => (
-                <CustomRadio key={option + '_' + index} value={option}>
-                  {option}
-                </CustomRadio>
-              ))}
-          </RadioGroup>
-        </div>
-      )}
-    </div>
   );
 };
 
