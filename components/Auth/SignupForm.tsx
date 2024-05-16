@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import * as api from '@/services/app.service';
@@ -8,7 +8,16 @@ import { Button } from '@nextui-org/button';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Select, SelectItem } from '@nextui-org/react';
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Select,
+  SelectItem,
+} from '@nextui-org/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 const gender = [
   { value: 'male', label: 'Male' },
@@ -122,30 +131,34 @@ const SignupForm = () => {
       case 2:
         return (
           <>
-            <InputField
-              onChange={formik.handleChange}
-              isLabel={true}
-              value={formik.values.email_id}
-              type='text'
-              name='email_id'
-              placeholder='Email'
-              error={formik.errors.email_id ? formik.errors.email_id : ''}
-              onBlur={formik.handleBlur}
-              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-            />
-            <InputField
-              onChange={formik.handleChange}
-              isLabel={true}
-              value={formik.values.phone_number}
-              type='text'
-              name='phone_number'
-              placeholder='Phone Number'
-              error={
-                formik.errors.phone_number ? formik.errors.phone_number : ''
-              }
-              onBlur={formik.handleBlur}
-              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-            />
+            <div>
+              <InputField
+                onChange={formik.handleChange}
+                isLabel={true}
+                value={formik.values.email_id}
+                type='text'
+                name='email_id'
+                placeholder='Email'
+                error={formik.errors.email_id ? formik.errors.email_id : ''}
+                onBlur={formik.handleBlur}
+                className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              />
+            </div>
+            <div>
+              <InputField
+                onChange={formik.handleChange}
+                isLabel={true}
+                value={formik.values.phone_number}
+                type='text'
+                name='phone_number'
+                placeholder='Phone Number'
+                error={
+                  formik.errors.phone_number ? formik.errors.phone_number : ''
+                }
+                onBlur={formik.handleBlur}
+                className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              />
+            </div>
           </>
         );
       case 3:
@@ -231,6 +244,30 @@ const SignupForm = () => {
     setCurrentStep(currentStep - 1);
   };
 
+  const [verify, setVerify] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+
+  /**
+   * Otp modal open functions
+   */
+  const openOtpModal = () => {
+    formik.validateForm().then((v) => {
+      if (v && Object.keys(v).length > 0) {
+        return;
+      }
+      setOpenModal(true);
+    });
+  };
+
+  const onClose = () => {
+    setOpenModal(false);
+  };
+
+  const successVerifyOtp = () => {
+    setVerify(true);
+    setOpenModal(false);
+  };
+
   return (
     <>
       <form
@@ -250,14 +287,26 @@ const SignupForm = () => {
                       rounded-[96.709px] disabled:bg-gray-600'>
               Back
             </Button>
-            <Button
-              type='button'
-              onClick={handleNextStep}
-              color='primary'
-              className='grow justify-center px-5 py-2.5 text-white bg-violet-600
+
+            {currentStep == 2 && !verify ? (
+              <Button
+                type='button'
+                onClick={openOtpModal}
+                color='primary'
+                className='grow justify-center px-5 py-2.5 text-white bg-violet-600
+                          rounded-[96.709px] '>
+                Verify
+              </Button>
+            ) : (
+              <Button
+                type='button'
+                onClick={handleNextStep}
+                color='primary'
+                className='grow justify-center px-5 py-2.5 text-white bg-violet-600
                       rounded-[96.709px] '>
-              Next
-            </Button>
+                Next
+              </Button>
+            )}
           </div>
         )}
 
@@ -282,6 +331,138 @@ const SignupForm = () => {
           </div>
         )}
       </form>
+
+      <OTPModal
+        openModal={openModal}
+        onClose={onClose}
+        email={formik.values.email_id}
+        mobile={formik.values.phone_number}
+        successVerifyOtp={successVerifyOtp}
+      />
+    </>
+  );
+};
+
+/**
+ * Otp components
+ * @param param0
+ * @returns
+ */
+
+const OTPModal = ({
+  openModal,
+  onClose,
+  email,
+  mobile,
+  successVerifyOtp,
+}: any) => {
+  const [isSendOtp, setIsSetOtp] = useState(false);
+  const [isOtpLoading, setIsOtpLoading] = useState(false);
+
+  const sendOtp = async () => {
+    setIsSetOtp(true);
+    setIsOtpLoading(true);
+    const response = await api.generateOtp({
+      email_id: email,
+      phone_number: mobile,
+    });
+
+    if (response && response.status === 200) {
+      toast.success('OTP Verified Successfully');
+      setIsOtpLoading(false);
+    } else {
+      toast.error('Some error occurred');
+      setIsOtpLoading(false);
+    }
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      otp: '',
+    },
+    validationSchema: Yup.object({
+      otp: Yup.string()
+        .required('Enter Valid OTP')
+        .length(6)
+        .matches(/^[0-9]{6}$/, 'Must be exactly 6 digits'),
+    }),
+    onSubmit: async (values) => {
+      try {
+        console.log(values);
+
+        if (values.otp.length === 6) {
+          successVerifyOtp();
+        }
+        // const response = await api.generateOtp({
+        //   email_id: email,
+        //   phone_number: mobile,
+        // });
+        // if (response && response.status === 200) {
+        //   successVerifyOtp();
+        // }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
+  const handleClose = () => {
+    setIsSetOtp(false);
+    setIsOtpLoading(false);
+    onClose();
+  };
+
+  return (
+    <>
+      <Modal isOpen={openModal} hideCloseButton={true}>
+        <ModalContent>
+          <>
+            <ModalHeader className='flex flex-col gap-1'>
+              <div className='flex w-full'>
+                <div>Verify Your OTP</div>
+              </div>
+              <button
+                className='absolute right-4 top-4 w-7 h-7 rounded-full flex justify-center items-center hover:bg-gray-100'
+                onClick={handleClose}>
+                <XMarkIcon className='w-5 h-5 text-gray-500' />
+              </button>
+            </ModalHeader>
+            <ModalBody>
+              <div>
+                <InputField
+                  onChange={formik.handleChange}
+                  isLabel={true}
+                  value={formik.values.otp}
+                  type='otp'
+                  name='otp'
+                  placeholder='Enter your Otp'
+                  error={formik.errors.otp ? formik.errors.otp : ''}
+                  onBlur={formik.handleBlur}
+                  className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                />
+              </div>
+            </ModalBody>
+            <ModalFooter>
+              {!isSendOtp ? (
+                <Button
+                  isLoading={isOtpLoading}
+                  color='primary'
+                  onClick={sendOtp}>
+                  Generate Otp
+                </Button>
+              ) : (
+                <Button
+                  color='primary'
+                  onClick={(e: any) => {
+                    formik.handleSubmit();
+                  }}>
+                  Verify
+                </Button>
+              )}
+            </ModalFooter>
+          </>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

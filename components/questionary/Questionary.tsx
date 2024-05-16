@@ -89,11 +89,13 @@ const Questionary = () => {
       if (keyCriteria) {
         Object.values(keyCriteria).forEach((kc: any) => {
           if (kc) {
-            selectedKc += kc;
+            console.log(kc.trim());
+
+            const st = kc.replace(/\s/g, '');
+            selectedKc += st;
           }
         });
       }
-
       /**
        * Hash with md5
        */

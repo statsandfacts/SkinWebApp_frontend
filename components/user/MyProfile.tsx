@@ -2,16 +2,10 @@
 import { useUser } from '@/context/UserContext';
 import {
   ArrowRightEndOnRectangleIcon,
-  BellAlertIcon,
-  CalendarIcon,
-  ChevronRightIcon,
-  CubeIcon,
-  DocumentTextIcon,
-  GiftIcon,
-  MapPinIcon,
-  QuestionMarkCircleIcon,
-  UserIcon,
-} from '@heroicons/react/24/solid';
+  DocumentChartBarIcon,
+  PencilSquareIcon,
+  ShieldCheckIcon,
+} from '@heroicons/react/24/outline';
 import { Button } from '@nextui-org/button';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -48,7 +42,7 @@ const MyProfile = () => {
                   pathname.startsWith('/user/sessions') && 'text-red-500 '
                 )}>
                 <div className='flex justify-start items-center relative gap-2'>
-                  <UserIcon className='w-7 md:w-5 h-7 md:h-5' />
+                  <DocumentChartBarIcon className='w-7 md:w-5 h-7 md:h-5' />
                   <p className='flex-grow-0 flex-shrink-0 text-sm md:text-[13px] font-medium text-left capitalize '>
                     Your Sessions
                   </p>
@@ -78,7 +72,7 @@ const MyProfile = () => {
                   pathname === '/user/edit-user' && 'text-red-500 '
                 )}>
                 <div className='flex justify-start items-center relative gap-2'>
-                  <DocumentTextIcon className='w-7 md:w-5 h-7 md:h-5 ' />
+                  <PencilSquareIcon className='w-7 md:w-5 h-7 md:h-5 ' />
                   <p className='flex-grow-0 flex-shrink-0 text-sm md:text-[13px] font-medium text-left capitalize '>
                     Edit Profile
                   </p>
@@ -88,7 +82,7 @@ const MyProfile = () => {
                 href='/user/change-password'
                 className='flex justify-between items-center self-stretch relative py-3'>
                 <div className='flex justify-start items-center relative gap-2'>
-                  <QuestionMarkCircleIcon className='w-7 md:w-5 h-7 md:h-5' />
+                  <ShieldCheckIcon className='w-7 md:w-5 h-7 md:h-5' />
                   <p className='flex-grow-0 flex-shrink-0 text-sm md:text-[13px] font-medium text-left capitalize '>
                     Change Password
                   </p>

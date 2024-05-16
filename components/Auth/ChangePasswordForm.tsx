@@ -33,6 +33,13 @@ const ChangePasswordForm = () => {
         .oneOf([Yup.ref('password'), ''], 'Passwords must match'),
     }),
     onSubmit: async (values) => {
+      const v = {
+        ...values,
+        ...userDetails,
+        user_id: userDetails?.user_id,
+        user_type: 'patient',
+      };
+
       try {
         setIsLoading(true);
         const payload = {

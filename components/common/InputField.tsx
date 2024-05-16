@@ -8,7 +8,7 @@ interface InputFieldProps {
   type?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void; // Explicit event type
   readOnly?: boolean;
-  error?: string | JSX.Element; // Allow custom error rendering
+  error?: any; // Allow custom error rendering
   min?: string;
   max?: string;
   disabled?: boolean;
@@ -25,7 +25,7 @@ const InputField: React.FC<InputFieldProps> = ({
   type = 'text',
   onChange,
   readOnly = false,
-  error,
+  error = '',
   min = '',
   max = '',
   disabled = false,
@@ -44,6 +44,7 @@ const InputField: React.FC<InputFieldProps> = ({
       type={type}
       value={value}
       name={name}
+      aria-label={placeholder}
       className={className}
       placeholder={placeholder}
       onChange={onChange}

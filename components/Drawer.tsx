@@ -6,7 +6,6 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
 } from '@nextui-org/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginModal } from '@/redux/slices/loginModal.slice';

@@ -273,3 +273,21 @@ export const getCaseDetails = async (caseId: any) => {
   );
   return data;
 };
+
+type otpPayload = {
+  phone_number: string;
+  email_id: string;
+};
+
+export const generateOtp = async (payload: otpPayload) => {
+  try {
+    const { data } = await axios.post(baseUrl + 'users/send_otp', payload, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -9,6 +9,15 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 import { useUser } from '@/context/UserContext';
+import { Select, SelectItem } from '@nextui-org/react';
+
+const gender = [
+  { value: 'male', label: 'Male' },
+  {
+    value: 'female',
+    label: 'Female',
+  },
+];
 
 const EditUser = () => {
   const router = useRouter();
@@ -27,6 +36,8 @@ const EditUser = () => {
       last_name: userDetails?.last_name || '',
       email_id: userDetails?.email_id || '',
       phone_number: userDetails?.phone_number || '',
+      gender: userDetails?.gender || '',
+      dob: userDetails?.dob || '',
       // password: '',
       // confirmPassword: '',
     },
@@ -35,24 +46,15 @@ const EditUser = () => {
       last_name: Yup.string().required('Last Name Required'),
       email_id: Yup.string().required('Email Required'),
       phone_number: Yup.string().required('Phone Number Required'),
-      // password: Yup.string().required('Password Required'),
-      // confirmPassword: Yup.string()
-      //   .required('Confirm Password Required')
-      //   .oneOf([Yup.ref('password'), ''], 'Passwords must match'),
     }),
     onSubmit: async (values) => {
+      const v = { ...userDetails, ...values };
+
       try {
         setIsLoading(true);
         const payload = {
+          ...userDetails,
           ...values,
-          user_type: 'patient',
-          session_id: sessionId,
-          government_id: '',
-          government_idtype: '',
-          address: '',
-          qualification: '',
-          specialization: '',
-          user_id: userDetails?.user_id || '',
         };
         const { ...userPayload } = payload;
         const data = await api.EditUser(userPayload);
@@ -81,6 +83,8 @@ const EditUser = () => {
         className='flex flex-col gap-5 w-full max-w-md'
         onSubmit={formik.handleSubmit}>
         <InputField
+          disabled={true}
+          isLabel={true}
           onChange={formik.handleChange}
           value={formik.values.first_name}
           type='text'
@@ -90,26 +94,29 @@ const EditUser = () => {
           error={
             formik.errors.first_name && formik.touched.first_name
               ? formik.errors.first_name
-              : null
+              : ''
           }
           className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
         />
         <InputField
           onChange={formik.handleChange}
+          disabled={true}
           value={formik.values.last_name}
+          isLabel={true}
           type='text'
           name='last_name'
           placeholder='Last Name'
           error={
             formik.errors.last_name && formik.touched.last_name
               ? formik.errors.last_name
-              : null
+              : ''
           }
           onBlur={formik.handleBlur}
           className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
         />
         <InputField
           onChange={formik.handleChange}
+          isLabel={true}
           value={formik.values.email_id}
           type='text'
           name='email_id'
@@ -117,13 +124,14 @@ const EditUser = () => {
           error={
             formik.errors.email_id && formik.touched.email_id
               ? formik.errors.email_id
-              : null
+              : ''
           }
           onBlur={formik.handleBlur}
           className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
         />
         <InputField
           onChange={formik.handleChange}
+          isLabel={true}
           value={formik.values.phone_number}
           type='text'
           name='phone_number'
@@ -131,11 +139,41 @@ const EditUser = () => {
           error={
             formik.errors.phone_number && formik.touched.phone_number
               ? formik.errors.phone_number
-              : null
+              : ''
           }
           onBlur={formik.handleBlur}
           className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
         />
+
+        <InputField
+          onChange={formik.handleChange}
+          isLabel={true}
+          value={formik.values.dob}
+          type='date'
+          name='dob'
+          placeholder='Date of Birth'
+          error={formik.errors.dob ? formik.errors.dob : ''}
+          onBlur={formik.handleBlur}
+          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+        />
+
+        <Select
+          placeholder='Select an gender'
+          labelPlacement='outside'
+          aria-label='Select an gender'
+          className='w-full '
+          size='lg'
+          radius='sm'
+          defaultSelectedKeys={[formik.values.gender]}
+          onChange={formik.handleChange}
+          name='gender'>
+          {gender.map((g) => (
+            <SelectItem key={g.value} value={g.value}>
+              {g.label}
+            </SelectItem>
+          ))}
+        </Select>
+
         {/* <InputField
           onChange={formik.handleChange}
           value={formik.values.password}
