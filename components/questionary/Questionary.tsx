@@ -75,6 +75,8 @@ const Questionary = () => {
   };
   const submitKc = async (e: any, kc: any) => {
     try {
+      console.log('Called');
+      
       e.preventDefault();
 
       // check if this KC selected or not
@@ -106,7 +108,7 @@ const Questionary = () => {
 
         if (res && res.records?.length > 0) {
           res.records.map((record: any) => {
-            const id = record[record.length - 3];
+            const id = record?.question_id;
             const i = id && id.toString();
             ids.push(i);
           });

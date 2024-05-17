@@ -77,6 +77,10 @@ const SignupForm = () => {
           address: '',
           qualification: '',
           specialization: '',
+          zipcode: '',
+          govt_id_image: '',
+          city: '',
+          state: '',
         };
         const data = await api.CreateUser(payload);
         if (data && data.status === 200) {
