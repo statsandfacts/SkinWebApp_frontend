@@ -363,22 +363,28 @@ const OTPModal = ({
   const [isSendOtp, setIsSetOtp] = useState(false);
   const [isOtpLoading, setIsOtpLoading] = useState(false);
 
-  const sendOtp = async () => {
-    setIsSetOtp(true);
-    setIsOtpLoading(true);
-    const response = await api.generateOtp({
-      email_id: email,
-      phone_number: mobile,
-    });
+  useEffect(() => {
+    const sendOtp = async () => {
+      setIsSetOtp(true);
+      setIsOtpLoading(true);
+      const response = await api.generateOtp({
+        email_id: email,
+        phone_number: mobile,
+      });
 
-    if (response && response.status === 200) {
-      toast.success('OTP Verified Successfully');
-      setIsOtpLoading(false);
-    } else {
-      toast.error('Some error occurred');
-      setIsOtpLoading(false);
+      if (response && response.status === 200) {
+        toast.success('OTP Verified Successfully');
+        setIsOtpLoading(false);
+      } else {
+        toast.error('Some error occurred');
+        setIsOtpLoading(false);
+      }
+    };
+
+    if (openModal) {
+      sendOtp();
     }
-  };
+  }, [openModal, email, mobile]);
 
   const formik = useFormik({
     initialValues: {
@@ -447,22 +453,14 @@ const OTPModal = ({
               </div>
             </ModalBody>
             <ModalFooter>
-              {!isSendOtp ? (
-                <Button
-                  isLoading={isOtpLoading}
-                  color='primary'
-                  onClick={sendOtp}>
-                  Generate Otp
-                </Button>
-              ) : (
-                <Button
-                  color='primary'
-                  onClick={(e: any) => {
-                    formik.handleSubmit();
-                  }}>
-                  Verify
-                </Button>
-              )}
+              <Button
+                isLoading={isOtpLoading}
+                color='primary'
+                onClick={(e: any) => {
+                  formik.handleSubmit();
+                }}>
+                Verify
+              </Button>
             </ModalFooter>
           </>
         </ModalContent>
