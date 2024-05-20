@@ -68,19 +68,37 @@ const Footer = (props: Props) => {
                 <div className='text-base font-medium whitespace-nowrap'>
                   Get Started
                 </div>
-                <div className='mt-4 whitespace-nowrap'>Shop Products</div>
-                <div className='mt-4 whitespace-nowrap'>Why Next.Care</div>
-                <div className='mt-4 whitespace-nowrap max-md:mr-2.5'>
+                <Link href={'/coming-soon'} className='mt-4 whitespace-nowrap'>
+                  Shop Products
+                </Link>
+                <Link href={'/coming-soon'} className='mt-4 whitespace-nowrap'>
+                  Why Next.Care
+                </Link>
+                <Link
+                  href={'/coming-soon'}
+                  className='mt-4 whitespace-nowrap max-md:mr-2.5'>
                   How it Works
-                </div>
-                <div className='mt-4'>Our Story</div>
+                </Link>
+                <Link href={'/coming-soon'} className='mt-4'>
+                  Our Story
+                </Link>
               </div>
               <div className='flex flex-col flex-1'>
-                <div className='text-base font-medium'>Support</div>
-                <div className='mt-4'>Blog</div>
-                <div className='mt-4'>Reviews</div>
-                <div className='mt-4'>Careers</div>
-                <div className='mt-4'>Contact Us</div>
+                <Link href={'/coming-soon'} className='text-base font-medium'>
+                  Support
+                </Link>
+                <Link href={'/coming-soon'} className='mt-4'>
+                  Blog
+                </Link>
+                <Link href={'/coming-soon'} className='mt-4'>
+                  Reviews
+                </Link>
+                <Link href={'/coming-soon'} className='mt-4'>
+                  Careers
+                </Link>
+                <Link href={'/coming-soon'} className='mt-4'>
+                  Contact Us
+                </Link>
               </div>
             </div>
           </div>
@@ -101,7 +119,8 @@ const Footer = (props: Props) => {
         <div className='flex flex-col justify-center px-16 py-6 w-full bg-white text-stone-900 max-md:px-5 max-md:max-w-full'>
           <div className='flex gap-5 justify-between mx-5 max-md:flex-wrap max-md:mr-2.5 max-md:max-w-full'>
             <div className='flex-auto my-auto text-sm'>
-              Copyright © 2010-2024 Next.Care. All rights reserved.
+              Copyright © {new Date().getFullYear()} Next.Care. All rights
+              reserved.
             </div>
             <div className='flex gap-2 pb-1.5 text-xs whitespace-nowrap'>
               <Link
