@@ -91,16 +91,15 @@ const Questionary = () => {
       if (keyCriteria) {
         Object.values(keyCriteria).forEach((kc: any) => {
           if (kc) {
-            console.log(kc.trim());
-
-            const st = kc.replace(/\s/g, '');
-            selectedKc += st;
+            selectedKc += kc;
           }
         });
       }
       /**
        * Hash with md5
        */
+      console.log('selectedKc',selectedKc);
+      
       const hash = md5(selectedKc);
       if (hash) {
         let ids: String[] = [];
@@ -119,8 +118,8 @@ const Questionary = () => {
         // after get ids call get questionary api
         if (ids && ids.length > 0) {
           const res = await api.getQuestionary({ question_ids: ids });
-          if (res && res.question_details) {
-            setQuestionary(res?.question_details);
+          if (res && res.questions) {
+            setQuestionary(res?.questions);
             setMovetoQuestionary(true);
             dispatch(resetQuestions());
           } else {
