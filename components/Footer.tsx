@@ -36,15 +36,9 @@ const Footer = (props: Props) => {
                   Follow us on
                 </div>
                 <div className='flex items-center'>
-                  <Link href='https://www.facebook.com/'>
-                    <Image
-                      src={'/facebook.svg'}
-                      height={30}
-                      width={30}
-                      alt='facebook'
-                    />
-                  </Link>
-                  <Link href='https://twitter.com/' className='mx-5'>
+                  <Link
+                    href='https://www.instagram.com/nextcare.life?igsh=MTdkMjg5M2s2NmRobA%3D%3D&utm_source=qr'
+                    className=''>
                     <Image
                       src={'/instagram.svg'}
                       height={30}
@@ -52,7 +46,16 @@ const Footer = (props: Props) => {
                       alt='instagram'
                     />
                   </Link>
-                  <Link href='https://www.linkedin.com/'>
+                  <Link href='https://www.linkedin.com/company/nextcare-life/'>
+                    <Image
+                      src={'/linkedin.svg'}
+                      height={30}
+                      width={30}
+                      alt='facebook'
+                    />
+                  </Link>
+
+                  <Link href='https://twitter.com/NextcareLife'>
                     <Image
                       src={'/twitter.svg'}
                       height={30}
