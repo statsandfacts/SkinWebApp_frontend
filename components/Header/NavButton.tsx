@@ -126,7 +126,7 @@ const NavButton = () => {
       <div className='flex gap-2 justify-center whitespace-nowrap sm:flex-col sm:justify-start sm:gap-0'>
         {isLoading ? <span>loading...</span> : renderButton()}
 
-        <LoginModal />
+        <LoginModal isCloseIcon={false} />
       </div>
     </>
   );
