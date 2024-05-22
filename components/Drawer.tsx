@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLoginModal } from '@/redux/slices/loginModal.slice';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 
-export default function Drawer({ children, title }: any) {
+export default function Drawer({ children, title, isCloseIcon }: any) {
   const { isModalOpen } = useSelector((state: any) => state.loginModal);
   const dispatch = useDispatch();
   const onClose = () => dispatch(setLoginModal(false));
@@ -29,11 +29,13 @@ export default function Drawer({ children, title }: any) {
               <div className='flex w-full'>
                 <div>{title}</div>
               </div>
-              <button
-                className='absolute right-4 top-4 w-7 h-7 rounded-full flex justify-center items-center hover:bg-gray-100'
-                onClick={onClose}>
-                <XMarkIcon className='w-5 h-5 text-gray-500' />
-              </button>
+              {isCloseIcon === false && (
+                <button
+                  className='absolute right-4 top-4 w-7 h-7 rounded-full flex justify-center items-center hover:bg-gray-100'
+                  onClick={onClose}>
+                  <XMarkIcon className='w-5 h-5 text-gray-500' />
+                </button>
+              )}
             </ModalHeader>
             <ModalBody>{children}</ModalBody>
             <ModalFooter></ModalFooter>

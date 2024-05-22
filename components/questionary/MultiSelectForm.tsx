@@ -25,6 +25,8 @@ import InputField from '../common/InputField';
 import { useRouter } from 'next/navigation';
 import Loader from '../Loader';
 import { removeLocalStorage } from '@/utils/localStore';
+import LoginModal from '../Auth/LoginModal';
+import { setLoginModal } from '@/redux/slices/loginModal.slice';
 
 // Radio Component
 const CustomRadio = (props: any) => {
@@ -253,6 +255,12 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
     setLoading(false);
   };
 
+  useEffect(() => {
+    if (currentStep === 1) {
+      dispatch(setLoginModal(true));
+    }
+  }, [currentStep]);
+
   return (
     <div>
       {loading && (
@@ -381,6 +389,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
           )}
         </div>
       </div>
+      <LoginModal isCloseIcon={true} />
     </div>
   );
 };

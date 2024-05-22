@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { setLoginModal } from '@/redux/slices/loginModal.slice';
-const LoginModal = () => {
+const LoginModal = ({ isCloseIcon }: { isCloseIcon?: boolean }) => {
   const { setLogin, setSession } = useUser();
   const [isLoading, setIsLoading] = useState(false);
   const disptach = useDispatch();
@@ -59,7 +59,7 @@ const LoginModal = () => {
   });
   return (
     <>
-      <Drawer title='Sign-in to Next.care'>
+      <Drawer title='Sign-in to Next.care' isCloseIcon={isCloseIcon}>
         <div className='flex flex-col gap-5 mt-5 w-full'>
           <InputField
             onChange={formik.handleChange}

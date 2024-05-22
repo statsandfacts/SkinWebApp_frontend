@@ -39,7 +39,7 @@ const Questionary = () => {
     data: kc,
     isLoading,
     error,
-  } = useSWR(isLoggedIn && '/view_key_criteria', () => api.getKeyCriteria(), {
+  } = useSWR('/view_key_criteria', () => api.getKeyCriteria(), {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
     revalidateIfStale: false,
@@ -76,7 +76,7 @@ const Questionary = () => {
   const submitKc = async (e: any, kc: any) => {
     try {
       console.log('Called');
-      
+
       e.preventDefault();
 
       // check if this KC selected or not
@@ -98,8 +98,7 @@ const Questionary = () => {
       /**
        * Hash with md5
        */
-      console.log('selectedKc',selectedKc);
-      
+
       const hash = md5(selectedKc);
       if (hash) {
         let ids: String[] = [];
