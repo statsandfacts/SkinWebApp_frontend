@@ -1,0 +1,23 @@
+{
+  "/_not-found": "app/_not-found.js",
+  "/(footer-content)/how-it-works/page": "app/(footer-content)/how-it-works/page.js",
+  "/(future-release)/coming-soon/page": "app/(future-release)/coming-soon/page.js",
+  "/about-us/page": "app/about-us/page.js",
+  "/api/payment/route": "app/api/payment/route.js",
+  "/api/image-upload/route": "app/api/image-upload/route.js",
+  "/checkout/page": "app/checkout/page.js",
+  "/contact-us/page": "app/contact-us/page.js",
+  "/page": "app/page.js",
+  "/(account)/auth/login/page": "app/(account)/auth/login/page.js",
+  "/(account)/auth/signup/page": "app/(account)/auth/signup/page.js",
+  "/(footer-content)/policy/page": "app/(footer-content)/policy/page.js",
+  "/(footer-content)/policy/refund-cancellation/page": "app/(footer-content)/policy/refund-cancellation/page.js",
+  "/(footer-content)/policy/terms-and-condition/page": "app/(footer-content)/policy/terms-and-condition/page.js",
+  "/treatment/page": "app/treatment/page.js",
+  "/(account)/user/myprofile/page": "app/(account)/user/myprofile/page.js",
+  "/(account)/user/(profile)/sessions/page": "app/(account)/user/(profile)/sessions/page.js",
+  "/(account)/user/(profile)/sessions/[id]/page": "app/(account)/user/(profile)/sessions/[id]/page.js",
+  "/(account)/user/(profile)/change-password/page": "app/(account)/user/(profile)/change-password/page.js",
+  "/(account)/user/(profile)/edit-user/page": "app/(account)/user/(profile)/edit-user/page.js",
+  "/(account)/user/(profile)/sessions/prescription/[id]/page": "app/(account)/user/(profile)/sessions/prescription/[id]/page.js"
+}
