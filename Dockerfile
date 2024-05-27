@@ -23,7 +23,7 @@ FROM nginx:alpine
 COPY /app/ /usr/share/nginx/html
 
 # Copy custom Nginx configuration
-COPY nginx.conf /etc/nginx/sites-available/nextcare.life
+#COPY nginx.conf /etc/nginx/sites-available/nextcare.life
 
 # Expose port 80
 EXPOSE 80
