@@ -9,7 +9,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
 import Link from 'next/link';
-import LoginModal from './LoginModal';
 
 const LoginForm = () => {
   const { setLogin, setSession } = useUser();

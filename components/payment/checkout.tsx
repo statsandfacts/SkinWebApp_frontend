@@ -1,121 +1,244 @@
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import React from 'react';
+'use client';
+import { COMMON } from '@/config/const';
+import { useUser } from '@/context/UserContext';
+import { initializeRazorpay } from '@/utils/rozerpay';
+import { Button } from '@nextui-org/button';
+import { useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as api from '@/services/app.service';
+import { removeLocalStorage } from '@/utils/localStore';
+import { useRouter } from 'next/navigation';
+import { Chip } from '@nextui-org/react';
+import { CheckCircleIcon, CheckIcon } from '@heroicons/react/24/solid';
 
 const Checkout = () => {
+  const router = useRouter();
+  const { user: userId, userSession: sessionId } = useUser();
+
+  const amount = {
+    charges: 200,
+    tax: 10,
+    platform_fee: 10,
+  };
+
+  const [total, setTotal] = useState(0);
+  const [offerAmount, setOfferAmount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [coupon, setCoupon] = useState('');
+  const [isCouponApplied, setIsCouponApplied] = useState(false);
+  const { answers, uploadImages } = useSelector(
+    (state: any) => state.questionary
+  );
+
+  useMemo(() => {
+    const total = amount.charges + amount.tax + amount.platform_fee;
+    setTotal(total - offerAmount);
+  }, [offerAmount]);
+
+  const proceedPayment = () => {
+    if (!userId) {
+      toast.error('Please login first');
+      return;
+    }
+    payment();
+  };
+
+  const payment = async () => {
+    setLoading(true);
+    const res = await initializeRazorpay();
+    if (!res) {
+      alert('Something went wrong');
+      setLoading(false);
+      return;
+    }
+    // creating a new order
+    const result = await fetch(`/api/payment`, {
+      method: 'POST',
+      body: JSON.stringify({
+        amount: total,
+        currency: 'INR',
+        receipt: 'order_rcpt_' + Date.now(),
+        payment_capture: 1,
+      }),
+    });
+
+    const data = await result.json();
+    if (!data) {
+      setLoading(false);
+      alert('Server error. Are you online?');
+      return;
+    }
+    // Getting the order details back
+    // const { amount, id: order_id, currency } = data.data;
+
+    var options = {
+      key: data.rozerpayKey, // Enter the Key ID generated from the Dashboard
+      name: 'Next.care',
+      currency: data.currency,
+      amount: data.amount,
+      order_id: data.id,
+      description: 'Thank you for shopping with us',
+      handler: async function (response: any) {
+        if (response) {
+          const payload = {
+            session_id: sessionId,
+            user_id: userId,
+            question_answers: [answers],
+          };
+          const data = await api.saveQuestionnaire(payload);
+
+          const imageArray =
+            uploadImages?.map((file: File) => COMMON.IMAGE_URL + '/' + file) ||
+            [];
+          let images = '';
+          if (imageArray) {
+            images = imageArray.join(',');
+          }
+          const createCasePayload = {
+            patient_id: userId,
+            image_path: images,
+          };
+
+          const res = await api.createCase(createCasePayload);
+          if (res && res.status === 200) {
+            removeLocalStorage('keyCriteria');
+            toast.success(res.message || 'Case created successfully');
+            router.replace('/user/sessions');
+          } else {
+            toast.error('The user already has a case created');
+          }
+          setLoading(false);
+        }
+      },
+      prefill: {
+        name: 'Akash Pradhan',
+        email: 'akashpradhan@gmail.com',
+        contact: '9999999999',
+      },
+    };
+    const paymentObject = new (window as any).Razorpay(options);
+    paymentObject.open();
+    setLoading(false);
+  };
+
+  const handleApplyCoupon = async () => {
+    if (!coupon) {
+      toast.error('Please enter a coupon code');
+      return;
+    }
+    // dommy logic
+    if (coupon.length > 3) {
+      setOfferAmount(100);
+      setIsCouponApplied(true);
+    } else {
+      setOfferAmount(0);
+      setIsCouponApplied(false);
+    }
+  };
+
+  const removeCoupon = () => {
+    setCoupon('');
+    setOfferAmount(0);
+    setIsCouponApplied(false);
+  };
+
   return (
     <>
-      <>
-        <>
-          <div className='flex flex-col justify-start items-start bg-[#010201]'>
-            <div className='flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 gap-2 px-6 py-4'>
-              <div className='flex justify-start items-center flex-grow-0 flex-shrink-0 relative py-1'>
-                <button onClick={() => {}}>
-                  <ArrowLeftIcon width={24} height={24} />
-                </button>
-              </div>
-              <div className='flex flex-col justify-center items-start flex-grow relative overflow-hidden gap-1'>
-                <p className='flex-grow-0 flex-shrink-0 text-base font-medium text-left text-white'>
-                  Checkout
+      <div className='rounded-md'>
+        <section>
+          <h2 className='uppercase tracking-wide text-lg font-semibold text-black my-2'>
+            Order Summery
+          </h2>
+
+          <div className='flex flex-col justify-start items-start self-stretch flex-grow relative py-2 rounded-lg bg-black/5'>
+            <div className='flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative py-2 px-4 bg-white/0 hover:bg-white/5'>
+              <p className='flex-grow-0 flex-shrink-0 text-[13px] text-right text-black'>
+                Charges
+              </p>
+              <p className='flex-grow-0 flex-shrink-0 text-base font-normal text-left text-black'>
+                {COMMON.RUPEE + ' ' + amount.charges}
+              </p>
+            </div>
+            <div className='flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative py-2 px-4 bg-white/0 hover:bg-white/5'>
+              <p className='flex-grow-0 flex-shrink-0 text-[13px] text-right text-black'>
+                GST
+              </p>
+              <p className='flex-grow-0 flex-shrink-0 text-base font-normal text-left text-black'>
+                {COMMON.RUPEE + ' ' + amount.tax}
+              </p>
+            </div>
+            <div className='flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative py-2 px-4 bg-white/0 hover:bg-white/5'>
+              <p className='flex-grow-0 flex-shrink-0 text-[13px] text-right text-black'>
+                Platform Fee
+              </p>
+              <p className='flex-grow-0 flex-shrink-0 text-base font-normal text-left text-black'>
+                {COMMON.RUPEE + ' ' + amount.platform_fee}
+              </p>
+            </div>
+
+            {coupon.length > 0 && offerAmount && isCouponApplied ? (
+              <div className='flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative py-2 px-4 bg-white/0 hover:bg-white/5'>
+                <p className='flex-grow-0 flex-shrink-0 text-[13px] text-right text-black'>
+                  Offer
+                </p>
+                <p className='flex-grow-0 flex-shrink-0 text-base font-normal text-left text-green-500'>
+                  -{COMMON.RUPEE + ' ' + offerAmount}
                 </p>
               </div>
+            ) : (
+              ''
+            )}
+
+            <div className='flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative py-2 px-4 border-t border-black/30 bg-white/0 hover:bg-white/5'>
+              <p className='flex-grow-0 flex-shrink-0 text-[13px] text-right text-black'>
+                Total
+              </p>
+              <p className='flex-grow-0 flex-shrink-0 text-base font-medium text-left text-black'>
+                {COMMON.RUPEE + ' ' + total}
+              </p>
             </div>
           </div>
-        </>
 
-        {/* Page Body */}
-        <div className='flex flex-col justify-center items-center self-stretch flex-grow-0 flex-shrink-0 bg-[#19191C]'>
-          <div className='flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 gap-10 md:px-96 md:pt-6 pb-12 md:pb-28'>
-            <div className='hidden md:flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 pt-8 gap-2'>
-              <div className='flex justify-start items-center flex-grow-0 flex-shrink-0 relative py-1'>
-                <button onClick={() => {}}>
-                  <ArrowLeftIcon width={24} height={24} />
-                </button>
-              </div>
-              <div className='flex flex-col justify-center items-start flex-grow relative overflow-hidden gap-1'>
-                <p className='flex-grow-0 flex-shrink-0 text-xl font-medium text-left text-white'>
-                  Back
-                </p>
+          {isCouponApplied ? (
+            <div className='mt-10'>
+              <Chip
+                startContent={
+                  <CheckCircleIcon className='h-4 w-4 text-green-500' />
+                }
+                variant='faded'
+                onClose={removeCoupon}>
+                <span className='text-green-500'>Welcome Offer</span>
+              </Chip>
+            </div>
+          ) : (
+            <div className='mt-10'>
+              <span>Do you have coupon?</span>
+              <div className='flex justify-start items-start self-stretch flex-grow relative py-2 rounded-lg gap-3 '>
+                <input
+                  type='text'
+                  onChange={(e) => setCoupon(e.target.value)}
+                  value={coupon}
+                  className='border-2 basis-[80%] border-black/30 rounded-md py-2 px-4 w-full'
+                  placeholder='Coupon code'
+                />
+                <Button
+                  color='primary'
+                  variant='bordered'
+                  onClick={handleApplyCoupon}>
+                  Apply
+                </Button>
               </div>
             </div>
-            <div className='flex flex-col justify-start items-start self-stretch flex-grow md:bg-black/20 md:rounded-2xl flex-shrink-0'>
-              <div className='flex flex-col justify-start items-start self-stretch flex-grow gap-8 px-6 pt-6 pb-20'>
-                <div className='flex flex-col self-stretch gap-4'>
-                  {/* <label className='flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-2'>
-                    <span className="after:content-['*'] after:ml-0.5 after:text-red-500 flex-grow-0 flex-shrink-0 text-sm font-medium text-left capitalize text-white/[0.64]">
-                      {checkOutLabel.address}
-                    </span>
-                    <div className='w-full'>
-                      <Select
-                        options={psLocations?.data}
-                        onChange={(loc) => setBookingAddress(loc.location)}
-                        getOptionLabel={(option) => option.location}
-                        getOptionValue={(option) => option.id}
-                        styles={customStyles}
-                        instanceId={useId()}
-                        isSearchable={false}
-                      />
-                    </div>
-                  </label> */}
-
-                  {/* <label className='flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-2'>
-                    <span className="after:content-['*'] after:ml-0.5 after:text-red-500 flex-grow-0 flex-shrink-0 text-sm font-medium text-left capitalize text-white/[0.64]">
-                      {checkOutLabel.landmark.title}
-                    </span>
-                    <div className='w-full'>
-                      <InputField
-                        className='formInput w-full'
-                        placeholder={checkOutLabel.landmark.placeHolder}
-                        value={landMark}
-                        onChange={(e) => setLandMark(e.target.value)}
-                      />
-                    </div>
-                  </label> */}
-                </div>
-
-                <div className='flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-5'>
-                  <p className='flex-grow-0 flex-shrink-0 text-2xl font-medium text-center text-white'>
-                    {/* {checkOutLabel.details.title} */}
-                  </p>
-                </div>
-                {/* <div className='flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-5'>
-                  {checkoutData?.equipment?.length > 0 && (
-                    <p className='flex-grow-0 flex-shrink-0 text-2xl font-medium text-center text-white'>
-                      {checkOutLabel.equipment}
-                    </p>
-                  )}
-                  <div className='flex flex-col justify-start items-start self-stretch flex-grow relative pb-8'>
-                    {checkoutData?.equipment?.length > 0 && (
-                      <div className='w-full flex flex-wrap gap-2'>
-                        {checkoutData.equipment.map((item, index) => (
-                          <div
-                            key={index}
-                            className='flex-grow-0 flex-shrink-0 text-sm text-white bg-white/10 py-1.5 px-3 rounded-full'>
-                            {item.name}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div> */}
-              </div>
-              {/* <button
-                onClick={paymentHandler}
-                className='flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 md:relative gap-[5px] px-[18px] py-[15px] bg-blue-700 hover:bg-blue-800 fixed bottom-0 w-full'
-                disabled={loading}>
-                <div className='flex flex-col justify-start items-start flex-grow relative gap-0.5'>
-                  <p className='flex-grow-0 flex-shrink-0 text-sm text-left text-white'>
-                    {loading ? 'Please wait...' : checkOutLabel.pay}
-                  </p>
-                  <p className='flex-grow-0 flex-shrink-0 text-[27px] font-bold text-left text-white'>
-                    ₹ {totalPrice}
-                  </p>
-                </div>
-                {loading ? <LoadingOutlined /> : <ArrowRightIcon />}
-              </button> */}
-            </div>
-          </div>
-        </div>
-      </>
+          )}
+        </section>
+      </div>
+      <Button
+        isLoading={loading}
+        onClick={proceedPayment}
+        className='submit-button px-4 py-3 h-11 rounded-full bg-blue-500 text-white focus:ring focus:outline-none w-full text-xl font-semibold transition-colors'>
+        Pay {COMMON.RUPEE + total}
+      </Button>
     </>
   );
 };

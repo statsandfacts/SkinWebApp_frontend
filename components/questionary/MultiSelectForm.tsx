@@ -9,10 +9,7 @@ import {
   cn,
 } from '@nextui-org/react';
 import PhotoUpload from './PhotoUpload';
-import * as api from '@/services/app.service';
-import { useUser } from '@/context/UserContext';
-import { toast } from 'react-toastify';
-import { initializeRazorpay } from '@/utils/rozerpay';
+
 import {
   setAnswers,
   increaseStep,
@@ -21,10 +18,7 @@ import {
   setPhotoUploadEnable,
 } from '@/redux/slices/questionary.slice';
 import { useDispatch, useSelector } from 'react-redux';
-import InputField from '../common/InputField';
 import { useRouter } from 'next/navigation';
-import Loader from '../Loader';
-import { removeLocalStorage } from '@/utils/localStore';
 import LoginModal from '../Auth/LoginModal';
 import { setLoginModal } from '@/redux/slices/loginModal.slice';
 
@@ -111,10 +105,8 @@ const imageUrl = 'https://s3.us-east-2.amazonaws.com/nextcare.life';
 const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
   const { currentStep, answers, disableNext, photoUploadEnable, uploadImages } =
     useSelector((state: any) => state.questionary);
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
-  const { user: userId, userSession: sessionId } = useUser();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   // Scroll to top when enter to form
@@ -170,89 +162,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
 
   const handlePayment = () => {
     // save the questionary answers
-    if (!userId) {
-      toast.error('Please login first');
-      router.push('/auth/login');
-      return;
-    }
-    payment();
-  };
-
-  const payment = async () => {
-    setLoading(true);
-    const res = await initializeRazorpay();
-    if (!res) {
-      alert('Something went wrong');
-      setLoading(false);
-      return;
-    }
-    // creating a new order
-    const result = await fetch(`/api/payment`, {
-      method: 'POST',
-      body: JSON.stringify({
-        amount: 250,
-        currency: 'INR',
-        receipt: 'order_rcpt_' + Date.now(),
-        payment_capture: 1,
-      }),
-    });
-
-    const data = await result.json();
-    if (!data) {
-      setLoading(false);
-      alert('Server error. Are you online?');
-      return;
-    }
-    // Getting the order details back
-    // const { amount, id: order_id, currency } = data.data;
-
-    var options = {
-      key: data.rozerpayKey, // Enter the Key ID generated from the Dashboard
-      name: 'Next.care',
-      currency: data.currency,
-      amount: data.amount,
-      order_id: data.id,
-      description: 'Thank you for shopping with us',
-      handler: async function (response: any) {
-        if (response) {
-          const payload = {
-            session_id: sessionId,
-            user_id: userId,
-            question_answers: [answers],
-          };
-          const data = await api.saveQuestionnaire(payload);
-
-          const imageArray =
-            uploadImages?.map((file: File) => imageUrl + '/' + file) || [];
-          let images = '';
-          if (imageArray) {
-            images = imageArray.join(',');
-          }
-          const createCasePayload = {
-            patient_id: userId,
-            image_path: images,
-          };
-
-          const res = await api.createCase(createCasePayload);
-          if (res && res.status === 200) {
-            removeLocalStorage('keyCriteria');
-            toast.success(res.message || 'Case created successfully');
-            router.replace('/user/sessions');
-          } else {
-            toast.error('The user already has a case created');
-          }
-          setLoading(false);
-        }
-      },
-      prefill: {
-        name: 'Akash Pradhan',
-        email: 'akashpradhan@gmail.com',
-        contact: '9999999999',
-      },
-    };
-    const paymentObject = new (window as any).Razorpay(options);
-    paymentObject.open();
-    setLoading(false);
+    router.push('/checkout');
   };
 
   useEffect(() => {
@@ -263,11 +173,6 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
 
   return (
     <div>
-      {loading && (
-        <div className='w-full flex flex-col items-center justify-center'>
-          <Loader />
-        </div>
-      )}
       <div className='w-full flex flex-col items-center justify-center'>
         {!photoUploadEnable &&
           questionary &&

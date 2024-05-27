@@ -1,10 +1,12 @@
 'use client';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 const CloseButton = () => {
+  const router = useRouter();
   const gotoHome = () => {
-    window.location.href = '/';
+    router.replace('/');
   };
   return (
     <>

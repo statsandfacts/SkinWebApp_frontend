@@ -1,11 +1,8 @@
 import '@/styles/globals.css';
 import { Metadata } from 'next';
 import { siteConfig } from '@/config/site';
-import { fontInter } from '@/config/fonts';
 import { Providers } from './providers';
 import { Inter } from 'next/font/google';
-import Footer from '@/components/Footer';
-import Header from '@/components/Header/Header';
 import PrimaryLayout from '@/components/layout/PrimaryLayout';
 const inter = Inter({
   subsets: ['latin'],
@@ -30,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en' suppressHydrationWarning={true}>
+    <html lang='en' suppressHydrationWarning={true} className={inter.className}>
       <head />
       <body suppressHydrationWarning={true}>
         <Providers>
