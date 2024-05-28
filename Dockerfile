@@ -27,7 +27,7 @@ RUN mkdir -p /etc/nginx/ssl
 
 # Copy SSL certificates
 COPY ssl/9a07b3ec74f104e1.crt /etc/nginx/ssl/9a07b3ec74f104e1.crt
-COPY ssl/private_key.key /etc/nginx/ssl/generated-private-key.txt
+COPY ssl/generated-private-key.txt /etc/nginx/ssl/generated-private-key.txt
 
 # Remove default NGINX website
 RUN rm -rf /usr/share/nginx/html/*
