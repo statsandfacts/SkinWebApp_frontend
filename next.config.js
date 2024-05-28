@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-   basePath: '/',
-    assetPrefix: '/',
+   /**basePath: '/',
+    assetPrefix: '/',*/
     reactStrictMode: true,
     images: {
         domains: ['nextcare.s3.us-east-2.amazonaws.com'],
