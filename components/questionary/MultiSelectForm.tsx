@@ -185,7 +185,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
                     className='flex flex-col w-full'>
                     <p className=' pb-2 pl-1'>
                       <span className='text-xl font-semibold text-start'>
-                        {question.question_type}
+                        {question?.question_name}
                       </span>{' '}
                     </p>
                     <>

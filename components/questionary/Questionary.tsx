@@ -10,7 +10,11 @@ import Loader from '../Loader';
 import { useDispatch } from 'react-redux';
 import { resetQuestions } from '@/redux/slices/questionary.slice';
 import { useUser } from '@/context/UserContext';
-import { getLocalStorage, setLocalStorage } from '@/utils/localStore';
+import {
+  getLocalStorage,
+  removeLocalStorage,
+  setLocalStorage,
+} from '@/utils/localStore';
 import KeyCriteriaQuestion from './KeyCriteriaQuestion';
 
 export const CustomRadio = (props: any) => {
@@ -87,6 +91,13 @@ const Questionary = () => {
 
       setLoading(true);
       let selectedKc = '';
+
+      // clear previos data from local store
+      const localData = getLocalStorage('keyCriteria');
+      if (localData) {
+        removeLocalStorage('keyCriteria');
+      }
+
       setLocalStorage('keyCriteria', keyCriteria);
       if (keyCriteria) {
         Object.values(keyCriteria).forEach((kc: any) => {
