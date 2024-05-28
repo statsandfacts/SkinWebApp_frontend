@@ -1,5 +1,5 @@
-# Use the official Node.js 20 image as a base
-FROM node:20
+# Stage 1: Build the Next.js application
+FROM node:20 AS builder
 
 # Set the working directory inside the container
 WORKDIR /usr/src/app
@@ -16,19 +16,28 @@ COPY . .
 # Build the Next.js application
 RUN npm run build
 
-#Use a lightweight web server to serve the static files
-#FROM nginx:alpine
+# Stage 2: Setup NGINX with SSL and serve the Next.js application
+FROM nginx:alpine
 
-# Copy the build output to the web server's directory
-#COPY --from=0 /app/build /usr/share/nginx/html
+# Copy NGINX configuration file
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Expose port 3001
-EXPOSE 3001
+# Create directory for SSL certificates
+RUN mkdir -p /etc/nginx/ssl
 
+# Copy SSL certificates
+COPY ssl/9a07b3ec74f104e1.crt /etc/nginx/ssl/9a07b3ec74f104e1.crt
+COPY ssl/private_key.key /etc/nginx/ssl/generated-private-key.txt
 
-# Start the Next.js application
-CMD ["npm", "start"]
-#RUN npm run dev
+# Remove default NGINX website
+RUN rm -rf /usr/share/nginx/html/*
 
-# Start Nginx
-#CMD ["nginx", "-g", "daemon off;"]
+# Copy the built Next.js application to NGINX
+COPY --from=builder /usr/src/app/.next /usr/share/nginx/html
+
+# Expose ports
+EXPOSE 80
+EXPOSE 443
+
+# Start NGINX
+CMD ["nginx", "-g", "daemon off;"]
