@@ -36,8 +36,8 @@ RUN rm -rf /usr/share/nginx/html/*
 COPY --from=builder /usr/src/app/.next /usr/share/nginx/html
 
 # Expose ports
-EXPOSE 80
-EXPOSE 443
+EXPOSE 3001 80
+EXPOSE 3001 443
 
 # Start NGINX
 CMD ["nginx", "-g", "daemon off;"]
