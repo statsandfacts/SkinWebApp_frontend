@@ -20,24 +20,23 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy NGINX configuration file
-COPY nginx.conf /etc/nginx/nginx.conf
+#COPY nginx.conf /etc/nginx/nginx.conf
 
 # Create directory for SSL certificates
-RUN mkdir -p /etc/nginx/ssl
+#RUN mkdir -p /etc/nginx/ssl
 
 # Copy SSL certificates
-COPY ssl/9a07b3ec74f104e1.crt /etc/nginx/ssl/9a07b3ec74f104e1.crt
-COPY ssl/generated-private-key.txt /etc/nginx/ssl/generated-private-key.txt
+#COPY ssl/9a07b3ec74f104e1.crt /etc/nginx/ssl/9a07b3ec74f104e1.crt
+#COPY ssl/generated-private-key.txt /etc/nginx/ssl/generated-private-key.txt
 
 # Remove default NGINX website
-RUN rm -rf /usr/share/nginx/html/*
+#RUN rm -rf /usr/share/nginx/html/*
 
 # Copy the built Next.js application to NGINX
 COPY --from=builder /usr/src/app/.next /usr/share/nginx/html
 
 # Expose ports
-EXPOSE 3001 80
-EXPOSE 3001 443
+EXPOSE 3001
 
 # Start NGINX
 CMD ["nginx", "-g", "daemon off;"]
