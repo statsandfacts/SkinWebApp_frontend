@@ -35,22 +35,22 @@ export default function Header() {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href='#about' color='foreground' aria-current='page'>
+          <Link href='/about-us' color='foreground' aria-current='page'>
             About
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color='foreground' href='#'>
+          <Link color='foreground' href='/coming-soon'>
             Products
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color='foreground' href='#'>
+          <Link color='foreground' href='/coming-soon'>
             FAQ
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color='foreground' href='#contact'>
+          <Link color='foreground' href='/contact-us'>
             Contact us
           </Link>
         </NavbarItem>

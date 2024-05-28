@@ -78,7 +78,7 @@ const Footer = (props: Props) => {
                   Why Next.Care
                 </Link>
                 <Link
-                  href={'/coming-soon'}
+                  href={'/how-it-works'}
                   className='mt-4 whitespace-nowrap max-md:mr-2.5'>
                   How it Works
                 </Link>
@@ -99,7 +99,7 @@ const Footer = (props: Props) => {
                 <Link href={'/coming-soon'} className='mt-4'>
                   Careers
                 </Link>
-                <Link href={'/coming-soon'} className='mt-4'>
+                <Link href={'/contact-us'} className='mt-4'>
                   Contact Us
                 </Link>
               </div>
@@ -135,6 +135,11 @@ const Footer = (props: Props) => {
                 href={'/policy'}
                 className='grow justify-center px-2 py-1.5 border border-solid border-black border-opacity-0'>
                 Privacy Policy
+              </Link>
+              <Link
+                href={'/policy/refund-cancellation'}
+                className='grow justify-center px-2 py-1.5 border border-solid border-black border-opacity-0'>
+                Refund & Cancellation Policy
               </Link>
             </div>
           </div>

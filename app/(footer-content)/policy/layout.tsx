@@ -4,7 +4,7 @@ const PolicyLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <>
-        <div className='min-h-screen  p-5'>{children}</div>
+        <div className='min-h-screen md:px-40 p-5'>{children}</div>
       </>
     </>
   );
