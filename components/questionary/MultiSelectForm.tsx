@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import LoginModal from '../Auth/LoginModal';
 import { setLoginModal } from '@/redux/slices/loginModal.slice';
+import { useUser } from '@/context/UserContext';
 
 // Radio Component
 const CustomRadio = (props: any) => {
@@ -106,6 +107,8 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
   const { currentStep, answers, disableNext, photoUploadEnable, uploadImages } =
     useSelector((state: any) => state.questionary);
   const router = useRouter();
+  const { user: userId } = useUser();
+
   const dispatch = useDispatch();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
@@ -166,7 +169,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
   };
 
   useEffect(() => {
-    if (currentStep === 1) {
+    if (currentStep === 1 && !userId) {
       dispatch(setLoginModal(true));
     }
   }, [currentStep]);
