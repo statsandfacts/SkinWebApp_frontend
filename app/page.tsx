@@ -1,4 +1,9 @@
-import { HeroSection, Section2, Results } from '@/components/Home/index';
+import {
+  HeroSection,
+  Section2,
+  Results,
+  Review,
+} from '@/components/Home/index';
 
 export default function Home() {
   return (
@@ -8,6 +13,7 @@ export default function Home() {
           <HeroSection />
           <Section2 />
           <Results />
+          <Review />
         </div>
       </div>
     </>

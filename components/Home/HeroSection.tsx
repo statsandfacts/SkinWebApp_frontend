@@ -33,17 +33,17 @@ const HeroSection = (props: Props) => {
                 <div className='flex flex-col w-[58%] max-md:ml-0 max-md:w-full relative'>
                   <Image
                     loading='lazy'
-                    src='/images/banner.png'
-                    className='grow self-stretch w-full shadow aspect-[0.81] max-md:mt-4 rounded-t-full'
+                    src='/images/banner2.jpg'
+                    className='grow self-stretch object-cover object-center w-full shadow aspect-[0.81] max-md:mt-4 rounded-t-full'
                     fill
                     alt='banner image'
                   />
                 </div>
-                <div className='flex flex-col ml-5 w-[42%] max-md:ml-0 max-md:w-full relative'>
+                <div className='flex mt-20 flex-col ml-5 w-[42%] max-md:ml-0 max-md:w-full relative'>
                   <Image
                     loading='lazy'
-                    src='/images/banner1.png'
-                    className='grow mt-20 w-full shadow aspect-[0.73] max-md:mt-10'
+                    src='/images/banner.png'
+                    className='grow w-full object-cover shadow aspect-[0.73] max-md:mt-10 rounded-t-full '
                     alt='banner image'
                     width={200}
                     height={200}

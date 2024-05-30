@@ -120,7 +120,7 @@ const Footer = (props: Props) => {
           </div>
         </div>
         <div className='flex flex-col justify-center px-16 py-6 w-full bg-white text-stone-900 max-md:px-5 max-md:max-w-full'>
-          <div className='flex gap-5 justify-between mx-5 max-md:flex-wrap max-md:mr-2.5 max-md:max-w-full'>
+          <div className='flex flex-wrap gap-5 justify-between mx-5 max-md:flex-wrap max-md:mr-2.5 max-md:max-w-full'>
             <div className='flex-auto my-auto text-sm'>
               Copyright © {new Date().getFullYear()} Next.Care. All rights
               reserved.

@@ -43,6 +43,8 @@ const SignupForm = () => {
       password: '',
       confirmPassword: '',
     },
+    // validateOnBlur: false,
+    validateOnChange: false,
     validationSchema: Yup.object().shape({
       ...(currentStep === 1 && {
         first_name: Yup.string().required('First Name Required'),
@@ -52,7 +54,9 @@ const SignupForm = () => {
         email_id: Yup.string().email().required('Email Required'),
         phone_number: Yup.string()
           .required('Phone Number Required')
-          .matches(/^\d{6,15}$/, 'Invalid phone number format'),
+          .min(10, 'Phone number must be 10 digit')
+          .max(10, 'Phone number must be 10 digit')
+          .matches(/^\d{10}$/, 'Invalid phone number format'),
       }),
       ...(currentStep === 3 && {
         gender: Yup.string().required('Gender Required'),
@@ -362,7 +366,7 @@ const OTPModal = ({
 }: any) => {
   const [isSendOtp, setIsSetOtp] = useState(false);
   const [isOtpLoading, setIsOtpLoading] = useState(false);
-
+  const [otp, setOtp] = useState('');
   useEffect(() => {
     const sendOtp = async () => {
       setIsSetOtp(true);
@@ -373,7 +377,8 @@ const OTPModal = ({
       });
 
       if (response && response.status === 200) {
-        toast.success('OTP Verified Successfully');
+        toast.success('OTP Send Successfully');
+        setOtp(response.verification_code);
         setIsOtpLoading(false);
       } else {
         toast.error('Some error occurred');
@@ -398,18 +403,12 @@ const OTPModal = ({
     }),
     onSubmit: async (values) => {
       try {
-        console.log(values);
-
-        if (values.otp.length === 6) {
+        if (values.otp === otp) {
           successVerifyOtp();
+          toast.success('OTP Verified Successfully');
+        } else {
+          toast.error('Invalid OTP');
         }
-        // const response = await api.generateOtp({
-        //   email_id: email,
-        //   phone_number: mobile,
-        // });
-        // if (response && response.status === 200) {
-        //   successVerifyOtp();
-        // }
       } catch (error) {
         console.log(error);
       }

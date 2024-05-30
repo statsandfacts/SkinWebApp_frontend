@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import Link from 'next/link';
+// import Link from 'next/link';
 import React from 'react';
-import ClientButton from '../ClientButton';
-import Partners from './Partners';
+// import ClientButton from '../ClientButton';
+// import Partners from './Partners';
 import HowItsWorks from './HowItsWorks';
 
 const Section2 = () => {
@@ -20,44 +20,40 @@ const Section2 = () => {
 
         <div className='mt-12 rounded-2xl max-md:mt-10 max-md:max-w-full flex justify-center'>
           <div className='flex gap-5 max-md:flex-col max-md:gap-0'>
-            <div className='mt-3 relative overflow-hidden bg-cover bg-no-repeat'>
+            <div className='relative overflow-hidden bg-cover bg-no-repeat max-h-72 w-[300px] h-[300px] mt-3 rounded-lg'>
               <Image
                 loading='lazy'
                 src='/images/treat-1.png'
                 alt='treat'
-                width={317}
-                height={300}
-                className='w-full transition duration-300 ease-in-out hover:scale-110'
+                fill
+                className='w-full h-full transition duration-300 ease-in-out hover:scale-110'
               />
             </div>
-            <div className='mt-3 relative overflow-hidden bg-cover bg-no-repeat'>
+            <div className='relative overflow-hidden bg-cover bg-no-repeat max-h-72 w-[300px] h-[300px] mt-3 rounded-lg'>
               <Image
                 loading='lazy'
-                src='/images/treat-2.png'
+                src='/images/treat-2.jpg'
                 alt='treat'
-                width={317}
-                height={300}
-                className='w-full transition duration-300 ease-in-out hover:scale-110'
+                fill
+                className='w-full h-full transition duration-300 ease-in-out hover:scale-110 '
               />
             </div>
-            <div className='mt-3 relative overflow-hidden bg-cover bg-no-repeat'>
+            <div className='relative overflow-hidden bg-cover bg-no-repeat max-h-72 w-[300px] h-[300px]  mt-3 rounded-lg'>
               <Image
                 loading='lazy'
                 src='/images/treat-3.png'
                 alt='treat'
-                width={317}
-                height={300}
-                className='w-full transition duration-300 ease-in-out hover:scale-110'
+                fill
+                className='w-full h-full transition duration-300 ease-in-out hover:scale-110'
               />
             </div>
-            <div className='mt-3 relative overflow-hidden bg-cover bg-no-repeat'>
+            <div className='relative overflow-hidden bg-cover bg-no-repeat max-h-72 w-[300px] h-[300px] mt-3  rounded-lg'>
               <Image
                 loading='lazy'
                 src='/images/treat-4.png'
                 alt='treat'
-                width={317}
-                height={300}
-                className='w-full transition duration-300 ease-in-out hover:scale-110'
+                fill
+                className='w-full h-full transition duration-300 ease-in-out hover:scale-110'
               />
             </div>
           </div>
@@ -133,7 +129,7 @@ const Section2 = () => {
           </div>
         </div>
         <HowItsWorks />
-        <Partners />
+        {/* <Partners /> */}
       </div>
     </>
   );
