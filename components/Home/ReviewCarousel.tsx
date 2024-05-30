@@ -16,8 +16,8 @@ const ReviewCarousel = () => {
       loop: true,
       align: 'center',
       containScroll: 'trimSnaps',
-    }
-    // [Autoplay({ delay: 3000 })]
+    },
+    [Autoplay({ delay: 3000 })]
   );
 
   const { selectedIndex, scrollSnaps, onDotButtonClick } =
