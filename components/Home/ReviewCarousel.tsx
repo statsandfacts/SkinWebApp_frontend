@@ -89,7 +89,7 @@ const ReviewCarousel = () => {
                     has made a huge difference. My skin is clearer and less
                     irritated. It&apos;s now a staple in my routine.
                   </p>
-                  <a className='relative inline-flex items-center w-20 h-20 w-20 h-20'>
+                  <a className='relative inline-flex items-center w-20 h-20'>
                     <Image
                       alt='testimonial'
                       src='/images/review-2.avif'
