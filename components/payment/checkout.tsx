@@ -45,81 +45,130 @@ const Checkout = () => {
   };
 
   const payment = async () => {
-    setLoading(true);
-    const res = await initializeRazorpay();
-    if (!res) {
-      alert('Something went wrong');
+    try {
+      setLoading(true);
+      const orderDetails = await createPaymentAndOrder();
+
+      const res = await initializeRazorpay();
+      if (!res) {
+        alert('Something went wrong');
+        setLoading(false);
+        return;
+      }
+
+      // creating a new order
+      // const result = await fetch(`/api/payment`, {
+      //   method: 'POST',
+      //   body: JSON.stringify({
+      //     amount: total,
+      //     currency: 'INR',
+      //     receipt: 'order_rcpt_' + Date.now(),
+      //     payment_capture: 1,
+      //   }),
+      // });
+
+      // const data = await result.json();
+      if (!orderDetails) {
+        setLoading(false);
+        alert('Server error. Are you online?');
+        return;
+      }
+      // Getting the order details back
+      // const { amount, id: order_id, currency } = data.data;
+
+      var options = {
+        key: 'rzp_test_EYyf1YAwk7kO7r', // Enter the Key ID generated from the Dashboard
+        name: 'Next.care',
+        currency: orderDetails.currency,
+        amount: orderDetails.amount,
+        order_id: orderDetails.id,
+        description: 'Thank you for shopping with us',
+        handler: async function (response: any) {
+          console.log(response);
+
+          if (response) {
+            const verifyPayload = {
+              order_id: response.razorpay_order_id,
+              payment_id: response.razorpay_payment_id,
+              signature: response.razorpay_signature,
+            };
+            const verify = await api.verifyPayment(verifyPayload);
+
+            if (verify && verify.status === 200) {
+              toast.success('Payment Successful');
+            }
+
+            const payload = {
+              session_id: sessionId,
+              user_id: userId,
+              question_answers: [answers],
+            };
+            const data = await api.saveQuestionnaire(payload);
+
+            const imageArray =
+              uploadImages?.map(
+                (file: File) => COMMON.IMAGE_URL + '/' + file
+              ) || [];
+            let images = '';
+            if (imageArray) {
+              images = imageArray.join(',');
+            }
+            const createCasePayload = {
+              patient_id: userId,
+              image_path: images,
+            };
+
+            const res = await api.createCase(createCasePayload);
+            if (res && res.status === 200) {
+              removeLocalStorage('keyCriteria');
+              toast.success(res.message || 'Case created successfully');
+              router.replace('/user/sessions');
+            } else {
+              toast.error('The user already has a case created');
+            }
+            setLoading(false);
+          }
+        },
+        prefill: {
+          name: 'Akash Pradhan',
+          email: 'akashpradhan@gmail.com',
+          contact: '9999999999',
+        },
+      };
+      const paymentObject = new (window as any).Razorpay(options);
+      paymentObject.open();
       setLoading(false);
-      return;
+    } catch (error) {
+      console.log(error);
     }
-    // creating a new order
-    const result = await fetch(`/api/payment`, {
-      method: 'POST',
-      body: JSON.stringify({
-        amount: total,
+  };
+
+  const createPaymentAndOrder = async () => {
+    try {
+      const payload = {
+        case_id: '23e5df1a-4ccd-463c-9b6a-24791cbfb11a',
         currency: 'INR',
-        receipt: 'order_rcpt_' + Date.now(),
-        payment_capture: 1,
-      }),
-    });
+        amount: 100,
+        created_by: userId,
+      };
+      const data = await api.savePaymentTransaction(payload);
 
-    const data = await result.json();
-    if (!data) {
-      setLoading(false);
-      alert('Server error. Are you online?');
-      return;
-    }
-    // Getting the order details back
-    // const { amount, id: order_id, currency } = data.data;
-
-    var options = {
-      key: data.rozerpayKey, // Enter the Key ID generated from the Dashboard
-      name: 'Next.care',
-      currency: data.currency,
-      amount: data.amount,
-      order_id: data.id,
-      description: 'Thank you for shopping with us',
-      handler: async function (response: any) {
-        if (response) {
-          const payload = {
-            session_id: sessionId,
-            user_id: userId,
-            question_answers: [answers],
-          };
-          const data = await api.saveQuestionnaire(payload);
-
-          const imageArray =
-            uploadImages?.map((file: File) => COMMON.IMAGE_URL + '/' + file) ||
-            [];
-          let images = '';
-          if (imageArray) {
-            images = imageArray.join(',');
-          }
-          const createCasePayload = {
-            patient_id: userId,
-            image_path: images,
-          };
-
-          const res = await api.createCase(createCasePayload);
-          if (res && res.status === 200) {
-            removeLocalStorage('keyCriteria');
-            toast.success(res.message || 'Case created successfully');
-            router.replace('/user/sessions');
-          } else {
-            toast.error('The user already has a case created');
-          }
-          setLoading(false);
+      if (data && data.status === '200' && data.order_id) {
+        const createOrder = await api.createOrder({
+          amount: String(payload.amount),
+          order_id: data.order_id,
+        });
+        if (createOrder) {
+          return createOrder;
+        } else {
+          toast.error('Order creation failed');
         }
-      },
-      prefill: {
-        name: 'Akash Pradhan',
-        email: 'akashpradhan@gmail.com',
-        contact: '9999999999',
-      },
-    };
-    const paymentObject = new (window as any).Razorpay(options);
-    paymentObject.open();
-    setLoading(false);
+      } else {
+        toast.error('Payment transaction already created');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleApplyCoupon = async () => {

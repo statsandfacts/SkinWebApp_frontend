@@ -41,7 +41,7 @@ export default function EmblaCarousel() {
         <div className='embla__container'>
           <div className='embla__slide'>
             <div className='flex flex-col grow py-0.5 max-md:mt-10 px-10'>
-              <div className='w-full flex'>
+              <div className='w-full flex justify-center items-center'>
                 <Image
                   loading='lazy'
                   src='/images/review1.png'
@@ -52,11 +52,11 @@ export default function EmblaCarousel() {
                 />
               </div>
               <div className='flex gap-4 mt-5'>
-                <div className='flex flex-col grow shrink-0 text-sm basis-0 w-fit'>
+                <div className='flex flex-col grow shrink-0 text-sm basis-0 w-fit items-center'>
                   <div className='font-bold text-gray-800 whitespace-nowrap leading-[143%]'>
                     Aditi
                   </div>
-                  <div className='mt-1 leading-5 text-zinc-800'>
+                  <div className='mt-1 leading-5 text-zinc-800 w-1/2 '>
                     This powerful serum visibly reduced my fine lines and
                     wrinkles within a few weeks. However, it can be drying, so a
                     good moisturizer is essential. Also, be sure to wear
@@ -69,7 +69,7 @@ export default function EmblaCarousel() {
           </div>
           <div className='embla__slide'>
             <div className='flex flex-col grow py-0.5 max-md:mt-10 px-10'>
-              <div className='w-full flex'>
+              <div className='w-full flex justify-center items-center'>
                 <Image
                   loading='lazy'
                   src='/images/review2.png'
@@ -80,11 +80,11 @@ export default function EmblaCarousel() {
                 />
               </div>
               <div className='flex gap-4 mt-5'>
-                <div className='flex flex-col grow shrink-0 text-sm basis-0 w-fit'>
+                <div className='flex flex-col grow shrink-0 text-sm basis-0 w-fit items-center'>
                   <div className='font-bold text-gray-800 whitespace-nowrap leading-[143%]'>
                     Shivani
                   </div>
-                  <div className='mt-1 leading-5 text-zinc-800'>
+                  <div className='mt-1 leading-5 text-zinc-800 w-1/2'>
                     This fragrance-free cleanser is a dream for sensitive skin.
                     It removes makeup without irritation and leaves my face
                     feeling clean and soft. However, for those with oily skin,
@@ -96,7 +96,7 @@ export default function EmblaCarousel() {
           </div>
           <div className='embla__slide'>
             <div className='flex flex-col grow py-0.5 max-md:mt-10 px-10'>
-              <div className='w-full flex'>
+              <div className='w-full flex justify-center items-center'>
                 <Image
                   loading='lazy'
                   src='/images/review3.png'
@@ -107,11 +107,11 @@ export default function EmblaCarousel() {
                 />
               </div>
               <div className='flex gap-4 mt-5'>
-                <div className='flex flex-col grow shrink-0 text-sm basis-0 w-fit'>
+                <div className='flex flex-col grow shrink-0 text-sm basis-0 w-fit items-center'>
                   <div className='font-bold text-gray-800 whitespace-nowrap leading-[143%]'>
                     Shakshi
                   </div>
-                  <div className='mt-1 leading-5 text-zinc-800'>
+                  <div className='mt-1 leading-5 text-zinc-800 w-1/2'>
                     I use this mask once a week for a brighter, more even
                     complexion. It tingles slightly, but that subsides quickly.
                     The results are noticeable, but temporary. 4 out of 5 stars

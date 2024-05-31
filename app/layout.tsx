@@ -14,10 +14,11 @@ export const metadata: Metadata = {
     template: `%s - ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  keywords: siteConfig.keywords,
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
+    icon: '/favicon/favicon.ico',
+    shortcut: '/favicon/favicon-16x16.png',
+    apple: '/favicon/apple-touch-icon.png',
   },
 };
 

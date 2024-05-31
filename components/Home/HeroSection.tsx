@@ -16,8 +16,13 @@ const HeroSection = (props: Props) => {
                 <div className='text-6xl font-bold text-purple-900 uppercase leading-[64px] max-md:max-w-full max-md:text-4xl max-md:leading-[51px]'>
                   An unique approach to skin care
                 </div>
-                <div className='self-center mt-4 text-3xl text-white'>
-                  AI-based skin care that’s tailored to you
+                <div className='self-center mt-4 text-3xl text-white font-semibold'>
+                  Prescription based
+                  <span className='font-bold text-[#ff7043] uppercase'>
+                    {' '}
+                    Skincare{' '}
+                  </span>
+                  at your fingertip
                 </div>
               </div>
               <ClientButton

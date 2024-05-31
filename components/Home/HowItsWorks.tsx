@@ -66,10 +66,10 @@ const HowItsWorks = () => {
             />
             <div className='mt-4 text-xl text-center font-semibold'>Step 4</div>
             <div className='self-stretch text-center mt-1 text-sm'>
-              Personalised prescription
+              Get your Prescription
             </div>
           </div>
-          <div className='flex flex-col items-center'>
+          {/* <div className='flex flex-col items-center'>
             <Image
               loading='lazy'
               src='/images/step-5.png'
@@ -84,7 +84,7 @@ const HowItsWorks = () => {
             <div className='self-stretch  text-center mt-1 text-sm'>
               Recommend skin care products
             </div>
-          </div>
+          </div> */}
         </div>
 
         <Link

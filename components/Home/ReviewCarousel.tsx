@@ -41,7 +41,7 @@ const ReviewCarousel = () => {
       <div className='embla' ref={emblaRef}>
         <div className='embla__container'>
           <div className='embla__slide'>
-            <div className='flex flex-wrap -m-4'>
+            <div className='flex flex-wrap justify-center items-center -m-4'>
               <div className='p-4 md:w-1/2 w-full'>
                 <div className='h-full p-8 rounded'>
                   <svg
@@ -74,7 +74,7 @@ const ReviewCarousel = () => {
             </div>
           </div>
           <div className='embla__slide'>
-            <div className='flex flex-wrap -m-4'>
+            <div className='flex flex-wrap justify-center items-center -m-4'>
               <div className='p-4 md:w-1/2 w-full'>
                 <div className='h-full p-8 rounded'>
                   <svg
@@ -107,7 +107,7 @@ const ReviewCarousel = () => {
             </div>
           </div>
           <div className='embla__slide'>
-            <div className='flex flex-wrap -m-4'>
+            <div className='flex flex-wrap justify-center items-center -m-4'>
               <div className='p-4 md:w-1/2 w-full'>
                 <div className='h-full p-8 rounded'>
                   <svg
@@ -140,7 +140,7 @@ const ReviewCarousel = () => {
             </div>
           </div>
           <div className='embla__slide'>
-            <div className='flex flex-wrap -m-4'>
+            <div className='flex flex-wrap justify-center items-center -m-4'>
               <div className='p-4 md:w-1/2 w-full'>
                 <div className='h-full p-8 rounded'>
                   <svg
@@ -173,7 +173,7 @@ const ReviewCarousel = () => {
             </div>
           </div>
           <div className='embla__slide'>
-            <div className='flex flex-wrap -m-4'>
+            <div className='flex flex-wrap justify-center items-center -m-4'>
               <div className='p-4 md:w-1/2 w-full'>
                 <div className='h-full p-8 rounded'>
                   <svg

@@ -291,3 +291,67 @@ export const generateOtp = async (payload: otpPayload) => {
     console.log(error);
   }
 };
+
+// payment
+
+export const savePaymentTransaction = async (payload: any) => {
+  try {
+    const { data } = await axios.post(
+      baseUrl + 'case/transaction/save-patient-transaction',
+      payload,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const createOrder = async (payload: any) => {
+  try {
+    const { data } = await axios.post(baseUrl + 'case/create-order', payload, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const verifyPayment = async (payload: any) => {
+  try {
+    const { data } = await axios.post(
+      baseUrl + 'case/transaction/verify-patient-transaction',
+      payload,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updatePaymentTransaction = async (payload: any) => {
+  try {
+    const { data } = await axios.post(
+      baseUrl + 'case/transaction/verify-patient-transaction',
+      payload,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

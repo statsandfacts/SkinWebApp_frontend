@@ -12,14 +12,22 @@ const Footer = (props: Props) => {
         <div className='flex flex-col px-16 pb-10 mt-10 w-full bg-white max-md:px-5 max-md:mt-10 max-md:max-w-full'>
           <div className='flex gap-5 justify-between mx-5 max-md:flex-wrap max-md:mr-2.5 max-md:max-w-full'>
             <div className='flex flex-col'>
-              <div className='text-2xl font-bold text-green-500'>
-                NEXT<span className='text-green-500'>.</span>CARE
+              <div className='text-xl text-gray-500'>
+                <div className='flex justify-center items-end'>
+                  <Image
+                    src='/logo.svg'
+                    width={100}
+                    height={100}
+                    alt='nextcare logo'
+                  />
+                  <span className='text-gray-500'>beta</span>
+                </div>
               </div>
               <div className='flex gap-2 mt-8 whitespace-nowrap'>
                 <div className='my-auto text-xs font-medium text-stone-500'>
                   Email
                 </div>
-                <div className='flex-auto text-base text-stone-900'>
+                <div className='flex-auto  text-xs font-medium text-stone-700'>
                   contact@statsandfacts.in
                 </div>
               </div>
@@ -27,7 +35,7 @@ const Footer = (props: Props) => {
                 <div className='my-auto text-xs font-medium text-stone-500'>
                   Phone
                 </div>
-                <div className='grow text-base text-stone-900'>
+                <div className='grow  text-xs font-medium text-stone-700'>
                   (+91) 91244 26966
                 </div>
               </div>
@@ -35,22 +43,22 @@ const Footer = (props: Props) => {
                 <div className='self-stretch my-auto text-xs font-medium text-stone-500'>
                   Follow us on
                 </div>
-                <div className='flex items-center'>
+                <div className='flex items-center gap-3'>
                   <Link
                     href='https://www.instagram.com/nextcare.life?igsh=MTdkMjg5M2s2NmRobA%3D%3D&utm_source=qr'
                     className=''>
                     <Image
                       src={'/instagram.svg'}
-                      height={30}
-                      width={30}
+                      height={20}
+                      width={20}
                       alt='instagram'
                     />
                   </Link>
                   <Link href='https://www.linkedin.com/company/nextcare-life/'>
                     <Image
                       src={'/linkedin.svg'}
-                      height={30}
-                      width={30}
+                      height={20}
+                      width={20}
                       alt='facebook'
                     />
                   </Link>
@@ -58,8 +66,8 @@ const Footer = (props: Props) => {
                   <Link href='https://twitter.com/NextcareLife'>
                     <Image
                       src={'/twitter.svg'}
-                      height={30}
-                      width={30}
+                      height={20}
+                      width={20}
                       alt='twitter'
                     />
                   </Link>
@@ -125,7 +133,7 @@ const Footer = (props: Props) => {
               Copyright © {new Date().getFullYear()} Next.Care. All rights
               reserved.
             </div>
-            <div className='flex gap-2 pb-1.5 text-xs whitespace-nowrap'>
+            <div className='flex flex-wrap gap-2 pb-1.5 text-xs whitespace-nowrap'>
               <Link
                 href={'/policy/terms-and-condition'}
                 className='grow justify-center px-2 py-1.5 border border-solid border-black border-opacity-0'>
