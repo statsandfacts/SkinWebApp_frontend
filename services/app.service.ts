@@ -276,7 +276,7 @@ export const getCaseDetails = async (caseId: any) => {
 
 type otpPayload = {
   phone_number: string;
-  email_id: string;
+  // email_id: string;
 };
 
 export const generateOtp = async (payload: otpPayload) => {
