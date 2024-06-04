@@ -78,7 +78,7 @@ const Checkout = () => {
 
       var options = {
         key: 'rzp_test_EYyf1YAwk7kO7r', // Enter the Key ID generated from the Dashboard
-        name: 'Next.care',
+        name: 'Next Care',
         currency: orderDetails.currency,
         amount: orderDetails.amount,
         order_id: orderDetails.id,

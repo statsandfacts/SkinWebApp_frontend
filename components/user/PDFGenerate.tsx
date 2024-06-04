@@ -1,6 +1,8 @@
 'use client';
+import { COMMON } from '@/config/const';
 import { GlobeAltIcon, InboxIcon, PhoneIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const PDFGenerate = ({ data, componentRef }: any) => {
@@ -111,7 +113,7 @@ const PDFGenerate = ({ data, componentRef }: any) => {
           <div className='flex flex-col gap-2 px-5'>
             <div className='p-2 flex gap-2 items-center'>
               <Image src='/NClogo.png' alt='logo' width={40} height={40} />
-              <span>Next.care</span>
+              <Link href={COMMON.APP_URL}>{COMMON.APP_NAME}</Link>
             </div>
             <div className='p-2 flex gap-2'>
               <InboxIcon className='w-6' />

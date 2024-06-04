@@ -59,7 +59,7 @@ const LoginModal = ({ isCloseIcon }: { isCloseIcon?: boolean }) => {
   });
   return (
     <>
-      <Drawer title='Sign-in to Next.care' isCloseIcon={isCloseIcon}>
+      <Drawer title='Sign-in to nextcare.life' isCloseIcon={isCloseIcon}>
         <div className='flex flex-col gap-5 mt-5 w-full'>
           <InputField
             onChange={formik.handleChange}

@@ -1,3 +1,4 @@
+import { COMMON } from '@/config/const';
 import { CreditCardIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -83,7 +84,7 @@ const Footer = (props: Props) => {
                   Shop Products
                 </Link>
                 <Link href={'/coming-soon'} className='mt-4 whitespace-nowrap'>
-                  Why Next.Care
+                  Why {COMMON.APP_NAME}
                 </Link>
                 <Link
                   href={'/how-it-works'}
@@ -130,8 +131,11 @@ const Footer = (props: Props) => {
         <div className='flex flex-col justify-center px-16 py-6 w-full bg-white text-stone-900 max-md:px-5 max-md:max-w-full'>
           <div className='flex flex-wrap gap-5 justify-between mx-5 max-md:flex-wrap max-md:mr-2.5 max-md:max-w-full'>
             <div className='flex-auto my-auto text-sm'>
-              Copyright © {new Date().getFullYear()} Next.Care. All rights
-              reserved.
+              Copyright © {new Date().getFullYear()}
+              <Link href={COMMON.APP_URL} className='capitalize text-blue-500'>
+                {' '}
+                {COMMON.APP_NAME}
+              </Link>
             </div>
             <div className='flex flex-wrap gap-2 pb-1.5 text-xs whitespace-nowrap'>
               <Link

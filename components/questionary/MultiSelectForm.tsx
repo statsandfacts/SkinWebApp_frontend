@@ -142,13 +142,9 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
     dispatch(setPhotoUploadEnable(true));
   };
 
-  const handleQuestionSelect = (e: any, question: any) => {
-    const { value } = e.target;
-    const id = question?.question_id;
-
-    dispatch(setAnswers({ id, value }));
+  const handleQuestionSelect = (value: any, id: any) => {
+    dispatch(setAnswers({ value, id })); // Destructuring for clarity
     dispatch(setDisableNext(false));
-    // dispatch(increaseStep());
   };
 
   const handleCheckboxChange = (value: any, id: string) => {
@@ -201,7 +197,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
                                 base: 'w-full',
                               }}
                               value={selectedValues}
-                              onChange={(value) =>
+                              onValueChange={(value) =>
                                 handleCheckboxChange(
                                   value,
                                   question?.question_id
@@ -219,15 +215,21 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
                           </>
                         ) : (
                           <RadioGroup
-                            onChange={(e) => handleQuestionSelect(e, question)}
-                            value={answers[question.question_id]}
+                            onValueChange={(value) =>
+                              handleQuestionSelect(value, question.question_id)
+                            }
+                            value={
+                              answers[question.question_id]
+                                ? answers[question.question_id]
+                                : ''
+                            }
                             name={question.question_id}
                             className='w-full text-black'>
                             {question.allowed_values.map((option: any) => (
                               <CustomRadio
+                                key={option} // Key optimization
                                 name={option}
-                                value={option}
-                                key={option}>
+                                value={option}>
                                 {option}
                               </CustomRadio>
                             ))}
