@@ -12,6 +12,7 @@ import Loader from '../Loader';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { deleteImages, uploadImages } from '@/redux/slices/questionary.slice';
+import ImageUpload from './ImageUpload';
 
 // const S3_BUCKET = 'nextcare.life'; // Replace with your bucket name
 // const REGION = 'us-east-2'; // Replace with your region
@@ -120,13 +121,16 @@ const Photo = () => {
 
   return (
     <div>
-      {uploading && <Loader />}
-      <FileUpload
+      {/* {uploading && <Loader />} */}
+      {/* <FileUpload
         accept='.jpg,.png,.jpeg'
         label='Profile Image(s)'
         multiple
         updateFilesCb={updateUploadedFiles}
-      />
+      /> */}
+      <div className='flex flex-col bg-white w-full h-fit p-8 rounded-lg'>
+        <ImageUpload />
+      </div>
       {/* <button onClick={createCase}>submit</button> */}
     </div>
   );

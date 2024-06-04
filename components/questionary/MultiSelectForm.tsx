@@ -168,6 +168,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
     if (currentStep === 1 && !userId) {
       dispatch(setLoginModal(true));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentStep]);
 
   return (
