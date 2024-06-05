@@ -9,7 +9,14 @@ import { toast } from 'react-toastify';
 import * as api from '@/services/app.service';
 import { removeLocalStorage } from '@/utils/localStore';
 import { useRouter } from 'next/navigation';
-import { Chip } from '@nextui-org/react';
+import {
+  Chip,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+} from '@nextui-org/react';
 import { CheckCircleIcon, CheckIcon } from '@heroicons/react/24/solid';
 import {
   AtSymbolIcon,
@@ -18,6 +25,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import Link from 'next/link';
 
 const Checkout = () => {
   const router = useRouter();
@@ -28,7 +36,7 @@ const Checkout = () => {
   const [loading, setLoading] = useState(false);
   const [coupon, setCoupon] = useState('');
   const [isCouponApplied, setIsCouponApplied] = useState(false);
-
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
   const { answers, uploadImages } = useSelector(
     (state: any) => state.questionary
   );
@@ -83,7 +91,6 @@ const Checkout = () => {
       if (!orderDetails) {
         throw new Error('Failed to create payment and order.');
       }
-
       const res = await initializeRazorpay();
       if (!res) {
         throw new Error('Failed to initialize Razorpay.');
@@ -98,7 +105,7 @@ const Checkout = () => {
         description: 'Thank you for shopping with us',
         handler: async (response: any) => {
           try {
-            if (!response) {
+            if (!response || !response.razorpay_payment_id) {
               throw new Error('Payment response is empty.');
             }
 
@@ -109,10 +116,10 @@ const Checkout = () => {
             };
             const verify = await api.verifyPayment(verifyPayload);
 
-            if (verify?.status === 200) {
+            if (verify && verify?.status === '200') {
               toast.success('Payment Successful');
             } else {
-              throw new Error('Payment verification failed.');
+              toast.error('Payment Failed');
             }
 
             const payload = {
@@ -120,27 +127,19 @@ const Checkout = () => {
               user_id: userId,
               question_answers: [answers],
             };
-            await api.saveQuestionnaire(payload);
-
-            const imageArray =
-              uploadImages?.map(
-                (file: File) => COMMON.IMAGE_URL + '/' + file
-              ) || [];
-            const images = imageArray.join(',');
-
-            const createCasePayload = {
-              patient_id: userId,
-              image_path: images,
-            };
-
-            const res = await api.createCase(createCasePayload);
-            if (res?.status === 200) {
-              removeLocalStorage('keyCriteria');
-              toast.success(res.message || 'Case created successfully');
-              router.replace('/user/sessions');
-            } else {
-              toast.error('The user already has a case created');
+            try {
+              const res = await api.saveQuestionnaire(payload);
+              if (res) {
+                removeLocalStorage('keyCriteria');
+                setPaymentSuccess(true);
+              } else {
+                throw new Error('Failed to save questionnaire');
+              }
+            } catch (error: any) {
+              toast.error(error.message);
             }
+
+            //end
           } catch (error: any) {
             toast.error(error.message);
           } finally {
@@ -420,9 +419,58 @@ const Checkout = () => {
             )}
           </div>
         </section>
+        <SuccessModal openModal={paymentSuccess} />
       </div>
     </>
   );
 };
 
 export default Checkout;
+
+function SuccessModal({ openModal }: { openModal: boolean }) {
+  return (
+    <>
+      <Modal
+        isOpen={openModal}
+        placement='bottom-center'
+        hideCloseButton={true}
+        backdrop={'blur'}>
+        <ModalContent>
+          <>
+            <ModalHeader className='flex flex-col gap-1 relative bg-green-100'>
+              <div className='w-full'></div>
+            </ModalHeader>
+            <ModalBody>
+              <div className='bg-white p-6  md:mx-auto'>
+                <svg
+                  viewBox='0 0 24 24'
+                  className='text-green-600 w-16 h-16 mx-auto my-6'>
+                  <path
+                    fill='currentColor'
+                    d='M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z'></path>
+                </svg>
+                <div className='text-center'>
+                  <h3 className='md:text-2xl text-base text-gray-900 font-semibold text-center'>
+                    Payment Done!
+                  </h3>
+                  <p className='text-gray-600 my-2'>
+                    Thank you for completing your secure online payment.
+                  </p>
+                  <p> Have a great day! </p>
+                  <div className='py-10 text-center'>
+                    <Link
+                      href='/user/sessions'
+                      className='px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3'>
+                      Check Order
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </ModalBody>
+            <ModalFooter></ModalFooter>
+          </>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
