@@ -138,15 +138,21 @@ const SignupForm = () => {
 
             <Checkbox defaultSelected>
               <div className='text-sm '>
-                By Creating an account you agree to our{' '}
+                By Creating an account i agree to the{' '}
                 <a
                   href='/policy/terms-and-condition'
                   className='font-semibold hover:underline'>
                   Terms and Condition
                 </a>{' '}
-                and{' '}
+                ,{' '}
                 <a href='/policy' className='font-semibold hover:underline'>
                   Privacy Policy
+                </a>{' '}
+                and{' '}
+                <a
+                  href='/policy/refund-cancellation'
+                  className='font-semibold hover:underline'>
+                  Refund Policy
                 </a>
                 .
               </div>
