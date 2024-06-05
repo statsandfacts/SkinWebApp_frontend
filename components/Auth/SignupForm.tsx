@@ -48,8 +48,12 @@ const SignupForm = () => {
     validateOnChange: false,
     validationSchema: Yup.object().shape({
       ...(currentStep === 1 && {
-        first_name: Yup.string().required('First Name Required'),
-        last_name: Yup.string().required('Last Name Required'),
+        first_name: Yup.string()
+          .required('First Name Required')
+          .matches(/^[a-zA-Z]+$/, 'Special characters are not allowed'),
+        last_name: Yup.string()
+          .required('Last Name Required')
+          .matches(/^[a-zA-Z]+$/, 'Special characters are not allowed'),
       }),
       ...(currentStep === 2 && {
         email_id: Yup.string().email().required('Email Required'),
@@ -208,8 +212,10 @@ const SignupForm = () => {
             />
 
             <Select
-              placeholder='Select an gender'
               labelPlacement='outside'
+              aria-label='Select an gender'
+              label='Select an gender'
+              placeholder='Select an gender'
               className='w-full '
               size='lg'
               radius='sm'
@@ -272,6 +278,7 @@ const SignupForm = () => {
   };
 
   const handleBackStep = () => {
+    setVerify(false);
     setCurrentStep(currentStep - 1);
   };
 
@@ -281,13 +288,29 @@ const SignupForm = () => {
   /**
    * Otp modal open functions
    */
-  const openOtpModal = () => {
-    formik.validateForm().then((v) => {
-      if (v && Object.keys(v).length > 0) {
+  const openOtpModal = async () => {
+    // first check verify user is true or not
+    try {
+      const payload = {
+        email: formik.values.email_id,
+        phone_number: formik.values.phone_number,
+      };
+
+      const res = await api.verifyUser(payload);
+      if (!res) {
+        toast.error('User already exists');
         return;
       }
-      setOpenModal(true);
-    });
+      formik.validateForm().then((v) => {
+        if (v && Object.keys(v).length > 0) {
+          return;
+        }
+        setOpenModal(true);
+      });
+    } catch (error) {
+      toast.error('User already exists');
+      console.log(error);
+    }
   };
 
   const onClose = () => {
@@ -451,6 +474,12 @@ const OTPModal = ({
   const handleClose = () => {
     setIsSetOtp(false);
     setIsOtpLoading(false);
+    // reset formik
+    formik.resetForm({
+      values: {
+        otp: '',
+      },
+    });
     onClose();
   };
 

@@ -31,11 +31,14 @@ const CaseReport = ({ id }: { id: string }) => {
     data && id && userId ? ['/case/questions', ques_ids] : null,
     () => api.getQuestionary({ question_ids: ques_ids })
   );
+
+  console.log(questions);
+
   // question ans mapping
   const ansQuestions: any = [];
   quesionsIds &&
     Object.entries(quesionsIds).forEach(([key, value]: any) => {
-      getQuestionTypeAndValue(key, value, questions?.question_details);
+      getQuestionTypeAndValue(key, value, questions?.questions);
     });
 
   function getQuestionTypeAndValue(
@@ -48,7 +51,7 @@ const CaseReport = ({ id }: { id: string }) => {
       return null; // Question not found
     }
     const ans = {
-      question_label: question?.question_type,
+      question_label: question?.question_name,
       value: userAnswers,
     };
     ansQuestions.push(ans);
@@ -118,15 +121,15 @@ const CaseReport = ({ id }: { id: string }) => {
               </div>
 
               {/* Answers */}
-              <div className='mt-5'>
+              {/* <div className='mt-5 max-w-2xl'>
                 <div className='relative overflow-x-auto'>
                   <table className='w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"'>
                     <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
                       <tr>
-                        <th scope='col' className='px-6 py-3'>
+                        <th scope='col' className='px-6 py-3 w-1/2'>
                           Questions
                         </th>
-                        <th scope='col' className='px-6 py-3'>
+                        <th scope='col' className='px-6 py-3 w-1/2'>
                           Answers
                         </th>
                       </tr>
@@ -152,7 +155,7 @@ const CaseReport = ({ id }: { id: string }) => {
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </div> */}
             </>
           )}
         </>

@@ -158,9 +158,9 @@ const EditUser = () => {
         />
 
         <Select
-          placeholder='Select an gender'
           labelPlacement='outside'
           aria-label='Select an gender'
+          label='Select an gender'
           className='w-full '
           size='lg'
           radius='sm'
@@ -173,35 +173,6 @@ const EditUser = () => {
             </SelectItem>
           ))}
         </Select>
-
-        {/* <InputField
-          onChange={formik.handleChange}
-          value={formik.values.password}
-          type='password'
-          name='password'
-          placeholder='Password'
-          error={
-            formik.errors.password && formik.touched.password
-              ? formik.errors.password
-              : null
-          }
-          onBlur={formik.handleBlur}
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-        />
-        <InputField
-          onChange={formik.handleChange}
-          value={formik.values.confirmPassword}
-          type='password'
-          name='confirmPassword'
-          placeholder='Confirm Password'
-          error={
-            formik.errors.confirmPassword && formik.touched.confirmPassword
-              ? formik.errors.confirmPassword
-              : null
-          }
-          onBlur={formik.handleBlur}
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-        /> */}
 
         <Button
           isLoading={isLoading}

@@ -355,3 +355,20 @@ export const updatePaymentTransaction = async (payload: any) => {
     console.log(error);
   }
 };
+
+export const verifyUser = async (payload: any) => {
+  try {
+    const { data } = await axios.get(
+      baseUrl +
+        `users/verify-existing-user?phone_number=${payload.phone_number}&email=${payload.email}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

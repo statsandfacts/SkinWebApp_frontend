@@ -73,7 +73,7 @@ function InputBox({ question }: any) {
       [name]: value,
     });
 
-    if (value.length > 3) {
+    if (value.length > 1) {
       dispatch(setDisableNext(false));
     } else {
       dispatch(setDisableNext(true));

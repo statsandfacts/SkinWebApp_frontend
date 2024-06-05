@@ -32,50 +32,6 @@ const SessionList = () => {
       ) : (
         <>
           <div className='my-5'>
-            {/* {data?.cases?.map((item: any, index: number) => (
-              <Link
-                key={item.case_id}
-                href={`/user/sessions/${item?.case_id}`}
-                className='mt-3'>
-                <div className='flex flex-wrap gap-4 items-center justify-between border-y p-3 cursor-pointer'>
-                  <div>
-                    <span className='text-sm font-bold text-gray-500'>
-                      {index + 1}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span className='text-sm border-r px-2'>
-                      {item?.diseases}
-                    </span>
-                  </div>
-
-                  <div className='text-sm'>
-                    {item?.doctor_name || 'Not assigned'}
-                  </div>
-                  <div className='text-sm'>{item?.created_date}</div>
-                  <div className='flex flex-col gap-2'>
-                    {item?.case_status.toLowerCase() === 'in progress' ? (
-                      <>
-                        <div>
-                          <span className='text-sm text-green-500'>
-                            {item?.case_status}
-                          </span>
-                        </div>
-                      </>
-                    ) : (
-                      <div
-                        onClick={(e) => prescription(e, item?.case_id)}
-                        // href={`/user/sessions/prescription/${item?.case_id}`}
-                        className='flex justify-between items-center gap-2 p-2 bg-transparent border border-gray-300 text-gray-700 rounded-full'>
-                        <ArrowDownTrayIcon className='w-4' /> Prescription
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </Link>
-            ))} */}
-
             <div className='flex flex-col'>
               <div className='overflow-x-auto sm:-mx-6 lg:-mx-8'>
                 <div className='inline-block min-w-full py-2 sm:px-6 lg:px-8'>

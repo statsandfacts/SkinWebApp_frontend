@@ -59,6 +59,16 @@ const PDFGenerate = ({ data, componentRef }: any) => {
                   <th
                     scope='col'
                     className='px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-[#ffd6c5]'>
+                    Drug
+                  </th>
+                  <th
+                    scope='col'
+                    className='px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-[#ffd6c5]'>
+                    Company
+                  </th>
+                  <th
+                    scope='col'
+                    className='px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white border-2 border-[#ffd6c5]'>
                     Remarks
                   </th>
                 </tr>
@@ -76,6 +86,12 @@ const PDFGenerate = ({ data, componentRef }: any) => {
                     </td>
                     <td className='px-6 py-4 border-2 border-[#ffd6c5]'>
                       {med?.dosage}
+                    </td>
+                    <td className='px-6 py-4 border-2 border-[#ffd6c5]'>
+                      {med?.drug}
+                    </td>
+                    <td className='px-6 py-4 border-2 border-[#ffd6c5]'>
+                      {med?.company}
                     </td>
                     <td className='px-6 py-4 border-2 border-[#ffd6c5]'>
                       {med?.insights}
