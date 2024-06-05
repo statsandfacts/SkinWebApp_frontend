@@ -92,7 +92,9 @@ const LoginForm = () => {
         />
 
         <div className='flex justify-between items-center gap-5'>
-          <Link href={'/auth/signup'} className='text-blue-950 '>
+          <Link
+            href={'/auth/signup'}
+            className='text-blue-950 font-semibold text-sm'>
             Don&apos;t have an account?{' '}
             <span className='font-bold'>Create Account</span>
           </Link>
@@ -105,7 +107,7 @@ const LoginForm = () => {
           Login
         </Button>
       </form>
-      <div className='flex flex-col gap-5 w-full max-w-md '>
+      {/* <div className='flex flex-col gap-5 w-full max-w-md '>
         <div className='flex items-center justify-center'>
           <hr className='w-full border-1 border-gray-400' />
           <span className='text-sm font-medium text-black p-2'>OR</span>
@@ -114,7 +116,7 @@ const LoginForm = () => {
         <div className='flex justify-center'>
           <Button className='w-10 h-10 '>Google</Button>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

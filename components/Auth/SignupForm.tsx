@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
+  Checkbox,
   Modal,
   ModalBody,
   ModalContent,
@@ -134,6 +135,22 @@ const SignupForm = () => {
               onBlur={formik.handleBlur}
               className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
             />
+
+            <Checkbox defaultSelected>
+              <div className='text-sm '>
+                By Creating an account you agree to our{' '}
+                <a
+                  href='/policy/terms-and-condition'
+                  className='font-semibold hover:underline'>
+                  Terms and Condition
+                </a>{' '}
+                and{' '}
+                <a href='/policy' className='font-semibold hover:underline'>
+                  Privacy Policy
+                </a>
+                .
+              </div>
+            </Checkbox>
           </>
         );
       case 2:
@@ -286,15 +303,17 @@ const SignupForm = () => {
 
         {currentStep < 4 && ( // Show buttons only for steps before the last one
           <div className='flex justify-end gap-2'>
-            <Button
-              type='button'
-              disabled={currentStep === 1}
-              onClick={handleBackStep}
-              color='primary'
-              className='grow justify-center px-5 py-2.5 text-white bg-black
+            {currentStep !== 1 && (
+              <Button
+                type='button'
+                disabled={currentStep === 1}
+                onClick={handleBackStep}
+                color='primary'
+                className='grow justify-center px-5 py-2.5 text-white bg-black
                       rounded-[96.709px] disabled:bg-gray-600'>
-              Back
-            </Button>
+                Back
+              </Button>
+            )}
 
             {currentStep == 2 && !verify ? (
               <Button
@@ -337,6 +356,14 @@ const SignupForm = () => {
               Submit
             </Button>
           </div>
+        )}
+
+        {currentStep === 1 && (
+          <Link
+            href={'/auth/login'}
+            className='flex justify-end gap-2 font-semibold text-sm'>
+            Already have an account?{' '}
+          </Link>
         )}
       </form>
 
