@@ -3,7 +3,7 @@ import { COMMON } from '@/config/const';
 import { useUser } from '@/context/UserContext';
 import { initializeRazorpay } from '@/utils/rozerpay';
 import { Button } from '@nextui-org/button';
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as api from '@/services/app.service';
@@ -11,82 +11,97 @@ import { removeLocalStorage } from '@/utils/localStore';
 import { useRouter } from 'next/navigation';
 import { Chip } from '@nextui-org/react';
 import { CheckCircleIcon, CheckIcon } from '@heroicons/react/24/solid';
+import {
+  AtSymbolIcon,
+  IdentificationIcon,
+  PhoneIcon,
+} from '@heroicons/react/24/outline';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const Checkout = () => {
   const router = useRouter();
   const { user: userId, userSession: sessionId } = useUser();
-
-  const amount = {
-    charges: 200,
-    tax: 10,
-    platform_fee: 10,
-  };
 
   const [total, setTotal] = useState(0);
   const [offerAmount, setOfferAmount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [coupon, setCoupon] = useState('');
   const [isCouponApplied, setIsCouponApplied] = useState(false);
+
   const { answers, uploadImages } = useSelector(
     (state: any) => state.questionary
   );
 
-  useMemo(() => {
-    const total = amount.charges + amount.tax + amount.platform_fee;
-    setTotal(total - offerAmount);
-  }, [offerAmount]);
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      phone: '',
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required('Name is required'),
+      email: Yup.string()
+        .email('Invalid email address')
+        .required('Email is required'),
+      phone: Yup.string()
+        .required('Phone is required')
+        .matches(/^[6-9]\d{9}$/, 'Phone number must be 10 digits'),
+    }),
 
-  const proceedPayment = () => {
-    if (!userId) {
-      toast.error('Please login first');
-      return;
+    onSubmit: async (values) => {
+      if (!userId) {
+        toast.error('Please login first');
+        return;
+      }
+      payment(values);
+    },
+  });
+
+  useEffect(() => {
+    const total =
+      COMMON.PAYMENT_DETAILS.amount +
+      COMMON.PAYMENT_DETAILS.gst +
+      COMMON.PAYMENT_DETAILS.platform_fee;
+
+    if (coupon && isCouponApplied) {
+      setTotal(total - offerAmount);
+    } else {
+      setTotal(total);
     }
-    payment();
-  };
+  }, [coupon, isCouponApplied, offerAmount]);
 
-  const payment = async () => {
+  const payment = async (paymentDetails: {
+    name: string;
+    email: string;
+    phone: string;
+  }) => {
     try {
       setLoading(true);
+
       const orderDetails = await createPaymentAndOrder();
+      if (!orderDetails) {
+        throw new Error('Failed to create payment and order.');
+      }
 
       const res = await initializeRazorpay();
       if (!res) {
-        alert('Something went wrong');
-        setLoading(false);
-        return;
+        throw new Error('Failed to initialize Razorpay.');
       }
 
-      // creating a new order
-      // const result = await fetch(`/api/payment`, {
-      //   method: 'POST',
-      //   body: JSON.stringify({
-      //     amount: total,
-      //     currency: 'INR',
-      //     receipt: 'order_rcpt_' + Date.now(),
-      //     payment_capture: 1,
-      //   }),
-      // });
-
-      // const data = await result.json();
-      if (!orderDetails) {
-        setLoading(false);
-        alert('Server error. Are you online?');
-        return;
-      }
-      // Getting the order details back
-      // const { amount, id: order_id, currency } = data.data;
-
-      var options = {
+      const options = {
         key: 'rzp_test_EYyf1YAwk7kO7r', // Enter the Key ID generated from the Dashboard
-        name: 'Next Care',
-        currency: orderDetails.currency,
+        name: COMMON.PAYMENT_DETAILS.name,
+        currency: COMMON.PAYMENT_DETAILS.currency,
         amount: orderDetails.amount,
         order_id: orderDetails.id,
         description: 'Thank you for shopping with us',
-        handler: async function (response: any) {
-          console.log(response);
+        handler: async (response: any) => {
+          try {
+            if (!response) {
+              throw new Error('Payment response is empty.');
+            }
 
-          if (response) {
             const verifyPayload = {
               order_id: response.razorpay_order_id,
               payment_id: response.razorpay_payment_id,
@@ -94,8 +109,10 @@ const Checkout = () => {
             };
             const verify = await api.verifyPayment(verifyPayload);
 
-            if (verify && verify.status === 200) {
+            if (verify?.status === 200) {
               toast.success('Payment Successful');
+            } else {
+              throw new Error('Payment verification failed.');
             }
 
             const payload = {
@@ -103,52 +120,67 @@ const Checkout = () => {
               user_id: userId,
               question_answers: [answers],
             };
-            const data = await api.saveQuestionnaire(payload);
+            await api.saveQuestionnaire(payload);
 
             const imageArray =
               uploadImages?.map(
                 (file: File) => COMMON.IMAGE_URL + '/' + file
               ) || [];
-            let images = '';
-            if (imageArray) {
-              images = imageArray.join(',');
-            }
+            const images = imageArray.join(',');
+
             const createCasePayload = {
               patient_id: userId,
               image_path: images,
             };
 
             const res = await api.createCase(createCasePayload);
-            if (res && res.status === 200) {
+            if (res?.status === 200) {
               removeLocalStorage('keyCriteria');
               toast.success(res.message || 'Case created successfully');
               router.replace('/user/sessions');
             } else {
               toast.error('The user already has a case created');
             }
+          } catch (error: any) {
+            toast.error(error.message);
+          } finally {
             setLoading(false);
           }
         },
         prefill: {
-          name: 'Akash Pradhan',
-          email: 'akashpradhan@gmail.com',
-          contact: '9999999999',
+          name: paymentDetails.name,
+          email: paymentDetails.email,
+          contact: paymentDetails.phone,
+        },
+        modal: {
+          ondismiss: () => {
+            toast.info('Payment process was cancelled by the user');
+            setLoading(false);
+          },
         },
       };
+
       const paymentObject = new (window as any).Razorpay(options);
       paymentObject.open();
+    } catch (error: any) {
+      toast.error(error.message);
+      console.error(error);
       setLoading(false);
-    } catch (error) {
-      console.log(error);
     }
   };
 
   const createPaymentAndOrder = async () => {
     try {
+      const crtCase = await createCase();
+      if (!crtCase && crtCase?.status !== 200) {
+        toast.error('Something went wrong while creating case');
+        return false;
+      }
+
       const payload = {
-        case_id: '23e5df1a-4ccd-463c-9b6a-24791cbfb11a',
+        case_id: crtCase.case_id,
         currency: 'INR',
-        amount: 100,
+        amount: total,
         created_by: userId,
       };
       const data = await api.savePaymentTransaction(payload);
@@ -168,6 +200,29 @@ const Checkout = () => {
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const createCase = async () => {
+    try {
+      const imageArray =
+        uploadImages?.map((file: File) => COMMON.IMAGE_URL + '/' + file) || [];
+
+      let images = '';
+      if (imageArray) {
+        images = imageArray.join(',');
+      }
+
+      const createCasePayload = {
+        patient_id: userId,
+        image_path: images,
+      };
+
+      const res = await api.createCase(createCasePayload);
+      return res;
+    } catch (error) {
+      console.log(error);
+      return false;
     }
   };
 
@@ -196,98 +251,176 @@ const Checkout = () => {
     <>
       <div className='rounded-md'>
         <section>
-          <h2 className='uppercase tracking-wide text-lg font-semibold text-black my-2'>
-            Order Summery
-          </h2>
+          <div className=' bg-gray-50 px-4 pt-8 lg:mt-0'>
+            <p className='text-xl font-medium'>Payment Details</p>
+            <p className='text-gray-400'>
+              Complete your order by providing your payment details.
+            </p>
+            <form className='' onSubmit={formik.handleSubmit}>
+              <div>
+                <label
+                  htmlFor='name'
+                  className='mt-4 mb-2 block text-sm font-medium'>
+                  Name
+                </label>
+                <div className='relative'>
+                  <input
+                    type='text'
+                    id='name'
+                    name='name'
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
+                    className='w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500'
+                    placeholder='your Name'
+                  />
+                  <div className='pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3'>
+                    <IdentificationIcon className='w-5 h-5 text-gray-400' />
+                  </div>
+                </div>
+                {formik.errors.name && (
+                  <small className='text-red-500'>{formik.errors.name}</small>
+                )}
+              </div>
 
-          <div className='flex flex-col justify-start items-start self-stretch flex-grow relative py-2 rounded-lg bg-black/5'>
-            <div className='flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative py-2 px-4 bg-white/0 hover:bg-white/5'>
-              <p className='flex-grow-0 flex-shrink-0 text-[13px] text-right text-black'>
-                Charges
-              </p>
-              <p className='flex-grow-0 flex-shrink-0 text-base font-normal text-left text-black'>
-                {COMMON.RUPEE + ' ' + amount.charges}
-              </p>
-            </div>
-            <div className='flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative py-2 px-4 bg-white/0 hover:bg-white/5'>
-              <p className='flex-grow-0 flex-shrink-0 text-[13px] text-right text-black'>
-                GST
-              </p>
-              <p className='flex-grow-0 flex-shrink-0 text-base font-normal text-left text-black'>
-                {COMMON.RUPEE + ' ' + amount.tax}
-              </p>
-            </div>
-            <div className='flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative py-2 px-4 bg-white/0 hover:bg-white/5'>
-              <p className='flex-grow-0 flex-shrink-0 text-[13px] text-right text-black'>
-                Platform Fee
-              </p>
-              <p className='flex-grow-0 flex-shrink-0 text-base font-normal text-left text-black'>
-                {COMMON.RUPEE + ' ' + amount.platform_fee}
-              </p>
-            </div>
+              <div>
+                <label
+                  htmlFor='email'
+                  className='mt-4 mb-2 block text-sm font-medium'>
+                  Email
+                </label>
+                <div className='relative'>
+                  <input
+                    type='text'
+                    id='email'
+                    name='email'
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    className='w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500'
+                    placeholder='your.email@gmail.com'
+                  />
+                  <div className='pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3'>
+                    <AtSymbolIcon className='w-5 h-5 text-gray-400' />
+                  </div>
+                </div>
+                {formik.errors.email && (
+                  <small className='text-red-500'>{formik.errors.email}</small>
+                )}
+              </div>
 
-            {coupon.length > 0 && offerAmount && isCouponApplied ? (
-              <div className='flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative py-2 px-4 bg-white/0 hover:bg-white/5'>
-                <p className='flex-grow-0 flex-shrink-0 text-[13px] text-right text-black'>
-                  Offer
+              <div>
+                <label
+                  htmlFor='phone'
+                  className='mt-4 mb-2 block text-sm font-medium'>
+                  Phone
+                </label>
+                <div className='relative'>
+                  <input
+                    type='text'
+                    id='phone'
+                    name='phone'
+                    value={formik.values.phone}
+                    onChange={formik.handleChange}
+                    className='w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500'
+                    placeholder='Phone'
+                  />
+                  <div className='pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3'>
+                    <PhoneIcon className='w-5 h-5 text-gray-400' />
+                  </div>
+                </div>
+                {formik.errors.phone && (
+                  <small className='text-red-500'>{formik.errors.phone}</small>
+                )}
+              </div>
+
+              <div className='mt-6 border-t border-b py-2'>
+                <div className='flex items-center justify-between'>
+                  <p className='text-sm font-medium text-gray-900'>Subtotal</p>
+                  <p className='font-semibold text-gray-900'>
+                    {COMMON.RUPEE + ' ' + COMMON.PAYMENT_DETAILS.amount}
+                  </p>
+                </div>
+                <div className='flex items-center justify-between mt-2'>
+                  <p className='text-sm font-medium text-gray-900'>GST</p>
+                  <p className='font-semibold text-gray-900'>
+                    {COMMON.RUPEE + ' ' + COMMON.PAYMENT_DETAILS.gst}
+                  </p>
+                </div>
+                {coupon.length > 0 && offerAmount && isCouponApplied ? (
+                  <div className='flex items-center justify-between mt-2'>
+                    <p className='text-sm font-medium text-gray-900'>Saving</p>
+                    <p className='font-semibold text-green-500'>
+                      -{COMMON.RUPEE + ' ' + offerAmount}
+                    </p>
+                  </div>
+                ) : (
+                  ''
+                )}
+              </div>
+
+              <div className='mt-6 flex items-center justify-between'>
+                <p className='text-sm font-medium text-gray-900'>Total</p>
+                <p className='text-2xl font-semibold text-gray-900'>
+                  {COMMON.RUPEE + ' ' + total}
                 </p>
-                <p className='flex-grow-0 flex-shrink-0 text-base font-normal text-left text-green-500'>
-                  -{COMMON.RUPEE + ' ' + offerAmount}
-                </p>
+              </div>
+
+              <Button
+                isLoading={loading}
+                type='submit'
+                className='mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white'>
+                Pay {COMMON.RUPEE + total}
+              </Button>
+            </form>
+          </div>
+          <div className=' bg-gray-50 px-4 mt-8 p-5'>
+            {isCouponApplied ? (
+              <div className='mt-0'>
+                <Chip
+                  startContent={
+                    <CheckCircleIcon className='h-4 w-4 text-green-500' />
+                  }
+                  variant='faded'
+                  onClose={removeCoupon}>
+                  <span className='text-green-500'>Welcome Offer</span>
+                </Chip>
               </div>
             ) : (
-              ''
+              <>
+                <div className=''>
+                  <label
+                    htmlFor='coupon'
+                    className='mb-2 block text-sm font-medium'>
+                    Do you have coupon or a voucher or gift card?
+                  </label>
+                  <div className='flex gap-5 w-full'>
+                    <div className='relative w-full'>
+                      <input
+                        type='text'
+                        id='coupon'
+                        name='coupon'
+                        onChange={(e) => setCoupon(e.target.value)}
+                        value={coupon}
+                        className='w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500'
+                        placeholder='Coupon code'
+                      />
+                      <div className='pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3'>
+                        <IdentificationIcon className='w-5 h-5 text-gray-400' />
+                      </div>
+                    </div>
+
+                    <Button
+                      color='primary'
+                      variant='bordered'
+                      onClick={handleApplyCoupon}>
+                      Apply
+                    </Button>
+                  </div>
+                </div>
+              </>
             )}
-
-            <div className='flex justify-between items-center self-stretch flex-grow-0 flex-shrink-0 relative py-2 px-4 border-t border-black/30 bg-white/0 hover:bg-white/5'>
-              <p className='flex-grow-0 flex-shrink-0 text-[13px] text-right text-black'>
-                Total
-              </p>
-              <p className='flex-grow-0 flex-shrink-0 text-base font-medium text-left text-black'>
-                {COMMON.RUPEE + ' ' + total}
-              </p>
-            </div>
           </div>
-
-          {isCouponApplied ? (
-            <div className='mt-10'>
-              <Chip
-                startContent={
-                  <CheckCircleIcon className='h-4 w-4 text-green-500' />
-                }
-                variant='faded'
-                onClose={removeCoupon}>
-                <span className='text-green-500'>Welcome Offer</span>
-              </Chip>
-            </div>
-          ) : (
-            <div className='mt-10'>
-              <span>Do you have coupon?</span>
-              <div className='flex justify-start items-start self-stretch flex-grow relative py-2 rounded-lg gap-3 '>
-                <input
-                  type='text'
-                  onChange={(e) => setCoupon(e.target.value)}
-                  value={coupon}
-                  className='border-2 basis-[80%] border-black/30 rounded-md py-2 px-4 w-full'
-                  placeholder='Coupon code'
-                />
-                <Button
-                  color='primary'
-                  variant='bordered'
-                  onClick={handleApplyCoupon}>
-                  Apply
-                </Button>
-              </div>
-            </div>
-          )}
         </section>
       </div>
-      <Button
-        isLoading={loading}
-        onClick={proceedPayment}
-        className='submit-button px-4 py-3 h-11 rounded-full bg-blue-500 text-white focus:ring focus:outline-none w-full text-xl font-semibold transition-colors'>
-        Pay {COMMON.RUPEE + total}
-      </Button>
     </>
   );
 };

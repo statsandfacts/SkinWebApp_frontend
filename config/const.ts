@@ -60,6 +60,17 @@ const CONST = {
         "The night cream is amazing! I wake up with smooth, plump skin every morning. It's helped reduce fine lines and keeps my skin moisturized all night. So impressed!",
     },
   ],
+
+  // Payment details
+  PAYMENT_DETAILS: {
+    amount: 200,
+    currency: 'INR',
+    name: 'NextCare',
+    description: 'Payment for case',
+    image: '/images/logo.png',
+    gst: 18,
+    platform_fee: 10,
+  },
 };
 
 export const COMMON = Object.freeze(CONST);
