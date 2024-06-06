@@ -10,18 +10,21 @@ const PDFGenerate = ({ data, componentRef }: any) => {
     <section className='p-5 border'>
       <div className='px-3 print:px-10' ref={componentRef}>
         <div className='flex flex-row items-center justify-between'>
-          <div>
-            <Image src='/NClogo.png' alt='logo' width={200} height={100} />
+          <div className='flex justify-center items-end text-3xl font-bold text-[#31382E] whitespace-nowrap'>
+            <Image src='/logo.svg' alt='logo' width={100} height={100} />
+            <span className='text-gray-400 text-xs font-normal'>Beta</span>
           </div>
           <div className='flex flex-col gap-2 items-center'>
-            <p>
-              <span className='text-2xl font-bold'>NEXT</span>
-              <span className='text-2xl font-bold text-green-500'>.</span>
-              <span className='text-2xl font-bold'>CARE</span>
+            <p className='text-center'>
+              <span className='text-xl font-bold block'>
+                Prescriptions based{' '}
+              </span>
+              <span className='text-xl font-bold text-[#ff7043] uppercase'>
+                Skincare{' '}
+              </span>
+              <span className='text-xl font-bold'>at your</span>
+              <span className='text-xl font-bold block'>fingertip</span>
             </p>
-            <h1 className='text-base text-gray-500 font-semibold'>
-              The Future of Skin care with AI
-            </h1>
           </div>
         </div>
 
@@ -148,6 +151,11 @@ const PDFGenerate = ({ data, componentRef }: any) => {
             </div>
           </div>
         </div>
+        <p className='text-center text-sm text-gray-500 font-semibold'>
+          <a href='nextcare.life'>Nextcare.life</a> is in beta, please consult a
+          doctor before following any prescribed medication.{' '}
+          <span className='text-red-500'>*</span>
+        </p>
       </div>
     </section>
   );
