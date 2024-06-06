@@ -16,7 +16,7 @@ const AuthProvider = ({ children }: ProvidersProps) => {
 
   useEffect(() => {
     const a = getLocalStorage('isLoggedIn');
-    if (!isLoggedIn) {
+    if (!isLoggedIn && !a) {
       toast.error('Please login first');
       router.replace('/');
     }
