@@ -4,6 +4,7 @@ import { useUser } from '@/context/UserContext';
 import { getLocalStorage } from '@/utils/localStore';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 export interface ProvidersProps {
   children: React.ReactNode;
@@ -15,10 +16,11 @@ const AuthProvider = ({ children }: ProvidersProps) => {
 
   useEffect(() => {
     const a = getLocalStorage('isLoggedIn');
-    if (!isLoggedIn && !a) {
-      router.replace('/auth/login');
+    if (!isLoggedIn) {
+      toast.error('Please login first');
+      router.replace('/');
     }
-  }, [router, isLoggedIn]);
+  }, [router]);
 
   return <>{children}</>;
 };

@@ -17,11 +17,9 @@ const MyProfile = () => {
   const router = useRouter();
   const pathname = usePathname();
   const handleLogout = () => {
-    if (userId) {
-      router.replace('/login');
-      toast.success('Logout successfully');
-      setLogout();
-    }
+    router.replace('/');
+    toast.success('Logout successfully');
+    setLogout();
   };
   return (
     <>

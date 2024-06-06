@@ -97,7 +97,7 @@ const PDFGenerate = ({ data, componentRef }: any) => {
                       {med?.company}
                     </td>
                     <td className='px-6 py-4 border-2 border-[#ffd6c5]'>
-                      {med?.insights}
+                      {med?.remarks}
                     </td>
                   </tr>
                 ))}

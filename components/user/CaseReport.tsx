@@ -100,9 +100,11 @@ const CaseReport = ({ id }: { id: string }) => {
                   Uploaded Picture
                 </h1>
                 <div className='flex mt-2 gap-3'>
-                  <div className='flex flex-col justify-center align-middle p-1 bg-slate-200 rounded-md'>
-                    {data?.image_path.map((image: any, i: number) => (
-                      <div key={i}>
+                  {data?.image_path.map((image: any, i: number) => (
+                    <div
+                      key={i}
+                      className='flex flex-col justify-center align-middle p-1 bg-slate-200 rounded-md'>
+                      <div>
                         <div>
                           <Image
                             src={image.name}
@@ -115,8 +117,8 @@ const CaseReport = ({ id }: { id: string }) => {
                           <span className='text-sm'>{image.value}</span>
                         </div>
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
