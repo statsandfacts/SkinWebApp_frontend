@@ -1,6 +1,6 @@
 const AboutUs = () => {
   return (
-    <div className='flex flex-col items-center justify-center gap-5 px:10 md:px-40'>
+    <div className='flex flex-col items-center justify-center gap-5 px-10 md:px-40 '>
       <h1 className='text-2xl font-bold'>About Us</h1>
 
       <p>
@@ -11,7 +11,7 @@ const AboutUs = () => {
         accessible, and effective skincare solutions right at your fingertips.
       </p>
 
-      <h2 className='text-lg text-gray-800 font-bold text-left w-full text-left w-full'>
+      <h2 className='text-lg text-gray-800 font-bold  text-left w-full'>
         Our Mission
       </h2>
 

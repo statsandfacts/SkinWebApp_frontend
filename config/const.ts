@@ -11,19 +11,19 @@ const CONST = {
     {
       name: 'Aditi',
       description:
-        'This powerful serum visibly reduced my fine lines and wrinkles within a few weeks. However, it can be drying, so a good moisturizer is essential. Also, be sure to wear sunscreen every day, as retinol increases sun sensitivity. 4.5 out of 5 stars',
+        'Elated to embark on this transformative digital journey through nextcare.life, a pioneering platform revolutionizing healthcare with personalized solutions, empowering me towards optimal well-being.',
       image: '/images/review1.png',
     },
     {
       name: 'Shivani',
       description:
-        'This fragrance-free cleanser is a dream for sensitive skin. It removes makeup without irritation and leaves my face feeling clean and soft. However, for those with oily skin, it might not be mattifying enough. 4 out of 5 stars.',
+        'I am pleased to consult nextcare.life for diagnosis, as it provides reliable medical information from trusted sources, helping me understand potential conditions and seek proper treatment when needed',
       image: '/images/review2.png',
     },
     {
       name: 'Shakshi',
       description:
-        'I use this mask once a week for a brighter, more even complexion. It tingles slightly, but that subsides quickly. The results are noticeable, but temporary. 4 out of 5 stars (great for a pre-event glow).',
+        'I am delighted to address my blackhead condition through their platform, which promises accurate analysis and appropriate treatment recommendations.',
       image: '/images/review3.png',
     },
   ],
@@ -33,31 +33,31 @@ const CONST = {
       image: '/images/review-1.jpg',
       name: ' Emily J.',
       comment:
-        'This moisturizer is a game-changer! My skin feels so soft  and hydrated. I love how quickly it absorbs without feeling greasy. Highly recommend!',
+        'Nextcare.life offers convenient online skin diagnosis. By uploading images of my clogged pores, I can receive professional analysis and treatment recommendations from dermatologists.',
     },
     {
       image: '/images/review-2.avif',
       name: 'David R.',
       comment:
-        "I have struggled with acne for years, but this cleanser has made a huge difference. My skin is clearer and less irritated. It's now a staple in my routine.",
+        "Nextcare.life provides a convenient skin diagnosis service. I'm pleased to utilize it for identifying my condition of whiteheads, which are small, white bumps on the skin.",
     },
     {
       image: '/images/review-3.jpg',
       name: ' Samantha K.',
       comment:
-        'The serum is fantastic! It brightened my complexion and reduced my dark spots in just a few weeks. My skin looks healthier and more radiant. Absolutely love it!',
+        'I am glad you find the website nextcare.life helpful for diagnosing your skin pigmentation condition. Consulting credible online resources for health concerns can provide valuable information and guidance.',
     },
     {
       image: '/images/review-4.jpg',
       name: 'L. Menon',
       comment:
-        "This sunscreen is perfect for daily use. It doesn't leave a white cast and feels light on my skin. Finally found a sunscreen that works for my sens",
+        'Nextcare.life offers personalized skin analysis tools that accurately assess your current skin condition, allowing you to make informed decisions for optimal skin health and beauty.',
     },
     {
       image: '/images/review-5.webp',
       name: '  Jessica M.',
       comment:
-        "The night cream is amazing! I wake up with smooth, plump skin every morning. It's helped reduce fine lines and keeps my skin moisturized all night. So impressed!",
+        'Visiting nextcare.life fills me with joy and contentment. This website offers valuable resources and services that cater to my needs, leaving me delighted and satisfied.',
     },
   ],
 

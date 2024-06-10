@@ -11,20 +11,44 @@ import {
 } from '@nextui-org/react';
 import NavButton from './NavButton';
 import Link from 'next/link';
-import clsx from 'clsx';
-import { useUser } from '@/context/UserContext';
 import Image from 'next/image';
 
 export default function Header() {
-  const menuItems = ['Home', 'About', 'Product', 'Faq', 'Contact us'];
+  const menuItems = [
+    {
+      name: 'Home',
+      link: '/',
+    },
+    {
+      name: 'About',
+      link: '/about-us',
+    },
+    {
+      name: 'FAQ',
+      link: '/coming-soon',
+    },
+    {
+      name: 'Contact Us',
+      link: '/contact-us',
+    },
+  ];
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <Navbar className='px-1 md:px-5' maxWidth='full'>
+    <Navbar
+      className='px-1 md:px-5'
+      maxWidth='full'
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}>
       <NavbarContent>
+        <NavbarMenuToggle
+          className='sm:hidden'
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+        />
         <NavbarBrand>
           <Link
             href='/'
             className='flex justify-center items-end text-3xl font-bold text-[#31382E] whitespace-nowrap'>
-            {/* NEXT<span className='text-green-500'>.</span>CARE */}
             <Image
               src='/logo.svg'
               width={50}
@@ -48,11 +72,11 @@ export default function Header() {
             About
           </Link>
         </NavbarItem>
-        <NavbarItem>
+        {/* <NavbarItem>
           <Link color='foreground' href='/coming-soon'>
             Products
           </Link>
-        </NavbarItem>
+        </NavbarItem> */}
         <NavbarItem>
           <Link color='foreground' href='/coming-soon'>
             FAQ
@@ -67,23 +91,26 @@ export default function Header() {
       <NavbarContent justify='end'>
         <NavButton />
       </NavbarContent>
-      {/* <NavbarMenu className='flex flex-col text-center gap-2'>
+
+      <NavbarMenu>
         {menuItems.map((item, index) => (
-          <NavbarMenuItem
-            key={`${item}-${index}`}
-            className='flex justify-center gap-2'>
+          <NavbarMenuItem key={`${item}-${index}`}>
             <Link
-              color={index === 0 ? 'primary' : 'foreground'}
-              className={clsx(
-                index === 0 ? 'text-blue-500' : 'text-black',
-                'transition-colors duration-200 hover:text-black'
-              )}
-              href='/'>
-              {item}
+              className='w-full'
+              color={
+                index === 2
+                  ? 'warning'
+                  : index === menuItems.length - 1
+                  ? 'danger'
+                  : 'foreground'
+              }
+              href={item.link}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {item.name}
             </Link>
           </NavbarMenuItem>
         ))}
-      </NavbarMenu> */}
+      </NavbarMenu>
     </Navbar>
   );
 }
