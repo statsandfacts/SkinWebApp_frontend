@@ -428,7 +428,7 @@ const OTPModal = ({
       setIsSetOtp(true);
       setIsOtpLoading(true);
       const response = await api.generateOtp({
-        // email_id: email,
+        email_id: email,
         phone_number: mobile,
       });
 

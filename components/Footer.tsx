@@ -21,7 +21,7 @@ const Footer = (props: Props) => {
                     height={100}
                     alt='nextcare logo'
                   />
-                  <span className='text-gray-500'>beta</span>
+                  <span className='text-gray-500'>Beta</span>
                 </div>
               </div>
               <div className='flex gap-2 mt-8 whitespace-nowrap'>

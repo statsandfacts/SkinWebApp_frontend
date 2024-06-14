@@ -109,6 +109,8 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
   const router = useRouter();
   const { user: userId } = useUser();
 
+  const [nextLoading, setNextLoading] = useState(false);
+
   const dispatch = useDispatch();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
@@ -121,8 +123,12 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
   }, []);
 
   const handleNextStep = () => {
-    dispatch(setDisableNext(true));
-    dispatch(increaseStep());
+    setNextLoading(true);
+    setTimeout(() => {
+      setNextLoading(false);
+      dispatch(setDisableNext(true));
+      dispatch(increaseStep());
+    }, 500);
   };
 
   const handlePrevStep = () => {
@@ -138,13 +144,23 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
   };
 
   const handlePhotoUpload = () => {
-    dispatch(increaseStep());
-    dispatch(setPhotoUploadEnable(true));
+    setNextLoading(true);
+    setTimeout(() => {
+      setNextLoading(false);
+      dispatch(increaseStep());
+      dispatch(setPhotoUploadEnable(true));
+    }, 700);
   };
 
   const handleQuestionSelect = (value: any, id: any) => {
+    setNextLoading(true);
     dispatch(setAnswers({ value, id })); // Destructuring for clarity
     dispatch(setDisableNext(false));
+
+    setTimeout(() => {
+      setNextLoading(false);
+      dispatch(increaseStep());
+    }, 500);
   };
 
   const handleCheckboxChange = (value: any, id: string) => {
@@ -277,6 +293,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
             <Button
               isDisabled={disableNext}
               onClick={handleNextStep}
+              isLoading={nextLoading}
               className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
               Next
             </Button>
@@ -285,6 +302,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
           {currentStep === questionary.length - 1 && (
             <Button
               isDisabled={disableNext}
+              isLoading={nextLoading}
               onClick={handlePhotoUpload}
               className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
               Next

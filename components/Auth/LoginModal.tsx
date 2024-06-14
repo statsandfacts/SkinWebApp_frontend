@@ -60,7 +60,7 @@ const LoginModal = ({ isCloseIcon }: { isCloseIcon?: boolean }) => {
   return (
     <>
       <Drawer title='Sign-in to nextcare.life' isCloseIcon={isCloseIcon}>
-        <div className='flex flex-col gap-5 mt-5 w-full'>
+        <div className='flex flex-col gap-5 mt-5 w-full mb-5 md:mb-0'>
           <InputField
             onChange={formik.handleChange}
             value={formik.values.email_or_phone_no}
@@ -98,15 +98,21 @@ const LoginModal = ({ isCloseIcon }: { isCloseIcon?: boolean }) => {
               <span className='font-bold'>Create Account</span>
             </Link>
           </div>
-
-          <Button
-            isLoading={isLoading}
-            onClick={(e) => {
-              formik.handleSubmit();
-            }}
-            className='p-6 w-full text-white bg-violet-600 rounded-[96.709px]'>
-            Login
-          </Button>
+          <div>
+            <Button
+              isLoading={isLoading}
+              onClick={(e) => {
+                formik.handleSubmit();
+              }}
+              className='p-6 w-full text-white bg-violet-600 rounded-[96.709px]'>
+              Login
+            </Button>
+            <div className='w-full mt-2 flex justify-end'>
+              <Link href={'/auth/forget-password'} className='text-right'>
+                Forget Password?
+              </Link>
+            </div>
+          </div>
         </div>
       </Drawer>
     </>

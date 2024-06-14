@@ -9,11 +9,13 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import { setLoginModal } from '@/redux/slices/loginModal.slice';
 
 const LoginForm = () => {
   const { setLogin, setSession } = useUser();
   const [isLoading, setIsLoading] = useState(false);
-
+  const dispatch = useDispatch();
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -39,6 +41,7 @@ const LoginForm = () => {
           const userId = data.user_id;
           setLogin(userId);
           setSession(payload.session_id);
+          dispatch(setLoginModal(false));
           router.replace('/');
         } else {
           toast.success('Login failed');
