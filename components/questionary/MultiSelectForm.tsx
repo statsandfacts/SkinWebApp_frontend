@@ -206,7 +206,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
                     </p>
                     <>
                       {/* if values length is greater then one then it is select one else it is input box */}
-                      {question?.allowed_values.length > 1 ? (
+                      {question?.question_type === 'multiple choice' ? (
                         question?.multiple_val_allowed ? (
                           <>
                             <CheckboxGroup
@@ -222,10 +222,10 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
                               }>
                               {question.allowed_values.map((option: any) => (
                                 <CustomCheckbox
-                                  value={option}
+                                  value={option.value}
                                   name={question.question_id}
-                                  key={option}>
-                                  {option}
+                                  key={option.value}>
+                                  {option.value}
                                 </CustomCheckbox>
                               ))}
                             </CheckboxGroup>
@@ -244,10 +244,10 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
                             className='w-full text-black'>
                             {question.allowed_values.map((option: any) => (
                               <CustomRadio
-                                key={option} // Key optimization
-                                name={option}
-                                value={option}>
-                                {option}
+                                key={option.value} // Key optimization
+                                name={option.value}
+                                value={option.value}>
+                                {option.value}
                               </CustomRadio>
                             ))}
                           </RadioGroup>

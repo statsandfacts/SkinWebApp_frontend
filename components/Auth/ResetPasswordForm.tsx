@@ -8,7 +8,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from '@nextui-org/react';
-import { useFormik } from 'formik';
+import { ErrorMessage, Field, Form, Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import * as api from '@/services/app.service';
 import InputField from '../common/InputField';
@@ -31,41 +31,17 @@ const LoginForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      email_or_phone_no: '',
+      phone_no: '',
     },
     validationSchema: Yup.object({
-      email_or_phone_no: Yup.string().required('Email or phone is required'),
+      phone_no: Yup.string()
+        .required('Phone Number Required')
+        .min(10, 'Phone number must be 10 digit')
+        .max(10, 'Phone number must be 10 digit')
+        .matches(/^\d{10}$/, 'Invalid phone number format'),
     }),
     onSubmit: async (values) => {
       setOpenModal(true);
-      //   try {
-      //     setIsLoading(true);
-      //     const payload = {
-      //       ...values,
-      //       user_role: '1',
-      //       session_id: new Date().getTime().toString(),
-      //     };
-      //     const data = await api.login(payload);
-      //     if (data && data.status === 200) {
-      //       toast.success('Login successful');
-      //       const userId = data.user_id;
-      //       setLogin(userId);
-      //       setSession(payload.session_id);
-      //       dispatch(setLoginModal(false));
-      //       router.replace('/');
-      //     } else {
-      //       toast.success('Login failed');
-      //     }
-      //     setIsLoading(false);
-      //   } catch (error: any) {
-      //     console.log(error);
-      //     setIsLoading(false);
-      //     if (error.response?.status === 409) {
-      //       toast.error('Invalid credentials');
-      //     } else {
-      //       toast.error('Something went wrong');
-      //     }
-      //   }
     },
   });
 
@@ -86,14 +62,14 @@ const LoginForm = () => {
         onSubmit={formik.handleSubmit}>
         <InputField
           onChange={formik.handleChange}
-          value={formik.values.email_or_phone_no}
+          value={formik.values.phone_no}
           type='text'
-          name='email_or_phone_no'
+          name='phone_no'
           placeholder='Email or Phone Number'
           onBlur={formik.handleBlur}
           error={
-            formik.errors.email_or_phone_no && formik.touched.email_or_phone_no
-              ? formik.errors.email_or_phone_no
+            formik.errors.phone_no && formik.touched.phone_no
+              ? formik.errors.phone_no
               : ''
           }
           className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
@@ -110,7 +86,7 @@ const LoginForm = () => {
       <OTPModal
         openModal={openModal}
         onClose={onClose}
-        email={formik.values.email_or_phone_no}
+        phone={formik.values.phone_no}
         successVerifyOtp={successVerifyOtp}
       />
     </>
@@ -123,12 +99,7 @@ const LoginForm = () => {
  * @returns
  */
 
-const OTPModal = ({
-  openModal,
-  onClose,
-  emailOrPhone,
-  successVerifyOtp,
-}: any) => {
+const OTPModal = ({ openModal, onClose, phone, successVerifyOtp }: any) => {
   const [isSendOtp, setIsSetOtp] = useState(false);
   const [isOtpLoading, setIsOtpLoading] = useState(false);
   const [otp, setOtp] = useState('');
@@ -138,8 +109,7 @@ const OTPModal = ({
       setIsSetOtp(true);
       setIsOtpLoading(true);
       const response = await api.generateOtp({
-        email_id: emailOrPhone,
-        phone_number: emailOrPhone,
+        phone_number: phone,
       });
 
       if (response && response.status === 200) {
@@ -157,73 +127,117 @@ const OTPModal = ({
     }
   }, [openModal]);
 
-  const formik = useFormik({
-    initialValues: {
-      otp: '',
-    },
-    validationSchema: Yup.object({
-      otp: Yup.string()
-        .required('Enter Valid OTP')
-        .length(6)
-        .matches(/^[0-9]{6}$/, 'Must be exactly 6 digits'),
-    }),
-    onSubmit: async (values) => {
-      try {
+  const handleClose = () => {
+    setIsSetOtp(false);
+    setIsOtpLoading(false);
+    setIsVerify(false);
+    onClose();
+  };
+
+  /**
+   * Otp Form
+   */
+  const otpSchema = Yup.object().shape({
+    otp: Yup.string()
+      .required('Enter Valid OTP')
+      .length(6, 'Must be exactly 6 digits')
+      .matches(/^[0-9]{6}$/, 'Must be exactly 6 digits'),
+  });
+  const OTPForm = () => (
+    <Formik
+      initialValues={{ otp: '' }}
+      validationSchema={otpSchema}
+      onSubmit={(values) => {
         if (values.otp) {
-          //   successVerifyOtp();
           setIsVerify(true);
           toast.success('OTP Verified Successfully');
         } else {
           toast.error('Invalid OTP');
         }
-      } catch (error) {
-        console.log(error);
-      }
-    },
+      }}>
+      {() => (
+        <Form>
+          <div className='mb-3'>
+            <Field
+              name='otp'
+              type='text'
+              placeholder='Enter otp'
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            />
+            <ErrorMessage
+              className='text-sm text-red-500'
+              name='otp'
+              component='div'
+            />
+          </div>
+          <Button
+            isLoading={isOtpLoading}
+            type='submit'
+            className='p-6 w-full text-white bg-violet-600 rounded-[96.709px]'>
+            Verify
+          </Button>
+        </Form>
+      )}
+    </Formik>
+  );
+
+  /**
+   * Password Form
+   */
+  const passwordSchema = Yup.object().shape({
+    password: Yup.string().required('Password Required'),
+    confirmPassword: Yup.string()
+      .required('Confirm Password Required')
+      .oneOf([Yup.ref('password'), ''], 'Passwords must match'),
   });
 
-  const handleClose = () => {
-    setIsSetOtp(false);
-    setIsOtpLoading(false);
-    setIsVerify(false);
-    // reset formik
-    formik.resetForm({
-      values: {
-        otp: '',
-      },
-    });
-    onClose();
-  };
-
-  const passwordResetInputBox = (
-    <>
-      <InputField
-        onChange={() => {}}
-        value={''}
-        type='text'
-        name='password'
-        placeholder='Enter New Password'
-        error={formik.errors.otp && formik.touched.otp ? formik.errors.otp : ''}
-        className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full
-    p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-      />
-      <InputField
-        onChange={() => {}}
-        value={''}
-        type='text'
-        name='password'
-        placeholder='Confirm New Password'
-        error={formik.errors.otp && formik.touched.otp ? formik.errors.otp : ''}
-        className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full
-    p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-      />
-      <Button
-        isLoading={isOtpLoading}
-        type='submit'
-        className='p-6 w-full text-white bg-violet-600 rounded-[96.709px]'>
-        Reset
-      </Button>
-    </>
+  const PasswordForm = () => (
+    <Formik
+      initialValues={{ password: '', confirmPassword: '' }}
+      validationSchema={passwordSchema}
+      onSubmit={(values) => {
+        // handle form submission
+        console.log('Password Form Values:', values);
+      }}>
+      {() => (
+        <Form className='flex flex-col gap-3'>
+          <div>
+            <label>Password</label>
+            <Field
+              name='password'
+              type='text'
+              placeholder='Enter password'
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            />
+            <ErrorMessage
+              className='text-sm text-red-500'
+              name='password'
+              component='div'
+            />
+          </div>
+          <div>
+            <label>Confirm Password</label>
+            <Field
+              name='confirmPassword'
+              type='password'
+              placeholder='Confirm password'
+              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            />
+            <ErrorMessage
+              className='text-sm text-red-500'
+              name='confirmPassword'
+              component='div'
+            />
+          </div>
+          <Button
+            isLoading={isOtpLoading}
+            type='submit'
+            className='p-6 w-full text-white bg-violet-600 rounded-[96.709px]'>
+            Submit
+          </Button>
+        </Form>
+      )}
+    </Formik>
   );
 
   return (
@@ -245,44 +259,7 @@ const OTPModal = ({
                 <XMarkIcon className='w-5 h-5 text-gray-500' />
               </button>
             </ModalHeader>
-            <ModalBody>
-              {isVerify ? (
-                passwordResetInputBox
-              ) : (
-                <>
-                  <div>
-                    <InputField
-                      onChange={formik.handleChange}
-                      isLabel={true}
-                      value={formik.values.otp}
-                      type='otp'
-                      name='otp'
-                      placeholder='Enter your Otp'
-                      error={formik.errors.otp ? formik.errors.otp : ''}
-                      onBlur={formik.handleBlur}
-                      className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                    />
-                  </div>
-                  {/* <Button
-                    isLoading={isOtpLoading}
-                    color='primary'
-                    onClick={(e: any) => {
-                      formik.handleSubmit();
-                    }}>
-                    Verify
-                  </Button> */}
-                  <Button
-                    isLoading={isOtpLoading}
-                    onClick={(e: any) => {
-                      formik.handleSubmit();
-                    }}
-                    type='submit'
-                    className='p-6 w-full text-white bg-violet-600 rounded-[96.709px]'>
-                    Verify
-                  </Button>
-                </>
-              )}
-            </ModalBody>
+            <ModalBody>{isVerify ? PasswordForm() : OTPForm()}</ModalBody>
             <ModalFooter></ModalFooter>
           </>
         </ModalContent>
