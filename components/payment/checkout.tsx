@@ -6,6 +6,7 @@ import { Button } from '@nextui-org/button';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import useSWR from 'swr';
 import * as api from '@/services/app.service';
 import { removeLocalStorage } from '@/utils/localStore';
 import { useRouter } from 'next/navigation';
@@ -16,6 +17,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Skeleton,
 } from '@nextui-org/react';
 import { CheckCircleIcon, CheckIcon } from '@heroicons/react/24/solid';
 import {
@@ -26,6 +28,7 @@ import {
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Link from 'next/link';
+import PaymentLoader from '../Skeleton/PaymentLoader';
 
 const Checkout = () => {
   const router = useRouter();
@@ -35,8 +38,38 @@ const Checkout = () => {
   const [offerAmount, setOfferAmount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [coupon, setCoupon] = useState('');
+  const [couponCode, setCouponCode] = useState('');
   const [isCouponApplied, setIsCouponApplied] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+
+  const {
+    data: invoice,
+    isLoading,
+    error,
+    mutate,
+  } = useSWR(
+    ['/get-invoice', couponCode],
+    () => api.getInvoice({ couponCode }),
+    {
+      revalidateOnMount: true,
+    }
+  );
+
+  useEffect(() => {
+    const checkCoupon = () => {
+      if (invoice?.discount_amount > 0) {
+        setIsCouponApplied(true);
+      } else {
+        setCoupon('');
+        toast.error('Invalid Coupon');
+      }
+    };
+
+    if (invoice && coupon) {
+      checkCoupon();
+    }
+  }, [invoice]);
+
   const { answers, uploadImages } = useSelector(
     (state: any) => state.questionary
   );
@@ -62,22 +95,32 @@ const Checkout = () => {
         toast.error('Please login first');
         return;
       }
-      payment(values);
+      if (invoice.total_amount === 0) {
+        skipPaymentMode();
+      } else {
+        payment(values);
+      }
     },
   });
 
-  useEffect(() => {
-    const total =
-      COMMON.PAYMENT_DETAILS.amount +
-      COMMON.PAYMENT_DETAILS.gst +
-      COMMON.PAYMENT_DETAILS.platform_fee;
-
-    if (coupon && isCouponApplied) {
-      setTotal(total - offerAmount);
-    } else {
-      setTotal(total);
+  const skipPaymentMode = async () => {
+    const payload = {
+      session_id: sessionId,
+      user_id: userId,
+      question_answers: [answers],
+    };
+    try {
+      const res = await api.saveQuestionnaire(payload);
+      if (res) {
+        removeLocalStorage('keyCriteria');
+        setPaymentSuccess(true);
+      } else {
+        toast.error('Failed to save questionnaire');
+      }
+    } catch (error: any) {
+      toast.error(error.message);
     }
-  }, [coupon, isCouponApplied, offerAmount]);
+  };
 
   const payment = async (paymentDetails: {
     name: string;
@@ -133,7 +176,7 @@ const Checkout = () => {
                 removeLocalStorage('keyCriteria');
                 setPaymentSuccess(true);
               } else {
-                throw new Error('Failed to save questionnaire');
+                toast.error('Failed to save questionnaire');
               }
             } catch (error: any) {
               toast.error(error.message);
@@ -225,24 +268,17 @@ const Checkout = () => {
     }
   };
 
-  const handleApplyCoupon = async () => {
+  const handleApplyCoupon = () => {
     if (!coupon) {
       toast.error('Please enter a coupon code');
       return;
     }
-    // dommy logic
-    if (coupon.length > 3) {
-      setOfferAmount(100);
-      setIsCouponApplied(true);
-    } else {
-      setOfferAmount(0);
-      setIsCouponApplied(false);
-    }
+    setCouponCode(coupon);
   };
 
   const removeCoupon = () => {
     setCoupon('');
-    setOfferAmount(0);
+    setCouponCode(' ');
     setIsCouponApplied(false);
   };
 
@@ -330,45 +366,79 @@ const Checkout = () => {
                   <small className='text-red-500'>{formik.errors.phone}</small>
                 )}
               </div>
+              {isLoading ? (
+                <div className='flex gap-3 mt-4 flex-col'>
+                  <div className='w-full flex gap-2'>
+                    <Skeleton className='h-3 w-3/5 rounded-lg' />
+                    <Skeleton className='h-3 w-4/5 rounded-lg' />
+                  </div>
+                  <div className='w-full flex gap-2'>
+                    <Skeleton className='h-3 w-3/5 rounded-lg' />
+                    <Skeleton className='h-3 w-4/5 rounded-lg' />
+                  </div>
+                  <div className='w-full flex gap-2'>
+                    <Skeleton className='h-3 w-3/5 rounded-lg' />
+                    <Skeleton className='h-3 w-4/5 rounded-lg' />
+                  </div>
+                  <div className='w-full flex gap-2 mt-4'>
+                    <Skeleton className='h-3 w-3/5 rounded-lg' />
+                    <Skeleton className='h-3 w-4/5 rounded-lg' />
+                  </div>
+                  <div className='w-full flex gap-2 mt-4'>
+                    <Skeleton className='h-10 w-full rounded-lg' />
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className='mt-6 border-t border-b py-2'>
+                    <div className='flex items-center justify-between'>
+                      <p className='text-sm font-medium text-gray-900'>
+                        Subtotal
+                      </p>
+                      <p className='font-semibold text-gray-900'>
+                        {COMMON.RUPEE + ' ' + invoice?.original_amount}
+                      </p>
+                    </div>
+                    <div className='flex items-center justify-between mt-2'>
+                      <p className='text-sm font-medium text-gray-900'>GST</p>
+                      <p className='font-semibold text-gray-900'>
+                        {COMMON.RUPEE + ' ' + invoice?.gst_amount}
+                      </p>
+                    </div>
+                    <div className='flex items-center justify-between mt-2'>
+                      <p className='text-sm font-medium text-gray-900'>SGST</p>
+                      <p className='font-semibold text-gray-900'>
+                        {COMMON.RUPEE + ' ' + invoice?.sgst_amount}
+                      </p>
+                    </div>
+                    {coupon.length > 0 && isCouponApplied ? (
+                      <div className='flex items-center justify-between mt-2'>
+                        <p className='text-sm font-medium text-gray-900'>
+                          Saving
+                        </p>
+                        <p className='font-semibold text-green-500'>
+                          -{COMMON.RUPEE + ' ' + invoice?.discount_amount}
+                        </p>
+                      </div>
+                    ) : (
+                      ''
+                    )}
+                  </div>
 
-              <div className='mt-6 border-t border-b py-2'>
-                <div className='flex items-center justify-between'>
-                  <p className='text-sm font-medium text-gray-900'>Subtotal</p>
-                  <p className='font-semibold text-gray-900'>
-                    {COMMON.RUPEE + ' ' + COMMON.PAYMENT_DETAILS.amount}
-                  </p>
-                </div>
-                <div className='flex items-center justify-between mt-2'>
-                  <p className='text-sm font-medium text-gray-900'>GST</p>
-                  <p className='font-semibold text-gray-900'>
-                    {COMMON.RUPEE + ' ' + COMMON.PAYMENT_DETAILS.gst}
-                  </p>
-                </div>
-                {coupon.length > 0 && offerAmount && isCouponApplied ? (
-                  <div className='flex items-center justify-between mt-2'>
-                    <p className='text-sm font-medium text-gray-900'>Saving</p>
-                    <p className='font-semibold text-green-500'>
-                      -{COMMON.RUPEE + ' ' + offerAmount}
+                  <div className='mt-6 flex items-center justify-between'>
+                    <p className='text-sm font-medium text-gray-900'>Total</p>
+                    <p className='text-2xl font-semibold text-gray-900'>
+                      {COMMON.RUPEE + ' ' + invoice?.total_amount}
                     </p>
                   </div>
-                ) : (
-                  ''
-                )}
-              </div>
-
-              <div className='mt-6 flex items-center justify-between'>
-                <p className='text-sm font-medium text-gray-900'>Total</p>
-                <p className='text-2xl font-semibold text-gray-900'>
-                  {COMMON.RUPEE + ' ' + total}
-                </p>
-              </div>
-
-              <Button
-                isLoading={loading}
-                type='submit'
-                className='mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white'>
-                Pay {COMMON.RUPEE + total}
-              </Button>
+                  <Button
+                    isLoading={loading}
+                    type='submit'
+                    className='mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white'>
+                    Pay {COMMON.RUPEE + invoice?.total_amount}
+                  </Button>
+                </>
+              )}
             </form>
           </div>
           <div className=' bg-gray-50 px-4 mt-8 p-5'>
@@ -408,6 +478,7 @@ const Checkout = () => {
                     </div>
 
                     <Button
+                      type='button'
                       color='primary'
                       variant='bordered'
                       onClick={handleApplyCoupon}>

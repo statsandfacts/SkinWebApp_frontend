@@ -372,3 +372,24 @@ export const verifyUser = async (payload: any) => {
     console.log(error);
   }
 };
+
+type invoice = {
+  couponCode: String;
+};
+
+export const getInvoice = async (payload: invoice) => {
+  const coupon = payload.couponCode || '';
+  try {
+    const { data } = await axios.get(
+      baseUrl + `case/invoice?promo_code=${coupon}&service_type=Consulting`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
