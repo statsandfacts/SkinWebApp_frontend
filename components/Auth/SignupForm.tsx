@@ -19,6 +19,9 @@ import {
   SelectItem,
 } from '@nextui-org/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { useUser } from '@/context/UserContext';
+import { useDispatch } from 'react-redux';
+import { setLoginModal } from '@/redux/slices/loginModal.slice';
 
 const gender = [
   { value: 'male', label: 'Male' },
@@ -32,6 +35,8 @@ const SignupForm = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const { setLogin, setSession } = useUser();
+  const disptach = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -93,6 +98,9 @@ const SignupForm = () => {
         };
         const data = await api.CreateUser(payload);
         if (data && data.status === 200) {
+          const userId = data?.user_id;
+          setLogin(userId);
+          disptach(setLoginModal(false));
           toast.success('User created successfully');
           router.back();
         } else {

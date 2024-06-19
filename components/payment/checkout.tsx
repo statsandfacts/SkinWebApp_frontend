@@ -33,8 +33,8 @@ const Checkout = () => {
   const router = useRouter();
   const { user: userId, userSession: sessionId } = useUser();
 
-  const [total, setTotal] = useState(0);
-  const [offerAmount, setOfferAmount] = useState(0);
+  // const [total, setTotal] = useState(0);
+  // const [offerAmount, setOfferAmount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [coupon, setCoupon] = useState('');
   const [couponCode, setCouponCode] = useState('');
@@ -102,7 +102,16 @@ const Checkout = () => {
     },
   });
 
+  /**
+   * Skip payment mode
+   */
   const skipPaymentMode = async () => {
+    const orderDetails = await createPaymentAndOrder();
+    if (!orderDetails) {
+      toast.error('Failed to create payment and order.');
+      return;
+    }
+
     const payload = {
       session_id: sessionId,
       user_id: userId,
@@ -121,6 +130,10 @@ const Checkout = () => {
     }
   };
 
+  /**
+   *  Payment mode
+   * @param paymentDetails
+   */
   const payment = async (paymentDetails: {
     name: string;
     email: string;
@@ -221,7 +234,7 @@ const Checkout = () => {
       const payload = {
         case_id: crtCase.case_id,
         currency: 'INR',
-        amount: total,
+        amount: Number(invoice?.total_amount) || 0,
         created_by: userId,
       };
       const data = await api.savePaymentTransaction(payload);
