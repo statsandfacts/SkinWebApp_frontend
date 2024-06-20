@@ -3,7 +3,7 @@ export type SiteConfig = typeof siteConfig;
 export const siteConfig = {
   name: 'Nextcare.life',
   description:
-    'An unique approach to skin care. Prescription based Skincare at your fingertip',
+    'An unique approach to skin care. Prescription based Skincare at your fingertips',
   keywords:
     'Skincare, Glow, Dermatologist, Online Doctor, Healthcare ,  Nextcarelife,Skincare Products ,AI based skincare ,Online Skincare ,Medical Buddy, Nextcare.life, Nextcare, Skincare, Health, Skin Care, Skin Care Products, Skin Care Products, Skin Care Products, Skin Care Products, Skin Care Products, Skin Care Products, Skin Care Products, Skin Care Products, Skin Care Products, Skin Care Products, Skin Care Products, Skin Care Products, Skin Care Products, Skin',
   navItems: [

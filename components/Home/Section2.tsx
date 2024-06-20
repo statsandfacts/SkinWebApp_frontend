@@ -87,11 +87,11 @@ const Section2 = () => {
                 loading='lazy'
                 src='/images/dark_sports.png'
                 className='self-center aspect-[1.28] w-[41px]'
-                alt='Dark sports'
+                alt='Dark spots'
                 width={41}
                 height={41}
               />
-              <div className='mt-4'>Dark sports</div>
+              <div className='mt-4'>Dark spots</div>
             </div>
             <div className='flex flex-col flex-1 min-w-[100px]'>
               <Image

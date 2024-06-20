@@ -25,7 +25,7 @@ export default function Header() {
     },
     {
       name: 'FAQ',
-      link: '/coming-soon',
+      link: '/faq',
     },
     {
       name: 'Contact Us',
@@ -78,7 +78,7 @@ export default function Header() {
           </Link>
         </NavbarItem> */}
         <NavbarItem>
-          <Link color='foreground' href='/coming-soon'>
+          <Link color='foreground' href='/faq'>
             FAQ
           </Link>
         </NavbarItem>

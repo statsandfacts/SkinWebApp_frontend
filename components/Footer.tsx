@@ -26,6 +26,14 @@ const Footer = (props: Props) => {
               </div>
               <div className='flex gap-2 mt-8 whitespace-nowrap'>
                 <div className='my-auto text-xs font-medium text-stone-500'>
+                  By
+                </div>
+                <div className='flex-auto  text-xs font-medium text-stone-700'>
+                  Stats & Facts Technologies Pvt. Ltd.
+                </div>
+              </div>
+              <div className='flex gap-2 self-start mt-5 whitespace-nowrap'>
+                <div className='my-auto text-xs font-medium text-stone-500'>
                   Email
                 </div>
                 <div className='flex-auto  text-xs font-medium text-stone-700'>
@@ -83,7 +91,7 @@ const Footer = (props: Props) => {
                 {/* <Link href={'/coming-soon'} className='mt-4 whitespace-nowrap'>
                   Shop Products
                 </Link> */}
-                <Link href={'/coming-soon'} className='mt-4 whitespace-nowrap'>
+                <Link href={'/why-next-care'} className='mt-4 whitespace-nowrap'>
                   Why {COMMON.APP_NAME}
                 </Link>
                 <Link
@@ -132,10 +140,13 @@ const Footer = (props: Props) => {
           <div className='flex flex-wrap gap-5 justify-between mx-5 max-md:flex-wrap max-md:mr-2.5 max-md:max-w-full'>
             <div className='flex-auto my-auto text-sm'>
               Copyright © {new Date().getFullYear()}
-              <Link href={COMMON.APP_URL} className='capitalize text-blue-500'>
+              {/* <Link href={COMMON.APP_URL} className='capitalize text-blue-500'>
                 {' '}
-                {COMMON.APP_NAME}
-              </Link>
+                Stats & Facts Technologies Pvt. Ltd.
+              </Link> */}
+              <div className='flex gap-2 my-auto text-sm'>
+              Stats & Facts Technologies Pvt. Ltd.
+              </div>
             </div>
             <div className='flex flex-wrap gap-2 pb-1.5 text-xs whitespace-nowrap'>
               <Link

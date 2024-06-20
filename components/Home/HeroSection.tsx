@@ -14,7 +14,7 @@ const HeroSection = (props: Props) => {
             <div className='flex flex-col self-stretch my-auto max-md:mt-10 max-md:max-w-full'>
               <div className='flex flex-col px-14 text-center max-md:px-5 max-md:max-w-full'>
                 <div className='text-6xl font-bold text-purple-900 uppercase leading-[64px] max-md:max-w-full max-md:text-4xl max-md:leading-[51px]'>
-                  An unique approach to skin care
+                  A unique approach to skin care
                 </div>
                 <div className='self-center mt-4 text-3xl text-white font-semibold'>
                   Prescription based
@@ -22,7 +22,7 @@ const HeroSection = (props: Props) => {
                     {' '}
                     Skincare{' '}
                   </span>
-                  at your fingertip
+                  at your fingertips
                 </div>
               </div>
               <ClientButton
