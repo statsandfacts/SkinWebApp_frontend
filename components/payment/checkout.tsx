@@ -238,6 +238,9 @@ const Checkout = () => {
         created_by: userId,
       };
       const data = await api.savePaymentTransaction(payload);
+      if (Number(invoice?.total_amount) == 0) {
+        return data;
+      }
 
       if (data && data.status === '200' && data.order_id) {
         const createOrder = await api.createOrder({

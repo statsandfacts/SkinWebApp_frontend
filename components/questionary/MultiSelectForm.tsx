@@ -101,9 +101,10 @@ function InputBox({ question }: any) {
   );
 }
 
-const imageUrl = 'https://s3.us-east-2.amazonaws.com/nextcare.life';
 // Main Component
 const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
+  const [isTextboxForQuestion, setIsTextboxForQuestion] = useState(false);
+  const [textboxForQuestion, setTextboxForQuestion] = useState('');
   const { currentStep, answers, disableNext, photoUploadEnable, uploadImages } =
     useSelector((state: any) => state.questionary);
   const router = useRouter();
@@ -120,7 +121,8 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
     if (window) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }, []);
+    setIsTextboxForQuestion(false);
+  }, [currentStep]);
 
   const handleNextStep = () => {
     setNextLoading(true);
@@ -152,15 +154,39 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
     }, 700);
   };
 
-  const handleQuestionSelect = (value: any, id: any) => {
-    setNextLoading(true);
-    dispatch(setAnswers({ value, id })); // Destructuring for clarity
-    dispatch(setDisableNext(false));
+  const handleQuestionSelect = (value: any, question: any) => {
+    const id = question.question_id;
+    const isTextbox = question.allowed_values.some(
+      (val: any) => val.is_textbox === true && val.value === value
+    );
+    setIsTextboxForQuestion(isTextbox);
+    if (isTextbox) {
+      setTextboxForQuestion(value);
+      dispatch(setAnswers({ id, value }));
+      dispatch(setDisableNext(false));
+    } else {
+      setNextLoading(true);
+      dispatch(setAnswers({ value, id })); // Destructuring for clarity
+      dispatch(setDisableNext(false));
+    }
 
     setTimeout(() => {
-      setNextLoading(false);
-      dispatch(increaseStep());
+      if (!isTextbox) {
+        setNextLoading(false);
+        dispatch(increaseStep());
+      }
     }, 500);
+  };
+
+  const handleIsTextboxChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target;
+    setTextboxForQuestion(value);
+  };
+
+  const handleIsTextboxBlur = (id: any) => {
+    const options = answers[id];
+    const ans = options + '&&' + textboxForQuestion;
+    dispatch(setAnswers({ id, value: ans }));
   };
 
   const handleCheckboxChange = (value: any, id: string) => {
@@ -184,9 +210,8 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
     if (currentStep === 1 && !userId) {
       dispatch(setLoginModal(true));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentStep]);
-
+  console.log(uploadImages);
   return (
     <div>
       <div className='w-full flex flex-col items-center justify-center'>
@@ -231,26 +256,42 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
                             </CheckboxGroup>
                           </>
                         ) : (
-                          <RadioGroup
-                            onValueChange={(value) =>
-                              handleQuestionSelect(value, question.question_id)
-                            }
-                            value={
-                              answers[question.question_id]
-                                ? answers[question.question_id]
-                                : ''
-                            }
-                            name={question.question_id}
-                            className='w-full text-black'>
-                            {question.allowed_values.map((option: any) => (
-                              <CustomRadio
-                                key={option.value} // Key optimization
-                                name={option.value}
-                                value={option.value}>
-                                {option.value}
-                              </CustomRadio>
-                            ))}
-                          </RadioGroup>
+                          <>
+                            <RadioGroup
+                              onValueChange={(value) =>
+                                handleQuestionSelect(value, question)
+                              }
+                              value={
+                                answers[question.question_id]
+                                  ? answers[question.question_id].split('&&')[0]
+                                  : ''
+                              }
+                              name={question.question_id}
+                              className='w-full text-black'>
+                              {question.allowed_values.map((option: any) => (
+                                <CustomRadio
+                                  key={option.value} // Key optimization
+                                  name={option.value}
+                                  value={option.value}>
+                                  {option.value}
+                                </CustomRadio>
+                              ))}
+                            </RadioGroup>
+
+                            {isTextboxForQuestion && (
+                              <div className='mt-4'>
+                                <textarea
+                                  onChange={handleIsTextboxChange}
+                                  onBlur={() =>
+                                    handleIsTextboxBlur(question.question_id)
+                                  }
+                                  name={question.question_id}
+                                  placeholder='Type your problem'
+                                  className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                                />
+                              </div>
+                            )}
+                          </>
                         )
                       ) : (
                         <>
@@ -312,6 +353,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
           {photoUploadEnable && (
             <Button
               onClick={handlePayment}
+              isDisabled={uploadImages.length === 0}
               className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
               Payment
             </Button>
