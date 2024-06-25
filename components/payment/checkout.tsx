@@ -106,8 +106,10 @@ const Checkout = () => {
    * Skip payment mode
    */
   const skipPaymentMode = async () => {
+    setLoading(true);
     const orderDetails = await createPaymentAndOrder();
     if (!orderDetails) {
+      setLoading(false);
       toast.error('Failed to create payment and order.');
       return;
     }
@@ -125,7 +127,9 @@ const Checkout = () => {
       } else {
         toast.error('Failed to save questionnaire');
       }
+      setLoading(false);
     } catch (error: any) {
+      setLoading(false);
       toast.error(error.message);
     }
   };
@@ -496,6 +500,7 @@ const Checkout = () => {
                       type='button'
                       color='primary'
                       variant='bordered'
+                      isLoading={loading}
                       onClick={handleApplyCoupon}>
                       Apply
                     </Button>
