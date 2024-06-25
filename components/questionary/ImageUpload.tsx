@@ -53,7 +53,7 @@ const ImageUpload: React.FC = () => {
     }
 
     const isDuplicate = fileList.some(
-      (f) => f.name === file.name && f.size === file.size
+      (f) => f.name === encodeURI(file.name) && f.size === file.size
     );
     if (isDuplicate) {
       toast.error('You cannot upload the same file twice!');
@@ -79,7 +79,7 @@ const ImageUpload: React.FC = () => {
 
     const params = {
       Bucket: 'nextcare.life',
-      Key: file.name,
+      Key: encodeURI(file.name),
       Body: file,
     };
 
@@ -88,11 +88,11 @@ const ImageUpload: React.FC = () => {
       await s3Client.send(new PutObjectCommand(params));
       onProgress(50);
       if (onSuccess) {
-        dispatch(uploadImages(file.name));
+        dispatch(uploadImages(encodeURI(file.name)));
         onProgress(100);
         onSuccess({
-          name: file.name,
-          url: 'https://nextcare.life/files/' + file.name,
+          name: encodeURI(file.name),
+          url: 'https://nextcare.life/files/' + encodeURI(file.name),
         });
 
         toast.success('Image Uploaded Successfully');
@@ -111,14 +111,14 @@ const ImageUpload: React.FC = () => {
   const removePhoto = async (file: UploadFile) => {
     const params = {
       Bucket: 'nextcare.life',
-      Key: file.name,
+      Key: encodeURI(file.name),
       Body: file,
     };
 
     try {
       await s3Client.send(new DeleteObjectCommand(params));
       toast.success('Image Deleted Successfully');
-      dispatch(deleteImages(file.name));
+      dispatch(deleteImages(encodeURI(file.name)));
       const newFileList = fileList.filter((item) => item.uid !== file.uid);
       setFileList(newFileList);
     } catch (error: any) {

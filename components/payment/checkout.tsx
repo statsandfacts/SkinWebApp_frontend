@@ -36,8 +36,8 @@ const Checkout = () => {
   // const [total, setTotal] = useState(0);
   // const [offerAmount, setOfferAmount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [coupon, setCoupon] = useState('');
-  const [couponCode, setCouponCode] = useState('');
+  const [coupon, setCoupon] = useState('BETA100');
+  const [couponCode, setCouponCode] = useState('BETA100');
   const [isCouponApplied, setIsCouponApplied] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
@@ -465,7 +465,7 @@ const Checkout = () => {
                   }
                   variant='faded'
                   onClose={removeCoupon}>
-                  <span className='text-green-500'>Welcome Offer</span>
+                  <span className='text-green-500'>{couponCode}</span>
                 </Chip>
               </div>
             ) : (
