@@ -46,8 +46,8 @@ const ImageUpload: React.FC = () => {
       toast.error('You can only upload JPG/PNG files!');
       return Upload.LIST_IGNORE;
     }
-    const isLt1M = file.size / 1024 / 1024 < 1;
-    if (!isLt1M) {
+    const isLt10M = file.size / 1024 / 1024 < 10;
+    if (!isLt10M) {
       toast.error('Image must be smaller than 1MB!');
       return Upload.LIST_IGNORE;
     }
