@@ -102,6 +102,18 @@ const SignupForm = () => {
           setLogin(userId);
           disptach(setLoginModal(false));
           toast.success('User created successfully');
+
+          // call login APi
+          const loginPayload = {
+            email_or_phone_no: values.email_id,
+            password: values.password,
+            user_role: '1',
+            session_id: new Date().getTime().toString(),
+          };
+          const res = await api.login(loginPayload);
+          if (res && res.status === 200) {
+            setSession(loginPayload.session_id);
+          }
           router.back();
         } else {
           toast.error('Something went wrong');
@@ -303,12 +315,14 @@ const SignupForm = () => {
         email: formik.values.email_id,
         phone_number: formik.values.phone_number,
       };
-
+      setIsLoading(true);
       const res = await api.verifyUser(payload);
       if (!res) {
         toast.error('User already exists');
+        setIsLoading(false);
         return;
       }
+
       formik.validateForm().then((v) => {
         if (v && Object.keys(v).length > 0) {
           return;
@@ -318,6 +332,8 @@ const SignupForm = () => {
     } catch (error) {
       toast.error('User already exists');
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -357,6 +373,7 @@ const SignupForm = () => {
                 type='button'
                 onClick={openOtpModal}
                 color='primary'
+                isLoading={isLoading}
                 className='grow justify-center px-5 py-2.5 text-white bg-violet-600
                           rounded-[96.709px] '>
                 Verify
