@@ -35,6 +35,8 @@ const SignupForm = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [verify, setVerify] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const { setLogin, setSession } = useUser();
   const disptach = useDispatch();
 
@@ -302,8 +304,15 @@ const SignupForm = () => {
     setCurrentStep(currentStep - 1);
   };
 
-  const [verify, setVerify] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
+  // if user already verify the otp anf after he change in email or phone
+  // then we need to verify again
+  useEffect(() => {
+    if (verify) {
+      if (formik.values.email_id || formik.values.phone_number) {
+        setVerify(false);
+      }
+    }
+  }, [formik.values.email_id, formik.values.phone_number]);
 
   /**
    * Otp modal open functions
@@ -486,6 +495,8 @@ const OTPModal = ({
       try {
         if (values.otp === otp) {
           successVerifyOtp();
+          // reset formik
+          formik.resetForm();
           toast.success('OTP Verified Successfully');
         } else {
           toast.error('Invalid OTP');
