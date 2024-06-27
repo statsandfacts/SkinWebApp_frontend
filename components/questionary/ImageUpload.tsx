@@ -48,7 +48,7 @@ const ImageUpload: React.FC = () => {
     }
     const isLt1M = file.size / 1024 / 1024 < 1;
     if (!isLt1M) {
-      toast.error('Image must be smaller than 1MB!');
+      toast.error('Image must be smaller than 10MB!');
       return Upload.LIST_IGNORE;
     }
 
@@ -136,7 +136,7 @@ const ImageUpload: React.FC = () => {
   return (
     <>
       <Upload
-        accept='image/*'
+        // accept='image/*'
         listType='picture-card'
         fileList={fileList}
         beforeUpload={beforeUpload}
