@@ -43,7 +43,7 @@ const SessionList = () => {
                             #
                           </th>
                           <th scope='col' className='px-4 md:px-0 py-4'>
-                            Disease
+                            CASE ID
                           </th>
                           <th scope='col' className='px-4 md:px-0 py-4'>
                             Doctor
@@ -75,7 +75,7 @@ const SessionList = () => {
                               <Link
                                 href={`/user/sessions/${item?.case_id}`}
                                 className='block w-full py-4'>
-                                {item?.diseases}
+                                {item?.case_id}
                               </Link>
                             </td>
                             <td className='whitespace-nowrap px-4 md:px-0'>
