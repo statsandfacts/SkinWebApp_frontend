@@ -79,7 +79,7 @@ const ImageUpload: React.FC = () => {
 
     const params = {
       Bucket: 'nextcare.life',
-      Key: encodeURI(file.name),
+      Key: new Date().getTime() + file.name.replace(/\s/g, ''),
       Body: file,
     };
 
@@ -88,11 +88,16 @@ const ImageUpload: React.FC = () => {
       await s3Client.send(new PutObjectCommand(params));
       onProgress(50);
       if (onSuccess) {
-        dispatch(uploadImages(encodeURI(file.name)));
+        dispatch(
+          uploadImages(new Date().getTime() + file.name.replace(/\s/g, ''))
+        );
         onProgress(100);
         onSuccess({
-          name: encodeURI(file.name),
-          url: 'https://nextcare.life/files/' + encodeURI(file.name),
+          name: new Date().getTime() + file.name.replace(/\s/g, ''),
+          url:
+            'https://nextcare.life/files/' +
+            new Date().getTime() +
+            file.name.replace(/\s/g, ''),
         });
 
         toast.success('Image Uploaded Successfully');
