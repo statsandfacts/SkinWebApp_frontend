@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { Image, Upload } from 'antd';
-
 import type { GetProp, UploadFile, UploadProps } from 'antd';
 import { toast } from 'react-toastify';
 import axios from 'axios';
@@ -9,6 +8,7 @@ import { s3Client } from '@/utils/s3Upload';
 import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import { useDispatch } from 'react-redux';
 import { deleteImages, uploadImages } from '@/redux/slices/questionary.slice';
+import { sanitizeFileName } from '@/utils/sanitizeFileName';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -53,7 +53,9 @@ const ImageUpload: React.FC = () => {
     }
 
     const isDuplicate = fileList.some(
-      (f) => f.name === encodeURI(file.name) && f.size === file.size
+      (f) =>
+        sanitizeFileName(f.name) === sanitizeFileName(file.name) &&
+        f.size === file.size
     );
     if (isDuplicate) {
       toast.error('You cannot upload the same file twice!');
@@ -77,9 +79,12 @@ const ImageUpload: React.FC = () => {
       return;
     }
 
+    // Generate a unique, sanitized file name
+    const uniqueFileName = sanitizeFileName(file.name);
+
     const params = {
       Bucket: 'nextcare.life',
-      Key: new Date().getTime() + file.name.replace(/\s/g, ''),
+      Key: uniqueFileName,
       Body: file,
     };
 
@@ -88,16 +93,11 @@ const ImageUpload: React.FC = () => {
       await s3Client.send(new PutObjectCommand(params));
       onProgress(50);
       if (onSuccess) {
-        dispatch(
-          uploadImages(new Date().getTime() + file.name.replace(/\s/g, ''))
-        );
+        dispatch(uploadImages(uniqueFileName));
         onProgress(100);
         onSuccess({
-          name: new Date().getTime() + file.name.replace(/\s/g, ''),
-          url:
-            'https://nextcare.life/files/' +
-            new Date().getTime() +
-            file.name.replace(/\s/g, ''),
+          name: uniqueFileName,
+          url: 'https://nextcare.life/files/' + uniqueFileName,
         });
 
         toast.success('Image Uploaded Successfully');
@@ -116,14 +116,14 @@ const ImageUpload: React.FC = () => {
   const removePhoto = async (file: UploadFile) => {
     const params = {
       Bucket: 'nextcare.life',
-      Key: encodeURI(file.name),
+      Key: sanitizeFileName(file.name),
       Body: file,
     };
 
     try {
       await s3Client.send(new DeleteObjectCommand(params));
       toast.success('Image Deleted Successfully');
-      dispatch(deleteImages(encodeURI(file.name)));
+      dispatch(deleteImages(sanitizeFileName(file.name)));
       const newFileList = fileList.filter((item) => item.uid !== file.uid);
       setFileList(newFileList);
     } catch (error: any) {
@@ -141,7 +141,6 @@ const ImageUpload: React.FC = () => {
   return (
     <>
       <Upload
-        // accept='image/*'
         listType='picture-card'
         fileList={fileList}
         beforeUpload={beforeUpload}
