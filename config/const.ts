@@ -5,6 +5,7 @@ const CONST = {
   IMAGE_URL: 'https://s3.us-east-2.amazonaws.com/nextcare.life',
   APP_URL: 'https://nextcare.life',
   APP_NAME: 'nextcare.life',
+  LOGIN_OPEN_MODAL_AT: 3,
 
   // Review Carousel
   REVIEW_CAROUSEL_ITEMS: [
