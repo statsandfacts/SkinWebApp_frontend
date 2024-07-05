@@ -80,8 +80,7 @@ const ImageUpload: React.FC = () => {
     }
 
     // Generate a unique, sanitized file name
-    const uniqueFileName = sanitizeFileName(file.name);
-
+    const uniqueFileName = (file.uid ? file.uid:'_') + sanitizeFileName(file.name);
     const params = {
       Bucket: 'nextcare.life',
       Key: uniqueFileName,
@@ -114,16 +113,18 @@ const ImageUpload: React.FC = () => {
   };
 
   const removePhoto = async (file: UploadFile) => {
+    const fileName = (file.uid ? file.uid:'_') + sanitizeFileName(file.name);
+
     const params = {
       Bucket: 'nextcare.life',
-      Key: sanitizeFileName(file.name),
+      Key: fileName,
       Body: file,
     };
 
     try {
       await s3Client.send(new DeleteObjectCommand(params));
       toast.success('Image Deleted Successfully');
-      dispatch(deleteImages(sanitizeFileName(file.name)));
+      dispatch(deleteImages(fileName));
       const newFileList = fileList.filter((item) => item.uid !== file.uid);
       setFileList(newFileList);
     } catch (error: any) {
