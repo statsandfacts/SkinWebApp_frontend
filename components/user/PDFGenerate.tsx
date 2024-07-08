@@ -121,11 +121,29 @@ const PDFGenerate = ({ data, componentRef }: any) => {
               <span>Doctor Name:</span>
               <span>{data?.doctor_name}</span>
             </div>
+
+            {data?.seal_stamp && (
+              <div className='p-2 '>
+                <Image
+                  src={data?.seal_stamp}
+                  alt={data?.seal_stamp || 'doc stamp'}
+                  width={150}
+                  height={80}
+                />
+              </div>
+            )}
           </div>
 
-          <div className='p-2 '>
-            <Image src='/sign.png' alt='logo' width={150} height={80} />
-          </div>
+          {data?.signature && (
+            <div className='p-2 '>
+              <Image
+                src={data?.signature}
+                alt={data?.signature || 'No Image'}
+                width={150}
+                height={80}
+              />
+            </div>
+          )}
         </div>
 
         <div className='flex flex-row justify-between py-5  border-gray-600 border-t'>
