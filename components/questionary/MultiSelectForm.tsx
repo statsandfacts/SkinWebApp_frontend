@@ -38,6 +38,8 @@ const CustomRadio = React.memo(({ children, ...otherProps }: any) => (
   </Radio>
 ));
 
+CustomRadio.displayName = 'CustomRadio';
+
 // CustomCheckbox Component
 const CustomCheckbox = React.memo(({ children, ...otherProps }: any) => (
   <Checkbox
@@ -54,6 +56,8 @@ const CustomCheckbox = React.memo(({ children, ...otherProps }: any) => (
     {children}
   </Checkbox>
 ));
+
+CustomCheckbox.displayName = 'CustomCheckbox';
 
 // InputBox Component
 const InputBox = React.memo(({ question }: any) => {
@@ -86,6 +90,8 @@ const InputBox = React.memo(({ question }: any) => {
     />
   );
 });
+
+InputBox.displayName = 'InputBox';
 
 // Main Component
 const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
