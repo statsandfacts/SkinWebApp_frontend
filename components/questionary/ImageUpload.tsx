@@ -65,7 +65,13 @@ const ImageUpload: React.FC = () => {
     return true;
   };
 
-  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+  const handleChange: UploadProps['onChange'] = ({
+    file,
+    fileList: newFileList,
+  }) => {
+    if (file.status === 'removed') {
+      return;
+    }
     setFileList(newFileList);
   };
 
@@ -80,7 +86,8 @@ const ImageUpload: React.FC = () => {
     }
 
     // Generate a unique, sanitized file name
-    const uniqueFileName = (file.uid ? file.uid:'_') + sanitizeFileName(file.name);
+    const uniqueFileName =
+      (file.uid ? file.uid : '_') + sanitizeFileName(file.name);
     const params = {
       Bucket: 'nextcare.life',
       Key: uniqueFileName,
@@ -113,8 +120,7 @@ const ImageUpload: React.FC = () => {
   };
 
   const removePhoto = async (file: UploadFile) => {
-    const fileName = (file.uid ? file.uid:'_') + sanitizeFileName(file.name);
-
+    const fileName = (file.uid ? file.uid : '_') + sanitizeFileName(file.name);
     const params = {
       Bucket: 'nextcare.life',
       Key: fileName,

@@ -2,7 +2,7 @@
 import useSWR from 'swr';
 import * as api from '@/services/app.service';
 import md5 from 'md5';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import MultiSelectForm from './MultiSelectForm';
 import { Button, Radio, RadioGroup, cn } from '@nextui-org/react';
 import { toast } from 'react-toastify';
@@ -116,7 +116,13 @@ const Questionary = () => {
         const res = await api.showRecords(hash);
 
         if (res && res.records?.length > 0) {
-          res.records.map((record: any) => {
+          // order by sequence id
+          const rec = res.records.sort((a: any, b: any) => {
+            return a.sequence - b.sequence;
+          });
+
+          // get ids from records
+          rec.map((record: any) => {
             const id = record?.question_id;
             const i = id && id.toString();
             ids.push(i);

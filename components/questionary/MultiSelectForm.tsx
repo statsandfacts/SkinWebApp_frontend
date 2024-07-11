@@ -81,7 +81,7 @@ const InputBox = React.memo(({ question }: any) => {
       onChange={handleInputChange}
       name={question.question_id}
       value={input}
-      placeholder='Type your problem'
+      placeholder='Please describe your issue'
       className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
     />
   );
@@ -125,11 +125,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
     }
 
     setNextLoading(true);
-    setTimeout(() => {
-      setNextLoading(false);
-      dispatch(setDisableNext(true));
-      dispatch(increaseStep());
-    }, 500);
+    moveToNextStep();
   };
 
   const handlePrevStep = () => {
@@ -142,11 +138,21 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
 
   const handlePhotoUpload = () => {
     setNextLoading(true);
+    moveToNextStep({ photoUpload: true });
+  };
+
+  // Move to next step
+  const moveToNextStep = ({ photoUpload = false } = {}) => {
     setTimeout(() => {
       setNextLoading(false);
       dispatch(increaseStep());
-      dispatch(setPhotoUploadEnable(true));
-    }, 700);
+      if (selectedValues.length > 0) {
+        setSelectedValues([]);
+      }
+      if (photoUpload) {
+        dispatch(setPhotoUploadEnable(true));
+      }
+    }, 500);
   };
 
   const handleQuestionSelect = (value: any, question: any) => {
@@ -169,13 +175,9 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
       dispatch(setAnswers({ id, value }));
       dispatch(setDisableNext(false));
     }
-
-    setTimeout(() => {
-      if (!isTextbox) {
-        setNextLoading(false);
-        dispatch(increaseStep());
-      }
-    }, 500);
+    if (!isTextbox) {
+      moveToNextStep();
+    }
   };
 
   const handleIsTextboxChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -194,6 +196,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
   };
 
   const handlePayment = () => {
+    setNextLoading(true);
     router.push('/checkout');
   };
 
@@ -276,46 +279,34 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
         </div>
       )}
 
+      {/* All button config */}
       <div className='flex justify-center gap-3 mt-3'>
-        {currentStep > 0 && (
-          <Button
-            onClick={handlePrevStep}
-            className='grow justify-center px-5 py-2.5 text-white border-2 border-black border-solid rounded-full bg-black'>
-            Previous
-          </Button>
-        )}
+        <Button
+          onClick={
+            currentStep === 0 ? () => backToKeyCriteria(false) : handlePrevStep
+          }
+          className='grow justify-center px-5 py-2.5 text-white border-2 border-black border-solid rounded-full bg-black'>
+          Previous
+        </Button>
 
-        {currentStep === 0 && (
-          <Button
-            onClick={() => backToKeyCriteria(false)}
-            className='grow justify-center px-5 py-2.5 text-white border-2 border-black border-solid rounded-full bg-black'>
-            Previous
-          </Button>
-        )}
-
-        {currentStep < questionary.length - 1 && (
+        {currentStep < questionary.length ? (
           <Button
             isDisabled={disableNext}
-            onClick={handleNextStep}
+            onClick={
+              currentStep === questionary.length - 1
+                ? handlePhotoUpload
+                : handleNextStep
+            }
             isLoading={nextLoading}
             className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
             Next
           </Button>
-        )}
-
-        {currentStep === questionary.length - 1 && (
-          <Button
-            isDisabled={disableNext}
-            isLoading={nextLoading}
-            onClick={handlePhotoUpload}
-            className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
-            Next
-          </Button>
-        )}
+        ) : null}
 
         {photoUploadEnable && (
           <Button
             onClick={handlePayment}
+            isLoading={nextLoading}
             isDisabled={uploadImages.length === 0}
             className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
             Payment
