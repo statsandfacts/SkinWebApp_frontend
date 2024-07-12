@@ -219,7 +219,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
     const orderDetails = await createPaymentAndOrder();
     if (!orderDetails) {
       setLoading(false);
-      toast.error('Failed to create payment and order.');
+      // toast.error('Failed to create payment and order.');
       return;
     }
 
@@ -248,7 +248,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
       const crtCase = await createCase();
       if (!crtCase && crtCase?.status !== 200) {
         toast.error('Something went wrong while creating case');
-        return false;
+        return;
       }
 
       const payload = {
@@ -259,8 +259,14 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
       };
       const data = await api.savePaymentTransaction(payload);
       return data;
-    } catch (error) {
+    } catch (error: any) {
+      setLoading(false);
+      toast.error(
+        error?.response?.data.detail ||
+          'Something went wrong while creating case'
+      );
       console.log(error);
+      return;
     }
   };
 
@@ -282,8 +288,8 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
       const res = await api.createCase(createCasePayload);
       return res;
     } catch (error) {
-      console.log(error);
-      return false;
+      setLoading(false);
+      throw error;
     }
   };
 
@@ -398,10 +404,10 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
           {photoUploadEnable && (
             <Button
               onClick={handlePayment}
-              isLoading={nextLoading || loading}
+              isLoading={loading}
               isDisabled={uploadImages.length === 0}
               className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
-              Payment
+              Create Case
             </Button>
           )}
         </div>

@@ -199,6 +199,51 @@ export const createCase = async (payload: any) => {
     return data;
   } catch (error) {
     console.log(error);
+    const axiosError = error as AxiosError; // Assert as AxiosError (if using Axios)
+    if (axiosError.code === 'ECONNABORTED') {
+      throw new Error('timeout');
+    }
+    throw error;
+  }
+};
+
+/**
+ *
+ * @param payload
+ * @returns
+ */
+export const updateCase = async (payload: any) => {
+  try {
+    const { data } = await axios.put(baseUrl + 'case/update-case', payload, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+/**
+ *
+ * @param payload
+ * @returns
+ */
+export const saveUserResponse = async (payload: any) => {
+  try {
+    const { data } = await axios.post(
+      baseUrl + 'users/save-user-response',
+      payload,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
   }
 };
 
