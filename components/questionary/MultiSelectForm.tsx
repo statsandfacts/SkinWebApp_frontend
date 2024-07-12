@@ -22,6 +22,9 @@ import { setLoginModal } from '@/redux/slices/loginModal.slice';
 import PhotoUpload from './PhotoUpload';
 import { toast } from 'react-toastify';
 import { COMMON } from '@/config/const';
+import * as api from '@/services/app.service';
+import { removeLocalStorage } from '@/utils/localStore';
+import SuccessModal from '../payment/PaymentSucessModal';
 
 // CustomRadio Component
 const CustomRadio = React.memo(({ children, ...otherProps }: any) => (
@@ -97,8 +100,7 @@ InputBox.displayName = 'InputBox';
 const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { user: userId } = useUser();
-
+  const { user: userId, userSession: sessionId } = useUser();
   const { currentStep, answers, disableNext, photoUploadEnable, uploadImages } =
     useSelector((state: any) => state.questionary);
 
@@ -203,122 +205,208 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
 
   const handlePayment = () => {
     setNextLoading(true);
-    router.push('/checkout');
+    // router.push('/checkout');
+
+    // FIXME: After testing remove this method
+    skipPaymentMode();
+  };
+
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const skipPaymentMode = async () => {
+    setLoading(true);
+    const orderDetails = await createPaymentAndOrder();
+    if (!orderDetails) {
+      setLoading(false);
+      toast.error('Failed to create payment and order.');
+      return;
+    }
+
+    const payload = {
+      session_id: sessionId,
+      user_id: userId,
+      question_answers: [answers],
+    };
+    try {
+      const res = await api.saveQuestionnaire(payload);
+      if (res) {
+        removeLocalStorage('keyCriteria');
+        setPaymentSuccess(true);
+      } else {
+        toast.error('Failed to save questionnaire');
+      }
+      setLoading(false);
+    } catch (error: any) {
+      setLoading(false);
+      toast.error(error.message);
+    }
+  };
+
+  const createPaymentAndOrder = async () => {
+    try {
+      const crtCase = await createCase();
+      if (!crtCase && crtCase?.status !== 200) {
+        toast.error('Something went wrong while creating case');
+        return false;
+      }
+
+      const payload = {
+        case_id: crtCase.case_id,
+        currency: 'INR',
+        amount: 0,
+        created_by: userId,
+      };
+      const data = await api.savePaymentTransaction(payload);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const createCase = async () => {
+    try {
+      const imageArray =
+        uploadImages?.map((file: File) => COMMON.IMAGE_URL + '/' + file) || [];
+
+      let images = '';
+      if (imageArray) {
+        images = imageArray.join(',');
+      }
+
+      const createCasePayload = {
+        patient_id: userId,
+        image_path: images,
+      };
+
+      const res = await api.createCase(createCasePayload);
+      return res;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   };
 
   return (
     <div className='w-full flex flex-col items-center justify-center'>
-      {!photoUploadEnable &&
-        questionary?.map((question: any, index: number) => (
-          <div key={index} className='w-full'>
-            {index === currentStep && (
-              <div key={question.question_id} className='flex flex-col w-full'>
-                <p className='pb-2 pl-1'>
-                  <span className='text-xl font-semibold text-start'>
-                    {question?.question_name}
-                  </span>
-                </p>
-                {question?.question_type === 'multiple choice' ? (
-                  question?.multiple_val_allowed ? (
-                    <CheckboxGroup
-                      classNames={{ base: 'w-full' }}
-                      value={selectedValues}
-                      onValueChange={(value) =>
-                        handleCheckboxChange(value, question?.question_id)
-                      }>
-                      {question.allowed_values.map((option: any) => (
-                        <CustomCheckbox
-                          key={option.value}
-                          value={option.value}
-                          name={question.question_id}>
-                          {option.value}
-                        </CustomCheckbox>
-                      ))}
-                    </CheckboxGroup>
-                  ) : (
-                    <>
-                      <RadioGroup
+      <>
+        {!photoUploadEnable &&
+          questionary?.map((question: any, index: number) => (
+            <div key={index} className='w-full'>
+              {index === currentStep && (
+                <div
+                  key={question.question_id}
+                  className='flex flex-col w-full'>
+                  <p className='pb-2 pl-1'>
+                    <span className='text-xl font-semibold text-start'>
+                      {question?.question_name}
+                    </span>
+                  </p>
+                  {question?.question_type === 'multiple choice' ? (
+                    question?.multiple_val_allowed ? (
+                      <CheckboxGroup
+                        classNames={{ base: 'w-full' }}
+                        value={selectedValues}
                         onValueChange={(value) =>
-                          handleQuestionSelect(value, question)
-                        }
-                        value={
-                          answers[question.question_id]?.split('&&')[0] || ''
-                        }
-                        name={question.question_id}
-                        className='w-full text-black'>
+                          handleCheckboxChange(value, question?.question_id)
+                        }>
                         {question.allowed_values.map((option: any) => (
-                          <CustomRadio
+                          <CustomCheckbox
                             key={option.value}
-                            name={option.value}
-                            value={option.value}>
+                            value={option.value}
+                            name={question.question_id}>
                             {option.value}
-                          </CustomRadio>
+                          </CustomCheckbox>
                         ))}
-                      </RadioGroup>
+                      </CheckboxGroup>
+                    ) : (
+                      <>
+                        <RadioGroup
+                          onValueChange={(value) =>
+                            handleQuestionSelect(value, question)
+                          }
+                          value={
+                            answers[question.question_id]?.split('&&')[0] || ''
+                          }
+                          name={question.question_id}
+                          className='w-full text-black'>
+                          {question.allowed_values.map((option: any) => (
+                            <CustomRadio
+                              key={option.value}
+                              name={option.value}
+                              value={option.value}>
+                              {option.value}
+                            </CustomRadio>
+                          ))}
+                        </RadioGroup>
 
-                      {isTextboxForQuestion && (
-                        <div className='mt-4'>
-                          <textarea
-                            onChange={handleIsTextboxChange}
-                            onBlur={() =>
-                              handleIsTextboxBlur(question.question_id)
-                            }
-                            name={question.question_id}
-                            placeholder='Enter your answer here'
-                            className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                          />
-                        </div>
-                      )}
-                    </>
-                  )
-                ) : (
-                  <InputBox question={question} />
-                )}
-              </div>
-            )}
-          </div>
-        ))}
-
-      {photoUploadEnable && (
-        <div className='mb-3'>
-          <PhotoUpload />
-        </div>
-      )}
-
-      {/* All button config */}
-      <div className='flex justify-center gap-3 mt-3'>
-        <Button
-          onClick={
-            currentStep === 0 ? () => backToKeyCriteria(false) : handlePrevStep
-          }
-          className='grow justify-center px-5 py-2.5 text-white border-2 border-black border-solid rounded-full bg-black'>
-          Previous
-        </Button>
-
-        {currentStep < questionary.length ? (
-          <Button
-            isDisabled={disableNext}
-            onClick={
-              currentStep === questionary.length - 1
-                ? handlePhotoUpload
-                : handleNextStep
-            }
-            isLoading={nextLoading}
-            className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
-            Next
-          </Button>
-        ) : null}
+                        {isTextboxForQuestion && (
+                          <div className='mt-4'>
+                            <textarea
+                              onChange={handleIsTextboxChange}
+                              onBlur={() =>
+                                handleIsTextboxBlur(question.question_id)
+                              }
+                              name={question.question_id}
+                              placeholder='Enter your answer here'
+                              className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            />
+                          </div>
+                        )}
+                      </>
+                    )
+                  ) : (
+                    <InputBox question={question} />
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
 
         {photoUploadEnable && (
-          <Button
-            onClick={handlePayment}
-            isLoading={nextLoading}
-            isDisabled={uploadImages.length === 0}
-            className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
-            Payment
-          </Button>
+          <div className='mb-3'>
+            <PhotoUpload />
+          </div>
         )}
-      </div>
+
+        {/* All button config */}
+        <div className='flex justify-center gap-3 mt-3'>
+          <Button
+            onClick={
+              currentStep === 0
+                ? () => backToKeyCriteria(false)
+                : handlePrevStep
+            }
+            className='grow justify-center px-5 py-2.5 text-white border-2 border-black border-solid rounded-full bg-black'>
+            Previous
+          </Button>
+
+          {currentStep < questionary.length ? (
+            <Button
+              isDisabled={disableNext}
+              onClick={
+                currentStep === questionary.length - 1
+                  ? handlePhotoUpload
+                  : handleNextStep
+              }
+              isLoading={nextLoading}
+              className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
+              Next
+            </Button>
+          ) : null}
+
+          {photoUploadEnable && (
+            <Button
+              onClick={handlePayment}
+              isLoading={nextLoading || loading}
+              isDisabled={uploadImages.length === 0}
+              className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
+              Payment
+            </Button>
+          )}
+        </div>
+      </>
+      <SuccessModal openModal={paymentSuccess} />
     </div>
   );
 };
