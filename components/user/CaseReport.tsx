@@ -113,9 +113,9 @@ const CaseReport = ({ id }: { id: string }) => {
                             alt=''
                           />
                         </div>
-                        <div className='text-center'>
+                        {/* <div className='text-center'>
                           <span className='text-sm'>{image.value}</span>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   ))}
