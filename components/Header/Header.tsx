@@ -31,6 +31,10 @@ export default function Header() {
       name: 'Contact Us',
       link: '/contact-us',
     },
+    {
+      name: 'API Sandbox',
+      link: '/apisandbox',
+    },
   ];
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -85,6 +89,11 @@ export default function Header() {
         <NavbarItem>
           <Link color='foreground' href='/contact-us'>
             Contact us
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color='foreground' href='/apisandbox'>
+            API Sandbox
           </Link>
         </NavbarItem>
       </NavbarContent>
