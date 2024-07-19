@@ -4,6 +4,7 @@ import { siteConfig } from '@/config/site';
 import { Providers } from './providers';
 import { Inter } from 'next/font/google';
 import PrimaryLayout from '@/components/layout/PrimaryLayout';
+import { GoogleAnalytics } from '@next/third-parties/google';
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -34,6 +35,7 @@ export default function RootLayout({
         <Providers>
           <div className='w-full light relative flex flex-col min-h-screen text-foreground bg-background'>
             <PrimaryLayout>{children}</PrimaryLayout>
+            <GoogleAnalytics gaId="G-9XLXTME5HQ" />
           </div>
         </Providers>
       </body>
