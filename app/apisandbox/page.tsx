@@ -10,7 +10,7 @@ const ContactUs = () => {
         <div className='flex flex-col justify-between'>
           <div>
             <h2 className='text-4xl lg:text-5xl font-bold leading-tight text-pink-500'>
-              API Sanbox coming soon...
+              API Sandbox coming soon...
             </h2>
             <div className='text-gray-700 mt-8'>
               Contact us for questions, technical assistance, or collaboration
