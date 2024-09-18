@@ -37,16 +37,16 @@ const digitalPrescriptionSlice = createSlice({
       state,
       action: PayloadAction<{ docType: string; imageName: string }>
     ) => {
-      const { docType, imageName } = action.payload;
-      const testTypeObject = state.uploadImages.find(
-        (item) => item.docType === docType
-      );
+      // const { docType, imageName } = action.payload;
+      // const testTypeObject = state.uploadImages.find(
+      //   (item) => item.docType === docType
+      // );
 
-      if (testTypeObject) {
-        testTypeObject.images = testTypeObject.images.filter(
-          (img) => img.name !== imageName
-        );
-      }
+      // if (testTypeObject) {
+      //   testTypeObject.images = testTypeObject.images.filter(
+      //     (img: any) => img.name !== imageName
+      //   );
+      // }
     },
     updatePatientFor: (
       state,
