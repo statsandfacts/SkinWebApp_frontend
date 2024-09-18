@@ -128,25 +128,25 @@ const UploadImageModal: React.FC<UploadImageModalProps> = ({
 
     try {
       onProgress(10);
-      await s3ClientDP.send(new PutObjectCommand(params));
-      onProgress(50);
-      if (onSuccess) {
-        onProgress(100);
-        const imageObject = {
-          name: uniqueFileName,
-          url:
-            "https://next-care-digital-prescription.s3.ap-south-1.amazonaws.com/" +
-            uniqueFileName,
-        };
-        onSuccess(imageObject);
-        dispatch(
-          uploadImage({
-            docType,
-            image: imageObject,
-          })
-        );
-        toast.success("Image Uploaded Successfully");
-      }
+      // await s3ClientDP.send(new PutObjectCommand(params));
+      // onProgress(50);
+      // if (onSuccess) {
+      //   onProgress(100);
+      //   const imageObject = {
+      //     name: uniqueFileName,
+      //     url:
+      //       "https://next-care-digital-prescription.s3.ap-south-1.amazonaws.com/" +
+      //       uniqueFileName,
+      //   };
+      //   onSuccess(imageObject);
+      //   dispatch(
+      //     uploadImage({
+      //       docType,
+      //       image: imageObject,
+      //     })
+      //   );
+      //   toast.success("Image Uploaded Successfully");
+      // }
     } catch (error: any) {
       if (onError) {
         onError(error);
@@ -166,11 +166,11 @@ const UploadImageModal: React.FC<UploadImageModalProps> = ({
     };
 
     try {
-      await s3ClientDP.send(new DeleteObjectCommand(params));
-      toast.success("Image Deleted Successfully");
-      dispatch(deleteImage({ docType, imageName: fileName }));
-      const newFileList = fileList.filter((item) => item.uid !== file.uid);
-      setFileList(newFileList);
+      // await s3ClientDP.send(new DeleteObjectCommand(params));
+      // toast.success("Image Deleted Successfully");
+      // dispatch(deleteImage({ docType, imageName: fileName }));
+      // const newFileList = fileList.filter((item) => item.uid !== file.uid);
+      // setFileList(newFileList);
     } catch (error: any) {
       toast.error("Something went wrong. Please try again.");
     }
