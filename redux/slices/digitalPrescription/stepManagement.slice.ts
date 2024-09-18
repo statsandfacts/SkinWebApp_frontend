@@ -26,6 +26,7 @@ interface StepManagementState {
   isViewImagesModal: boolean;
 }
 
+
 const initialState: StepManagementState = {
   step: 0,
   documentDetails: [],
