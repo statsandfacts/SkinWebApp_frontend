@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLoginModal } from '@/redux/slices/loginModal.slice';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 
+
 export default function Drawer({ children, title, isCloseIcon }: any) {
   const { isModalOpen } = useSelector((state: any) => state.loginModal);
   const dispatch = useDispatch();
