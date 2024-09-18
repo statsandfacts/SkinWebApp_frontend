@@ -9,3 +9,7 @@ export const s3Client = new S3Client({
     secretAccessKey: 'J4J7JyRDq1xC75iVT+EoLP5MJL10u8QtaoUJSa35',
   },
 });
+
+
+// TODO:- AWS setup test for Digital Prescription
+export const s3ClientDP = {}
