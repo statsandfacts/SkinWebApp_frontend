@@ -13,6 +13,10 @@ module.exports = {
       backgroundImage: {
         'hero-gradient':
           'linear-gradient(0deg, #D27C59, #D27C59),linear-gradient(277.9deg, #F0936C 21.64%, #9DEAF4 119.7%);',
+        'blue-slate-gradient': 'linear-gradient(38deg, rgba(246,251,255,1) 0%, rgba(235,246,255,1) 47%, rgba(247,252,255,1) 100%)',
+      },
+      colors: {
+        primary: '#2f6690'
       },
     },
   },

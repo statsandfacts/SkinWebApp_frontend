@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Navbar,
   NavbarBrand,
@@ -12,31 +12,31 @@ import {
 import NavButton from './NavButton';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { COMMON } from "@/config/const";
+import NavButtonDP from '../DigitalPrescription/Auth/NavButton';
+
+type MenuItem = {
+  name: string;
+  link: string;
+};
 
 export default function Header() {
-  const menuItems = [
-    {
-      name: 'Home',
-      link: '/',
-    },
-    {
-      name: 'About',
-      link: '/about-us',
-    },
-    {
-      name: 'FAQ',
-      link: '/faq',
-    },
-    {
-      name: 'Contact Us',
-      link: '/contact-us',
-    },
-    {
-      name: 'API Sandbox',
-      link: '/apisandbox',
-    },
-  ];
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const menuItems: MenuItem[] = useMemo(
+    () => [
+      { name: 'Home', link: '/' },
+      { name: 'About', link: '/about-us' },
+      { name: 'FAQ', link: '/faq' },
+      { name: 'Contact Us', link: '/contact-us' },
+      { name: 'API Sandbox', link: '/apisandbox' },
+      { name: 'Skin Care', link: '/skin-care' },
+    ],
+    []
+  );
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [isActive, setIsActive] = useState<string>('Home');
 
   return (
     <Navbar
@@ -66,39 +66,35 @@ export default function Header() {
       </NavbarContent>
 
       <NavbarContent className='hidden sm:flex gap-4' justify='center'>
-        <NavbarItem isActive>
-          <Link color='foreground' href='/'>
-            Home
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link href='/about-us' color='foreground' aria-current='page'>
-            About
-          </Link>
-        </NavbarItem>
+        {menuItems.map((item) => (
+          <NavbarItem 
+            key={item.link}
+            isActive={item.name === isActive}
+            onClick={() => setIsActive(item.name)}
+          >
+            <Link 
+              href={item.link} 
+              color="foreground"
+            >
+              {item.name}
+            </Link>
+          </NavbarItem>
+        ))}
         {/* <NavbarItem>
           <Link color='foreground' href='/coming-soon'>
             Products
           </Link>
         </NavbarItem> */}
-        <NavbarItem>
-          <Link color='foreground' href='/faq'>
-            FAQ
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color='foreground' href='/contact-us'>
-            Contact us
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color='foreground' href='/apisandbox'>
-            API Sandbox
-          </Link>
-        </NavbarItem>
       </NavbarContent>
+
       <NavbarContent justify='end'>
-        <NavButton />
+        {
+          COMMON.DIGITAL_PRESCRIPTION_ROUTES.includes(pathname) ? (
+            <NavButtonDP />
+          ) : ( 
+            <NavButton /> 
+          )
+        }
       </NavbarContent>
 
       <NavbarMenu>

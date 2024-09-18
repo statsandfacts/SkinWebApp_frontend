@@ -1,5 +1,5 @@
 import '@/styles/globals.css';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { siteConfig } from '@/config/site';
 import { Providers } from './providers';
 import { Inter } from 'next/font/google';
@@ -12,7 +12,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
+    template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
   keywords: siteConfig.keywords,
