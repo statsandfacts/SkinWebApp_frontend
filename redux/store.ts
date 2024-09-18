@@ -1,10 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from './slices/questionary.slice';
 import loginModalSlice from './slices/loginModal.slice';
+import digitalPrescriptionReducer from './slices/digitalPrescription/digitalPrescription.slice';
+import familyMemberReducer from './slices/digitalPrescription/familyMembers.slice';
+import authReducer from './slices/digitalPrescription/auth.slice';
+import stepManagementReducer from './slices/digitalPrescription/stepManagement.slice';
+
 export const store = configureStore({
   reducer: {
     questionary: counterReducer,
     loginModal: loginModalSlice,
+
+    //for digital prescription
+    digitalPrescription: digitalPrescriptionReducer,
+    familyMember: familyMemberReducer,
+    auth: authReducer,
+    stepManagement: stepManagementReducer,
   },
 });
 
