@@ -15,6 +15,7 @@ interface ChoosePrescriptionLayoutCardProps {
   children: ReactNode;
 }
 
+
 const ChoosePrescriptionLayoutCard: React.FC<
   ChoosePrescriptionLayoutCardProps
 > = ({ header, footer, className, children }) => {
