@@ -37,13 +37,12 @@ export default function ViewOriginalPrescriptionImage() {
               <div >
                 <Image
                   alt="Prescription Original"
-                  src={'/images/digitalPrescription/WhatsApp Image 2024-08-27 at 11.54.36 PM.jpeg'}
+                  src={singlePrescriptionDetails?.prescription_file}
                   width="100%"
                   height="auto"
                 />
               </div>
             </ModalBody>
-            <ModalFooter></ModalFooter>
           </>
         )}
       </ModalContent>

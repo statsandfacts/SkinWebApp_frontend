@@ -37,22 +37,21 @@ export default function ViewPrescriptionDetailsModal() {
             <>
               <ModalHeader className="flex flex-row justify-between items-center gap-1">
                 <p>Prescription Details</p>
-                <Button className="bg-sky-900 hover:bg-sky-800 text-white mr-2" variant="solid" >Download</Button>
               </ModalHeader>
               <ModalBody>
                 <div className="overflow-y-auto">
                   <div className="flex flex-col">
-                    <p className="text-sm font-semibold text-slate-600">
-                      DR. Arnab swain
+                    <p className="text-sm font-semibold capitalize text-slate-600">
+                      {singlePrescriptionDetails?.doctor_name}
                     </p>
-                    <p className="text-xs font-light text-slate-400">
+                    {/* <p className="text-xs font-light text-slate-400">
                       M.B.B.S., M.D., (Chest)
+                    </p> */}
+                    <p className="text-xs font-light text-slate-400">
+                      {singlePrescriptionDetails?.provider_contact}
                     </p>
                     <p className="text-xs font-light text-slate-400">
-                      Tamil Nadu Medical Council REGD No: 99999
-                    </p>
-                    <p className="text-xs font-light text-slate-400">
-                      Consultant Pulmonologist, ZZZ Hospitals, Any City
+                      {singlePrescriptionDetails?.provider_dtls}
                     </p>
                   </div>
                   <div className="flex justify-between items-center p-2">
@@ -61,94 +60,91 @@ export default function ViewPrescriptionDetailsModal() {
                         {singlePrescriptionDetails?.name}
                       </p>
                       <p className="text-xs font-normal text-slate-400">
-                        Patient Id: 16507
+                        Patient Name: {singlePrescriptionDetails?.provider_name}
                       </p>
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-slate-600 capitalize">
-                        23 July 2024
+                        {singlePrescriptionDetails?.prescription_date}
                       </p>
                       <p className="text-xs font-normal text-slate-400">
-                        Prescription Id: RX12345
+                        Prescription Id: {singlePrescriptionDetails?.rx_id}
                       </p>
                     </div>
                   </div>
 
-                  {singlePrescriptionDetails?.prescriptionDetails.map(
-                    (prescription: any, index: number) => (
-                      <div key={index}>
-                        <h1> {prescription?.label} </h1>
-                        {["Sympotoms", "Vital Signs"].includes(
-                          prescription?.label
-                        ) && (
-                          <p className="text-xs font-light text-slate-400">
-                            {prescription?.data}
-                          </p>
-                        )}
-                        {prescription?.label === "Tests" &&
-                          prescription?.data.map((testR: any, ir: number) => (
-                            <div key={ir}>
-                              <h1> {testR?.testName} </h1>
-                              {testR?.testData.map((tData: any, tx: number) => (
-                                <div key={tx}>
-                                  <p className="text-xs font-light text-slate-400 ml-2">
-                                    {" "}
-                                    {tData}{" "}
-                                  </p>
-                                </div>
-                              ))}
-                            </div>
-                          ))}
-                        {prescription?.label === "Rx" && (
-                          <Table
-                            removeWrapper
-                            aria-label="Example static collection table"
-                          >
-                            <TableHeader>
-                              <TableColumn>MEDICINE NAME</TableColumn>
-                              <TableColumn>How To Use</TableColumn>
-                              <TableColumn>Frequency</TableColumn>
-                              <TableColumn>Side Effects</TableColumn>
-                              <TableColumn>Brands</TableColumn>
-                              {/* <TableColumn>Safety Advice</TableColumn>
-                              <TableColumn>If Missed Dose</TableColumn> */}
-                            </TableHeader>
-                            <TableBody>
-                              {prescription?.data.map(
-                                (testR: any, ir: number) => (
-                                  <TableRow key={ir}>
-                                    <TableCell>{testR?.medicine}</TableCell>
-                                    <TableCell>
-                                      {testR?.how_to_use}
-                                    </TableCell>
-                                    <TableCell>
-                                      {testR?.frequency}
-                                    </TableCell>
-                                    <TableCell>
-                                      {testR?.side_effects}
-                                    </TableCell>
-                                    <TableCell>
-                                      {testR?.brands}
-                                    </TableCell>
-                                    {/* <TableCell>
-                                      {testR?.safety_advice}
-                                    </TableCell>
-                                    <TableCell>
-                                      {testR?.if_missed_dose}
-                                    </TableCell> */}
-                                  </TableRow>
-                                )
-                              )}
-                            </TableBody>
-                          </Table>
-                        )}
-                      </div>
-                    )
-                  )}
+                  <div>
+                    <h1>MEDICINE</h1>
+                    <Table
+                      removeWrapper
+                      aria-label="Example static collection table"
+                    >
+                      <TableHeader>
+                        <TableColumn>MEDICINE NAME</TableColumn>
+                        <TableColumn>Composition</TableColumn>
+                        <TableColumn>How To Use</TableColumn>
+                        <TableColumn>Days</TableColumn>
+                        <TableColumn>Dosage</TableColumn>
+                        <TableColumn>Description</TableColumn>
+                        <TableColumn>Comments</TableColumn>
+                      </TableHeader>
+                      <TableBody>
+                        {singlePrescriptionDetails?.medicine_dtls.length > 0 &&
+                          singlePrescriptionDetails?.medicine_dtls.map(
+                            (medicineDetail: any, mx: number) => (
+                              <TableRow key={mx}>
+                                <TableCell>
+                                  {medicineDetail?.medicine_name}
+                                </TableCell>
+                                <TableCell>
+                                  {medicineDetail?.composition}
+                                </TableCell>
+                                <TableCell>
+                                  {medicineDetail?.usage_instructions}
+                                </TableCell>
+                                <TableCell>{medicineDetail?.days}</TableCell>
+                                <TableCell>{medicineDetail?.dosage}</TableCell>
+                                <TableCell>
+                                  {medicineDetail?.description}
+                                </TableCell>
+                                <TableCell>
+                                  {medicineDetail?.comments}
+                                </TableCell>
+                              </TableRow>
+                            )
+                          )}
+                      </TableBody>
+                    </Table>
+                  </div>
+
+                  <div>
+                    <h1>INVESTIGATION</h1>
+                    <p className="text-xs font-light text-slate-400">
+                      {singlePrescriptionDetails?.reports}
+                    </p>
+                  </div>
+
+                  <div>
+                    <div>
+                      <h1>DIAGNOSIS</h1>
+                      <p className="text-xs font-light text-slate-400">
+                        {singlePrescriptionDetails?.diagnosis}
+                      </p>
+                    </div>
+                    <div>
+                      <h1>SYMPTOMS</h1>
+                      <p className="text-xs font-light text-slate-400">
+                        {singlePrescriptionDetails?.symptoms}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </ModalBody>
               <ModalFooter>
-                <p className="text-sky-800 font-bold text-sm" > NextCare.life </p>
+                <p className="text-sky-800 font-bold text-sm">
+                  {" "}
+                  NextCare.life{" "}
+                </p>
               </ModalFooter>
             </>
           )}

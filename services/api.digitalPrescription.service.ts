@@ -135,3 +135,16 @@ export const getCaseDetails = async (case_id: string) => {
   );
   return data;
 };
+
+/**
+ *
+ * @param patient_user_id
+ * @returns
+ */
+export const getPatientDashboard = async (patient_user_id: string | null) => {
+  const { data } = await axios.get(
+    `${baseUrl}users/get-patient-dashboard?patient_user_id=${patient_user_id}`,
+    headers
+  );
+  return data;
+};
