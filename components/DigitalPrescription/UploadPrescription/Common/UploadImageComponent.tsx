@@ -6,43 +6,42 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { addImageToUploadImages, removeImageFromUploadImages } from "@/redux/slices/digitalPrescription/stepManagement.slice";
+import {
+  addImageToUploadImages,
+  removeImageFromUploadImages,
+  setUploadedImageDetails,
+} from "@/redux/slices/digitalPrescription/stepManagement.slice";
 
 interface UploadImageComponentProps {
-  onFileUpload: (file: File, imageUrl: string) => void;
   isLoading?: boolean;
 }
 
 const UploadImageComponent: React.FC<UploadImageComponentProps> = ({
-  onFileUpload,
-  isLoading
+  isLoading,
 }) => {
   const dispatch = useDispatch();
-  const { singleDocumentDetails } = useSelector(
+  const { singleDocumentDetails, uploadImageDetail } = useSelector(
     (state: RootState) => state.stepManagement
   );
 
-  const [file, setFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      const selectedFile = acceptedFiles[0];
-      const url = URL.createObjectURL(selectedFile);
-      setFile(selectedFile);
-      setImageUrl(url);
-      onFileUpload(selectedFile, url);
-      dispatch(addImageToUploadImages({url, selectedFile, report_type: singleDocumentDetails.selectedSubType }))
-    },
-    [onFileUpload]
-  );
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const selectedFile = acceptedFiles[0];
+    const url = URL.createObjectURL(selectedFile);
+    dispatch(
+      addImageToUploadImages({
+        url,
+        selectedFile,
+        report_type: singleDocumentDetails.selectedSubType,
+      })
+    );
+    dispatch(setUploadedImageDetails({ file: selectedFile, imageUrl: url }));
+  }, []);
 
   const handleRemoveImage = () => {
-    if (imageUrl) {
-      URL.revokeObjectURL(imageUrl);
-      setFile(null);
-      setImageUrl(null);
-      dispatch(removeImageFromUploadImages(imageUrl));
+    if (uploadImageDetail.imageUrl) {
+      URL.revokeObjectURL(uploadImageDetail.imageUrl);
+      dispatch(removeImageFromUploadImages(uploadImageDetail.imageUrl));
+      dispatch(setUploadedImageDetails({ file: null, imageUrl: "" }));
     }
   };
 
@@ -71,14 +70,16 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({
               Drag & drop an image here, or click to select one
             </p>
             <p className="text-slate-800 font-extralight text-xs">
-              {file?.name}
+              {uploadImageDetail?.file?.name}
             </p>
-            { isLoading && <p className="text-xs font-light text-sky-900 mt-1" >Loading...</p> }
+            {isLoading && (
+              <p className="text-xs font-light text-sky-900 mt-1">Loading...</p>
+            )}
           </>
         )}
       </div>
       <AnimatePresence>
-        {imageUrl && (
+        {uploadImageDetail.imageUrl && (
           <div className="relative mt-4 w-full max-w-md">
             <motion.button
               onClick={handleRemoveImage}
@@ -97,7 +98,7 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({
               transition={{ duration: 0.5 }}
             >
               <Image
-                src={imageUrl}
+                src={uploadImageDetail.imageUrl}
                 alt="Preview"
                 width={600}
                 height={400}
