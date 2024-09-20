@@ -5,7 +5,10 @@ import { motion } from "framer-motion";
 import { Button } from "@nextui-org/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import UploadImageComponent from "../../UploadPrescription/Common/UploadImageComponent";
-import { setSignUpData, setStep } from "@/redux/slices/digitalPrescription/auth.slice";
+import {
+  setSignUpData,
+  setStep,
+} from "@/redux/slices/digitalPrescription/auth.slice";
 import { uploadImageToAws } from "@/services/api.digitalPrescription.service";
 import { toast } from "react-toastify";
 
@@ -13,24 +16,35 @@ const CollectPrescriptionImage: React.FC = () => {
   const dispatch = useDispatch();
 
   const { signUpData } = useSelector((state: RootState) => state.auth);
+  const { uploadImageDetail } = useSelector(
+    (state: RootState) => state.stepManagement
+  );
+
   const [loading, setLoading] = useState<boolean>(false);
 
-  const uploadSelectedFile = (selectedFile: any) => {
+  const uploadSelectedFile = () => {
+    if (!uploadImageDetail?.file) {
+      toast.error("Please select a file to upload.");
+      return;
+    }
+
     const formData = new FormData();
-    formData.append("files", selectedFile);
+
+    formData.append("files", uploadImageDetail.file);
     formData.append("doc_types", "prescription");
     formData.append("phone_no", signUpData.phone_number);
 
     setLoading(true);
     uploadImageToAws(formData)
       .then((response) => {
-        dispatch(setSignUpData({uploaded_files: response.uploaded_files}))
+        dispatch(setSignUpData({ uploaded_files: response.uploaded_files }));
         toast.success("Prescription Image Uploaded Successfully.");
+        dispatch(setStep(2));
       })
       .catch((error) => {
         toast.error(
           error.response.data?.detail ||
-            "Image Uploaded Failed, Please Try After Few Seconds."
+            "Image Upload Failed, Please Try After Few Seconds."
         );
       })
       .finally(() => setLoading(false));
@@ -49,12 +63,7 @@ const CollectPrescriptionImage: React.FC = () => {
         </motion.div>
 
         <div className="mt-6 max-w-md p-6">
-          <UploadImageComponent
-            onFileUpload={(selectedFile, imageUrl) => {
-              uploadSelectedFile(selectedFile);
-            }}
-            isLoading={loading}
-          />
+          <UploadImageComponent isLoading={loading} />
         </div>
 
         <div className="w-full flex justify-between max-w-lg px-6 mt-3">
@@ -70,9 +79,8 @@ const CollectPrescriptionImage: React.FC = () => {
           <Button
             color="primary"
             variant="solid"
-            onClick={() => {
-              dispatch(setStep(2));
-            }}
+            onClick={uploadSelectedFile}
+            isLoading={loading}
             endContent={<ArrowRightIcon className="w-4 h-4" />}
           >
             Next
