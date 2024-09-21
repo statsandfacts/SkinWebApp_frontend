@@ -11,7 +11,10 @@ import {
   resetFamilyMember,
   setPrescriptionDetailTab,
 } from "@/redux/slices/digitalPrescription/familyMembers.slice";
-import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowLeftStartOnRectangleIcon,
+  ArrowUpTrayIcon,
+} from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { logOutUser } from "@/redux/slices/digitalPrescription/auth.slice";
 import { resetPrescription } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
@@ -30,7 +33,16 @@ export default function PrescriptionDetailPage() {
 
   return (
     <>
-      <div className="hidden md:flex w-full justify-end">
+      <div className="hidden md:flex w-full gap-2 justify-end">
+        <Button
+          color="primary"
+          variant="solid"
+          onPress={() => {
+            router.push("/upload-prescription");
+          }}
+        >
+          <ArrowUpTrayIcon className="h-5 w-5 mr-1" /> Upload
+        </Button>
         <Button color="danger" variant="light" onPress={handleLogout}>
           <ArrowLeftStartOnRectangleIcon className="h-5 w-5 mr-2" /> Logout
         </Button>

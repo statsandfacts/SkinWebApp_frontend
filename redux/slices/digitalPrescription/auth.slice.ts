@@ -43,7 +43,7 @@ const initialState: AuthState = {
   userDetails: null,
   isTermConditionOpen: false,
 
-  step: 0,
+  step: 1,
   signUpData: {
     first_name: "",
     last_name: "",

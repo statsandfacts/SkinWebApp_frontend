@@ -13,6 +13,11 @@ interface SingleDocumentDetails {
   uploadImages: UploadImage[];
 }
 
+interface UploadImageDetail {
+  file: File | null,
+  imageUrl: string | null
+}
+
 interface StepManagementState {
   step: number;
   documentDetails: any[];
@@ -24,6 +29,8 @@ interface StepManagementState {
   isUploadMoreReportsPopoverOpen: boolean;
   isSubmitDocumentsPopoverOpen: boolean;
   isViewImagesModal: boolean;
+  uploadImageDetail: UploadImageDetail;
+  afterUploadedDocDataWithType: any;
 }
 
 
@@ -42,7 +49,13 @@ const initialState: StepManagementState = {
   isThirdScreenNextPopoverOpen: false,
   isUploadMoreReportsPopoverOpen: false,
   isSubmitDocumentsPopoverOpen: false,
-  isViewImagesModal: false
+  isViewImagesModal: false,
+  uploadImageDetail: {
+    file: null,
+    imageUrl: ""
+  },
+
+  afterUploadedDocDataWithType:[]
 };
 
 const stepManagementSlice = createSlice({
@@ -94,6 +107,15 @@ const stepManagementSlice = createSlice({
       );
     },
 
+    // ?UploadImageComponent
+    setUploadedImageDetails: (state, action: PayloadAction<UploadImageDetail>) => {
+      state.uploadImageDetail = action.payload;
+    },
+    setAfterUploadDocWithType: (state, action: PayloadAction<any>) => {
+      console.log("🍺------>>>>", action.payload)
+      state.afterUploadedDocDataWithType = [...state.afterUploadedDocDataWithType, ...action.payload]
+    },
+
     resetDetailsAfterSubmit: (state) => {
       state.singleDocumentDetails = initialState.singleDocumentDetails
       state.step = initialState.step
@@ -114,6 +136,8 @@ export const {
   addImageToUploadImages,
   removeImageFromUploadImages,
   resetDetailsAfterSubmit,
+  setUploadedImageDetails,
+  setAfterUploadDocWithType
 } = stepManagementSlice.actions;
 
 export default stepManagementSlice.reducer;

@@ -24,18 +24,21 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({
     (state: RootState) => state.stepManagement
   );
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    const selectedFile = acceptedFiles[0];
-    const url = URL.createObjectURL(selectedFile);
-    dispatch(
-      addImageToUploadImages({
-        url,
-        selectedFile,
-        report_type: singleDocumentDetails.selectedSubType,
-      })
-    );
-    dispatch(setUploadedImageDetails({ file: selectedFile, imageUrl: url }));
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const selectedFile = acceptedFiles[0];
+      const url = URL.createObjectURL(selectedFile);
+      dispatch(
+        addImageToUploadImages({
+          url,
+          selectedFile,
+          report_type: singleDocumentDetails.selectedSubType,
+        })
+      );
+      dispatch(setUploadedImageDetails({ file: selectedFile, imageUrl: url }));
+    },
+    [dispatch, singleDocumentDetails.selectedSubType]
+  );
 
   const handleRemoveImage = () => {
     if (uploadImageDetail.imageUrl) {
@@ -47,9 +50,15 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: {
-      "image/*": [],
-    },
+    accept:
+      singleDocumentDetails.selectedSubType === "prescription"
+        ? {
+            "image/*": [], // Only images for prescription
+          }
+        : {
+            "image/*": [], // Allow images
+            "application/pdf": [], // Allow PDFs if not a prescription
+          },
     multiple: false,
   });
 
@@ -63,11 +72,11 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({
       >
         <input {...getInputProps()} />
         {isDragActive ? (
-          <p className="text-blue-500">Drop the image here...</p>
+          <p className="text-blue-500">Drop the file here...</p>
         ) : (
           <>
             <p className="text-gray-500 text-sm">
-              Drag & drop an image here, or click to select one
+              Drag & drop an image or PDF here, or click to select one
             </p>
             <p className="text-slate-800 font-extralight text-xs">
               {uploadImageDetail?.file?.name}
@@ -97,13 +106,20 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.5 }}
             >
-              <Image
-                src={uploadImageDetail.imageUrl}
-                alt="Preview"
-                width={600}
-                height={400}
-                className="border rounded-md"
-              />
+              {/* Conditionally show an image or a PDF preview */}
+              {uploadImageDetail.file?.type === "application/pdf" ? (
+                <p className="text-gray-500 text-sm">
+                  {uploadImageDetail.file?.name} (PDF)
+                </p>
+              ) : (
+                <Image
+                  src={uploadImageDetail.imageUrl}
+                  alt="Preview"
+                  width={600}
+                  height={400}
+                  className="border rounded-md"
+                />
+              )}
             </motion.div>
           </div>
         )}

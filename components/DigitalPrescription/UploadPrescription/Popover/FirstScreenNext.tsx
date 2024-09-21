@@ -1,15 +1,64 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { setFirstScreenNextPopoverOpen, setFirstScreenNoPopoverOpen, setStep } from "@/redux/slices/digitalPrescription/stepManagement.slice";
+import {
+  setAfterUploadDocWithType,
+  setFirstScreenNextPopoverOpen,
+  setFirstScreenNoPopoverOpen,
+  setStep,
+  setUploadedImageDetails,
+} from "@/redux/slices/digitalPrescription/stepManagement.slice";
 import ShowPopover from "@/components/common/Popover";
+import { toast } from "react-toastify";
+import { uploadImageToAws } from "@/services/api.digitalPrescription.service";
+import { useAuthInfo } from "@/hooks/useAuthInfo";
 
 const FirstScreenNext: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { isFirstScreenNextPopoverOpen } = useSelector(
+  const { isFirstScreenNextPopoverOpen, uploadImageDetail, singleDocumentDetails } = useSelector(
     (state: RootState) => state.stepManagement
   );
+  const { userDetails } = useAuthInfo();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const clockToNo = () => {
+    if (!uploadImageDetail?.file) {
+      toast.warning("Please select a file to upload.");
+      return;
+    }
+    if (!userDetails?.phone_no) {
+      toast.warning("Phone number is missing.");
+      return;
+    }
+
+    if (!singleDocumentDetails?.selectedSubType) {
+      toast.warning("Please select document type.");
+      return;
+    }
+    const formData = new FormData();
+
+    formData.append("files", uploadImageDetail.file);
+    formData.append("doc_types", singleDocumentDetails?.selectedSubType);
+    formData.append("phone_no", userDetails?.phone_no);
+
+    uploadImageToAws(formData)
+      .then((response) => {
+        toast.success("Prescription Image Uploaded Successfully.");
+        dispatch(setAfterUploadDocWithType(response.uploaded_files)); //update image details in redux
+        dispatch(setFirstScreenNextPopoverOpen(false));
+        dispatch(setFirstScreenNoPopoverOpen(true));
+        dispatch(setUploadedImageDetails({ file: null, imageUrl: "" })); // empty image details
+      })
+      .catch((error) => {
+        toast.error(
+          error.response.data?.detail ||
+            "Image Upload Failed, Please Try After Few Seconds."
+        );
+      })
+      .finally(() => setLoading(false));
+  };
 
   return (
     <>
@@ -18,10 +67,7 @@ const FirstScreenNext: React.FC = () => {
           dispatch(setFirstScreenNextPopoverOpen(false));
           dispatch(setStep(3));
         }}
-        onClose={() => {
-          dispatch(setFirstScreenNextPopoverOpen(false));
-          dispatch(setFirstScreenNoPopoverOpen(true));
-        }}
+        onClose={clockToNo}
         isOpen={isFirstScreenNextPopoverOpen}
         onOpenChange={() => {
           dispatch(setFirstScreenNextPopoverOpen(false));

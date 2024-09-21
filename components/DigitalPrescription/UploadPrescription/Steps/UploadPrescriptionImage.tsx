@@ -10,11 +10,17 @@ import { motion } from "framer-motion";
 import UploadImageComponent from "../Common/UploadImageComponent";
 import { Button } from "@nextui-org/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
-import { FirstScreenNext, FirstScreenNo, TestReportPopover, UploadMoreReportsPopover } from "../Popover";
+import {
+  FirstScreenNext,
+  FirstScreenNo,
+  TestReportPopover,
+  UploadMoreReportsPopover,
+} from "../Popover";
+import { toast } from "react-toastify";
 
 const UploadDocumentImage: React.FC = () => {
   const dispatch = useDispatch();
-  const { singleDocumentDetails } = useSelector(
+  const { singleDocumentDetails, uploadImageDetail } = useSelector(
     (state: RootState) => state.stepManagement
   );
 
@@ -31,7 +37,7 @@ const UploadDocumentImage: React.FC = () => {
         </motion.div>
 
         <div className="mt-6 max-w-lg p-6">
-          <UploadImageComponent onFileUpload={(selectedFile) => {}} />
+          <UploadImageComponent />
         </div>
 
         <div className="w-full flex justify-between max-w-lg px-6 sm:px-11 mt-3">
@@ -48,9 +54,13 @@ const UploadDocumentImage: React.FC = () => {
             color="primary"
             variant="solid"
             onClick={() => {
+              if (!uploadImageDetail?.file) {
+                toast.warning("Please select a file to upload.");
+                return;
+              }
               if (singleDocumentDetails.selectedType === "Prescription") {
                 dispatch(setFirstScreenNextPopoverOpen(true));
-              }else{
+              } else {
                 dispatch(setUploadMoreReportsPopoverOpen(true));
               }
             }}
