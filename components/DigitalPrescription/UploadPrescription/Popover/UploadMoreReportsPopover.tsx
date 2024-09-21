@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import {
+  clearMultiUploadDoc,
   setAfterUploadDocWithType,
+  setMultiUploadDoc,
   setStep,
   setSubmitDocumentsPopoverOpen,
   setUploadedImageDetails,
@@ -22,11 +24,12 @@ const UploadMoreReportsPopover: React.FC = () => {
     isUploadMoreReportsPopoverOpen,
     uploadImageDetail,
     singleDocumentDetails,
+    multiUploadedDoc,
   } = useSelector((state: RootState) => state.stepManagement);
   const { userDetails } = useAuthInfo();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const clockToNo = () => {
+  const clickToNo = () => {
     if (!uploadImageDetail[0]?.file) {
       toast.warning("Please select test report file to upload.");
       return;
@@ -40,10 +43,28 @@ const UploadMoreReportsPopover: React.FC = () => {
       toast.warning("Please select document type.");
       return;
     }
+
     const formData = new FormData();
 
-    formData.append("files", uploadImageDetail[0].file);
-    formData.append("doc_types", singleDocumentDetails?.selectedSubType);
+    if (multiUploadedDoc.length > 0) {
+      const mergedArray = (
+        uploadImageDetail?.map((item) => ({
+          ...item,
+          report_type: singleDocumentDetails?.selectedSubType || null,
+        })) || []
+      ).concat(multiUploadedDoc || []);
+
+      console.log("mergedArray", mergedArray)
+
+      mergedArray.forEach((item: any) => {
+        formData.append(`files`, item?.file);
+        formData.append(`doc_types`, item?.report_type);
+      });
+    } else {
+      formData.append("files", uploadImageDetail[0].file);
+      formData.append("doc_types", singleDocumentDetails?.selectedSubType);
+    }
+
     formData.append("phone_no", userDetails?.phone_no);
 
     setLoading(true);
@@ -54,6 +75,7 @@ const UploadMoreReportsPopover: React.FC = () => {
         dispatch(setUploadMoreReportsPopoverOpen(false));
         dispatch(setSubmitDocumentsPopoverOpen(true));
         dispatch(setUploadedImageDetails([])); // empty image details
+        dispatch(clearMultiUploadDoc());
       })
       .catch((error) => {
         toast.error(
@@ -64,14 +86,25 @@ const UploadMoreReportsPopover: React.FC = () => {
       .finally(() => setLoading(false));
   };
 
+  const clickToYes = () => {
+    dispatch(
+      setMultiUploadDoc([
+        {
+          ...uploadImageDetail[0],
+          report_type: singleDocumentDetails?.selectedSubType,
+        },
+      ])
+    ); // store current details use in next step upload multiple
+    dispatch(setStep(0));
+    dispatch(setUploadMoreReportsPopoverOpen(false));
+    dispatch(setUploadedImageDetails([])); // empty current image details
+  };
+
   return (
     <>
       <ShowPopover
-        onConfirm={() => {
-          dispatch(setStep(0));
-          dispatch(setUploadMoreReportsPopoverOpen(false));
-        }}
-        onClose={clockToNo}
+        onConfirm={clickToYes}
+        onClose={clickToNo}
         closeButtonLoading={loading}
         isOpen={isUploadMoreReportsPopoverOpen}
         onOpenChange={() => {

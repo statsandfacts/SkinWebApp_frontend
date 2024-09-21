@@ -31,6 +31,7 @@ interface StepManagementState {
   isViewImagesModal: boolean;
   uploadImageDetail: UploadImageDetail[];
   afterUploadedDocDataWithType: any;
+  multiUploadedDoc: any;
 }
 
 const initialState: StepManagementState = {
@@ -52,6 +53,7 @@ const initialState: StepManagementState = {
 
   uploadImageDetail: [],
   afterUploadedDocDataWithType: [],
+  multiUploadedDoc: [],
 };
 
 const stepManagementSlice = createSlice({
@@ -131,6 +133,16 @@ const stepManagementSlice = createSlice({
         ...action.payload,
       ];
     },
+    setMultiUploadDoc: (state, action: PayloadAction<any>) => {
+      console.log("🧲 ------>>>>", action.payload); 
+      state.multiUploadedDoc = [
+        ...state.multiUploadedDoc,
+        ...action.payload,
+      ];
+    },
+    clearMultiUploadDoc: (state) => {
+      state.multiUploadedDoc = [];
+    },
     // ?UploadImageComponent end
 
     resetDetailsAfterSubmit: (state) => {
@@ -156,6 +168,8 @@ export const {
   setUploadedImageDetails,
   setAfterUploadDocWithType,
   removeUploadedImageDetails,
+  setMultiUploadDoc,
+  clearMultiUploadDoc,
 } = stepManagementSlice.actions;
 
 export default stepManagementSlice.reducer;
