@@ -24,7 +24,7 @@ const FirstScreenNext: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const clockToNo = () => {
-    if (!uploadImageDetail?.file) {
+    if (!uploadImageDetail[0]?.file) {
       toast.warning("Please select a file to upload.");
       return;
     }
@@ -39,7 +39,7 @@ const FirstScreenNext: React.FC = () => {
     }
     const formData = new FormData();
 
-    formData.append("files", uploadImageDetail.file);
+    formData.append("files", uploadImageDetail[0].file);
     formData.append("doc_types", singleDocumentDetails?.selectedSubType);
     formData.append("phone_no", userDetails?.phone_no);
 
@@ -49,7 +49,7 @@ const FirstScreenNext: React.FC = () => {
         dispatch(setAfterUploadDocWithType(response.uploaded_files)); //update image details in redux
         dispatch(setFirstScreenNextPopoverOpen(false));
         dispatch(setFirstScreenNoPopoverOpen(true));
-        dispatch(setUploadedImageDetails({ file: null, imageUrl: "" })); // empty image details
+        dispatch(setUploadedImageDetails([])); // empty image details
       })
       .catch((error) => {
         toast.error(

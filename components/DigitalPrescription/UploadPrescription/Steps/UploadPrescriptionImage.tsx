@@ -54,7 +54,7 @@ const UploadDocumentImage: React.FC = () => {
             color="primary"
             variant="solid"
             onClick={() => {
-              if (!uploadImageDetail?.file) {
+              if (!uploadImageDetail[0]?.file) {
                 toast.warning("Please select a file to upload.");
                 return;
               }
