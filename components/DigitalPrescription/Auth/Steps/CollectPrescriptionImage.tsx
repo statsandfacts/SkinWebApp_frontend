@@ -24,15 +24,15 @@ const CollectPrescriptionImage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const uploadSelectedFile = () => {
-    if (!uploadImageDetail?.file) {
+    if (!uploadImageDetail[0]?.file) {
       toast.error("Please select a file to upload.");
       return;
     }
 
     const formData = new FormData();
 
-    formData.append("files", uploadImageDetail.file);
-    formData.append("doc_types", "prescription");
+    formData.append("files", uploadImageDetail[0].file);
+    formData.append("doc_types", "Prescription");
     formData.append("phone_no", signUpData.phone_number);
 
     setLoading(true);
@@ -40,10 +40,10 @@ const CollectPrescriptionImage: React.FC = () => {
       .then((response) => {
         dispatch(setSignUpData({ uploaded_files: response.uploaded_files }));
         toast.success("Prescription Image Uploaded Successfully.");
-        dispatch(
-          setUploadedImageDetails({ file: null, imageUrl: "" })
-        );
         dispatch(setStep(2));
+        dispatch(
+          setUploadedImageDetails([])
+        );
       })
       .catch((error) => {
         toast.error(
