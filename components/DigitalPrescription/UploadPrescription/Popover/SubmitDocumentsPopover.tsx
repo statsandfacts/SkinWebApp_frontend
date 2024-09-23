@@ -36,10 +36,15 @@ const SubmitDocumentsPopover: React.FC = () => {
           doc.doc_type === "Prescription"
       )
       .map((doc: { file_url: string; doc_type: string }) => doc.file_url);
-    const report_dtls = afterUploadedDocDataWithType.filter(
-      (doc: { file_url: string; doc_type: string }) =>
-        doc.doc_type !== "Prescription"
-    );
+    const report_dtls = afterUploadedDocDataWithType
+      .filter(
+        (doc: { file_url: string; doc_type: string }) =>
+          doc.doc_type !== "Prescription"
+      )
+      .map((doc: { file_url: string; doc_type: string }) => ({
+        report_url: doc.file_url,
+        report_type: doc.doc_type,
+      }));
 
     setLoading(true);
     createCase({
