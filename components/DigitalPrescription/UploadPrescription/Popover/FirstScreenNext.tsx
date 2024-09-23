@@ -6,14 +6,17 @@ import {
   setAfterUploadDocWithType,
   setFirstScreenNextPopoverOpen,
   setFirstScreenNoPopoverOpen,
+  setMoreImagePrescription,
   setMultiUploadDoc,
   setStep,
+  setThirdScreenNextPopoverOpen,
   setUploadedImageDetails,
 } from "@/redux/slices/digitalPrescription/stepManagement.slice";
 import ShowPopover from "@/components/common/Popover";
 import { toast } from "react-toastify";
 import { uploadImageToAws } from "@/services/api.digitalPrescription.service";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
+import ThirdScreenNext from "./ThirdScreenNext";
 
 const FirstScreenNext: React.FC = () => {
   const dispatch = useDispatch();
@@ -22,6 +25,7 @@ const FirstScreenNext: React.FC = () => {
     isFirstScreenNextPopoverOpen,
     uploadImageDetail,
     singleDocumentDetails,
+    moreImagePrescription,
   } = useSelector((state: RootState) => state.stepManagement);
   const { userDetails } = useAuthInfo();
   const [loading, setLoading] = useState<boolean>(false);
@@ -42,10 +46,25 @@ const FirstScreenNext: React.FC = () => {
     }
     const formData = new FormData();
 
-    formData.append("files", uploadImageDetail[0].file);
-    formData.append("doc_types", singleDocumentDetails?.selectedSubType);
+    if (moreImagePrescription.length > 0) {
+      const mergedArray = [
+        {
+          file: uploadImageDetail[0].file,
+          report_type: singleDocumentDetails?.selectedSubType,
+        },
+      ];
+      dispatch(setMoreImagePrescription(mergedArray));
+      dispatch(setThirdScreenNextPopoverOpen(true));
+      dispatch(setFirstScreenNextPopoverOpen(false));
+      return;
+    } else {
+      formData.append("files", uploadImageDetail[0].file);
+      formData.append("doc_types", singleDocumentDetails?.selectedSubType);
+    }
+
     formData.append("phone_no", userDetails?.phone_no);
 
+    setLoading(true);
     uploadImageToAws(formData)
       .then((response) => {
         toast.success("Prescription Image Uploaded Successfully.");
@@ -101,6 +120,8 @@ const FirstScreenNext: React.FC = () => {
           </div>
         </div>
       </ShowPopover>
+
+      <ThirdScreenNext />
     </>
   );
 };

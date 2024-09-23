@@ -32,6 +32,7 @@ interface StepManagementState {
   uploadImageDetail: UploadImageDetail[];
   afterUploadedDocDataWithType: any;
   multiUploadedDoc: any;
+  moreImagePrescription: any;
 }
 
 const initialState: StepManagementState = {
@@ -54,6 +55,7 @@ const initialState: StepManagementState = {
   uploadImageDetail: [],
   afterUploadedDocDataWithType: [],
   multiUploadedDoc: [],
+  moreImagePrescription: [],
 };
 
 const stepManagementSlice = createSlice({
@@ -121,7 +123,7 @@ const stepManagementSlice = createSlice({
       state.uploadImageDetail = action.payload;
     },
     removeUploadedImageDetails: (state, action: PayloadAction<string>) => {
-      console.log("🛫------>>>>",  action.payload);
+      console.log("🛫------>>>>", action.payload);
       state.uploadImageDetail = state.uploadImageDetail.filter(
         (image) => image.imageUrl !== action.payload
       );
@@ -134,22 +136,31 @@ const stepManagementSlice = createSlice({
       ];
     },
     setMultiUploadDoc: (state, action: PayloadAction<any>) => {
-      console.log("🧲 ------>>>>", action.payload); 
-      state.multiUploadedDoc = [
-        ...state.multiUploadedDoc,
+      console.log("🧲 ------>>>>", action.payload);
+      state.multiUploadedDoc = [...state.multiUploadedDoc, ...action.payload];
+    },
+    setMoreImagePrescription: (state, action: PayloadAction<any>) => {
+      console.log("moreImagePrescription🛬------>>>>", action.payload);
+      state.moreImagePrescription = [
+        ...state.moreImagePrescription,
         ...action.payload,
       ];
     },
     clearMultiUploadDoc: (state) => {
       state.multiUploadedDoc = [];
     },
+    clearMorePrescriptionImages: (state) => {
+      state.moreImagePrescription = [];
+    },
     // ?UploadImageComponent end
 
     resetDetailsAfterSubmit: (state) => {
       state.singleDocumentDetails = initialState.singleDocumentDetails;
       state.step = initialState.step;
-      state.afterUploadedDocDataWithType = initialState.afterUploadedDocDataWithType;
+      state.afterUploadedDocDataWithType =
+        initialState.afterUploadedDocDataWithType;
       state.multiUploadedDoc = [];
+      state.moreImagePrescription = [];
     },
   },
 });
@@ -172,6 +183,8 @@ export const {
   removeUploadedImageDetails,
   setMultiUploadDoc,
   clearMultiUploadDoc,
+  setMoreImagePrescription,
+  clearMorePrescriptionImages,
 } = stepManagementSlice.actions;
 
 export default stepManagementSlice.reducer;
