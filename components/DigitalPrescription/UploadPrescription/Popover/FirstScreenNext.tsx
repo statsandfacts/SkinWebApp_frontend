@@ -6,6 +6,7 @@ import {
   setAfterUploadDocWithType,
   setFirstScreenNextPopoverOpen,
   setFirstScreenNoPopoverOpen,
+  setMultiUploadDoc,
   setStep,
   setUploadedImageDetails,
 } from "@/redux/slices/digitalPrescription/stepManagement.slice";
@@ -17,9 +18,11 @@ import { useAuthInfo } from "@/hooks/useAuthInfo";
 const FirstScreenNext: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { isFirstScreenNextPopoverOpen, uploadImageDetail, singleDocumentDetails } = useSelector(
-    (state: RootState) => state.stepManagement
-  );
+  const {
+    isFirstScreenNextPopoverOpen,
+    uploadImageDetail,
+    singleDocumentDetails,
+  } = useSelector((state: RootState) => state.stepManagement);
   const { userDetails } = useAuthInfo();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -60,14 +63,27 @@ const FirstScreenNext: React.FC = () => {
       .finally(() => setLoading(false));
   };
 
+  const clickToYes = () => {
+    dispatch(
+      setMultiUploadDoc([
+        {
+          ...uploadImageDetail[0],
+          report_type: singleDocumentDetails?.selectedSubType,
+        },
+      ])
+    ); // store current details use in next step upload multiple
+    dispatch(setUploadedImageDetails([])); // empty current image details
+
+    dispatch(setFirstScreenNextPopoverOpen(false));
+    dispatch(setStep(3));
+  };
+
   return (
     <>
       <ShowPopover
-        onConfirm={() => {
-          dispatch(setFirstScreenNextPopoverOpen(false));
-          dispatch(setStep(3));
-        }}
+        onConfirm={clickToYes}
         onClose={clockToNo}
+        closeButtonLoading={loading}
         isOpen={isFirstScreenNextPopoverOpen}
         onOpenChange={() => {
           dispatch(setFirstScreenNextPopoverOpen(false));

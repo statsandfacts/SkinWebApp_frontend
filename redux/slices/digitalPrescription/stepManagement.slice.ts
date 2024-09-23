@@ -148,6 +148,8 @@ const stepManagementSlice = createSlice({
     resetDetailsAfterSubmit: (state) => {
       state.singleDocumentDetails = initialState.singleDocumentDetails;
       state.step = initialState.step;
+      state.afterUploadedDocDataWithType = initialState.afterUploadedDocDataWithType;
+      state.multiUploadedDoc = [];
     },
   },
 });

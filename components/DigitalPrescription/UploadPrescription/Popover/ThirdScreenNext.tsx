@@ -1,27 +1,100 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import ShowPopover from "@/components/common/Popover";
-import { setIsTestReportPopoverOpen, setStep, setThirdScreenNextPopoverOpen } from "@/redux/slices/digitalPrescription/stepManagement.slice";
+import {
+  clearMultiUploadDoc,
+  setAfterUploadDocWithType,
+  setFirstScreenNextPopoverOpen,
+  setFirstScreenNoPopoverOpen,
+  setIsTestReportPopoverOpen,
+  setStep,
+  setThirdScreenNextPopoverOpen,
+  setUploadedImageDetails,
+} from "@/redux/slices/digitalPrescription/stepManagement.slice";
+import { toast } from "react-toastify";
+// @ts-ignore
+import mergeImages from "merge-images";
+import { useAuthInfo } from "@/hooks/useAuthInfo";
+import { uploadImageToAws } from "@/services/api.digitalPrescription.service";
+import { mergeImagesHelper } from "@/utils/mergeImagesHelper";
+
+interface ImageObject {
+  src: string;
+  height: number;
+  width: number;
+}
 
 const ThirdScreenNext: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { isThirdScreenNextPopoverOpen } = useSelector(
-    (state: RootState) => state.stepManagement
-  );
+  const {
+    isThirdScreenNextPopoverOpen,
+    multiUploadedDoc,
+    uploadImageDetail,
+    singleDocumentDetails,
+  } = useSelector((state: RootState) => state.stepManagement);
+  const { userDetails } = useAuthInfo();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const clickToNo = async () => {
+    try {
+      if (!uploadImageDetail[0]?.file) {
+        toast.warning("Please select a file to upload.");
+        return;
+      }
+      if (!userDetails?.phone_no) {
+        toast.warning("Phone number is missing.");
+        return;
+      }
+      if (!singleDocumentDetails?.selectedSubType) {
+        toast.warning("Please select document type.");
+        return;
+      }
+
+      const mergedImageArray = [...multiUploadedDoc, ...uploadImageDetail].map(
+        (detail) => detail.file
+      );
+
+      const { file, base64 } = await mergeImagesHelper(mergedImageArray);
+
+      const formData = new FormData();
+
+      formData.append("files", file);
+      formData.append("doc_types", singleDocumentDetails?.selectedSubType);
+      formData.append("phone_no", userDetails?.phone_no);
+      setLoading(true);
+      uploadImageToAws(formData)
+        .then((response) => {
+          toast.success("Prescription Image Uploaded Successfully.");
+          dispatch(setAfterUploadDocWithType(response.uploaded_files)); //update image details in redux
+          dispatch(setThirdScreenNextPopoverOpen(false));
+          dispatch(setIsTestReportPopoverOpen(true));
+          dispatch(setUploadedImageDetails([])); // empty image details
+          dispatch(clearMultiUploadDoc()); //clear multiple documents managed array
+        })
+        .catch((error) => {
+          toast.error(
+            error.response.data?.detail ||
+              "Image Upload Failed, Please Try After Few Seconds."
+          );
+        })
+        .finally(() => setLoading(false));
+    } catch (error: any) {
+      toast.error(error.message || "Image merge failed.");
+    }
+  };
 
   return (
     <>
       <ShowPopover
         onConfirm={() => {
-          dispatch(setThirdScreenNextPopoverOpen(false));
-          dispatch(setStep(2));
+          toast.warning("Working Under Progress .....");
+          // dispatch(setThirdScreenNextPopoverOpen(false));
+          // dispatch(setStep(2));
         }}
-        onClose={() => {
-          dispatch(setThirdScreenNextPopoverOpen(false));
-          dispatch(setIsTestReportPopoverOpen(true));
-        }}
+        closeButtonLoading={loading}
+        onClose={clickToNo}
         isOpen={isThirdScreenNextPopoverOpen}
         onOpenChange={() => {
           dispatch(setThirdScreenNextPopoverOpen(false));

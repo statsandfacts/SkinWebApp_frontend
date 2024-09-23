@@ -11,10 +11,11 @@ import { Button } from "@nextui-org/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { FirstScreenNo, TestReportPopover } from "../Popover";
 import ThirdScreenNext from "../Popover/ThirdScreenNext";
+import { toast } from "react-toastify";
 
 const UploadDocumentsSamePrescription: React.FC = () => {
   const dispatch = useDispatch();
-  const { singleDocumentDetails } = useSelector(
+  const { singleDocumentDetails, uploadImageDetail } = useSelector(
     (state: RootState) => state.stepManagement
   );
 
@@ -31,7 +32,7 @@ const UploadDocumentsSamePrescription: React.FC = () => {
         </motion.div>
 
         <div className="mt-6 max-w-lg p-6">
-          <UploadImageComponent onFileUpload={(selectedFile) => {}} />
+          <UploadImageComponent />
         </div>
 
         <div className="w-full flex justify-between max-w-lg px-6 sm:px-11 mt-3">
@@ -48,6 +49,10 @@ const UploadDocumentsSamePrescription: React.FC = () => {
             color="primary"
             variant="solid"
             onClick={() => {
+              if (uploadImageDetail.length <= 0 && !uploadImageDetail[0]?.file) {
+                toast.warning("Please select a file to upload.");
+                return;
+              }
               dispatch(setThirdScreenNextPopoverOpen(true));
             }}
             endContent={<ArrowRightIcon className="w-4 h-4" />}

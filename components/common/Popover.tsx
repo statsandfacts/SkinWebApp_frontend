@@ -19,6 +19,8 @@ interface ShowPopoverProps {
   children: ReactNode;
   isOpen: boolean;
   onOpenChange: () => void;
+  isCloseButton?: boolean;
+  isConfirmButton?: boolean;
 }
 
 const ShowPopover: React.FC<ShowPopoverProps> = ({
@@ -29,6 +31,8 @@ const ShowPopover: React.FC<ShowPopoverProps> = ({
   closeButtonLabel = "No",
   confirmButtonLoading = false,
   closeButtonLoading = false,
+  isCloseButton = true,
+  isConfirmButton = true,
   children,
   isOpen,
   onOpenChange,
@@ -51,12 +55,26 @@ const ShowPopover: React.FC<ShowPopoverProps> = ({
 
             <ModalBody>{children}</ModalBody>
             <ModalFooter className="flex justify-end">
-              <Button color="danger" isLoading={closeButtonLoading} variant="light" onPress={onClose}>
-                {closeButtonLabel}
-              </Button>
-              <Button color="primary" isLoading={confirmButtonLoading} onPress={onConfirm}>
-                {confirmButtonLabel}
-              </Button>
+              {isCloseButton && (
+                <Button
+                  color="danger"
+                  isLoading={closeButtonLoading}
+                  variant="light"
+                  onPress={onClose}
+                >
+                  {closeButtonLabel}
+                </Button>
+              )}
+
+              {isConfirmButton && (
+                <Button
+                  color="primary"
+                  isLoading={confirmButtonLoading}
+                  onPress={onConfirm}
+                >
+                  {confirmButtonLabel}
+                </Button>
+              )}
             </ModalFooter>
           </>
         )}
