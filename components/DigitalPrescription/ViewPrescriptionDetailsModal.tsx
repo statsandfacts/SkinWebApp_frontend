@@ -44,9 +44,6 @@ export default function ViewPrescriptionDetailsModal() {
                     <p className="text-sm font-semibold capitalize text-slate-600">
                       {singlePrescriptionDetails?.doctor_name}
                     </p>
-                    {/* <p className="text-xs font-light text-slate-400">
-                      M.B.B.S., M.D., (Chest)
-                    </p> */}
                     <p className="text-xs font-light text-slate-400">
                       {singlePrescriptionDetails?.provider_contact}
                     </p>
@@ -119,9 +116,26 @@ export default function ViewPrescriptionDetailsModal() {
 
                   <div>
                     <h1>INVESTIGATION</h1>
-                    <p className="text-xs font-light text-slate-400">
-                      {singlePrescriptionDetails?.reports}
-                    </p>
+                    <Table
+                      removeWrapper
+                      aria-label="Example static collection table"
+                    >
+                      <TableHeader>
+                        <TableColumn>NAME</TableColumn>
+                        <TableColumn>Description</TableColumn>
+                      </TableHeader>
+                      <TableBody>
+                        {singlePrescriptionDetails?.reports.length > 0 &&
+                          singlePrescriptionDetails?.reports.map(
+                            (report: any, mx: number) => (
+                              <TableRow key={mx}>
+                                <TableCell>{report?.name}</TableCell>
+                                <TableCell>{report?.desc}</TableCell>
+                              </TableRow>
+                            )
+                          )}
+                      </TableBody>
+                    </Table>
                   </div>
 
                   <div>

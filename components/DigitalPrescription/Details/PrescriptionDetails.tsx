@@ -1,6 +1,15 @@
 "use client";
 import React, { useEffect } from "react";
-import { Accordion, AccordionItem } from "@nextui-org/react";
+import {
+  Accordion,
+  AccordionItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+} from "@nextui-org/react";
 import {
   EyeIcon,
   DocumentMagnifyingGlassIcon,
@@ -31,8 +40,6 @@ const PrescriptionDetails: React.FC = () => {
     dispatch(fetchPatientDashboard(userId));
   }, [dispatch, userId]);
 
-  console.log("dashboardData", dashboardData);
-
   return (
     <>
       <Accordion variant="splitted">
@@ -42,26 +49,33 @@ const PrescriptionDetails: React.FC = () => {
               key={cx}
               aria-label={cases?.case_id + cx}
               title={`Status: ${cases?.status}`}
+              className={`border ${cases?.status === "approve" ? "border-sky-200" : "border-yellow-200"}`}
             >
               <React.Fragment>
-                <table className="w-full">
-                  <thead>
-                    <tr>
-                      <th>Doctor Name</th>
-                      <th>Date</th>
-                      <th>Address</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {cases?.prescription_dtls.length > 0 &&
+                <Table
+                  removeWrapper
+                  aria-label="Example static collection table"
+                >
+                  <TableHeader>
+                    <TableColumn>Doctor Name</TableColumn>
+                    <TableColumn>Date</TableColumn>
+                    <TableColumn>Address</TableColumn>
+                    <TableColumn>
+                      {" "}
+                      <></>{" "}
+                    </TableColumn>
+                  </TableHeader>
+                  <TableBody>
+                    {cases?.prescription_dtls.length > 0 ? (
                       cases?.prescription_dtls.map(
                         (prescription: any, pi: number) => (
-                          <tr key={pi}>
-                            <td> {prescription?.doctor_name} </td>
-                            <td> {prescription?.prescription_date} </td>
-                            <td> {prescription?.provider_dtls} </td>
-                            <td className="flex gap-4 justify-center">
+                          <TableRow key={pi}>
+                            <TableCell className="capitalize" >{prescription?.doctor_name}</TableCell>
+                            <TableCell>
+                              {prescription?.prescription_date}
+                            </TableCell>
+                            <TableCell>{prescription?.provider_dtls}</TableCell>
+                            <TableCell className="flex gap-2">
                               {cases?.status === "approve" && (
                                 <ToolTipBtn
                                   onClick={() => {
@@ -91,12 +105,17 @@ const PrescriptionDetails: React.FC = () => {
                               >
                                 <EyeIcon className="h-5 w-5" />
                               </ToolTipBtn>
-                            </td>
-                          </tr>
+                            </TableCell>
+                          </TableRow>
                         )
-                      )}
-                  </tbody>
-                </table>
+                      )
+                    ) : (
+                      <TableRow key={"1"}>
+                        <TableCell colSpan={4}>{"No Cases! Found"}</TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
               </React.Fragment>
             </AccordionItem>
           ))}
