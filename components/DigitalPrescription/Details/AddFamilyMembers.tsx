@@ -13,6 +13,7 @@ import { ToolTipBtn } from "@/components/common/ToolTipBtn";
 import { setCreateMemberModal } from "@/redux/slices/digitalPrescription/familyMembers.slice";
 import { useDispatch } from "react-redux";
 import CreateFamilyMemberModal from "./CreateFamilyMemberModal";
+import ComingSoon from "@/components/ComingSoon";
 
 interface FamilyMember {
   id: number;
@@ -42,7 +43,8 @@ const AddFamilyMembers: FC = () => {
   return (
     <>
       <Card>
-        <CardHeader>
+        <ComingSoon />
+        {/* <CardHeader>
           <div className="flex justify-end w-full">
             <Button
               color="primary"
@@ -82,7 +84,7 @@ const AddFamilyMembers: FC = () => {
               ))}
             </TableBody>
           </Table>
-        </CardBody>
+        </CardBody> */}
       </Card>
 
       <CreateFamilyMemberModal />

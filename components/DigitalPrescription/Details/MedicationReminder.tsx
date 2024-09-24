@@ -13,6 +13,7 @@ import {
 } from "@nextui-org/react";
 import { ToolTipBtn } from "@/components/common/ToolTipBtn";
 import { CalendarDaysIcon, PlusIcon } from "@heroicons/react/24/outline";
+import ComingSoon from "@/components/ComingSoon";
 
 interface Medication {
   id: number;
@@ -50,7 +51,8 @@ const MedicationReminder: React.FC = () => {
 
   return (
     <Card>
-      <CardHeader>
+      <ComingSoon />
+      {/* <CardHeader>
         <div className="flex justify-end w-full">
           <Button
             color="primary"
@@ -92,7 +94,7 @@ const MedicationReminder: React.FC = () => {
             ))}
           </TableBody>
         </Table>
-      </CardBody>
+      </CardBody> */}
     </Card>
   );
 };
