@@ -30,7 +30,7 @@ export default function Header() {
       { name: 'About', link: '/about-us' },
       { name: 'FAQ', link: '/faq' },
       { name: 'Contact Us', link: '/contact-us' },
-      { name: 'API Sandbox', link: '/apisandbox' },
+      // { name: 'API Sandbox', link: '/apisandbox' },
       { name: 'Skin Care', link: '/skin-care' },
     ],
     []
