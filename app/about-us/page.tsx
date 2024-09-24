@@ -1,7 +1,30 @@
+import ComingSoon from "@/components/ComingSoon";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us",
+};
+
 const AboutUs = () => {
+  return <DigitalPrescriptionAboutUs />;
+};
+
+export default AboutUs;
+
+const DigitalPrescriptionAboutUs = () => {
   return (
-    <div className='flex flex-col items-center justify-center gap-5 px-10 md:px-40 '>
-      <h1 className='text-2xl font-bold'>About Us</h1>
+    <>
+      <div className="px-7 md:px-12" >
+        <ComingSoon />
+      </div>
+    </>
+  );
+};
+
+const SkinCareAboutUs = () => {
+  return (
+    <div className="flex flex-col items-center justify-center gap-5 px-10 md:px-40 ">
+      <h1 className="text-2xl font-bold">About Us</h1>
 
       <p>
         Welcome to Nextcare.life, your trusted online skincare dermatologist
@@ -11,7 +34,7 @@ const AboutUs = () => {
         accessible, and effective skincare solutions right at your fingertips.
       </p>
 
-      <h2 className='text-lg text-gray-800 font-bold  text-left w-full'>
+      <h2 className="text-lg text-gray-800 font-bold  text-left w-full">
         Our Mission
       </h2>
 
@@ -23,10 +46,10 @@ const AboutUs = () => {
         tailored to your unique needs—all from the comfort of your home.
       </p>
 
-      <h2 className='text-lg text-gray-800 font-bold text-left w-full'>
+      <h2 className="text-lg text-gray-800 font-bold text-left w-full">
         What We Offer
       </h2>
-      <ul className='space-y-1  list-disc list-inside w-full'>
+      <ul className="space-y-1  list-disc list-inside w-full">
         <li>
           Expert Dermatologist Consultations: Connect with board-certified
           dermatologists just by answering some questions and uploading your
@@ -52,7 +75,7 @@ const AboutUs = () => {
         </li>
       </ul>
 
-      <h2 className='text-lg text-gray-800 font-bold text-left w-full'>
+      <h2 className="text-lg text-gray-800 font-bold text-left w-full">
         Our Commitment to You
       </h2>
       <p>
@@ -63,13 +86,13 @@ const AboutUs = () => {
         have a seamless and positive experience every time you use our services.
       </p>
       <p>
-        Join the{' '}
-        <a className='text-blue-700' href='www.https://nextcare.life'>
+        Join the{" "}
+        <a className="text-blue-700" href="www.https://nextcare.life">
           Nextcare.life
-        </a>{' '}
+        </a>{" "}
         Community Join thousands of satisfied users who have transformed their
-        skin with the help of{' '}
-        <a className='text-blue-700' href='www.https://nextcare.life'>
+        skin with the help of{" "}
+        <a className="text-blue-700" href="www.https://nextcare.life">
           Nextcare.life
         </a>
         . Whether you&apos;re dealing with a specific skin concern or simply
@@ -78,7 +101,7 @@ const AboutUs = () => {
       </p>
       <p>
         Experience the future of skincare with
-        <a className='text-blue-700 px-2' href='www.https://nextcare.life'>
+        <a className="text-blue-700 px-2" href="www.https://nextcare.life">
           Nextcare.life
         </a>
         — your skin will thank you!
@@ -86,5 +109,3 @@ const AboutUs = () => {
     </div>
   );
 };
-
-export default AboutUs;
