@@ -256,12 +256,13 @@ export const TermsDP = () => {
         </div>
       ))}
       <div className="mt-3">
-        <p>
+        <p className="text-lg font-bold">Disclaimer: </p>
+        <p className="ml-4">
           By using Nextcare .Life services, you agree to these terms and
           conditions. For any concerns or questions regarding your health or
           treatment plan, always seek the advice of a healthcare professional.
         </p>
-        <p>
+        <p className="ml-4">
           This disclaimer ensures that Nextcare .Life is clear about the
           limitations of its services, reducing liability risks while
           encouraging users to consult with licensed professionals. It also
