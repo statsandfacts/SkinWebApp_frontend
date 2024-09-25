@@ -167,6 +167,89 @@ const CONST = {
         "Nextcare .Life reserves the right to modify or discontinue any feature of the platform without prior notice."
       ]
     }
+  ],
+
+  FAQ: [
+    {
+      q: "What is a handwritten prescription?",
+      a: "A handwritten prescription is a medical order written by a healthcare professional on paper, often using pen or pencil."
+    },
+    {
+      q: "What is a digital prescription?",
+      a: "A digital prescription is an electronic version of a prescription that is created and transmitted electronically via software."
+    },
+    {
+      q: "What are the key differences between handwritten and digital prescriptions?",
+      a: "Handwritten prescriptions are physical, prone to legibility issues, and may require patients to manually deliver them to pharmacies. Digital prescriptions are electronic, reduce errors, and can be sent directly to pharmacies."
+    },
+    {
+      q: "Why are handwritten prescriptions sometimes illegible?",
+      a: "Handwriting styles vary widely, and doctors often write quickly, leading to unclear or messy handwriting."
+    },
+    {
+      q: "What are the risks associated with illegible handwritten prescriptions?",
+      a: "Illegible prescriptions can lead to medication errors, misinterpretation, incorrect dosages, and potential harm to patients."
+    },
+    {
+      q: "How do digital prescriptions improve patient safety?",
+      a: "Digital prescriptions eliminate handwriting issues, provide clear instructions, reduce medication errors, and allow for integration with clinical decision support systems (CDSS)."
+    },
+    {
+      q: "Are digital prescriptions legal?",
+      a: "Yes, in most countries, digital prescriptions are legal as long as they comply with relevant regulations and security standards."
+    },
+    {
+      q: "Can handwritten prescriptions be converted to digital form?",
+      a: "Yes, technologies like Optical Character Recognition (OCR) can convert handwritten prescriptions to digital form, making them easier to store and interpret."
+    },
+    {
+      q: "How do digital prescriptions help reduce prescription fraud?",
+      a: "Digital prescriptions can be securely transmitted, verified, and stored, reducing the risk of tampering or fraudulent modifications."
+    },
+    {
+      q: "What technologies are involved in digital prescriptions?",
+      a: "Digital prescriptions often use software systems like Electronic Health Records (EHR) and Clinical Decision Support Systems (CDSS), along with secure communication protocols."
+    },
+    {
+      q: "Can digital prescriptions be used for controlled substances?",
+      a: "Yes, many healthcare systems allow for electronic prescriptions of controlled substances (EPCS), with additional security measures like digital signatures."
+    },
+    {
+      q: "Are patients more likely to follow digital prescriptions?",
+      a: "Yes, studies show that patients are more likely to fill and follow digital prescriptions, as they are more convenient and reduce wait times at pharmacies."
+    },
+    {
+      q: "What is the role of Clinical Decision Support Systems (CDSS) in digital prescriptions?",
+      a: "CDSS assists healthcare providers by analyzing patient data and suggesting optimal medication choices, dosages, and alternatives, improving decision-making."
+    },
+    {
+      q: "Do digital prescriptions reduce medication errors?",
+      a: "Yes, digital prescriptions reduce errors related to legibility, drug interactions, and incorrect dosing by providing clear, precise information."
+    },
+    {
+      q: "How can digital prescriptions integrate with pharmacies?",
+      a: "Digital prescriptions can be sent directly to pharmacies via secure electronic systems, reducing the need for physical delivery or phone orders."
+    },
+    {
+      q: "Can a patient request a printed copy of a digital prescription?",
+      a: "Yes, most digital prescription systems allow for a printed copy if the patient prefers or if required by law."
+    },
+    {
+      q: "Are digital prescriptions secure?",
+      a: "Yes, digital prescriptions are generally secure, utilizing encryption and authentication protocols to protect patient data and prevent unauthorized access."
+    },
+    {
+      q: "How do digital prescriptions support telemedicine?",
+      a: "In telemedicine, digital prescriptions allow healthcare providers to prescribe medications remotely and send them electronically to a pharmacy."
+    },
+    {
+      q: "What are the cost implications of handwritten versus digital prescriptions? ",
+      a: "Handwritten prescriptions may lead to higher costs due to errors, delays, and manual processing. Digital prescriptions are often more cost-effective by improving efficiency and reducing errors."
+    },
+    {
+      q: "How can a healthcare system transition from handwritten to digital prescriptions? ",
+      a: "Transitioning involves implementing electronic prescribing (e-prescribing) software, training healthcare staff, ensuring compliance with regulations, and integrating with pharmacies and health records."
+    },
   ]
 };
 

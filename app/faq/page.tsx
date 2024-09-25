@@ -1,4 +1,5 @@
 import ComingSoon from "@/components/ComingSoon";
+import { COMMON } from "@/config/const";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -145,8 +146,25 @@ const SkinCareFAQ = () => {
 const DigitalPrescriptionFAQ = () => {
   return (
     <>
-      <div className="px-7 md:px-12">
-        <ComingSoon />
+      <div className="flex flex-col items-center justify-center gap-5 px:10 md:px-40">
+        <p className="text-lg font-semibold">Frequently Asked Questions</p>
+        <div className="flex flex-col" >
+          <p>
+            Find answers to all your questions regarding NextCare app, products,
+            services and more
+          </p>
+
+          {COMMON.FAQ.map((faq: { q: string; a: string }, index: number) => (
+            <div key={index} className="flex flex-col">
+              <h2 className="text-lg text-gray-800 font-bold text-left w-full mt-5">
+                {faq.q}
+              </h2>
+              <ul className="space-y-1 list-disc list-inside w-full">
+                <li>{faq.a}</li>
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
