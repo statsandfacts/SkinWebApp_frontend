@@ -148,3 +148,16 @@ export const getPatientDashboard = async (patient_user_id: string | null) => {
   );
   return data;
 };
+
+/**
+ *
+ * @param drug_id
+ * @returns
+ */
+export const fetchDrugDetails = async (drug_id: string | null) => {
+  const { data } = await axios.get(
+    `${baseUrl}drug?id=${drug_id}`,
+    headers
+  );
+  return data;
+};

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Modal,
@@ -15,8 +16,10 @@ import {
 } from "@nextui-org/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setViewPrescriptionDetailsModal } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
+import { useRouter } from "next/navigation";
 
 export default function ViewPrescriptionDetailsModal() {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { isViewPrescriptionDetailsModal, singlePrescriptionDetails } =
     useSelector((state: any) => state.digitalPrescription);
@@ -39,7 +42,7 @@ export default function ViewPrescriptionDetailsModal() {
                 <p>Prescription Details</p>
               </ModalHeader>
               <ModalBody>
-                <div className="overflow-y-auto">
+                <div className="overflow-y-auto max-h-[35rem]">
                   <div className="flex flex-col">
                     <p className="text-sm font-semibold capitalize text-slate-600">
                       {singlePrescriptionDetails?.doctor_name}
@@ -90,7 +93,12 @@ export default function ViewPrescriptionDetailsModal() {
                           singlePrescriptionDetails?.medicine_dtls.map(
                             (medicineDetail: any, mx: number) => (
                               <TableRow key={mx}>
-                                <TableCell>
+                                <TableCell
+                                  className="cursor-pointer"
+                                  onClick={() => {
+                                    router.push(`/prescription/${medicineDetail?.o_id}`);
+                                  }}
+                                >
                                   {medicineDetail?.medicine_name}
                                 </TableCell>
                                 <TableCell>

@@ -6,6 +6,7 @@ import familyMemberReducer from './slices/digitalPrescription/familyMembers.slic
 import authReducer from './slices/digitalPrescription/auth.slice';
 import stepManagementReducer from './slices/digitalPrescription/stepManagement.slice';
 import userDashboardReducer from './slices/digitalPrescription/userDashboard.slice';
+import drugReducer from './slices/digitalPrescription/drug.slice';
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     auth: authReducer,
     stepManagement: stepManagementReducer,
     userDashboard: userDashboardReducer,
+    drugs: drugReducer,
   },
 });
 
