@@ -41,15 +41,19 @@ const PrescriptionDetails: React.FC = () => {
   }, [dispatch, userId]);
 
   return (
-    <>
-      <Accordion variant="splitted">
-        {dashboardData?.patient_case_dtls.length > 0 &&
-          dashboardData?.patient_case_dtls.map((cases: any, cx: number) => (
+    <React.Fragment>
+      {dashboardData?.patient_case_dtls.length > 0 ? (
+        <Accordion variant="splitted">
+          {dashboardData?.patient_case_dtls.map((cases: any, cx: number) => (
             <AccordionItem
               key={cx}
               aria-label={cases?.case_id + cx}
               title={`Status: ${cases?.status}`}
-              className={`border ${cases?.status === "approve" ? "border-sky-200" : "border-yellow-200"}`}
+              className={`border ${
+                cases?.status === "approve"
+                  ? "border-sky-200"
+                  : "border-yellow-200"
+              }`}
             >
               <React.Fragment>
                 <Table
@@ -70,7 +74,9 @@ const PrescriptionDetails: React.FC = () => {
                       cases?.prescription_dtls.map(
                         (prescription: any, pi: number) => (
                           <TableRow key={pi}>
-                            <TableCell className="capitalize" >{prescription?.doctor_name}</TableCell>
+                            <TableCell className="capitalize">
+                              {prescription?.doctor_name}
+                            </TableCell>
                             <TableCell>
                               {prescription?.prescription_date}
                             </TableCell>
@@ -119,11 +125,14 @@ const PrescriptionDetails: React.FC = () => {
               </React.Fragment>
             </AccordionItem>
           ))}
-      </Accordion>
+        </Accordion>
+      ) : (
+        <p className="text-slate-600 text-center text-xs" >No Prescription and Test Report Uploaded Yet.</p>
+      )}
 
       <ViewPrescriptionDetailsModal />
       <ViewOriginalPrescriptionImage />
-    </>
+    </React.Fragment>
   );
 };
 

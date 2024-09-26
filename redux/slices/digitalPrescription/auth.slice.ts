@@ -33,6 +33,7 @@ interface AuthState {
   isTermConditionOpen: boolean;
 
   step: number;
+  signUpProcess2Step: number;
   signUpData: SignUpDataState;
 }
 
@@ -44,6 +45,7 @@ const initialState: AuthState = {
   isTermConditionOpen: false,
 
   step: 0,
+  signUpProcess2Step: 0,
   signUpData: {
     first_name: "",
     last_name: "",
@@ -86,6 +88,9 @@ export const authSlice = createSlice({
     setStep: (state, action: PayloadAction<number>) => {
       state.step = action.payload;
     },
+    setSignUpProcess2Step: (state, action: PayloadAction<number>) => {
+      state.signUpProcess2Step = action.payload;
+    },
     setSignUpData: (state, action: PayloadAction<SignUpDataState | any>) => {
       state.signUpData = { ...state.signUpData, ...action.payload };
     },
@@ -98,6 +103,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setLoginModal, setTermConditionModal, setUser, logOutUser, setStep, setSignUpData } =
+export const { setLoginModal, setTermConditionModal, setUser, logOutUser, setStep, setSignUpProcess2Step, setSignUpData } =
   authSlice.actions;
 export default authSlice.reducer;

@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import {
   setSignUpData,
+  setSignUpProcess2Step,
   setStep,
 } from "@/redux/slices/digitalPrescription/auth.slice";
 import { Select, SelectItem } from "@nextui-org/react";
@@ -44,6 +45,7 @@ const CollectSignUpData = () => {
         dispatch(setSignUpData(values));
         toast.success("Data submitted successfully!");
         dispatch(setStep(3));
+        dispatch(setSignUpProcess2Step(2));
       } catch (error) {
         toast.error("Error submitting data");
       } finally {

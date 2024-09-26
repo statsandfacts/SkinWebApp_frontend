@@ -11,11 +11,9 @@ import {
   setSignUpData,
   setStep,
   setTermConditionModal,
+  setUser,
 } from "@/redux/slices/digitalPrescription/auth.slice";
-import {
-  createCase,
-  CreateUser,
-} from "@/services/api.digitalPrescription.service";
+import { CreateUser, login } from "@/services/api.digitalPrescription.service";
 import dayjs from "dayjs";
 import { RootState } from "@/redux/store";
 import { setLoginModal } from "@/redux/slices/loginModal.slice";
@@ -47,8 +45,6 @@ const CollectPassword = () => {
       setIsLoading(true);
       try {
         dispatch(setSignUpData({ password_hash: values.confirm_password }));
-        toast.success("Password successfully!");
-
         const payload = {
           name: `${signUpData.first_name} ${signUpData.last_name}`,
           password_hash: values.confirm_password,
@@ -65,8 +61,24 @@ const CollectPassword = () => {
             toast.success("User Signup successful!");
             router.push("/");
             const patient_user_id = response.user_id;
-            CreateCase(patient_user_id);
             // dispatch(setLoginModal(true));
+
+            //!Login Process
+            const payloadLogin = {
+              user_role: "1",
+              email_or_phone_no: signUpData.email,
+              session_id: new Date().getTime().toString(),
+              password: values.confirm_password,
+            };
+            login(payloadLogin)
+              .then((data) => {
+                const userId = data.user_id;
+                dispatch(setUser({ userId, sessionId: payloadLogin.session_id }));
+                router.push("/upload-prescription/prescriptions");
+              })
+              .catch((error) => {
+                toast.success("Login failed");
+              });
           })
           .catch((error: any) => {
             toast.error(
@@ -83,20 +95,6 @@ const CollectPassword = () => {
       }
     },
   });
-
-  const CreateCase = (patient_user_id: string | any) => {
-    createCase({
-      patient_user_id,
-      prescription_urls: signUpData.uploaded_files.map((file: any) => file.file_url),
-      report_dtls: [],
-    })
-      .then((response) => {
-        toast.success("Case Created Successfully.");
-      })
-      .catch((error) => {
-        toast.error("Case Created Failed, Please try After Few Time.");
-      });
-  };
 
   return (
     <>
@@ -161,7 +159,6 @@ const CollectPassword = () => {
           Submit
         </Button>
       </form>
-
 
       <TermsAndConditionsModal />
     </>

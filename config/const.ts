@@ -109,6 +109,7 @@ const CONST = {
   DIGITAL_PRESCRIPTION_ROUTES: [
     "/",
     "/auth/sign-up",
+    "/auth/signup-user",
     "/upload-prescription",
     "/upload-prescription/sign-up",
     "/upload-prescription/forget-password",

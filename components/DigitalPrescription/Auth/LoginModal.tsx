@@ -103,7 +103,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isCloseIcon }) => {
           <button
             className="text-sky-900"
             onClick={() => {
-              router.push("/auth/sign-up");
+              router.push("/auth/signup-user");
               dispatch(setLoginModal(false));
             }}
           >

@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import {
   setSignUpData,
+  setSignUpProcess2Step,
   setStep,
 } from "@/redux/slices/digitalPrescription/auth.slice";
 import {
@@ -72,6 +73,7 @@ const CollectPhone = () => {
             toast.success("OTP verified successfully!");
             dispatch(setSignUpData({ phone_number: values.phone_number }));
             dispatch(setStep(1));
+            dispatch(setSignUpProcess2Step(1));
           } else {
             toast.error("Invalid OTP");
           }
