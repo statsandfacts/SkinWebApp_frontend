@@ -47,8 +47,8 @@ const HeroSection: React.FC = () => {
   const { userId } = useAuthInfo();
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between px-20 py-12">
-      <div className="flex flex-col justify-center space-y-6">
+    <div className="flex flex-col md:flex-row items-center justify-between gap-5 px-10 sm:px-20 py-12">
+      <div className="flex flex-col justify-center space-y-6 w-9/12">
         <motion.h1
           initial="hidden"
           animate="visible"
@@ -57,29 +57,43 @@ const HeroSection: React.FC = () => {
         >
           Welcome to Your Health Solution
         </motion.h1>
-        <motion.p
-          initial="hidden"
-          animate="visible"
-          variants={textVariants}
-          className="text-lg text-gray-600"
-        >
-          Upload your handwritten prescription, and we will convert it into a
-          digital format. Let’s simplify your healthcare experience.
-        </motion.p>
+        <div>
+          <motion.p
+            initial="hidden"
+            animate="visible"
+            variants={textVariants}
+            className="text-lg text-gray-600"
+          >
+            Upload your handwritten prescriptions or test reports, and we will
+            convert it into a digital format. Simplify your healthcare
+            experience.
+          </motion.p>
+          <motion.p
+            initial="hidden"
+            animate="visible"
+            variants={textVariants}
+            className="text-sm text-gray-500 mt-1"
+          >
+            Organize your health history by uploading and securely storing all
+            your medical records in one place. Gain valuable insights from your
+            data and share digitized records seamlessly with your healthcare
+            providers.
+          </motion.p>
+        </div>
         <motion.div
           initial="hidden"
           animate="visible"
           variants={buttonVariants}
         >
-          <Button 
+          <Button
             onPress={() => {
               if (userId) {
-                router.push('/upload-prescription');
-              }else{
-                router.push('/auth/sign-up');
+                router.push("/upload-prescription");
+              } else {
+                router.push("/auth/sign-up");
               }
-            }} 
-            color="primary" 
+            }}
+            color="primary"
             size="lg"
           >
             Get Started
@@ -96,7 +110,7 @@ const HeroSection: React.FC = () => {
         <Image
           src="/digitalPrescription/hero_section.jpg"
           alt="Healthcare Illustration"
-          width={650}
+          width={600}
           height={500}
           className="rounded-lg"
         />
