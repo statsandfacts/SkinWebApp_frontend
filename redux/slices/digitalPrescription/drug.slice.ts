@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { fetchDrugDetails } from "@/services/api.digitalPrescription.service";
 import { AxiosError } from "axios";
+import { transformDataToArray } from "@/helper/objectHelper";
 
 interface DrugState {
   data: any; 
@@ -46,7 +47,7 @@ const drugSlice = createSlice({
       })
       .addCase(getDrugDetails.fulfilled, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.data = action.payload;
+        state.data = transformDataToArray(action.payload);
       })
       .addCase(getDrugDetails.rejected, (state, action) => {
         state.loading = false;
