@@ -47,7 +47,7 @@ const HeroSection: React.FC = () => {
   const { userId } = useAuthInfo();
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between gap-5 px-10 sm:px-20 py-12">
+    <div className="flex flex-col md:flex-row items-center justify-between gap-5 px-2 sm:px-20 py-12">
       <div className="flex flex-col justify-center space-y-6 w-9/12">
         <motion.h1
           initial="hidden"
@@ -102,7 +102,7 @@ const HeroSection: React.FC = () => {
       </div>
 
       <motion.div
-        className="mt-8 md:mt-0 flex justify-center"
+        className="mt-8 md:mt-0 px-6 md:px-2 flex justify-center"
         initial="hidden"
         animate="visible"
         variants={imageVariants}

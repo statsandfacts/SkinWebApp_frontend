@@ -1,4 +1,3 @@
-import ComingSoon from "@/components/ComingSoon";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,8 +13,42 @@ export default AboutUs;
 const DigitalPrescriptionAboutUs = () => {
   return (
     <>
-      <div className="px-7 md:px-12" >
-        <ComingSoon />
+      <div className="flex flex-col items-center justify-center gap-8 p-10 md:px-40 rounded-lg shadow-lg">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
+          About Us
+        </h1>
+
+        <p className="text-lg md:text-xl text-gray-600">
+          Welcome to{" "}
+          <span className="font-semibold text-blue-600">Nextcare.Life</span>,
+          where cutting-edge technology meets healthcare innovation. We are
+          transforming the way prescriptions are managed with our Clinical
+          Decision Support System (CDSS), designed to convert handwritten and
+          often illegible prescriptions into accurate, digital versions.
+        </p>
+
+        <p className="text-lg md:text-xl text-gray-600">
+          Our mission is to ensure patient safety, enhance healthcare
+          efficiency, and reduce medication errors by harnessing advanced AI
+          solutions. On our homepage, you’ll find a wealth of information about
+          how our technology works, the benefits it offers to both patients and
+          healthcare providers, and the story behind our commitment to
+          revolutionizing the healthtech space.
+        </p>
+
+        <p className="text-lg md:text-xl text-gray-600">
+          Dive into our FAQs section, where you’ll find answers to common
+          questions about the security, accuracy, and implementation of our
+          system. Whether you&apos;re a healthcare professional, a patient, or a
+          curious visitor, we’ve made sure our site is easy to navigate,
+          visually engaging, and rich with useful content.
+        </p>
+
+        <p className="text-lg md:text-xl text-gray-600">
+          Ready to join the future of healthcare? Log in to access personalized
+          features or explore our platform to learn more about the ways we’re
+          shaping the future of digital healthcare.
+        </p>
       </div>
     </>
   );
