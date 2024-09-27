@@ -181,8 +181,8 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                               <div className="flex gap-3">
                                 <Image
                                   alt="alcohol image"
-                                  height={50}
-                                  width={50}
+                                  height={30}
+                                  width={30}
                                   src={"/safety/alcohol.png"}
                                 />
                                 <div className="flex justify-center items-center gap-3">
@@ -214,9 +214,9 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                               <div className="flex gap-3">
                                 <Image
                                   alt="alcohol image"
-                                  height={50}
-                                  width={50}
-                                  src={"/safety/alcohol.png"}
+                                  height={30}
+                                  width={30}
+                                  src={"/safety/pregnancy.png"}
                                 />
                                 <div className="flex justify-center items-center gap-3">
                                   <p className="text-gray-800 text-sm font-semibold">
@@ -248,9 +248,9 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                               <div className="flex gap-3">
                                 <Image
                                   alt="alcohol image"
-                                  height={50}
-                                  width={50}
-                                  src={"/safety/alcohol.png"}
+                                  height={30}
+                                  width={30}
+                                  src={"/safety/lactation.png"}
                                 />
                                 <div className="flex justify-center items-center gap-3">
                                   <p className="text-gray-800 text-sm font-semibold">
@@ -282,9 +282,9 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                               <div className="flex gap-3">
                                 <Image
                                   alt="alcohol image"
-                                  height={50}
-                                  width={50}
-                                  src={"/safety/alcohol.png"}
+                                  height={30}
+                                  width={30}
+                                  src={"/safety/driving.png"}
                                 />
                                 <div className="flex justify-center items-center gap-3">
                                   <p className="text-gray-800 text-sm font-semibold">
@@ -315,9 +315,9 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                               <div className="flex gap-3">
                                 <Image
                                   alt="alcohol image"
-                                  height={50}
-                                  width={50}
-                                  src={"/safety/alcohol.png"}
+                                  height={30}
+                                  width={30}
+                                  src={"/safety/kidney.png"}
                                 />
                                 <div className="flex justify-center items-center gap-3">
                                   <p className="text-gray-800 text-sm font-semibold">
@@ -348,9 +348,9 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                               <div className="flex gap-3">
                                 <Image
                                   alt="alcohol image"
-                                  height={50}
-                                  width={50}
-                                  src={"/safety/alcohol.png"}
+                                  height={30}
+                                  width={30}
+                                  src={"/safety/liver.png"}
                                 />
                                 <div className="flex justify-center items-center gap-3">
                                   <p className="text-gray-800 text-sm font-semibold">
