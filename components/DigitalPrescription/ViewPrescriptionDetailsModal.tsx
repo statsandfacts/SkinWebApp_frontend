@@ -42,18 +42,54 @@ export default function ViewPrescriptionDetailsModal() {
                 <p>Prescription Details</p>
               </ModalHeader>
               <ModalBody>
+              
                 <div className="overflow-y-auto max-h-[35rem]">
-                  <div className="flex flex-col">
+                <div className="flex flex-col flex-row">
+                  <div className="flex justify-between items-center p-2">
                     <p className="text-sm font-semibold capitalize text-slate-600">
-                      {singlePrescriptionDetails?.doctor_name}
+                      Name:           
                     </p>
-                    <p className="text-xs font-light text-slate-400">
-                      {singlePrescriptionDetails?.provider_contact}
+                      <p className="text-xs font-normal text-slate-400">
+                        Prakash Routaray
+                      </p>
+                      <p className="text-sm font-semibold capitalize text-slate-600">
+                      Age:           
                     </p>
-                    <p className="text-xs font-light text-slate-400">
-                      {singlePrescriptionDetails?.provider_dtls}
+                      <p className="text-xs font-normal text-slate-400">
+                        21
+                      </p>
+                      </div>
+                      <div className="flex justify-between items-center p-2">
+                      <p className="text-sm font-semibold capitalize text-slate-600">
+                      Phone:           
                     </p>
-                  </div>
+                      <p className="text-xs font-normal text-slate-400">
+                        9853895651
+                      </p>
+                      <p className="text-sm font-semibold capitalize text-slate-600">
+                      Gender:           
+                    </p>
+                      <p className="text-xs font-normal text-slate-400">
+                        Male
+                      </p>
+                        </div>
+                        <div className="flex justify-between items-center p-2">
+                        <p className="text-sm font-semibold capitalize text-slate-600">
+                      Email:           
+                    </p>
+                      <p className="text-xs font-normal text-slate-400">
+                        routarayprakash870@gmail.com
+                      </p>
+                     
+                      <p className="text-sm font-semibold capitalize text-slate-600">
+                      Height:           
+                    </p>
+                      <p className="text-xs font-normal text-slate-400">
+                        5.7E
+                      </p>
+                      </div>
+                 </div>
+                 
                   <div className="flex justify-between items-center p-2">
                     <div>
                       <p className="text-sm font-semibold text-slate-600 capitalize">
@@ -65,10 +101,10 @@ export default function ViewPrescriptionDetailsModal() {
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-slate-600 capitalize">
-                        {singlePrescriptionDetails?.prescription_date}
+                        Date:
                       </p>
                       <p className="text-xs font-normal text-slate-400">
-                        Prescription Id: {singlePrescriptionDetails?.rx_id}
+                        12-09-2024
                       </p>
                     </div>
                   </div>
@@ -80,13 +116,14 @@ export default function ViewPrescriptionDetailsModal() {
                       aria-label="Example static collection table"
                     >
                       <TableHeader>
-                        <TableColumn>MEDICINE NAME</TableColumn>
+                        <TableColumn>Basic Information</TableColumn>
                         <TableColumn>Composition</TableColumn>
                         <TableColumn>How To Use</TableColumn>
                         <TableColumn>Days</TableColumn>
                         <TableColumn>Dosage</TableColumn>
                         <TableColumn>Description</TableColumn>
                         <TableColumn>Comments</TableColumn>
+
                       </TableHeader>
                       <TableBody>
                         {singlePrescriptionDetails?.medicine_dtls.length > 0 &&
