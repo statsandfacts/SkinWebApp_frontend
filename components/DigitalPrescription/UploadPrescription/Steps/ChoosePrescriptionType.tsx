@@ -16,6 +16,7 @@ type PrescriptionType =
 type SubType =
   | "Prescription"
   | "Test Report"
+  | "Health Camp Report"
   | "X-ray"
   | "Ultrasound"
   | "CT Scan"
@@ -33,7 +34,7 @@ const ChoosePrescriptionType: React.FC = () => {
   const handleSelectType = (type: any) => {
     dispatch(setSingleDocumentDetails({ docType: "selectType", data: type }));
 
-    if (["Prescription", "Test Report"].includes(type.label)) {
+    if (["Prescription"].includes(type.label)) {
       dispatch(
         setSingleDocumentDetails({
           docType: "selectSubType",
@@ -55,7 +56,7 @@ const ChoosePrescriptionType: React.FC = () => {
     {
       label: "Test Report",
       color: "bg-green-600",
-      subtypes: ["Test Report"],
+      subtypes: ["Test Report", "Health Camp Report"],
     },
     {
       label: "Scan Report",

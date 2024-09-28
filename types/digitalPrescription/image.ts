@@ -9,4 +9,5 @@ export interface DigitalPrescriptionState {
   singlePrescriptionDetails: object;
   isViewImageModal: boolean;
   isViewPrescriptionDetailsModal: boolean;
+  isViewReportModal: boolean;
 }

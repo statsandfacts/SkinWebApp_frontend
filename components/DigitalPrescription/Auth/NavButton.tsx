@@ -62,7 +62,7 @@ const NavButtonDP = () => {
             color="secondary"
             name={userDetails?.name}
             size="sm"
-            src={userDetails?.user_profile_image_path || "https://i.pravatar.cc/150?u=a042581f4e29026704d"}
+            src={userDetails?.user_profile_image_path}
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="Profile Actions" variant="flat">

@@ -161,3 +161,17 @@ export const fetchDrugDetails = async (drug_id: string | null) => {
   );
   return data;
 };
+
+/**
+ *
+ * @param payload {user_id, report_url }
+ * @returns
+ */
+export const analyzeHealthReport = async (payload: any) => {
+  const { data } = await axios.post(
+    `${baseUrl}users/analyze-health-report`,
+    payload,
+    headers
+  );
+  return data;
+};

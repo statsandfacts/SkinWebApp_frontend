@@ -7,6 +7,7 @@ const initialState: DigitalPrescriptionState = {
   uploadImages: [],
   singlePrescriptionDetails: {},
   isViewImageModal: false,
+  isViewReportModal: false,
   isViewPrescriptionDetailsModal: false,
 };
 
@@ -65,6 +66,9 @@ const digitalPrescriptionSlice = createSlice({
     setViewOriginalImageModal: (state, action) => {
       state.isViewImageModal = action.payload;
     },
+    setViewUploadedReportModal: (state, action) => {
+      state.isViewReportModal = action.payload;
+    },
     setViewPrescriptionDetailsModal: (state, action) => {
       state.isViewPrescriptionDetailsModal = action.payload;
     },
@@ -90,6 +94,7 @@ export const {
   setViewOriginalImageModal,
   setViewPrescriptionDetailsModal,
   setSinglePrescriptionDetails,
+  setViewUploadedReportModal,
 } = digitalPrescriptionSlice.actions;
 
 export default digitalPrescriptionSlice.reducer;

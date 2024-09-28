@@ -35,7 +35,7 @@ export default function ViewPrescriptionDetailsModal() {
         isOpen={isViewPrescriptionDetailsModal}
         onClose={onClose}
       >
-        <ModalContent>
+        <ModalContent className="mb-20">
           {() => (
             <>
               <ModalHeader className="flex flex-row justify-between items-center gap-1">

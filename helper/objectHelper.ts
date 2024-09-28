@@ -8,7 +8,22 @@ export const transformDataToArray = (data: any): any[] => {
     return {
       name: formattedSection,
       keyName: section,
-      [section]: data[section], 
+      [section]: data[section],
     };
   });
+};
+
+export const getFileType = (url: string | null): string => {
+  if (!url) {
+    return "unknown";
+  }
+
+  const extension = url.split(".").pop()?.toLowerCase();
+  if (extension && ["jpg", "jpeg", "png", "gif"].includes(extension)) {
+    return "image";
+  } else if (extension === "pdf") {
+    return "pdf";
+  }
+
+  return "unknown";
 };
