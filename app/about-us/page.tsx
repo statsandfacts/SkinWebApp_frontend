@@ -18,37 +18,126 @@ const DigitalPrescriptionAboutUs = () => {
           About Us
         </h1>
 
-        <p className="text-lg md:text-xl text-gray-600">
-          Welcome to{" "}
-          <span className="font-semibold text-blue-600">Nextcare.Life</span>,
-          where cutting-edge technology meets healthcare innovation. We are
-          transforming the way prescriptions are managed with our Clinical
-          Decision Support System (CDSS), designed to convert handwritten and
-          often illegible prescriptions into accurate, digital versions.
-        </p>
+        <div className="flex flex-col gap-4">
+          <p className="text-sm md:text-base text-gray-600">
+            Welcome to{" "}
+            <span className="font-semibold text-blue-600">Nextcare.Life</span>,
+            where cutting-edge technology transforms healthcare innovation.
+          </p>
 
-        <p className="text-lg md:text-xl text-gray-600">
-          Our mission is to ensure patient safety, enhance healthcare
-          efficiency, and reduce medication errors by harnessing advanced AI
-          solutions. On our homepage, you’ll find a wealth of information about
-          how our technology works, the benefits it offers to both patients and
-          healthcare providers, and the story behind our commitment to
-          revolutionizing the healthtech space.
-        </p>
+          <p className="text-sm md:text-base text-gray-600">
+            We are redefining prescription management through our
+            state-of-the-art
+            <span className="font-semibold text-gray-600">
+              {" "}
+              Clinical Decision Support System (CDSS)
+            </span>
+            , a powerful solution that converts handwritten and often illegible
+            prescriptions into accurate, digital formats.
+          </p>
 
-        <p className="text-lg md:text-xl text-gray-600">
-          Dive into our FAQs section, where you’ll find answers to common
-          questions about the security, accuracy, and implementation of our
-          system. Whether you&apos;re a healthcare professional, a patient, or a
-          curious visitor, we’ve made sure our site is easy to navigate,
-          visually engaging, and rich with useful content.
-        </p>
+          <p className="text-sm md:text-base text-gray-600">
+            Our mission is to prioritize patient safety, improve healthcare
+            efficiency, and drastically reduce medication errors by leveraging
+            the latest in AI technology.
+          </p>
 
-        <p className="text-lg md:text-xl text-gray-600">
-          Ready to join the future of healthcare? Log in to access personalized
-          features or explore our platform to learn more about the ways we’re
-          shaping the future of digital healthcare.
-        </p>
+          <p className="text-sm md:text-base text-gray-600">
+            On our homepage, you’ll discover a wealth of resources that explain
+            how our system works, the advantages it brings to patients and
+            healthcare providers alike, and the story behind our unwavering
+            commitment to advancing the Healthtech landscape.
+          </p>
+
+          <p className="text-sm md:text-base text-gray-600">
+            Our CDSS is designed not just to streamline prescription management
+            but to set a new standard for digital health solutions.
+          </p>
+
+          <p className="text-sm md:text-base text-gray-600">
+            Be sure to visit our{" "}
+            <span className="font-semibold text-gray-600"> FAQs</span> section,
+            where we address common questions about the security, accuracy, and
+            practical implementation of our platform.{" "}
+          </p>
+
+          <p className="text-sm md:text-base text-gray-600">
+            Whether you are a healthcare professional, a patient, or simply
+            curious, we’ve ensured that our site is intuitive, visually
+            engaging, and packed with valuable content tailored to your needs
+          </p>
+
+          <div>
+            <p className="text-sm md:text-base font-semibold text-gray-600">
+              Ready to embrace the future of healthcare?
+            </p>
+            <p className="text-sm md:text-base text-gray-600">
+              You can log in to unlock personalized features or browse the
+              platform to discover how we’re shaping the future of digital
+              healthcare.
+            </p>
+          </div>
+
+          <div>
+            <p className="text-sm md:text-base font-semibold text-gray-600">
+              New Features for Enhanced Healthcare
+            </p>
+            <ul className="list-disc pl-5 space-y-2 text-sm md:text-base text-gray-600">
+              <li>
+                At{" "}
+                <span className="font-semibold text-gray-600">
+                  Nextcare.Life
+                </span>
+                , we are constantly evolving to meet the demands of modern
+                healthcare. In addition to our prescription management system,
+                we’ve introduced a feature that interprets{" "}
+                <span className="font-semibold text-gray-600">
+                  lab reports{" "}
+                </span>
+                and generates{" "}
+                <span className="font-semibold text-gray-600">
+                  smart lab summaries
+                </span>{" "}
+                across various medical conditions.
+              </li>
+              <li>
+                This tool empowers healthcare providers with swift, detailed
+                insights based on the latest medical guidelines, enabling
+                informed clinical decisions.
+              </li>
+              <li>
+                Patients also benefit by receiving simplified versions of their
+                lab reports, making it easier to understand their health status
+                and the recommended next steps.
+              </li>
+              <li>
+                We are also proud to present our{" "}
+                <span className="font-semibold text-gray-600">Symptom Bot</span>
+                , an intuitive tool designed to help users identify potential
+                health concerns based on their symptoms.
+              </li>
+              <li>
+                By simply inputting your symptoms, the bot suggests possible
+                conditions and provides guidance on whether medical attention is
+                needed.
+              </li>
+              <li>
+                This feature is particularly valuable for early detection and
+                preventive care, helping users take timely and proactive steps
+                toward their well-being.
+              </li>
+            </ul>
+          </div>
+
+          <p className="text-sm md:text-base text-gray-600">
+            Explore these new features and experience firsthand how
+            <span className="font-semibold text-gray-600">
+              {" "}
+              Nextcare.Life
+            </span>{" "}
+            is revolutionizing digital healthcare, one innovation at a time!
+          </p>
+        </div>
       </div>
     </>
   );

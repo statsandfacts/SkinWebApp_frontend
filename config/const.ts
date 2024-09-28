@@ -108,6 +108,11 @@ const CONST = {
 
   DIGITAL_PRESCRIPTION_ROUTES: [
     "/",
+    "/faq",
+    "/about-us",
+    "/contact-us",
+    "/why-next-care",
+    "/how-it-works",
     "/auth/sign-up",
     "/auth/signup-user",
     "/upload-prescription",
