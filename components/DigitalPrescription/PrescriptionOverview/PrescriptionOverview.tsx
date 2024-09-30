@@ -39,7 +39,26 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
         <>
           {data && data.length > 0 && (
             <React.Fragment>
-              <div className="w-1/4 bg-white shadow-lg rounded-lg p-4 sticky top-20 max-h-[600px] overflow-auto">
+              {/* <div className="w-1/4 bg-white shadow-lg rounded-lg p-4 sticky top-20 max-h-[600px] overflow-auto">
+                <ul className="space-y-2">
+                  {data.map((section: any) => (
+                    <li key={section.name}>
+                      <ScrollLink
+                        to={section.name}
+                        smooth={true}
+                        duration={500}
+                        spy={true}
+                        activeClass="font-bold text-blue-600"
+                        className="block py-2 px-4 rounded-lg hover:bg-blue-100 transition duration-200 cursor-pointer"
+                        offset={-100}
+                      >
+                        {section.name}
+                      </ScrollLink>
+                    </li>
+                  ))}
+                </ul>
+              </div> */}
+              <div className="hidden sm:block w-1/4 bg-white shadow-lg rounded-lg p-4 sticky top-20 max-h-[600px] overflow-auto">
                 <ul className="space-y-2">
                   {data.map((section: any) => (
                     <li key={section.name}>
@@ -59,7 +78,7 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                 </ul>
               </div>
 
-              <div className="w-3/4 ml-4">
+              <div className="w-full sm:w-3/4 sm:ml-4">
                 {data.map((section: any, i: number) => (
                   <ScrollElement key={i} name={section.name} className="mb-2">
                     <div className="bg-white shadow-md rounded-lg mb-4 transition-transform duration-200 p-4">
@@ -176,7 +195,7 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                           <h2 className="text-sm font-semibold uppercase text-gray-900 mb-4 border-b pb-2">
                             Safety advice
                           </h2>
-                          <div className="flex flex-col gap-3" >
+                          <div className="flex flex-col gap-3">
                             <div>
                               <div className="flex gap-3">
                                 <Image
@@ -400,7 +419,7 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                               ) => (
                                 <div
                                   key={index}
-                                  className="mb-1 flex justify-between w-3/6 bg-green-100 p-2 rounded-md"
+                                  className="mb-1 flex justify-between w-full sm:w-3/6 bg-green-100 p-2 rounded-md"
                                 >
                                   <p className="text-gray-500 text-sm font-normal">
                                     {" "}
