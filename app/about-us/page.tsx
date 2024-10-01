@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -12,7 +13,7 @@ export default AboutUs;
 
 const DigitalPrescriptionAboutUs = () => {
   return (
-    <>
+    <div>
       <div className="flex flex-col items-center justify-center gap-8 p-10 md:px-40 rounded-lg shadow-lg">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
           About Us
@@ -138,8 +139,22 @@ const DigitalPrescriptionAboutUs = () => {
             is revolutionizing digital healthcare, one innovation at a time!
           </p>
         </div>
+
+        {/* Incubated and Supported Section */}
+        <div className="flex flex-col items-center justify-center gap-2 mt-4">
+          <p className="text-sm md:text-base font-semibold text-gray-600">
+            Incubated at KIIT and Supported by DST NIDHI PRAYAS
+          </p>
+          <Image
+            src="/digitalPrescription/dst-logo.jpg"
+            alt="DST NIDHI PRAYAS Logo"
+            width={150}
+            height={100}
+            className="object-contain"
+          />
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

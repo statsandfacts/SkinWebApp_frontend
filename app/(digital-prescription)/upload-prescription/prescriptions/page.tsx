@@ -7,9 +7,9 @@ export const metadata: Metadata = {
 
 const Prescriptions = () => {
   return (
-    <>
+    <div>
       <PrescriptionDetailPage />
-    </>
+    </div>
   );
 };
 

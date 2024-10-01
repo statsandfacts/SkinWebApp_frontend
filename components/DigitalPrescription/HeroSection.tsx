@@ -64,9 +64,10 @@ const HeroSection: React.FC = () => {
             variants={textVariants}
             className="text-lg text-gray-600"
           >
-            Upload your handwritten prescriptions or test reports, and we will
-            convert it into a digital format. Simplify your healthcare
-            experience.
+            Upload your handwritten prescriptions or test reports, and
+            we&apos;ll convert them into a digital format for{" "}
+            <span className="font-bold">free</span>. Simplify your healthcare
+            experience!
           </motion.p>
           <motion.p
             initial="hidden"
@@ -80,6 +81,26 @@ const HeroSection: React.FC = () => {
             providers.
           </motion.p>
         </div>
+
+        {/* Authorized by DST Section */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={textVariants}
+          className="flex items-center space-x-4 mt-6"
+        >
+          <Image
+            src="/digitalPrescription/dst-logo.jpg"
+            alt="DST Logo"
+            width={170}
+            height={170}
+            className="object-contain"
+          />
+          <span className="text-sm text-gray-500">
+            Supported by Department of Science & Technology (DST)
+          </span>
+        </motion.div>
+
         <motion.div
           initial="hidden"
           animate="visible"
