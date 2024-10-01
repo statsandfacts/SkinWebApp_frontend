@@ -145,13 +145,22 @@ const DigitalPrescriptionAboutUs = () => {
           <p className="text-sm md:text-base font-semibold text-gray-600">
             Incubated at KIIT and Supported by DST NIDHI PRAYAS
           </p>
-          <Image
-            src="/digitalPrescription/dst-logo.jpg"
-            alt="DST NIDHI PRAYAS Logo"
-            width={150}
-            height={100}
-            className="object-contain"
-          />
+          <div className="flex gap-5" >
+            <Image
+              src="/digitalPrescription/dst-logo.jpg"
+              alt="DST NIDHI PRAYAS Logo"
+              width={150}
+              height={100}
+              className="object-contain"
+            />
+            <Image
+              src="/digitalPrescription/dst-nidhi.png"
+              alt="DST NIDHI PRAYAS Logo"
+              width={80}
+              height={80}
+              className="object-contain"
+            />
+          </div>
         </div>
       </div>
     </div>
