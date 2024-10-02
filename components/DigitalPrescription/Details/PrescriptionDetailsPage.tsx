@@ -56,7 +56,7 @@ export default function PrescriptionDetailPage() {
             dispatch(setPrescriptionDetailTab(keyName));
           }}
         >
-          <Tab key="Prescriptions" title="Prescriptions">
+          <Tab key="My Documents" title="My Documents">
             <PrescriptionDetails />
           </Tab>
           <Tab key="family_members" title="Family Members">

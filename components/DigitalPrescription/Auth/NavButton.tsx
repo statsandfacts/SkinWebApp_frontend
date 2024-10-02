@@ -33,7 +33,7 @@ const NavButtonDP = () => {
   const handleLogout = () => {
     dispatch(logOutUser());
     dispatch(resetPrescription());
-    dispatch(resetFamilyMember())
+    dispatch(resetFamilyMember());
     router.push("/");
   };
 
@@ -45,7 +45,12 @@ const NavButtonDP = () => {
         description={userDetails?.email}
         className="transition-transform"
         avatarProps={{
-          name: userDetails?.name,
+          name: userDetails?.name
+            ? userDetails?.name
+                .split(" ")
+                .map((word: string) => word[0].toUpperCase())
+                .join("")
+            : userDetails?.name,
         }}
       />
     </Link>
@@ -72,11 +77,17 @@ const NavButtonDP = () => {
           </DropdownItem>
           <DropdownItem key="prescriptions">
             {/* <Link href="/upload-prescription/prescriptions">View Case</Link> */}
-            <button onClick={() => router.push("/upload-prescription/prescriptions")} >View Case</button>
+            <button
+              onClick={() => router.push("/upload-prescription/prescriptions")}
+            >
+              View Documents
+            </button>
           </DropdownItem>
           <DropdownItem key="prescriptions">
             {/* <Link href="/upload-prescription">Upload Prescription</Link> */}
-            <button onClick={() => router.push("/upload-prescription")} >Upload Prescription</button>
+            <button onClick={() => router.push("/upload-prescription")}>
+              Upload Documents
+            </button>
           </DropdownItem>
           {/* <DropdownItem key="configurations">
             <Link href="/user/edit-user">Edit User</Link>
