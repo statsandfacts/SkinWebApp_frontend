@@ -39,9 +39,9 @@ const initialState: StepManagementState = {
   step: 0,
   documentDetails: [],
   singleDocumentDetails: {
-    selectedType: "Prescription",
-    selectedSubType: null,
-    subTypes: ["Prescription"],
+    selectedType: "Test Report",
+    selectedSubType: "Health Camp Report",
+    subTypes: ["Health Camp Report"],
     uploadImages: [],
   },
   isFirstScreenNextPopoverOpen: false,
