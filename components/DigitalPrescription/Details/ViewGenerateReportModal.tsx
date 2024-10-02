@@ -36,7 +36,6 @@ export default function ViewGenerateReportModal() {
       return "Invalid BMI category. Please enter a valid type.";
     }
   };
-  
 
   return (
     <>
@@ -94,28 +93,54 @@ export default function ViewGenerateReportModal() {
 
                   {/* Blood Pressure Section */}
                   <div className="mb-6 border-b pb-4">
-                    <h3 className="text-md font-semibold text-gray-700 mb-3">
+                    {/* <h3 className="text-md font-semibold text-gray-700 mb-3">
                       Blood Pressure
-                    </h3>
-                    <div className="flex justify-between gap-4">
-                      <div>
+                    </h3> */}
+                    <div className="flex flex-col sm:flex-row justify-between gap-4 w-full">
+                      <div className="w-full sm:w-2/4">
+                        <h3 className="text-md font-semibold text-gray-700 mb-3">
+                          Blood Pressure Measurement
+                        </h3>
                         <p className="text-sm text-gray-600">
                           <strong>Time:</strong>{" "}
                           {singlePrescriptionDetails?.ocr_op?.time}
                         </p>
                         <p className="text-sm text-gray-600">
-                          <strong>Diastolic (mmHg):</strong>{" "}
-                          {singlePrescriptionDetails?.ocr_op?.dia}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-600">
                           <strong>Systolic (mmHg):</strong>{" "}
                           {singlePrescriptionDetails?.ocr_op?.sys}
                         </p>
                         <p className="text-sm text-gray-600">
+                          <strong>Diastolic (mmHg):</strong>{" "}
+                          {singlePrescriptionDetails?.ocr_op?.dia}
+                        </p>
+                        <p className="text-sm text-gray-600">
                           <strong>Pulse Rate (bpm):</strong>{" "}
                           {singlePrescriptionDetails?.ocr_op?.pulse_rate}
+                        </p>
+                      </div>
+                      <div className="w-full sm:w-2/4">
+                        <h3 className="text-md font-semibold text-gray-700 mb-3">
+                          Blood Pressure Classification
+                        </h3>
+                        <p className="text-sm text-gray-600">
+                          <strong>Normal BP: </strong> Less than 120/80 mmHg
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          <strong>Elevated BP: </strong> {"120-129/<80 mmHg"}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          <strong>Hypertension (Stage 1): </strong>{" "}
+                          130-139/80-89 mmHg
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          <strong>Hypertension (Stage 2): </strong> ≥140/≥90
+                          mmHg
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          <strong>Hypertensive Crisis: </strong>{" "}
+                          {
+                            ">180/120 mmHg (Immediate medical attention required)"
+                          }
                         </p>
                       </div>
                     </div>
@@ -137,7 +162,9 @@ export default function ViewGenerateReportModal() {
                           {singlePrescriptionDetails?.ocr_op?.weight_between}
                         </p>
                         <p className="text-sm text-gray-500 font-light w-64 mt-2">
-                          {renderDetail(singlePrescriptionDetails?.ocr_op?.result)}
+                          {renderDetail(
+                            singlePrescriptionDetails?.ocr_op?.result
+                          )}
                         </p>
                       </div>
                       <div className="w-3/6 flex flex-col ">
