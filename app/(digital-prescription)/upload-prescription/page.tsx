@@ -6,9 +6,9 @@ export const metadata: Metadata = {
 };
 
 const UploadPrescriptionPage = () => {
-  return <>
+  return <div>
     <UploadPrescription />
-  </>;
+  </div>;
 };
 
 export default UploadPrescriptionPage;

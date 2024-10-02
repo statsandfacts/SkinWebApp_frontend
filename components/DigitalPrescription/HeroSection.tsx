@@ -1,19 +1,30 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@nextui-org/button";
 import { useRouter } from "next/navigation";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 
 const textVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
+  enter: {
+    opacity: 0,
+    x: -100, // Start offscreen to the left
+  },
+  center: {
     opacity: 1,
-    y: 0,
+    x: 0, // Move to center
     transition: {
-      duration: 1,
+      duration: 1.5, // Slow movement to center
       ease: "easeOut",
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: 100, // Move offscreen to the right
+    transition: {
+      duration: 1.5, // Slow movement out
+      ease: "easeIn",
     },
   },
 };
@@ -42,9 +53,29 @@ const imageVariants = {
   },
 };
 
+const textItems = [
+  {
+    id: 1,
+    text: "Upload your handwritten prescriptions or test reports, and we'll convert them into a digital format for free. Simplify your healthcare experience!",
+  },
+  {
+    id: 2,
+    text: "Organize your health history by uploading and securely storing all your medical records in one place. Gain valuable insights from your data and share digitized records seamlessly with your healthcare providers.",
+  },
+];
+
 const HeroSection: React.FC = () => {
   const router = useRouter();
   const { userId } = useAuthInfo();
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prevIndex) => (prevIndex + 1) % textItems.length);
+    }, 6000); // Change every 6 seconds to allow enough time for slide in, center, and out
+
+    return () => clearInterval(interval); // Clean up interval on component unmount
+  }, []);
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-between gap-5 px-2 sm:px-20 py-12">
@@ -57,55 +88,27 @@ const HeroSection: React.FC = () => {
         >
           Welcome to Your Health Solution
         </motion.h1>
-        <div>
-          <motion.p
-            initial="hidden"
-            animate="visible"
-            variants={textVariants}
-            className="text-lg text-gray-600"
-          >
-            Upload your handwritten prescriptions or test reports, and
-            we&apos;ll convert them into a digital format for{" "}
-            <span className="font-bold">free</span>. Simplify your healthcare
-            experience!
-          </motion.p>
-          <motion.p
-            initial="hidden"
-            animate="visible"
-            variants={textVariants}
-            className="text-sm text-gray-500 mt-1"
-          >
-            Organize your health history by uploading and securely storing all
-            your medical records in one place. Gain valuable insights from your
-            data and share digitized records seamlessly with your healthcare
-            providers.
-          </motion.p>
+
+        <div className="relative h-24 lg:h-20 overflow-hidden">
+          <AnimatePresence mode="wait"> {/* Replaced exitBeforeEnter with mode="wait" */}
+            {textItems.map((item, index) =>
+              activeIndex === index ? (
+                <motion.p
+                  key={item.id}
+                  variants={textVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="absolute text-xs lg:text-base text-gray-600 w-full"
+                >
+                  {item.text}
+                </motion.p>
+              ) : null
+            )}
+          </AnimatePresence>
         </div>
 
-        {/* Authorized by DST Section */}
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={textVariants}
-          className="flex items-center space-x-4 mt-6"
-        >
-          <Image
-            src="/digitalPrescription/dst-logo.jpg"
-            alt="DST Logo"
-            width={170}
-            height={170}
-            className="object-contain"
-          />
-          <span className="text-sm text-gray-500">
-            Supported by Department of Science & Technology (DST)
-          </span>
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={buttonVariants}
-        >
+        <motion.div initial="hidden" animate="visible" variants={buttonVariants}>
           <Button
             onPress={() => {
               if (userId) {

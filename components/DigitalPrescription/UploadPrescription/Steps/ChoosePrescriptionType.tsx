@@ -52,12 +52,12 @@ const ChoosePrescriptionType: React.FC = () => {
     color: string;
     subtypes: SubType[];
   }[] = [
-    { label: "Prescription", color: "bg-blue-600", subtypes: ["Prescription"] },
     {
       label: "Test Report",
-      color: "bg-green-600",
-      subtypes: ["Test Report", "Health Camp Report"],
+      color: "bg-blue-600",
+      subtypes: ["Health Camp Report", "Test Report"],
     },
+    { label: "Prescription", color: "bg-green-600", subtypes: ["Prescription"] },
     {
       label: "Scan Report",
       color: "bg-orange-500",

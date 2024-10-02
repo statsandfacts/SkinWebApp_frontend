@@ -71,11 +71,12 @@ const NavButtonDP = () => {
             <p className="font-semibold">{userDetails?.name}</p>
           </DropdownItem>
           <DropdownItem key="prescriptions">
-            <Link href="/upload-prescription/prescriptions">View Case</Link>
-            {/* <button onClick={() => router.push("/upload-prescription/prescriptions")} >View Case</button> */}
+            {/* <Link href="/upload-prescription/prescriptions">View Case</Link> */}
+            <button onClick={() => router.push("/upload-prescription/prescriptions")} >View Case</button>
           </DropdownItem>
           <DropdownItem key="prescriptions">
-            <Link href="/upload-prescription">Upload Prescription</Link>
+            {/* <Link href="/upload-prescription">Upload Prescription</Link> */}
+            <button onClick={() => router.push("/upload-prescription")} >Upload Prescription</button>
           </DropdownItem>
           {/* <DropdownItem key="configurations">
             <Link href="/user/edit-user">Edit User</Link>

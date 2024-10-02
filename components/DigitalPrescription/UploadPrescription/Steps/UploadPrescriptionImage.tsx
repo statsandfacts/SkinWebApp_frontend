@@ -77,6 +77,7 @@ const UploadDocumentImage: React.FC = () => {
             })
               .then((response) => {
                 toast.success("Health report analyzed successfully.");
+                dispatch(setStep(0));
                 router.push("/upload-prescription/prescriptions");
               })
               .catch((error) => {

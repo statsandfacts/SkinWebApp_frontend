@@ -1,3 +1,4 @@
+"use client";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import ChoosePrescriptionType from "./Steps/ChoosePrescriptionType";
@@ -19,11 +20,11 @@ const UploadPrescriptionStep = () => {
       case 3:
         return <UploadDocumentsSamePrescription />;
       default:
-        return <></>;
+        return <div></div>;
     }
   };
 
-  return <>{returnSteps(step)}</>;
+  return <div>{returnSteps(step)}</div>;
 };
 
 export default UploadPrescriptionStep;

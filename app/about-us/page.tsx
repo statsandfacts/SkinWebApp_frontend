@@ -15,12 +15,12 @@ const DigitalPrescriptionAboutUs = () => {
   return (
     <div>
       <div className="flex flex-col items-center justify-center gap-8 p-10 md:px-40 rounded-lg shadow-lg">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
+        {/* <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
           About Us
-        </h1>
+        </h1> */}
 
         <div className="flex flex-col gap-4">
-          <p className="text-sm md:text-base text-gray-600">
+          <p className="text-sm md:text-xl text-gray-600 font-bold text-center w-full">
             Welcome to{" "}
             <span className="font-semibold text-blue-600">Nextcare.Life</span>,
             where cutting-edge technology transforms healthcare innovation.
@@ -147,7 +147,7 @@ const DigitalPrescriptionAboutUs = () => {
           </p>
           <div className="flex gap-5" >
             <Image
-              src="/digitalPrescription/dst-logo.jpg"
+              src="/digitalPrescription/dst-logo.png"
               alt="DST NIDHI PRAYAS Logo"
               width={150}
               height={100}
