@@ -11,10 +11,12 @@ import {
   setSignUpData,
   setStep,
   setTermConditionModal,
+  setUser,
 } from "@/redux/slices/digitalPrescription/auth.slice";
 import {
   createCase,
   CreateUser,
+  login,
 } from "@/services/api.digitalPrescription.service";
 import dayjs from "dayjs";
 import { RootState } from "@/redux/store";
@@ -93,6 +95,22 @@ const CollectPassword = () => {
     })
       .then((response) => {
         toast.success("Case Created Successfully.");
+
+        //!Login Process
+        const payloadLogin = {
+          user_role: "1",
+          email_or_phone_no: signUpData.phone_number,
+          session_id: new Date().getTime().toString(),
+        };
+        login(payloadLogin)
+          .then((data) => {
+            const userId = data.user_id;
+            dispatch(setUser({ userId, sessionId: payloadLogin.session_id }));
+            router.push("/upload-prescription/prescriptions");
+          })
+          .catch((error) => {
+            toast.success("Login failed");
+          });
       })
       .catch((error) => {
         toast.error("Case Created Failed, Please try After Few Time.");

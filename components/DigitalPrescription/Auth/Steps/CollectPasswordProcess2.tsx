@@ -68,9 +68,9 @@ const CollectPassword = () => {
             //!Login Process
             const payloadLogin = {
               user_role: "1",
-              email_or_phone_no: signUpData.email,
+              email_or_phone_no: signUpData.phone_number,
               session_id: new Date().getTime().toString(),
-              password: values.confirm_password,
+              // password: values.confirm_password,
             };
             login(payloadLogin)
               .then((data) => {
