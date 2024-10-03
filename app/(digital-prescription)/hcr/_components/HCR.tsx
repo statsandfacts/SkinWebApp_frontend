@@ -14,6 +14,7 @@ import {
 } from "@/services/api.digitalPrescription.service";
 import { setUploadedImageDetails } from "@/redux/slices/digitalPrescription/stepManagement.slice";
 import dayjs from "dayjs";
+import { setUser } from "@/redux/slices/digitalPrescription/auth.slice";
 
 const HCR = () => {
   const router = useRouter();
@@ -48,6 +49,12 @@ const HCR = () => {
               .then((response) => {
                 resolve(response);
                 router.push("/upload-prescription/prescriptions");
+                dispatch(
+                  setUser({
+                    userId: response.user_id,
+                    sessionId: new Date().getTime().toString(),
+                  })
+                );
               })
               .catch((error) => {
                 reject(error);
