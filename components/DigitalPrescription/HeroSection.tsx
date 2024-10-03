@@ -56,11 +56,24 @@ const imageVariants = {
 const textItems = [
   {
     id: 1,
-    text: "Upload your handwritten prescriptions or test reports, and we'll convert them into a digital format for free. Simplify your healthcare experience!",
+    text: (
+      <>
+        Upload your handwritten prescriptions or test reports, and we&apos;ll convert
+        them into a digital format for{" "}
+        <span className="text-red-500 bg-red-100 py-1 px-2 rounded-xl font-bold">FREE</span>. Simplify your
+        healthcare experience!
+      </>
+    ),
   },
   {
     id: 2,
-    text: "Organize your health history by uploading and securely storing all your medical records in one place. Gain valuable insights from your data and share digitized records seamlessly with your healthcare providers.",
+    text: (
+      <>
+        Organize your health history by uploading and securely storing all your
+        medical records in one place for{" "}
+        <span className="text-red-500 bg-red-100 py-1 px-2 rounded-xl font-bold">FREE</span>.
+      </>
+    ),
   },
 ];
 
@@ -90,7 +103,9 @@ const HeroSection: React.FC = () => {
         </motion.h1>
 
         <div className="relative h-24 lg:h-20 overflow-hidden">
-          <AnimatePresence mode="wait"> {/* Replaced exitBeforeEnter with mode="wait" */}
+          <AnimatePresence mode="wait">
+            {" "}
+            {/* Replaced exitBeforeEnter with mode="wait" */}
             {textItems.map((item, index) =>
               activeIndex === index ? (
                 <motion.p
@@ -108,7 +123,11 @@ const HeroSection: React.FC = () => {
           </AnimatePresence>
         </div>
 
-        <motion.div initial="hidden" animate="visible" variants={buttonVariants}>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={buttonVariants}
+        >
           <Button
             onPress={() => {
               if (userId) {
