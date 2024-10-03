@@ -8,6 +8,7 @@ import InputField from "@/components/common/InputField";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import {
+  setLoginModal,
   setSignUpData,
   setSignUpProcess2Step,
   setStep,
@@ -16,8 +17,8 @@ import {
   sendOtp,
   verifyExistingUser,
 } from "@/services/api.digitalPrescription.service";
-import { setLoginModal } from "@/redux/slices/loginModal.slice";
 import LoginModal from "../LoginModal";
+import LoginDrawer from "../LoginDrawer";
 
 const CollectPhone = () => {
   const dispatch = useDispatch();
@@ -90,7 +91,7 @@ const CollectPhone = () => {
     <>
       <form
         autoComplete="off"
-        className="flex flex-col justify-center gap-3 w-full max-w-md px-5 mt-3"
+        className="flex flex-col justify-center gap-3 w-full px-5 mt-3"
         onSubmit={formik.handleSubmit}
       >
         <InputField
@@ -144,6 +145,7 @@ const CollectPhone = () => {
       </form>
 
       <LoginModal isCloseIcon={false} />
+      <LoginDrawer />
     </>
   );
 };

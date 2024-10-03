@@ -8,6 +8,8 @@ import {
   CollectPrescriptionImage,
   CollectSignUpData,
 } from "./Steps";
+import ChoosePrescriptionType from "../UploadPrescription/Steps/ChoosePrescriptionType";
+import ChoosePrescSubType from "../UploadPrescription/Steps/ChoosePrescSubType";
 
 const StepManagement = () => {
   const { step } = useSelector((state: RootState) => state.auth);
@@ -17,22 +19,24 @@ const StepManagement = () => {
       case 0:
         return <CollectPhone />;
       case 1:
-        return <CollectPrescriptionImage />;
+        return <ChoosePrescriptionType />;
       case 2:
-        return <CollectSignUpData />;
+        return <ChoosePrescSubType />;
       case 3:
+        return <CollectPrescriptionImage />;
+      case 4:
+        return <CollectSignUpData />;
+      case 5:
         return <CollectPassword />;
       default:
-        return <></>;
+        return null;
     }
   };
 
   return (
-    <>
-      <div className="flex items-center justify-center w-full min-h-screen max-h-fit">
-        {returnSteps(step)}
-      </div>
-    </>
+    <div className="flex items-center justify-center w-full md:w-96 min-h-screen max-h-fit">
+      {returnSteps(step)}
+    </div>
   );
 };
 

@@ -18,10 +18,10 @@ import {
 } from "@/services/api.digitalPrescription.service";
 import dayjs from "dayjs";
 import { RootState } from "@/redux/store";
-import { setLoginModal } from "@/redux/slices/loginModal.slice";
 import { useRouter } from "next/navigation";
 import { Checkbox, Link } from "@nextui-org/react";
 import TermsAndConditionsModal from "../TermsAndConditionsModal";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 
 const CollectPassword = () => {
   const dispatch = useDispatch();
@@ -66,7 +66,6 @@ const CollectPassword = () => {
             router.push("/");
             const patient_user_id = response.user_id;
             CreateCase(patient_user_id);
-            // dispatch(setLoginModal(true));
           })
           .catch((error: any) => {
             toast.error(
@@ -87,7 +86,9 @@ const CollectPassword = () => {
   const CreateCase = (patient_user_id: string | any) => {
     createCase({
       patient_user_id,
-      prescription_urls: signUpData.uploaded_files.map((file: any) => file.file_url),
+      prescription_urls: signUpData.uploaded_files.map(
+        (file: any) => file.file_url
+      ),
       report_dtls: [],
     })
       .then((response) => {
@@ -157,11 +158,31 @@ const CollectPassword = () => {
           </div>
         </div>
 
-        <Button type="submit" color="primary" isLoading={isLoading}>
+        {/* <Button type="submit" color="primary" isLoading={isLoading}>
           Submit
-        </Button>
-      </form>
+        </Button> */}
 
+        <div className="w-full flex justify-between max-w-lg mt-3">
+          <Button
+            variant="flat"
+            onClick={() => {
+              dispatch(setStep(4));
+            }}
+            startContent={<ArrowLeftIcon className="w-4 h-4" />}
+          >
+            Go Back
+          </Button>
+          <Button
+            color="primary"
+            variant="solid"
+            type="submit"
+            isLoading={isLoading}
+            endContent={<ArrowRightIcon className="w-4 h-4" />}
+          >
+            Next
+          </Button>
+        </div>
+      </form>
 
       <TermsAndConditionsModal />
     </>

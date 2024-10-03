@@ -7,17 +7,17 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import UploadImageComponent from "../../UploadPrescription/Common/UploadImageComponent";
 import {
   setSignUpData,
-  setStep,
+  setStep as setSignUpStep,
 } from "@/redux/slices/digitalPrescription/auth.slice";
 import { uploadImageToAws } from "@/services/api.digitalPrescription.service";
 import { toast } from "react-toastify";
-import { setUploadedImageDetails } from "@/redux/slices/digitalPrescription/stepManagement.slice";
+import { setStep, setUploadedImageDetails } from "@/redux/slices/digitalPrescription/stepManagement.slice";
 
 const CollectPrescriptionImage: React.FC = () => {
   const dispatch = useDispatch();
 
   const { signUpData } = useSelector((state: RootState) => state.auth);
-  const { uploadImageDetail } = useSelector(
+  const { uploadImageDetail, singleDocumentDetails } = useSelector(
     (state: RootState) => state.stepManagement
   );
 
@@ -28,11 +28,15 @@ const CollectPrescriptionImage: React.FC = () => {
       toast.error("Please select a file to upload.");
       return;
     }
+    if (!singleDocumentDetails?.selectedSubType) {
+      toast.error("Missing document type to upload.");
+      return;
+    }
 
     const formData = new FormData();
 
     formData.append("files", uploadImageDetail[0].file);
-    formData.append("doc_types", "Prescription");
+    formData.append("doc_types", singleDocumentDetails?.selectedSubType);
     formData.append("phone_no", signUpData.phone_number);
 
     setLoading(true);
@@ -40,7 +44,8 @@ const CollectPrescriptionImage: React.FC = () => {
       .then((response) => {
         dispatch(setSignUpData({ uploaded_files: response.uploaded_files }));
         toast.success("Prescription Image Uploaded Successfully.");
-        dispatch(setStep(2));
+        dispatch(setSignUpStep(4));
+        dispatch(setStep(0)); //for upload image steps empty
         dispatch(
           setUploadedImageDetails([])
         );
@@ -74,7 +79,7 @@ const CollectPrescriptionImage: React.FC = () => {
           <Button
             variant="flat"
             onClick={() => {
-              dispatch(setStep(0));
+              dispatch(setSignUpStep(1));
             }}
             startContent={<ArrowLeftIcon className="w-4 h-4" />}
           >

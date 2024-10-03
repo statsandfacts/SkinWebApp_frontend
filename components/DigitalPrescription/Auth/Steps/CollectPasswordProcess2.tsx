@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setSignUpData,
+  setSignUpProcess2Step,
   setStep,
   setTermConditionModal,
   setUser,
@@ -20,6 +21,7 @@ import { setLoginModal } from "@/redux/slices/loginModal.slice";
 import { useRouter } from "next/navigation";
 import { Checkbox, Link } from "@nextui-org/react";
 import TermsAndConditionsModal from "../TermsAndConditionsModal";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 
 const CollectPassword = () => {
   const dispatch = useDispatch();
@@ -73,7 +75,9 @@ const CollectPassword = () => {
             login(payloadLogin)
               .then((data) => {
                 const userId = data.user_id;
-                dispatch(setUser({ userId, sessionId: payloadLogin.session_id }));
+                dispatch(
+                  setUser({ userId, sessionId: payloadLogin.session_id })
+                );
                 router.push("/upload-prescription/prescriptions");
               })
               .catch((error) => {
@@ -155,9 +159,26 @@ const CollectPassword = () => {
           </div>
         </div>
 
-        <Button type="submit" color="primary" isLoading={isLoading}>
-          Submit
-        </Button>
+        <div className="w-full flex justify-between max-w-lg mt-3">
+          <Button
+            variant="flat"
+            onClick={() => {
+              dispatch(setSignUpProcess2Step(1));
+            }}
+            startContent={<ArrowLeftIcon className="w-4 h-4" />}
+          >
+            Go Back
+          </Button>
+          <Button
+            color="primary"
+            variant="solid"
+            type="submit"
+            isLoading={isLoading}
+            endContent={<ArrowRightIcon className="w-4 h-4" />}
+          >
+            Submit
+          </Button>
+        </div>
       </form>
 
       <TermsAndConditionsModal />

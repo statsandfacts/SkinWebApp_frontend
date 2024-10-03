@@ -13,6 +13,7 @@ import {
   setStep,
 } from "@/redux/slices/digitalPrescription/auth.slice";
 import { Select, SelectItem } from "@nextui-org/react";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 
 const CollectSignUpData = () => {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ const CollectSignUpData = () => {
       try {
         dispatch(setSignUpData(values));
         toast.success("Data submitted successfully!");
-        dispatch(setStep(3));
+        dispatch(setStep(5));
         dispatch(setSignUpProcess2Step(2));
       } catch (error) {
         toast.error("Error submitting data");
@@ -124,11 +125,21 @@ const CollectSignUpData = () => {
           label="Gender"
           onChange={formik.handleChange}
           value={formik.values.gender}
-          errorMessage={formik.touched.gender && formik.errors.gender ? formik.errors.gender : ""}
+          errorMessage={
+            formik.touched.gender && formik.errors.gender
+              ? formik.errors.gender
+              : ""
+          }
         >
-          <SelectItem value={"male"} key={"male"}>Male</SelectItem>
-          <SelectItem value={"female"} key={"female"}>Female</SelectItem>
-          <SelectItem value={"other"} key={"other"}>Other</SelectItem>
+          <SelectItem value={"male"} key={"male"}>
+            Male
+          </SelectItem>
+          <SelectItem value={"female"} key={"female"}>
+            Female
+          </SelectItem>
+          <SelectItem value={"other"} key={"other"}>
+            Other
+          </SelectItem>
         </Select>
 
         <Select
@@ -136,17 +147,45 @@ const CollectSignUpData = () => {
           label="Marital Status"
           onChange={formik.handleChange}
           value={formik.values.marital_status}
-          errorMessage={formik.touched.marital_status && formik.errors.marital_status ? formik.errors.marital_status : ""}
+          errorMessage={
+            formik.touched.marital_status && formik.errors.marital_status
+              ? formik.errors.marital_status
+              : ""
+          }
         >
-          <SelectItem value={"single"} key={"single"}>Single</SelectItem>
-          <SelectItem value={"married"} key={"married"}>Married</SelectItem>
-          <SelectItem value={"separated"} key={"separated"}>Separated</SelectItem>
+          <SelectItem value={"single"} key={"single"}>
+            Single
+          </SelectItem>
+          <SelectItem value={"married"} key={"married"}>
+            Married
+          </SelectItem>
+          <SelectItem value={"separated"} key={"separated"}>
+            Separated
+          </SelectItem>
         </Select>
       </div>
 
-      <Button type="submit" color="primary" isLoading={isLoading}>
-        Submit
-      </Button>
+      <div className="w-full flex justify-between max-w-lg  mt-3">
+        <Button
+          variant="flat"
+          onClick={() => {
+            dispatch(setStep(3));
+            dispatch(setSignUpProcess2Step(0));
+          }}
+          startContent={<ArrowLeftIcon className="w-4 h-4" />}
+        >
+          Go Back
+        </Button>
+        <Button
+          color="primary"
+          variant="solid"
+          type="submit"
+          isLoading={isLoading}
+          endContent={<ArrowRightIcon className="w-4 h-4" />}
+        >
+          Next
+        </Button>
+      </div>
     </form>
   );
 };

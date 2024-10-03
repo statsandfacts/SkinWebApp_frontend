@@ -200,6 +200,10 @@ export default function LoginDrawer() {
                   <Button
                     variant="bordered"
                     className="p-4 w-full border font-semibold text-slate-500 rounded-lg mt-4"
+                    onClick={() => {
+                      router.push("/auth/signup-user");
+                      dispatch(setLoginModal(false));
+                    }}
                   >
                     Create your Nextcare.life account
                   </Button>

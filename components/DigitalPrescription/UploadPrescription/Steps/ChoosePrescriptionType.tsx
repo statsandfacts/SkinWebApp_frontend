@@ -6,6 +6,9 @@ import {
   setSingleDocumentDetails,
   setStep,
 } from "@/redux/slices/digitalPrescription/stepManagement.slice";
+import { setStep as setSignUpStep } from "@/redux/slices/digitalPrescription/auth.slice";
+import { Button } from "@nextui-org/button";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 type PrescriptionType =
   | "Prescription"
@@ -42,8 +45,10 @@ const ChoosePrescriptionType: React.FC = () => {
         })
       );
       dispatch(setStep(2));
+      dispatch(setSignUpStep(3));
     } else {
       dispatch(setStep(1));
+      dispatch(setSignUpStep(2));
     }
   };
 
@@ -57,7 +62,11 @@ const ChoosePrescriptionType: React.FC = () => {
       color: "bg-blue-600",
       subtypes: ["Health Camp Report", "Test Report"],
     },
-    { label: "Prescription", color: "bg-green-600", subtypes: ["Prescription"] },
+    {
+      label: "Prescription",
+      color: "bg-green-600",
+      subtypes: ["Prescription"],
+    },
     {
       label: "Scan Report",
       color: "bg-orange-500",
@@ -71,7 +80,7 @@ const ChoosePrescriptionType: React.FC = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center w-full">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -132,6 +141,18 @@ const ChoosePrescriptionType: React.FC = () => {
           </motion.div>
         ))}
       </motion.div>
+
+      <div className="w-full max-w-lg p-4">
+        <Button
+          variant="flat"
+          onClick={() => {
+            dispatch(setSignUpStep(0));
+          }}
+          startContent={<ArrowLeftIcon className="w-4 h-4" />}
+        >
+          Go Back
+        </Button>
+      </div>
     </div>
   );
 };

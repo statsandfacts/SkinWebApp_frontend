@@ -26,7 +26,7 @@ const StepManagementSignUpProcess2 = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-center w-full min-h-screen max-h-fit">
+      <div className="flex items-center justify-center w-full md:w-96 min-h-screen max-h-fit">
         {returnSteps(signUpProcess2Step)}
       </div>
     </div>

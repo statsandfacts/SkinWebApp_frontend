@@ -2,9 +2,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { setSingleDocumentDetails, setStep } from "@/redux/slices/digitalPrescription/stepManagement.slice";
+import {
+  setSingleDocumentDetails,
+  setStep,
+} from "@/redux/slices/digitalPrescription/stepManagement.slice";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
+import { setStep as setSignUpStep } from "@/redux/slices/digitalPrescription/auth.slice";
 
 const ChoosePrescSubType: React.FC = () => {
   const dispatch = useDispatch();
@@ -18,10 +22,11 @@ const ChoosePrescSubType: React.FC = () => {
       setSingleDocumentDetails({ docType: "selectedSubType", data: subType })
     );
     dispatch(setStep(2));
+    dispatch(setSignUpStep(3));
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center w-full justify-center">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -73,6 +78,7 @@ const ChoosePrescSubType: React.FC = () => {
           variant="flat"
           onClick={() => {
             dispatch(setStep(0));
+            dispatch(setSignUpStep(1));
           }}
           startContent={<ArrowLeftIcon className="w-4 h-4" />}
         >
