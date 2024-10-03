@@ -12,13 +12,13 @@ import {
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import { setLoginModal } from "@/redux/slices/loginModal.slice";
 import { useDispatch } from "react-redux";
 import LoginModal from "./LoginModal";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
-import { logOutUser } from "@/redux/slices/digitalPrescription/auth.slice";
+import { logOutUser, setLoginModal } from "@/redux/slices/digitalPrescription/auth.slice";
 import { resetPrescription } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import { resetFamilyMember } from "@/redux/slices/digitalPrescription/familyMembers.slice";
+import LoginDrawer from "./LoginDrawer";
 
 const NavButtonDP = () => {
   const [isMounted, setIsMounted] = useState(false); // Track hydration phase
@@ -133,6 +133,7 @@ const NavButtonDP = () => {
       <div className="flex gap-2 justify-center whitespace-nowrap sm:flex-col sm:justify-start sm:gap-0">
         {renderButton()}
         <LoginModal isCloseIcon={false} />
+        <LoginDrawer />
       </div>
     </>
   );

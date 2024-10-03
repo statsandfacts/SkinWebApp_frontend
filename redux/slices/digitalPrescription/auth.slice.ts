@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { getUser } from "@/services/api.digitalPrescription.service";
 import { removeLocalStorage, setLocalStorage } from "@/utils/localStore";
+import { AuthState, SignUpDataState } from "@/types/digitalPrescription/auth.types";
 
 export const fetchUserDetails = createAsyncThunk(
   "auth/fetchUserDetails",
@@ -10,32 +11,6 @@ export const fetchUserDetails = createAsyncThunk(
   }
 );
 
-interface SignUpDataState {
-  first_name: string;
-  last_name: string;
-  email: string;
-  dob: string;
-  phone_number: string;
-  gender: string;
-  marital_status: string;
-  password_hash: string;
-  uploaded_files: {
-    doc_type: string;
-    file_url: string;
-  }[];
-}
-
-interface AuthState {
-  isModalOpen: boolean;
-  userId: string;
-  sessionId: string;
-  userDetails: any;
-  isTermConditionOpen: boolean;
-
-  step: number;
-  signUpProcess2Step: number;
-  signUpData: SignUpDataState;
-}
 
 const initialState: AuthState = {
   isModalOpen: false,

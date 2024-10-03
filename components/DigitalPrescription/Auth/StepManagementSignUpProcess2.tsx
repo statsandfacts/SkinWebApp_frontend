@@ -20,16 +20,16 @@ const StepManagementSignUpProcess2 = () => {
       case 2:
         return <CollectPasswordProcess2 />;
       default:
-        return <></>;
+        return null;
     }
   };
 
   return (
-    <>
+    <div>
       <div className="flex items-center justify-center w-full min-h-screen max-h-fit">
         {returnSteps(signUpProcess2Step)}
       </div>
-    </>
+    </div>
   );
 };
 
