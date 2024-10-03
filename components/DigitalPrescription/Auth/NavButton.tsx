@@ -15,26 +15,40 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import LoginModal from "./LoginModal";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
-import { logOutUser, setLoginModal } from "@/redux/slices/digitalPrescription/auth.slice";
+import {
+  logOutUser,
+  setLoginModal,
+} from "@/redux/slices/digitalPrescription/auth.slice";
 import { resetPrescription } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import { resetFamilyMember } from "@/redux/slices/digitalPrescription/familyMembers.slice";
 import LoginDrawer from "./LoginDrawer";
+import { userLogout } from "@/services/api.digitalPrescription.service";
 
 const NavButtonDP = () => {
   const [isMounted, setIsMounted] = useState(false); // Track hydration phase
   const router = useRouter();
   const dispatch = useDispatch();
   const { userId, userDetails } = useAuthInfo();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   const handleLogout = () => {
-    dispatch(logOutUser());
-    dispatch(resetPrescription());
-    dispatch(resetFamilyMember());
-    router.push("/");
+    setIsLoading(true);
+    userLogout()
+      .then((response) => {
+        toast.success("Logout successfully.");
+        dispatch(logOutUser());
+        dispatch(resetPrescription());
+        dispatch(resetFamilyMember());
+        router.push("/");
+      })
+      .catch((error) => {
+        toast.error("Logout Failed!");
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const profileElement = (
