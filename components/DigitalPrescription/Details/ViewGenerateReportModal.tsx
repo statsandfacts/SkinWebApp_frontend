@@ -11,6 +11,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setViewUploadedReportModal } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import Image from "next/image";
 
+type BPResult = {
+  message: string | null;
+  className: string | null;
+};
+
 export default function ViewGenerateReportModal() {
   const dispatch = useDispatch();
   const { isViewReportModal, singlePrescriptionDetails } = useSelector(
@@ -37,6 +42,52 @@ export default function ViewGenerateReportModal() {
     }
   };
 
+  const classifyBloodPressure = (
+    systolic: string | null,
+    diastolic: string | null
+  ): BPResult => {
+    // Convert strings to numbers, handling nulls
+    const systolicValue = systolic ? parseInt(systolic) : NaN;
+    const diastolicValue = diastolic ? parseInt(diastolic) : NaN;
+
+    // Check for NaN values to ensure valid input
+    if (isNaN(systolicValue) || isNaN(diastolicValue)) {
+      return {
+        message: "Invalid input. Please enter numbers.",
+        className: "text-gray-600",
+      }; // Optional: handle invalid input
+    }
+
+    if (systolicValue >= 180 || diastolicValue >= 120) {
+      return {
+        message: "Hypertensive Crisis! Seek medical help.",
+        className: "text-red-600",
+      }; // Red color for emergency
+    }
+    if (systolicValue >= 140 || diastolicValue >= 90) {
+      return {
+        message: "Stage 2 Hypertension detected.",
+        className: "text-orange-600",
+      }; // Orange color for Stage 2
+    }
+    if (systolicValue >= 130 || diastolicValue >= 80) {
+      return {
+        message: "Stage 1 Hypertension detected.",
+        className: "text-yellow-700",
+      }; // Yellow color for Stage 1
+    }
+    if (systolicValue >= 120 && diastolicValue < 80) {
+      return {
+        message: "Blood Pressure is Elevated.",
+        className: "text-yellow-400",
+      }; // Blue color for Elevated
+    }
+    return {
+      message: "Blood Pressure is Normal.",
+      className: "text-green-600",
+    }; // Green color for Normal
+  };
+
   return (
     <>
       <Modal size={"2xl"} isOpen={isViewReportModal} onClose={onClose}>
@@ -45,7 +96,7 @@ export default function ViewGenerateReportModal() {
             <>
               <ModalHeader className="bg-gray-100 p-4 rounded-t-md">
                 <h2 className="text-lg font-bold text-center text-sky-700">
-                  Health Camp Report
+                  {"Health Camp Report"}
                 </h2>
               </ModalHeader>
               <ModalBody className="bg-white p-6">
@@ -117,6 +168,23 @@ export default function ViewGenerateReportModal() {
                           <strong>Pulse Rate (bpm):</strong>{" "}
                           {singlePrescriptionDetails?.ocr_op?.pulse_rate}
                         </p>
+
+                        <p
+                          className={`text-sm text-gray-600 mt-4 ${
+                            classifyBloodPressure(
+                              singlePrescriptionDetails?.ocr_op?.sys,
+                              singlePrescriptionDetails?.ocr_op?.pulse_rate
+                            )?.className
+                          }`}
+                        >
+                          <strong>Category :</strong>{" "}
+                          {
+                            classifyBloodPressure(
+                              singlePrescriptionDetails?.ocr_op?.sys,
+                              singlePrescriptionDetails?.ocr_op?.pulse_rate
+                            )?.message
+                          }
+                        </p>
                       </div>
                       <div className="w-full sm:w-2/4">
                         <h3 className="text-md font-semibold text-gray-700 mb-3">
@@ -173,7 +241,7 @@ export default function ViewGenerateReportModal() {
                           {singlePrescriptionDetails?.ocr_op?.result}
                         </p>
                         <Image
-                          alt={singlePrescriptionDetails?.ocr_op?.result}
+                          alt={singlePrescriptionDetails?.ocr_op?.result || "BMI Image"}
                           src={
                             singlePrescriptionDetails?.ocr_op?.result ===
                             "Underweight"
