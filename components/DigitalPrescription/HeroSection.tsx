@@ -114,7 +114,7 @@ const HeroSection: React.FC = () => {
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  className="absolute text-xs lg:text-base text-gray-600 w-full"
+                  className="absolute text-sm lg:text-base text-gray-600 w-full"
                 >
                   {item.text}
                 </motion.p>
