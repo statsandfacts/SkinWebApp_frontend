@@ -74,9 +74,10 @@ export default function LoginDrawer() {
                 toast.success("OTP verified successfully!");
                 const userId = data.user_id;
                 dispatch(setUser({ userId, sessionId: session_id }));
-                resetForm();
+                // resetForm();
                 router.push("/upload-prescription/prescriptions");
-                dispatch(setLoginModal(false));
+                // dispatch(setLoginModal(false));
+                onClose();
               })
               .catch((error) => {
                 toast.error(error.response?.data?.detail || "Login failed.");
