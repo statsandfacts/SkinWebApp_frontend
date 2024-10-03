@@ -44,7 +44,7 @@ const PrescriptionDetails: React.FC = () => {
   }, [dispatch, userId]);
 
   return (
-    <React.Fragment>
+    <div>
       {loading ? (
         <Loader />
       ) : error ? (
@@ -69,18 +69,17 @@ const PrescriptionDetails: React.FC = () => {
                             : "border-yellow-200"
                         }`}
                       >
-                        <React.Fragment>
+                        <div>
                           <Table
                             removeWrapper
                             aria-label="Example static collection table"
                           >
                             <TableHeader>
-                              <TableColumn>Doctor Name</TableColumn>
-                              <TableColumn>Date</TableColumn>
-                              <TableColumn>Address</TableColumn>
+                              <TableColumn>Name</TableColumn>
+                              <TableColumn>Prescription Date</TableColumn>
+                              <TableColumn>Prescription Type</TableColumn>
                               <TableColumn>
-                                {" "}
-                                <></>{" "}
+                                Action
                               </TableColumn>
                             </TableHeader>
                             <TableBody>
@@ -89,13 +88,13 @@ const PrescriptionDetails: React.FC = () => {
                                   (prescription: any, pi: number) => (
                                     <TableRow key={pi}>
                                       <TableCell className="capitalize">
-                                        {prescription?.doctor_name}
+                                        {dashboardData?.name}
                                       </TableCell>
                                       <TableCell>
                                         {prescription?.prescription_date}
                                       </TableCell>
                                       <TableCell>
-                                        {prescription?.provider_dtls}
+                                        {prescription?.report_type}
                                       </TableCell>
                                       <TableCell className="flex gap-2">
                                         {cases?.status === "approve" && (
@@ -148,7 +147,7 @@ const PrescriptionDetails: React.FC = () => {
                               )}
                             </TableBody>
                           </Table>
-                        </React.Fragment>
+                        </div>
                       </AccordionItem>
                     )
                   )}
@@ -174,8 +173,8 @@ const PrescriptionDetails: React.FC = () => {
                 >
                   <TableHeader>
                     <TableColumn>Name</TableColumn>
-                    <TableColumn>Gender</TableColumn>
-                    <TableColumn>Date Of Birth</TableColumn>
+                    <TableColumn>Report Type</TableColumn>
+                    <TableColumn>Date</TableColumn>
                     <TableColumn>Action</TableColumn>
                   </TableHeader>
                   <TableBody>
@@ -185,8 +184,8 @@ const PrescriptionDetails: React.FC = () => {
                           <TableCell className="capitalize">
                             {dashboardData.name}
                           </TableCell>
-                          <TableCell>{dashboardData.gender}</TableCell>
-                          <TableCell>{dashboardData.dob}</TableCell>
+                          <TableCell>{report.report_type === "HCR" ? "Health Camp Report" : ""}</TableCell>
+                          <TableCell>{report.ocr_op.date}</TableCell>
                           <TableCell className="flex gap-2">
                             <ToolTipBtn
                               onClick={() => {
@@ -228,7 +227,7 @@ const PrescriptionDetails: React.FC = () => {
       <ViewPrescriptionDetailsModal />
       <ViewOriginalPrescriptionImage />
       <ViewGenerateReportModal />
-    </React.Fragment>
+    </div>
   );
 };
 
