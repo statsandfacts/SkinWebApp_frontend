@@ -38,6 +38,16 @@ export const login = async (payload: any) => {
 
 /**
  *
+ * @param payload
+ * @returns
+ */
+export const userLogout = async () => {
+  const { data } = await axios.post(baseUrl + "users/user-logout", {}, headers);
+  return data;
+};
+
+/**
+ *
  * @param phone_number
  * @returns
  */
@@ -62,7 +72,6 @@ export const sendOtp = async (payload: any) => {
   );
   return data;
 };
-
 
 /**
  *
@@ -155,10 +164,7 @@ export const getPatientDashboard = async (patient_user_id: string | null) => {
  * @returns
  */
 export const fetchDrugDetails = async (drug_id: string | null) => {
-  const { data } = await axios.get(
-    `${baseUrl}drug?id=${drug_id}`,
-    headers
-  );
+  const { data } = await axios.get(`${baseUrl}drug?id=${drug_id}`, headers);
   return data;
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Tabs, Tab, Button } from "@nextui-org/react";
 import PrescriptionDetails from "./PrescriptionDetails";
 import AddFamilyMembers from "./AddFamilyMembers";
@@ -18,17 +18,29 @@ import {
 import { useRouter } from "next/navigation";
 import { logOutUser } from "@/redux/slices/digitalPrescription/auth.slice";
 import { resetPrescription } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
+import { userLogout } from "@/services/api.digitalPrescription.service";
+import { toast } from "react-toastify";
 
 export default function PrescriptionDetailPage() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { selectedTab } = useSelector((state: any) => state.familyMember);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleLogout = () => {
-    dispatch(logOutUser());
-    dispatch(resetPrescription());
-    dispatch(resetFamilyMember());
-    router.push("/");
+    setIsLoading(true);
+    userLogout()
+      .then((response) => {
+        toast.success("Logout successfully.");
+        router.push("/");
+        dispatch(logOutUser());
+        dispatch(resetPrescription());
+        dispatch(resetFamilyMember());
+      })
+      .catch((error) => {
+        toast.error("Logout Failed!");
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -43,7 +55,7 @@ export default function PrescriptionDetailPage() {
         >
           <ArrowUpTrayIcon className="h-5 w-5 mr-1" /> Upload
         </Button>
-        <Button color="danger" variant="light" onPress={handleLogout}>
+        <Button isLoading={isLoading} color="danger" variant="light" onPress={handleLogout}>
           <ArrowLeftStartOnRectangleIcon className="h-5 w-5 mr-2" /> Logout
         </Button>
       </div>
