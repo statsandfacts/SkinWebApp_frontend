@@ -88,6 +88,9 @@ const Footer = (props: Props) => {
                 <div className='text-base font-medium whitespace-nowrap'>
                   Get Started
                 </div>
+                <Link href={'/hcr'} className='mt-4'>
+                  HCR
+                </Link>
                 {/* <Link href={'/coming-soon'} className='mt-4 whitespace-nowrap'>
                   Shop Products
                 </Link> */}

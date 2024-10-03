@@ -94,10 +94,7 @@ const UploadDocumentImage: React.FC = () => {
           });
       })
       .catch((error) => {
-        toast.error(
-          error.response?.data?.detail ||
-            "Image Upload Failed, Please Try After Few Seconds."
-        );
+        toast.error("Image Upload Failed, Please Try After Few Seconds.");
       })
       .finally(() => setLoading(false));
   };

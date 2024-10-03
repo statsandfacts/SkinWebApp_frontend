@@ -30,7 +30,7 @@ export function Providers({ children, themeProps }: ProvidersProps) {
             <>{children}</>
           </StoreProvider>
           <ToastContainer
-            position='top-center'
+            position='top-right'
             autoClose={3000}
             hideProgressBar
             newestOnTop={false}
