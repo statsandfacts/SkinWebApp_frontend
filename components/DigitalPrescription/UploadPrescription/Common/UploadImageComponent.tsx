@@ -41,15 +41,18 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept:
-      singleDocumentDetails.selectedSubType === "Prescription"
-        ? {
-            "image/*": [], // Only images for prescription
-          }
-        : {
-            "image/*": [], // Allow images
-            "application/pdf": [], // Allow PDFs if not a prescription
-          },
+    accept: {
+      "image/*": [], // Allow images
+      "application/pdf": [], // Allow PDFs if not a prescription
+    },
+    // singleDocumentDetails.selectedSubType === "Prescription"
+    //   ? {
+    //       "image/*": [], // Only images for prescription
+    //     }
+    //   : {
+    //       "image/*": [], // Allow images
+    //       "application/pdf": [], // Allow PDFs if not a prescription
+    //     },
     multiple: true, // Allow multiple files
   });
 
