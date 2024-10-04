@@ -36,14 +36,14 @@ const ChoosePrescriptionType: React.FC = () => {
 
   const handleSelectType = (type: any) => {
     dispatch(setSingleDocumentDetails({ docType: "selectType", data: type }));
+    dispatch(
+      setSingleDocumentDetails({
+        docType: "selectSubType",
+        data: type.subtypes[0],
+      })
+    );
 
     if (["Prescription"].includes(type.label)) {
-      dispatch(
-        setSingleDocumentDetails({
-          docType: "selectSubType",
-          data: type.subtypes[0],
-        })
-      );
       dispatch(setStep(2));
       dispatch(setSignUpStep(3));
     } else {
@@ -55,26 +55,31 @@ const ChoosePrescriptionType: React.FC = () => {
   const types: {
     label: PrescriptionType;
     color: string;
+    h_color: string;
     subtypes: SubType[];
   }[] = [
     {
-      label: "Test Report",
-      color: "bg-blue-600",
-      subtypes: ["Health Camp Report", "Test Report"],
-    },
-    {
       label: "Prescription",
-      color: "bg-green-600",
+      color: "bg-green-300",
+      h_color: "bg-green-600",
       subtypes: ["Prescription"],
     },
     {
+      label: "Test Report",
+      color: "bg-blue-300",
+      h_color: "bg-blue-600",
+      subtypes: ["Test Report", "Health Camp Report"],
+    },
+    {
       label: "Scan Report",
-      color: "bg-orange-500",
+      color: "bg-orange-300",
+      h_color: "bg-orange-600",
       subtypes: ["X-ray", "Ultrasound", "CT Scan", "MRI", "PET Scan"],
     },
     {
       label: "ECG/ECHO Report",
-      color: "bg-red-600",
+      color: "bg-red-300",
+      h_color: "bg-red-600",
       subtypes: ["CSG", "Echo"],
     },
   ];
@@ -101,9 +106,7 @@ const ChoosePrescriptionType: React.FC = () => {
         >
           {types
             .find((type) => type.label === singleDocumentDetails.selectedType)
-            ?.subtypes.map((subtype) => (
-              <div key={subtype}>{subtype}</div>
-            ))}
+            ?.subtypes.join(", ")}
         </motion.div>
       )}
 
@@ -125,11 +128,13 @@ const ChoosePrescriptionType: React.FC = () => {
         {types.map((type) => (
           <motion.div
             key={type.label}
-            className={`p-6 rounded-lg cursor-pointer text-white text-center transition-transform duration-300 ease-in-out ${
-              singleDocumentDetails.selectedType === type.label
-                ? type.color
-                : "bg-gray-300"
-            }`}
+            className={`p-6 rounded-lg cursor-pointer text-white text-center transition-transform duration-300 ease-in-out hover:bg-opacity-80 
+              ${
+                singleDocumentDetails.selectedType === type.label
+                  ? type.h_color
+                  : type.color
+              }
+              `}
             onClick={() => handleSelectType(type)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

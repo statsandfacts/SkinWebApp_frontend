@@ -15,6 +15,7 @@ interface InputFieldProps {
   autoComplete?: boolean;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void; // Explicit event type
   isLabel?: boolean;
+  disableCopyPaste?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -32,6 +33,7 @@ const InputField: React.FC<InputFieldProps> = ({
   autoComplete = false,
   onBlur,
   isLabel = false,
+  disableCopyPaste = false,
 }) => (
   <div>
     {isLabel && (
@@ -57,6 +59,8 @@ const InputField: React.FC<InputFieldProps> = ({
       autoFocus={false}
       autoCorrect='off'
       onBlur={onBlur}
+      onPaste={disableCopyPaste ? (e) => e.preventDefault() : undefined}
+      onCopy={disableCopyPaste ? (e) => e.preventDefault() : undefined}
     />
 
     {error && (

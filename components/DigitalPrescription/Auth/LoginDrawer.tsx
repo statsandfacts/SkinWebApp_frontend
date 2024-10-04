@@ -135,10 +135,11 @@ export default function LoginDrawer() {
                   <InputField
                     onChange={formik.handleChange}
                     value={formik.values.phone}
-                    type="text"
+                    type="number"
                     name="phone"
                     placeholder="Phone Number"
                     onBlur={formik.handleBlur}
+                    disableCopyPaste={true}
                     error={
                       formik.touched.phone && formik.errors.phone
                         ? formik.errors.phone

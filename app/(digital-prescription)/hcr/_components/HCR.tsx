@@ -119,6 +119,9 @@ const HCR = () => {
           Upload
         </Button>
       </div>
+      <div className="text-xs text-sky-700 mt-12 mb-2 text-center font-semibold bg-yellow-100 py-1 px-3 rounded-md shadow-md">
+        <p>This option should only be used by NextCare.Life Team.</p>
+      </div>
     </div>
   );
 };
