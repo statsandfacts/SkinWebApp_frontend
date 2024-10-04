@@ -182,10 +182,10 @@ const PrescriptionDetails: React.FC = () => {
                       (report: any, pi: number) => (
                         <TableRow key={pi}>
                           <TableCell className="capitalize">
-                            {dashboardData.name}
+                            {dashboardData?.name}
                           </TableCell>
-                          <TableCell>{report.report_type === "HCR" ? "Health Camp Report" : ""}</TableCell>
-                          <TableCell>{report.ocr_op.date}</TableCell>
+                          <TableCell>{report?.report_type === "HCR" ? "Health Camp Report" : report?.report_type}</TableCell>
+                          <TableCell>{report?.ocr_op?.date}</TableCell>
                           <TableCell className="flex gap-2">
                             <ToolTipBtn
                               onClick={() => {
