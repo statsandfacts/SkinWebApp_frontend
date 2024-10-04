@@ -174,7 +174,7 @@ export default function LoginDrawer() {
                       {!isOTPSent ? "Send OTP" : "Verify OTP & Login"}
                     </Button>
 
-                    {!isOTPSent && (
+                    {/* {!isOTPSent && (
                       <div className="w-full mt-2 flex justify-end">
                         <button
                           className="text-sky-900 text-right text-sm font-semibold"
@@ -186,7 +186,7 @@ export default function LoginDrawer() {
                           Forget Password?
                         </button>
                       </div>
-                    )}
+                    )} */}
                   </div>
                 </form>
 

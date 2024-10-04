@@ -185,7 +185,7 @@ const PrescriptionDetails: React.FC = () => {
                             {dashboardData?.name}
                           </TableCell>
                           <TableCell>{report?.report_type === "HCR" ? "Health Camp Report" : report?.report_type}</TableCell>
-                          <TableCell>{report?.ocr_op?.date}</TableCell>
+                          <TableCell>{report?.ocr_op?.Date}</TableCell>
                           <TableCell className="flex gap-2">
                             <ToolTipBtn
                               onClick={() => {
