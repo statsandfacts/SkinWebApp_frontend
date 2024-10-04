@@ -35,81 +35,58 @@ export default function ViewPrescriptionDetailsModal() {
         isOpen={isViewPrescriptionDetailsModal}
         onClose={onClose}
       >
-        <ModalContent className="mb-20">
+        <ModalContent className="mb-[4.5rem]">
           {() => (
             <>
               <ModalHeader className="flex flex-row justify-between items-center gap-1">
                 <p>Prescription Details</p>
               </ModalHeader>
               <ModalBody>
-              
                 <div className="overflow-y-auto max-h-[35rem]">
-                <div className="flex flex-col flex-row">
-                  <div className="flex justify-between items-center p-2">
-                    <p className="text-sm font-semibold capitalize text-slate-600">
-                      Name:           
-                    </p>
-                      <p className="text-xs font-normal text-slate-400">
-                        Prakash Routaray
-                      </p>
+                  <div className="flex justify-between">
+                    <div className="flex flex-col">
                       <p className="text-sm font-semibold capitalize text-slate-600">
-                      Age:           
-                    </p>
-                      <p className="text-xs font-normal text-slate-400">
-                        21
-                      </p>
-                      </div>
-                      <div className="flex justify-between items-center p-2">
-                      <p className="text-sm font-semibold capitalize text-slate-600">
-                      Phone:           
-                    </p>
-                      <p className="text-xs font-normal text-slate-400">
-                        9853895651
-                      </p>
-                      <p className="text-sm font-semibold capitalize text-slate-600">
-                      Gender:           
-                    </p>
-                      <p className="text-xs font-normal text-slate-400">
-                        Male
-                      </p>
-                        </div>
-                        <div className="flex justify-between items-center p-2">
-                        <p className="text-sm font-semibold capitalize text-slate-600">
-                      Email:           
-                    </p>
-                      <p className="text-xs font-normal text-slate-400">
-                        routarayprakash870@gmail.com
-                      </p>
-                     
-                      <p className="text-sm font-semibold capitalize text-slate-600">
-                      Height:           
-                    </p>
-                      <p className="text-xs font-normal text-slate-400">
-                        5.7E
-                      </p>
-                      </div>
-                 </div>
-                 
-                  <div className="flex justify-between items-center p-2">
-                    <div>
-                      <p className="text-sm font-semibold text-slate-600 capitalize">
-                        {singlePrescriptionDetails?.name}
+                        Doctor Name: {singlePrescriptionDetails?.doctor_name}
                       </p>
                       <p className="text-xs font-normal text-slate-400">
-                        Patient Name: {singlePrescriptionDetails?.provider_name}
+                        Doctor Redg. No.:{" "}
+                        {singlePrescriptionDetails?.doctor_redg_number}
                       </p>
                     </div>
-                    <div>
-                      <p className="text-sm font-semibold text-slate-600 capitalize">
-                        Date:
+                    <div className="flex flex-col">
+                      <p className="text-xs font-normal text-slate-400">
+                        Provider Name:{" "}
+                        {singlePrescriptionDetails?.provider_name}
                       </p>
                       <p className="text-xs font-normal text-slate-400">
-                        12-09-2024
+                        Provider Address:{" "}
+                        {singlePrescriptionDetails?.provider_dtls}
                       </p>
                     </div>
                   </div>
 
-                  <div>
+                  <div className="flex justify-between items-center mt-2">
+                    <div>
+                      <p className="text-xs font-normal text-slate-400">
+                        Pharmacist Name:{" "}
+                        {singlePrescriptionDetails?.pharmacist_name}
+                      </p>
+                      <p className="text-xs font-normal text-slate-400">
+                        Pharmacist License:{" "}
+                        {singlePrescriptionDetails?.pharmacist_certificate_no}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-normal text-slate-400">
+                        Date: {singlePrescriptionDetails?.prescription_date}
+                      </p>
+                      <p className="text-xs font-normal text-slate-400">
+                        Prescription Id: {singlePrescriptionDetails?.rx_id}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-4">
                     <h1>MEDICINE</h1>
                     <Table
                       removeWrapper
@@ -123,7 +100,6 @@ export default function ViewPrescriptionDetailsModal() {
                         <TableColumn>Dosage</TableColumn>
                         <TableColumn>Description</TableColumn>
                         <TableColumn>Comments</TableColumn>
-
                       </TableHeader>
                       <TableBody>
                         {singlePrescriptionDetails?.medicine_dtls.length > 0 &&
@@ -131,12 +107,21 @@ export default function ViewPrescriptionDetailsModal() {
                             (medicineDetail: any, mx: number) => (
                               <TableRow key={mx}>
                                 <TableCell
-                                  className="cursor-pointer"
                                   onClick={() => {
-                                    router.push(`/prescription/${medicineDetail?.o_id}`);
+                                    router.push(
+                                      `/prescription/${medicineDetail?.o_id}`
+                                    );
                                   }}
                                 >
-                                  {medicineDetail?.medicine_name}
+                                  <span
+                                    className={`${
+                                      medicineDetail?.o_id
+                                        ? "border-b-2 border-sky-600 cursor-pointer text-sky-800"
+                                        : ""
+                                    }`}
+                                  >
+                                    {medicineDetail?.medicine_name}
+                                  </span>
                                 </TableCell>
                                 <TableCell>
                                   {medicineDetail?.composition}
@@ -159,7 +144,7 @@ export default function ViewPrescriptionDetailsModal() {
                     </Table>
                   </div>
 
-                  <div>
+                  <div className="mt-4">
                     <h1>INVESTIGATION</h1>
                     <Table
                       removeWrapper
@@ -168,6 +153,7 @@ export default function ViewPrescriptionDetailsModal() {
                       <TableHeader>
                         <TableColumn>NAME</TableColumn>
                         <TableColumn>Description</TableColumn>
+                        <TableColumn>COMMENTS</TableColumn>
                       </TableHeader>
                       <TableBody>
                         {singlePrescriptionDetails?.reports.length > 0 &&
@@ -176,6 +162,7 @@ export default function ViewPrescriptionDetailsModal() {
                               <TableRow key={mx}>
                                 <TableCell>{report?.name}</TableCell>
                                 <TableCell>{report?.desc}</TableCell>
+                                <TableCell>{report?.comments}</TableCell>
                               </TableRow>
                             )
                           )}
@@ -183,7 +170,7 @@ export default function ViewPrescriptionDetailsModal() {
                     </Table>
                   </div>
 
-                  <div>
+                  <div className="mt-4">
                     <div>
                       <h1>DIAGNOSIS</h1>
                       <p className="text-xs font-light text-slate-400">
