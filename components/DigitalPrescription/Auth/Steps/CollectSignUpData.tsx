@@ -6,17 +6,28 @@ import * as Yup from "yup";
 import { Button } from "@nextui-org/button";
 import InputField from "@/components/common/InputField";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setSignUpData,
   setSignUpProcess2Step,
   setStep,
+  setUser,
 } from "@/redux/slices/digitalPrescription/auth.slice";
 import { Select, SelectItem } from "@nextui-org/react";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
+import {
+  createCase,
+  CreateUser,
+  login,
+} from "@/services/api.digitalPrescription.service";
+import { useRouter } from "next/navigation";
+import dayjs from "dayjs";
+import { RootState } from "@/redux/store";
 
 const CollectSignUpData = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const { signUpData } = useSelector((state: RootState) => state.auth);
   const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik({
@@ -44,9 +55,34 @@ const CollectSignUpData = () => {
       setIsLoading(true);
       try {
         dispatch(setSignUpData(values));
-        toast.success("Data submitted successfully!");
-        dispatch(setStep(5));
-        dispatch(setSignUpProcess2Step(2));
+        // toast.success("Data submitted successfully!");
+        // dispatch(setStep(5));
+        // dispatch(setSignUpProcess2Step(2));
+
+        const payload = {
+          name: `${values.first_name} ${values.last_name}`,
+          // password_hash: values.confirm_password,
+          email: values.email,
+          phone_no: signUpData?.phone_number,
+          user_type: "patient",
+          dob: dayjs(values?.dob).format("DD/MM/YYYY"),
+          gender: values?.gender,
+          marital_status: values?.marital_status,
+        };
+
+        CreateUser(payload)
+          .then((response: any) => {
+            toast.success("User Signup successful!");
+            // router.push("/");
+            const patient_user_id = response.user_id;
+            CreateCase(patient_user_id);
+          })
+          .catch((error: any) => {
+            toast.error(
+              error.response?.data?.details || "Something went wrong"
+            );
+          })
+          .finally(() => setIsLoading(false));
       } catch (error) {
         toast.error("Error submitting data");
       } finally {
@@ -54,6 +90,44 @@ const CollectSignUpData = () => {
       }
     },
   });
+
+  const CreateCase = (patient_user_id: string | any) => {
+    createCase({
+      patient_user_id,
+      prescription_urls: signUpData.uploaded_files.map(
+        (file: any) => file.file_url
+      ),
+      report_dtls: [],
+    })
+      .then((response) => {
+        toast.success("Case Created Successfully.");
+
+        //!Login Process
+        const payloadLogin = {
+          user_role: "1",
+          email_or_phone_no: signUpData.phone_number,
+          session_id: new Date().getTime().toString(),
+        };
+        login(payloadLogin)
+          .then((data) => {
+            const userId = data.user_id;
+            dispatch(setUser({ userId, sessionId: payloadLogin.session_id }));
+            router.replace("/upload-prescription/prescriptions");
+            cleanUp();
+          })
+          .catch((error) => {
+            toast.success("Login failed");
+          });
+      })
+      .catch((error) => {
+        toast.error("Case Created Failed, Please try After Few Time.");
+      });
+  };
+
+  const cleanUp = () => {
+    dispatch(setStep(0));
+    dispatch(setSignUpProcess2Step(2));
+  }
 
   return (
     <form
