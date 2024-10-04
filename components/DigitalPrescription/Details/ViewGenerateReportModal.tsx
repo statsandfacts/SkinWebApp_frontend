@@ -119,7 +119,7 @@ export default function ViewGenerateReportModal() {
                             {singlePrescriptionDetails?.ocr_op?.Pulse_Rate}
                           </p>
 
-                          <p className={`text-sm text-green-600 mt-4`}>
+                          <p className={`text-sm text-sky-800 mt-4`}>
                             <strong>Category :</strong>{" "}
                             {singlePrescriptionDetails?.ocr_op?.bp_category}
                           </p>
@@ -168,7 +168,7 @@ export default function ViewGenerateReportModal() {
                           <strong>SpO2:</strong>{" "}
                           {singlePrescriptionDetails?.ocr_op?.PULSE_OXIMETER}%
                         </p>
-                        <p className="text-sm text-green-700">
+                        <p className="text-sm text-sky-800">
                           {/* <strong>Ideal weight range for you :</strong>{" "} */}
                           {singlePrescriptionDetails?.ocr_op?.spo2}
                         </p>
