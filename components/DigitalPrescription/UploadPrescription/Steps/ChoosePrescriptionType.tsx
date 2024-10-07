@@ -9,6 +9,8 @@ import {
 import { setStep as setSignUpStep } from "@/redux/slices/digitalPrescription/auth.slice";
 import { Button } from "@nextui-org/button";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { useAuthInfo } from "@/hooks/useAuthInfo";
+import { useRouter } from "next/navigation";
 
 type PrescriptionType =
   | "Prescription"
@@ -30,9 +32,11 @@ type SubType =
 
 const ChoosePrescriptionType: React.FC = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { singleDocumentDetails } = useSelector(
     (state: RootState) => state.stepManagement
   );
+  const { userId } = useAuthInfo();
 
   const handleSelectType = (type: any) => {
     dispatch(setSingleDocumentDetails({ docType: "selectType", data: type }));
@@ -151,7 +155,11 @@ const ChoosePrescriptionType: React.FC = () => {
         <Button
           variant="flat"
           onClick={() => {
-            dispatch(setSignUpStep(0));
+            if (userId) {
+              router.back();
+            } else {
+              dispatch(setSignUpStep(0));
+            }
           }}
           startContent={<ArrowLeftIcon className="w-4 h-4" />}
         >

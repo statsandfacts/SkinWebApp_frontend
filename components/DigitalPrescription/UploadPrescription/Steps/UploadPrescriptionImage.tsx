@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import {
+  resetDetailsAfterSubmit,
   setFirstScreenNextPopoverOpen,
   setStep,
   setUploadedImageDetails,
@@ -70,33 +71,23 @@ const UploadDocumentImage: React.FC = () => {
           report_dtls,
         })
           .then((response) => {
-            toast.success("Analyze your health report.");
-            analyzeHealthReport({
-              user_id: userId,
-              report_url: uploaded_files[0].file_url,
-            })
-              .then((response) => {
-                toast.success("Health report analyzed successfully.");
-                dispatch(setStep(0));
-                router.push("/upload-prescription/prescriptions");
-              })
-              .catch((error) => {
-                toast.error(
-                  error ||
-                    "Analyze Health Report Failed, Please try After Few Time."
-                );
-              });
+            setLoading(false);
+            toast.success("Case created successfully.");
+            toast.success("Documents Submitted Successfully.");
+            router.push("/upload-prescription/prescriptions");
+            dispatch(resetDetailsAfterSubmit());
           })
           .catch((error: any) => {
+            setLoading(false);
             toast.error(
               error || "Case Created Failed, Please try After Few Time."
             );
           });
       })
       .catch((error) => {
+        setLoading(false);
         toast.error("Image Upload Failed, Please Try After Few Seconds.");
-      })
-      .finally(() => setLoading(false));
+      });
   };
 
   return (
@@ -133,16 +124,17 @@ const UploadDocumentImage: React.FC = () => {
                 toast.warning("Please select a file to upload.");
                 return;
               }
-              if (
-                singleDocumentDetails.selectedSubType === "Health Camp Report"
-              ) {
-                UploadHealthCampReport();
-                return;
-              }
+              // if (
+              //   singleDocumentDetails.selectedSubType === "Health Camp Report"
+              // ) {
+              //   UploadHealthCampReport();
+              //   return;
+              // }
               if (singleDocumentDetails.selectedType === "Prescription") {
                 dispatch(setFirstScreenNextPopoverOpen(true));
               } else {
-                dispatch(setUploadMoreReportsPopoverOpen(true));
+                // dispatch(setUploadMoreReportsPopoverOpen(true));
+                UploadHealthCampReport();
               }
             }}
             endContent={<ArrowRightIcon className="w-4 h-4" />}

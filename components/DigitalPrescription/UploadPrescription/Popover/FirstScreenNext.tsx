@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import {
+  resetDetailsAfterSubmit,
   setAfterUploadDocWithType,
   setFirstScreenNextPopoverOpen,
   setFirstScreenNoPopoverOpen,
@@ -14,12 +15,17 @@ import {
 } from "@/redux/slices/digitalPrescription/stepManagement.slice";
 import ShowPopover from "@/components/common/Popover";
 import { toast } from "react-toastify";
-import { uploadImageToAws } from "@/services/api.digitalPrescription.service";
+import {
+  createCase,
+  uploadImageToAws,
+} from "@/services/api.digitalPrescription.service";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import ThirdScreenNext from "./ThirdScreenNext";
+import { useRouter } from "next/navigation";
 
 const FirstScreenNext: React.FC = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const {
     isFirstScreenNextPopoverOpen,
@@ -27,7 +33,7 @@ const FirstScreenNext: React.FC = () => {
     singleDocumentDetails,
     moreImagePrescription,
   } = useSelector((state: RootState) => state.stepManagement);
-  const { userDetails } = useAuthInfo();
+  const { userDetails, userId } = useAuthInfo();
   const [loading, setLoading] = useState<boolean>(false);
 
   const clockToNo = () => {
@@ -68,9 +74,13 @@ const FirstScreenNext: React.FC = () => {
     uploadImageToAws(formData)
       .then((response) => {
         toast.success("Prescription Image Uploaded Successfully.");
-        dispatch(setAfterUploadDocWithType(response.uploaded_files)); //update image details in redux
+        if (moreImagePrescription.length > 0) {
+          dispatch(setAfterUploadDocWithType(response.uploaded_files)); //update image details in redux
+          dispatch(setFirstScreenNoPopoverOpen(true));
+        } else {
+          CreateCase([response.uploaded_files[0]?.file_url]);
+        }
         dispatch(setFirstScreenNextPopoverOpen(false));
-        dispatch(setFirstScreenNoPopoverOpen(true));
         dispatch(setUploadedImageDetails([])); // empty image details
       })
       .catch((error) => {
@@ -97,6 +107,24 @@ const FirstScreenNext: React.FC = () => {
     dispatch(setStep(3));
   };
 
+  const CreateCase = (prescription_urls: any) => {
+    createCase({
+      patient_user_id: userId,
+      prescription_urls,
+      report_dtls: [],
+    })
+      .then((response) => {
+        setLoading(false);
+        toast.success("Documents Submitted Successfully.");
+        router.push("/upload-prescription/prescriptions");
+        dispatch(resetDetailsAfterSubmit());
+      })
+      .catch((error: any) => {
+        setLoading(false);
+        toast.error(error || "Case Created Failed, Please try After Few Time.");
+      });
+  };
+
   return (
     <>
       <ShowPopover
@@ -110,7 +138,7 @@ const FirstScreenNext: React.FC = () => {
       >
         <div className="flex flex-col items-center gap-4">
           <p className="text-lg text-gray-700 text-center">
-            Do you want to upload the second page for the same prescription?
+            Do you want to upload the additional pages for the same prescription?
           </p>
           <div className="w-full bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg">
             <p className="text-blue-700 text-sm">
