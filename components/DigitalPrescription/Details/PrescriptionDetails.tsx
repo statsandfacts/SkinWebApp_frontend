@@ -70,21 +70,20 @@ const PrescriptionDetails: React.FC = () => {
                         }`}
                       >
                         <div>
-                          <Table
-                            removeWrapper
-                            aria-label="Example static collection table"
-                          >
-                            <TableHeader>
-                              <TableColumn>Name</TableColumn>
-                              <TableColumn>Prescription Date</TableColumn>
-                              <TableColumn>Prescription Type</TableColumn>
-                              <TableColumn>
-                                Action
-                              </TableColumn>
-                            </TableHeader>
-                            <TableBody>
-                              {cases?.prescription_dtls.length > 0 ? (
-                                cases?.prescription_dtls.map(
+                          {cases?.prescription_dtls &&
+                          cases?.prescription_dtls?.length > 0 ? (
+                            <Table
+                              removeWrapper
+                              aria-label="Example static collection table"
+                            >
+                              <TableHeader>
+                                <TableColumn>Name</TableColumn>
+                                <TableColumn>Prescription Date</TableColumn>
+                                <TableColumn>Prescription Type</TableColumn>
+                                <TableColumn>Action</TableColumn>
+                              </TableHeader>
+                              <TableBody>
+                                {cases?.prescription_dtls.map(
                                   (prescription: any, pi: number) => (
                                     <TableRow key={pi}>
                                       <TableCell className="capitalize">
@@ -137,16 +136,14 @@ const PrescriptionDetails: React.FC = () => {
                                       </TableCell>
                                     </TableRow>
                                   )
-                                )
-                              ) : (
-                                <TableRow key={"1"}>
-                                  <TableCell colSpan={4}>
-                                    {"No Cases! Found"}
-                                  </TableCell>
-                                </TableRow>
-                              )}
-                            </TableBody>
-                          </Table>
+                                )}
+                              </TableBody>
+                            </Table>
+                          ) : (
+                            <p className="text-slate-600 text-center text-xs">
+                              No Prescription Uploaded For This Case.
+                            </p>
+                          )}
                         </div>
                       </AccordionItem>
                     )
@@ -184,7 +181,11 @@ const PrescriptionDetails: React.FC = () => {
                           <TableCell className="capitalize">
                             {dashboardData?.name}
                           </TableCell>
-                          <TableCell>{report?.report_type === "HCR" ? "Health Camp Report" : report?.report_type}</TableCell>
+                          <TableCell>
+                            {report?.report_type === "HCR"
+                              ? "Health Camp Report"
+                              : report?.report_type}
+                          </TableCell>
                           <TableCell>{report?.ocr_op?.Date}</TableCell>
                           <TableCell className="flex gap-2">
                             <ToolTipBtn
