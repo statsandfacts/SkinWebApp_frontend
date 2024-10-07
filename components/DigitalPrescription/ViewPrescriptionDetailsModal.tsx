@@ -54,12 +54,13 @@ export default function ViewPrescriptionDetailsModal() {
                       </p>
                     </div>
                     <div className="flex flex-col">
+                      <p className="text-xs font-semibold text-slate-600">Hospital/Clinic Details</p>
                       <p className="text-xs font-normal text-slate-400">
-                        Provider Name:{" "}
+                        Name:{" "}
                         {singlePrescriptionDetails?.provider_name}
                       </p>
                       <p className="text-xs font-normal text-slate-400">
-                        Provider Address:{" "}
+                        Address:{" "}
                         {singlePrescriptionDetails?.provider_dtls}
                       </p>
                     </div>

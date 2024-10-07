@@ -281,8 +281,7 @@ export default function ViewGenerateReportModal() {
                   </div>
                 ) : (
                   <p className="w-full text-center text-slate-500">
-                    {" "}
-                    Report Type Integration Coming Soon{" "}
+                    This Feature Loading... Almost There! Please have patience.
                   </p>
                 )}
               </ModalBody>

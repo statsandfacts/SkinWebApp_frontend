@@ -169,7 +169,7 @@ export default function LoginDrawer() {
                     <Button
                       isLoading={isLoading}
                       onClick={formik.handleSubmit as any}
-                      className="p-4 w-full text-white bg-sky-900 rounded-lg font-semibold"
+                      className="p-4 w-full text-white bg-sky-900 rounded-lg shadow-md font-semibold"
                     >
                       {!isOTPSent ? "Send OTP" : "Verify OTP & Login"}
                     </Button>
@@ -191,23 +191,23 @@ export default function LoginDrawer() {
                 </form>
 
                 <div>
-                  <div className="flex justify-center items-center w-full mt-2">
+                  <div className="flex justify-center items-center w-full mt-6">
                     <div className="border-t-2 flex-grow"></div>
-                    <p className="whitespace-nowrap mx-2 text-xs text-gray-500">
-                      New to Nextcare.life
+                    <p className="whitespace-nowrap mx-2 font-semibold text-sm text-sky-700">
+                      New to Nextcare.life ?
                     </p>
                     <div className="border-t-2 flex-grow"></div>
                   </div>
 
                   <Button
                     variant="bordered"
-                    className="p-4 w-full border font-semibold text-slate-500 rounded-lg mt-4"
+                    className="p-4 w-full border font-semibold text-sky-900 text-sm rounded-md shadow-md mt-2 transform transition-transform duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-lg"
                     onClick={() => {
                       router.push("/auth/signup-user");
                       dispatch(setLoginModal(false));
                     }}
                   >
-                    Create your Nextcare.life account
+                    Create your account
                   </Button>
                 </div>
               </div>

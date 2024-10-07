@@ -41,8 +41,8 @@ const ContactUs = () => {
                   </div>
                   <div>
                     <span>
-                      Campus 11, KIIT University, Patia, Bhubaneswar, Odisha
-                      751024
+                      KIIT-TBI, Campus 11, KIIT University, Patia, Bhubaneswar,
+                      Odisha 751024
                     </span>
                   </div>
                 </li>
