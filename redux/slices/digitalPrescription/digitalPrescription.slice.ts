@@ -6,8 +6,10 @@ const initialState: DigitalPrescriptionState = {
   patientName: "",
   uploadImages: [],
   singlePrescriptionDetails: {},
+  singleCaseDetails: {},
   isViewImageModal: false,
   isViewReportModal: false,
+  isReuploadModal: false,
   isViewPrescriptionDetailsModal: false,
 };
 
@@ -69,8 +71,14 @@ const digitalPrescriptionSlice = createSlice({
     setViewUploadedReportModal: (state, action) => {
       state.isViewReportModal = action.payload;
     },
+    setReuploadModal: (state, action) => {
+      state.isReuploadModal = action.payload;
+    },
     setViewPrescriptionDetailsModal: (state, action) => {
       state.isViewPrescriptionDetailsModal = action.payload;
+    },
+    setSingleCaseDetails: (state, action) => {
+      state.singleCaseDetails = action.payload;
     },
     setSinglePrescriptionDetails: (state, action) => {
       state.singlePrescriptionDetails = action.payload;
@@ -95,6 +103,8 @@ export const {
   setViewPrescriptionDetailsModal,
   setSinglePrescriptionDetails,
   setViewUploadedReportModal,
+  setReuploadModal,
+  setSingleCaseDetails,
 } = digitalPrescriptionSlice.actions;
 
 export default digitalPrescriptionSlice.reducer;

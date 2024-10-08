@@ -13,9 +13,11 @@ import {
 import {
   EyeIcon,
   DocumentMagnifyingGlassIcon,
-  ArrowDownTrayIcon,
+  ArrowUpTrayIcon,
 } from "@heroicons/react/24/outline";
 import {
+  setReuploadModal,
+  setSingleCaseDetails,
   setSinglePrescriptionDetails,
   setViewOriginalImageModal,
   setViewPrescriptionDetailsModal,
@@ -30,6 +32,7 @@ import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { fetchPatientDashboard } from "@/redux/slices/digitalPrescription/userDashboard.slice";
 import Loader from "@/components/Loader";
 import ViewGenerateReportModal from "./ViewGenerateReportModal";
+import ReUploadImageModal from "./ReUploadImageModal";
 
 const PrescriptionDetails: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -62,11 +65,30 @@ const PrescriptionDetails: React.FC = () => {
                       <AccordionItem
                         key={cx}
                         aria-label={cases?.case_id + cx}
-                        title={`Status: ${cases?.status}`}
+                        title={
+                          <span>
+                            Status: {cases?.status}{" "}
+                            {cases?.reason && (
+                              <span
+                                className={`text-sm font-normal ${
+                                  cases?.status === "hold"
+                                    ? "text-blue-300"
+                                    : "text-red-400"
+                                }`}
+                              >
+                                ({cases?.reason})
+                              </span>
+                            )}
+                          </span>
+                        }
                         className={`border ${
                           cases?.status === "approve"
-                            ? "border-sky-200"
-                            : "border-yellow-200"
+                            ? "border-green-300"
+                            : cases?.status === "hold"
+                            ? "border-blue-300"
+                            : cases?.status === "reupload"
+                            ? "border-red-300"
+                            : "border-yellow-300"
                         }`}
                       >
                         <div>
@@ -114,6 +136,27 @@ const PrescriptionDetails: React.FC = () => {
                                             key={1}
                                           >
                                             <DocumentMagnifyingGlassIcon className="h-5 w-5" />
+                                          </ToolTipBtn>
+                                        )}
+
+                                        {cases?.status === "reupload" && (
+                                          <ToolTipBtn
+                                            onClick={() => {
+                                              dispatch(
+                                                setSinglePrescriptionDetails(
+                                                  prescription
+                                                )
+                                              );
+                                              dispatch(
+                                                setSingleCaseDetails(cases)
+                                              );
+                                              dispatch(setReuploadModal(true));
+                                            }}
+                                            title="Reupload Your Prescription."
+                                            color="danger"
+                                            key={1}
+                                          >
+                                            <ArrowUpTrayIcon className="h-5 w-5" />
                                           </ToolTipBtn>
                                         )}
 
@@ -228,6 +271,7 @@ const PrescriptionDetails: React.FC = () => {
       <ViewPrescriptionDetailsModal />
       <ViewOriginalPrescriptionImage />
       <ViewGenerateReportModal />
+      <ReUploadImageModal />
     </div>
   );
 };

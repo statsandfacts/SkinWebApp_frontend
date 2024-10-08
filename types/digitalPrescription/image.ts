@@ -7,7 +7,9 @@ export interface DigitalPrescriptionState {
   patientName: string;
   uploadImages: TestTypeObject[];
   singlePrescriptionDetails: object;
+  singleCaseDetails: object;
   isViewImageModal: boolean;
   isViewPrescriptionDetailsModal: boolean;
   isViewReportModal: boolean;
+  isReuploadModal: boolean;
 }

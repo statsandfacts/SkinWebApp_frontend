@@ -147,6 +147,20 @@ export const getCaseDetails = async (case_id: string) => {
 
 /**
  *
+ * @param payload
+ * @returns
+ */
+export const updatePrescription= async (payload: any) => {
+  const { data } = await axios.put(
+    `${baseUrl}prescription/update-prescription`,
+    payload,
+    headers
+  );
+  return data;
+};
+
+/**
+ *
  * @param patient_user_id
  * @returns
  */
