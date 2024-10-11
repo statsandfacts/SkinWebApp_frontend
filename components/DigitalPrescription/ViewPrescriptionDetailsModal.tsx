@@ -54,21 +54,21 @@ export default function ViewPrescriptionDetailsModal() {
                       </p>
                     </div>
                     <div className="flex flex-col">
-                      <p className="text-xs font-semibold text-slate-600">Hospital/Clinic Details</p>
-                      <p className="text-xs font-normal text-slate-400">
-                        Name:{" "}
-                        {singlePrescriptionDetails?.provider_name}
+                      <p className="text-xs font-semibold text-slate-600">
+                        Hospital/Clinic Details
                       </p>
-                      <p className="text-xs font-normal text-slate-400">
-                        Address:{" "}
-                        {singlePrescriptionDetails?.provider_dtls}
+                      <p className="text-xs font-normal text-slate-400 capitalize">
+                        Name: {singlePrescriptionDetails?.provider_name}
+                      </p>
+                      <p className="text-xs font-normal text-slate-400 capitalize">
+                        Address: {singlePrescriptionDetails?.provider_dtls}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex justify-between items-center mt-2">
                     <div>
-                      <p className="text-xs font-normal text-slate-400">
+                      <p className="text-xs font-normal text-slate-400 capitalize">
                         Pharmacist Name:{" "}
                         {singlePrescriptionDetails?.pharmacist_name}
                       </p>
@@ -87,7 +87,14 @@ export default function ViewPrescriptionDetailsModal() {
                     </div>
                   </div>
 
-                  <div className="mt-4">
+                  {singlePrescriptionDetails?.remarks && (
+                    <p className="mt-2 text-orange-600 rounded-sm bg-orange-50 text-xs font-semibold w-fit py-1 px-2">
+                      {" "}
+                      Remark: {singlePrescriptionDetails?.remarks}{" "}
+                    </p>
+                  )}
+
+                  <div className="mt-2">
                     <h1>MEDICINE</h1>
                     <Table
                       removeWrapper
@@ -117,22 +124,22 @@ export default function ViewPrescriptionDetailsModal() {
                                   <span
                                     className={`${
                                       medicineDetail?.o_id
-                                        ? "border-b-2 border-sky-600 cursor-pointer text-sky-800"
+                                        ? "border-b-2 border-sky-600 cursor-pointer uppercase text-sky-800"
                                         : ""
                                     }`}
                                   >
                                     {medicineDetail?.medicine_name}
                                   </span>
                                 </TableCell>
-                                <TableCell>
+                                <TableCell className="uppercase">
                                   {medicineDetail?.composition}
                                 </TableCell>
-                                <TableCell>
+                                <TableCell className="uppercase">
                                   {medicineDetail?.usage_instructions}
                                 </TableCell>
-                                <TableCell>{medicineDetail?.days}</TableCell>
-                                <TableCell>{medicineDetail?.dosage}</TableCell>
-                                <TableCell>
+                                <TableCell className="uppercase">{medicineDetail?.days}</TableCell>
+                                <TableCell className="uppercase">{medicineDetail?.dosage}</TableCell>
+                                <TableCell className="uppercase">
                                   {medicineDetail?.description}
                                 </TableCell>
                                 <TableCell>
@@ -161,9 +168,9 @@ export default function ViewPrescriptionDetailsModal() {
                           singlePrescriptionDetails?.reports.map(
                             (report: any, mx: number) => (
                               <TableRow key={mx}>
-                                <TableCell>{report?.name}</TableCell>
-                                <TableCell>{report?.desc}</TableCell>
-                                <TableCell>{report?.comments}</TableCell>
+                                <TableCell className="uppercase">{report?.name}</TableCell>
+                                <TableCell className="uppercase">{report?.desc}</TableCell>
+                                <TableCell className="uppercase">{report?.comments}</TableCell>
                               </TableRow>
                             )
                           )}
@@ -174,13 +181,13 @@ export default function ViewPrescriptionDetailsModal() {
                   <div className="mt-4">
                     <div>
                       <h1>DIAGNOSIS</h1>
-                      <p className="text-xs font-light text-slate-400">
+                      <p className="text-xs font-light text-slate-400 uppercase">
                         {singlePrescriptionDetails?.diagnosis}
                       </p>
                     </div>
                     <div>
                       <h1>SYMPTOMS</h1>
-                      <p className="text-xs font-light text-slate-400">
+                      <p className="text-xs font-light text-slate-400 uppercase">
                         {singlePrescriptionDetails?.symptoms}
                       </p>
                     </div>

@@ -67,12 +67,17 @@ const PrescriptionDetails: React.FC = () => {
                         aria-label={cases?.case_id + cx}
                         title={
                           <span>
-                            Status: {cases?.status}{" "}
+                            Status:{" "}
+                            {["approve", "conditionally-approve"].includes(
+                              cases?.status
+                            )
+                              ? `${cases?.status}d`
+                              : cases?.status}{" "}
                             {cases?.reason && (
                               <span
                                 className={`text-sm font-normal ${
                                   cases?.status === "hold"
-                                    ? "text-blue-300"
+                                    ? "text-orange-400"
                                     : "text-red-400"
                                 }`}
                               >
@@ -83,12 +88,14 @@ const PrescriptionDetails: React.FC = () => {
                         }
                         className={`border ${
                           cases?.status === "approve"
-                            ? "border-green-300"
+                            ? "border-green-400"
+                            : cases?.status === "conditionally-approve"
+                            ? "border-indigo-400"
                             : cases?.status === "hold"
-                            ? "border-blue-300"
+                            ? "border-orange-400"
                             : cases?.status === "reupload"
-                            ? "border-red-300"
-                            : "border-yellow-300"
+                            ? "border-red-400"
+                            : "border-yellow-400"
                         }`}
                       >
                         <div>
@@ -115,10 +122,15 @@ const PrescriptionDetails: React.FC = () => {
                                         {prescription?.prescription_date}
                                       </TableCell>
                                       <TableCell>
-                                        {prescription?.report_type}
+                                        {prescription?.report_type
+                                          ? prescription?.report_type
+                                          : "Prescription"}
                                       </TableCell>
                                       <TableCell className="flex gap-2">
-                                        {cases?.status === "approve" && (
+                                        {[
+                                          "approve",
+                                          "conditionally-approve",
+                                        ].includes(cases?.status) && (
                                           <ToolTipBtn
                                             onClick={() => {
                                               dispatch(
