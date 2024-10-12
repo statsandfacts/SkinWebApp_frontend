@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { transformDataToArray } from "@/helper/objectHelper";
 
 interface DrugState {
-  data: any; 
+  data: any;
   loading: boolean;
   error: string | null;
 }
@@ -25,9 +25,13 @@ export const getDrugDetails = createAsyncThunk<
     return data;
   } catch (err) {
     const error = err as AxiosError;
-    
-    if (error.response && error.response.data) {
-      return rejectWithValue(error.response.data as string);
+
+    if (
+      error.response &&
+      error.response.data &&
+      (error.response.data as any).message
+    ) {
+      return rejectWithValue((error.response.data as any).message);
     }
 
     return rejectWithValue("Something went wrong");
@@ -45,10 +49,13 @@ const drugSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(getDrugDetails.fulfilled, (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.data = transformDataToArray(action.payload);
-      })
+      .addCase(
+        getDrugDetails.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.data = transformDataToArray(action.payload);
+        }
+      )
       .addCase(getDrugDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;

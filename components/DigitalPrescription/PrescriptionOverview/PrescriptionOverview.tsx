@@ -33,12 +33,12 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
     fetchDrugDetails();
   }, [fetchDrugDetails]);
 
-  if (error) return <div>Error: {error}</div>;
-
   return (
     <div className="flex min-h-screen bg-gray-50 p-6">
       {loading ? (
         <Loader />
+      ) : error ? (
+        <p className="text-red-500 ml-3 text-center"> Error: {error} </p>
       ) : (
         <>
           {data && data.length > 0 && (
