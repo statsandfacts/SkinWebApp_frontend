@@ -38,7 +38,7 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
       {loading ? (
         <Loader />
       ) : error ? (
-        <p className="text-red-500 ml-3 text-center"> Error: {error} </p>
+        <p className="text-red-500 ml-3 text-center w-full"> Error: {error} </p>
       ) : (
         <>
           {data && data.length > 0 && (
