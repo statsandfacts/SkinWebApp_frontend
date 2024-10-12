@@ -119,7 +119,7 @@ const PrescriptionDetails: React.FC = () => {
                                         {dashboardData?.name}
                                       </TableCell>
                                       <TableCell>
-                                        {prescription?.prescription_date}
+                                        {cases?.upload_date}
                                       </TableCell>
                                       <TableCell>
                                         {prescription?.report_type
