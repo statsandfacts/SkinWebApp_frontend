@@ -23,4 +23,6 @@ export interface AuthState {
   step: number;
   signUpProcess2Step: number;
   signUpData: SignUpDataState;
+  pharmacyUserId: null | string;
+  isRedeemDiscountOpen: boolean;
 }

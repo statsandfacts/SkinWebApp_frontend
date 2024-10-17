@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import {
   Accordion,
   AccordionItem,
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -33,14 +34,19 @@ import { fetchPatientDashboard } from "@/redux/slices/digitalPrescription/userDa
 import Loader from "@/components/Loader";
 import ViewGenerateReportModal from "./ViewGenerateReportModal";
 import ReUploadImageModal from "./ReUploadImageModal";
+import { useRouter } from "next/navigation";
+import { setIsRedeemDiscount } from "@/redux/slices/digitalPrescription/auth.slice";
+import RedeemDiscountModal from "../RedeemDiscountModal";
 
 const PrescriptionDetails: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
   const { userId } = useAuthInfo();
 
   const { dashboardData, loading, error } = useSelector(
     (state: RootState) => state.userDashboard
   );
+  const { pharmacyUserId } = useSelector((state: any) => state.auth);
 
   useEffect(() => {
     dispatch(fetchPatientDashboard(userId));
@@ -48,6 +54,27 @@ const PrescriptionDetails: React.FC = () => {
 
   return (
     <div>
+      <div className="flex gap-2 justify-end w-full md:hidden">
+        {/* {pharmacyUserId && (
+          <Button
+            color="success"
+            className="text-sm text-white px-4 rounded-lg font-bold py-1 h-9"
+            onPress={() => dispatch(setIsRedeemDiscount(true))}
+          >
+            Redeem
+          </Button>
+        )} */}
+        <Button
+          color="primary"
+          variant="solid"
+          className="text-sm px-4 rounded-lg font-bold py-1 h-9"
+          onPress={() => {
+            router.push("/upload-prescription");
+          }}
+        >
+          <ArrowUpTrayIcon className="h-4 w-4 " /> Upload Documents
+        </Button>
+      </div>
       {loading ? (
         <Loader />
       ) : error ? (
@@ -284,6 +311,7 @@ const PrescriptionDetails: React.FC = () => {
       <ViewOriginalPrescriptionImage />
       <ViewGenerateReportModal />
       <ReUploadImageModal />
+      <RedeemDiscountModal />
     </div>
   );
 };

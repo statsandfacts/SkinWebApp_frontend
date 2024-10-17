@@ -150,7 +150,7 @@ export const getCaseDetails = async (case_id: string) => {
  * @param payload
  * @returns
  */
-export const updatePrescription= async (payload: any) => {
+export const updatePrescription = async (payload: any) => {
   const { data } = await axios.put(
     `${baseUrl}prescription/update-prescription`,
     payload,
@@ -193,5 +193,15 @@ export const analyzeHealthReport = async (payload: any) => {
     payload,
     headers
   );
+  return data;
+};
+
+/**
+ *
+ * @param payload {pharmacy_id, customer_id }
+ * @returns
+ */
+export const redeemDiscountToken = async (payload: any) => {
+  const { data } = await axios.post(`${baseUrl}users/redeem`, payload, headers);
   return data;
 };

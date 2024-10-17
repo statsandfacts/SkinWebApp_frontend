@@ -22,10 +22,13 @@ import {
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import ThirdScreenNext from "./ThirdScreenNext";
 import { useRouter } from "next/navigation";
+import { setIsRedeemDiscount } from "@/redux/slices/digitalPrescription/auth.slice";
+import RedeemDiscountModal from "../../RedeemDiscountModal";
 
 const FirstScreenNext: React.FC = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const { userDetails, userId } = useAuthInfo();
 
   const {
     isFirstScreenNextPopoverOpen,
@@ -33,7 +36,7 @@ const FirstScreenNext: React.FC = () => {
     singleDocumentDetails,
     moreImagePrescription,
   } = useSelector((state: RootState) => state.stepManagement);
-  const { userDetails, userId } = useAuthInfo();
+  const { pharmacyUserId } = useSelector((state: any) => state.auth);
   const [loading, setLoading] = useState<boolean>(false);
 
   const clockToNo = () => {
@@ -116,6 +119,9 @@ const FirstScreenNext: React.FC = () => {
       .then((response) => {
         setLoading(false);
         toast.success("Documents Submitted Successfully.");
+        if (pharmacyUserId) {
+          dispatch(setIsRedeemDiscount(true));
+        }
         router.push("/upload-prescription/prescriptions");
         dispatch(resetDetailsAfterSubmit());
       })
@@ -138,7 +144,8 @@ const FirstScreenNext: React.FC = () => {
       >
         <div className="flex flex-col items-center gap-4">
           <p className="text-lg text-gray-700 text-center">
-            Do you want to upload the additional pages for the same prescription?
+            Do you want to upload the additional pages for the same
+            prescription?
           </p>
           <div className="w-full bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg">
             <p className="text-blue-700 text-sm">
@@ -150,6 +157,7 @@ const FirstScreenNext: React.FC = () => {
       </ShowPopover>
 
       <ThirdScreenNext />
+      <RedeemDiscountModal />
     </>
   );
 };

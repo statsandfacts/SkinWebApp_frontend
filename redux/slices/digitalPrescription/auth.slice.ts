@@ -1,7 +1,10 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { getUser } from "@/services/api.digitalPrescription.service";
 import { removeLocalStorage, setLocalStorage } from "@/utils/localStore";
-import { AuthState, SignUpDataState } from "@/types/digitalPrescription/auth.types";
+import {
+  AuthState,
+  SignUpDataState,
+} from "@/types/digitalPrescription/auth.types";
 
 export const fetchUserDetails = createAsyncThunk(
   "auth/fetchUserDetails",
@@ -10,7 +13,6 @@ export const fetchUserDetails = createAsyncThunk(
     return response.detail;
   }
 );
-
 
 const initialState: AuthState = {
   isModalOpen: false,
@@ -32,6 +34,9 @@ const initialState: AuthState = {
     password_hash: "",
     uploaded_files: [],
   },
+
+  pharmacyUserId: null,
+  isRedeemDiscountOpen: false,
 };
 
 export const authSlice = createSlice({
@@ -69,6 +74,12 @@ export const authSlice = createSlice({
     setSignUpData: (state, action: PayloadAction<SignUpDataState | any>) => {
       state.signUpData = { ...state.signUpData, ...action.payload };
     },
+    setPharmacyUserId: (state, action: PayloadAction<any>) => {
+      state.pharmacyUserId = action.payload;
+    },
+    setIsRedeemDiscount: (state, action: PayloadAction<boolean>) => {
+      state.isRedeemDiscountOpen = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -78,6 +89,15 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setLoginModal, setTermConditionModal, setUser, logOutUser, setStep, setSignUpProcess2Step, setSignUpData } =
-  authSlice.actions;
+export const {
+  setLoginModal,
+  setTermConditionModal,
+  setUser,
+  logOutUser,
+  setStep,
+  setSignUpProcess2Step,
+  setSignUpData,
+  setPharmacyUserId,
+  setIsRedeemDiscount,
+} = authSlice.actions;
 export default authSlice.reducer;

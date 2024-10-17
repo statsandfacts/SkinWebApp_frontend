@@ -23,6 +23,8 @@ import {
 } from "@/services/api.digitalPrescription.service";
 import { mergeImagesHelper } from "@/utils/mergeImagesHelper";
 import { useRouter } from "next/navigation";
+import { setIsRedeemDiscount } from "@/redux/slices/digitalPrescription/auth.slice";
+import RedeemDiscountModal from "../../RedeemDiscountModal";
 
 const UploadDocumentsSamePrescription: React.FC = () => {
   const dispatch = useDispatch();
@@ -32,6 +34,7 @@ const UploadDocumentsSamePrescription: React.FC = () => {
   const { userDetails, userId } = useAuthInfo();
 
   const [loading, setLoading] = useState<boolean>(false);
+  const { pharmacyUserId } = useSelector((state: any) => state.auth);
 
   const clickToNo = async () => {
     try {
@@ -92,6 +95,9 @@ const UploadDocumentsSamePrescription: React.FC = () => {
       .then((response) => {
         setLoading(false);
         toast.success("Documents Submitted Successfully.");
+        if (pharmacyUserId) {
+          dispatch(setIsRedeemDiscount(true));
+        }
         router.push("/upload-prescription/prescriptions");
         dispatch(resetDetailsAfterSubmit());
       })
@@ -149,6 +155,7 @@ const UploadDocumentsSamePrescription: React.FC = () => {
       <ThirdScreenNext />
       <FirstScreenNo />
       <TestReportPopover />
+      <RedeemDiscountModal />
     </>
   );
 };
