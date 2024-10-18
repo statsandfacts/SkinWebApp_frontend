@@ -166,6 +166,9 @@ const PrescriptionDetails: React.FC = () => {
                                                 )
                                               );
                                               dispatch(
+                                                setSingleCaseDetails(cases)
+                                              );
+                                              dispatch(
                                                 setViewPrescriptionDetailsModal(
                                                   true
                                                 )

@@ -20,7 +20,7 @@ export default function TermsAndConditionsModal() {
         isOpen={isTermConditionOpen} 
         onClose={onClose} 
       >
-        <ModalContent>
+        <ModalContent className="mb-20">
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">Terms And Conditions</ModalHeader>

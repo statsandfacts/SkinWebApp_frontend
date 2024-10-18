@@ -250,7 +250,7 @@ export const TermsDP = () => {
           {item?.description &&
             item?.description.map((desc, dx) => (
               <div key={dx} className="ml-4">
-                <li className="font-light text-slate-600">{desc}</li>
+                <li className="font-normal text-slate-600">{desc}</li>
               </div>
             ))}
         </div>

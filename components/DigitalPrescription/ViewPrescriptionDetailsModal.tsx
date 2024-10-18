@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 export default function ViewPrescriptionDetailsModal() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { isViewPrescriptionDetailsModal, singlePrescriptionDetails } =
+  const { isViewPrescriptionDetailsModal, singlePrescriptionDetails, singleCaseDetails } =
     useSelector((state: any) => state.digitalPrescription);
 
   const onClose = () => {
@@ -74,7 +74,7 @@ export default function ViewPrescriptionDetailsModal() {
                       </p>
                       <p className="text-xs font-normal text-slate-400">
                         Pharmacist License:{" "}
-                        {singlePrescriptionDetails?.pharmacist_certificate_no}
+                        {singleCaseDetails?.pharmacist_cert_url}
                       </p>
                     </div>
                     <div>
