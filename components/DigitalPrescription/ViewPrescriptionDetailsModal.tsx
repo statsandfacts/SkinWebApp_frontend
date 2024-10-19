@@ -21,8 +21,11 @@ import { useRouter } from "next/navigation";
 export default function ViewPrescriptionDetailsModal() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { isViewPrescriptionDetailsModal, singlePrescriptionDetails, singleCaseDetails } =
-    useSelector((state: any) => state.digitalPrescription);
+  const {
+    isViewPrescriptionDetailsModal,
+    singlePrescriptionDetails,
+    singleCaseDetails,
+  } = useSelector((state: any) => state.digitalPrescription);
 
   const onClose = () => {
     dispatch(setViewPrescriptionDetailsModal(false));
@@ -101,6 +104,7 @@ export default function ViewPrescriptionDetailsModal() {
                       aria-label="Example static collection table"
                     >
                       <TableHeader>
+                        <TableColumn>Sl No</TableColumn>
                         <TableColumn>Basic Information</TableColumn>
                         <TableColumn>Composition</TableColumn>
                         <TableColumn>How To Use</TableColumn>
@@ -114,6 +118,9 @@ export default function ViewPrescriptionDetailsModal() {
                           singlePrescriptionDetails?.medicine_dtls.map(
                             (medicineDetail: any, mx: number) => (
                               <TableRow key={mx}>
+                                <TableCell className="text-center">
+                                  {mx + 1}
+                                </TableCell>
                                 <TableCell
                                   onClick={() => {
                                     router.push(
@@ -137,8 +144,12 @@ export default function ViewPrescriptionDetailsModal() {
                                 <TableCell className="uppercase">
                                   {medicineDetail?.usage_instructions}
                                 </TableCell>
-                                <TableCell className="uppercase">{medicineDetail?.days}</TableCell>
-                                <TableCell className="uppercase">{medicineDetail?.dosage}</TableCell>
+                                <TableCell className="uppercase">
+                                  {medicineDetail?.days}
+                                </TableCell>
+                                <TableCell className="uppercase">
+                                  {medicineDetail?.dosage}
+                                </TableCell>
                                 <TableCell className="uppercase">
                                   {medicineDetail?.description}
                                 </TableCell>
@@ -159,6 +170,7 @@ export default function ViewPrescriptionDetailsModal() {
                       aria-label="Example static collection table"
                     >
                       <TableHeader>
+                        <TableColumn className="w-12">Sl No</TableColumn>
                         <TableColumn>NAME</TableColumn>
                         <TableColumn>Description</TableColumn>
                         <TableColumn>COMMENTS</TableColumn>
@@ -168,9 +180,18 @@ export default function ViewPrescriptionDetailsModal() {
                           singlePrescriptionDetails?.reports.map(
                             (report: any, mx: number) => (
                               <TableRow key={mx}>
-                                <TableCell className="uppercase">{report?.name}</TableCell>
-                                <TableCell className="uppercase">{report?.desc}</TableCell>
-                                <TableCell className="uppercase">{report?.comments}</TableCell>
+                                <TableCell className="text-center">
+                                  {mx + 1}
+                                </TableCell>
+                                <TableCell className="uppercase">
+                                  {report?.name}
+                                </TableCell>
+                                <TableCell className="uppercase">
+                                  {report?.desc}
+                                </TableCell>
+                                <TableCell className="uppercase">
+                                  {report?.comments}
+                                </TableCell>
                               </TableRow>
                             )
                           )}
