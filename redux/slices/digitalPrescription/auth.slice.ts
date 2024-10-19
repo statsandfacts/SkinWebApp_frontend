@@ -37,6 +37,7 @@ const initialState: AuthState = {
 
   pharmacyUserId: null,
   isRedeemDiscountOpen: false,
+  isRedeemPopoverOpen: false,
 };
 
 export const authSlice = createSlice({
@@ -80,6 +81,9 @@ export const authSlice = createSlice({
     setIsRedeemDiscount: (state, action: PayloadAction<boolean>) => {
       state.isRedeemDiscountOpen = action.payload;
     },
+    setIsRedeemPopover: (state, action: PayloadAction<boolean>) => {
+      state.isRedeemPopoverOpen = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -99,5 +103,6 @@ export const {
   setSignUpData,
   setPharmacyUserId,
   setIsRedeemDiscount,
+  setIsRedeemPopover,
 } = authSlice.actions;
 export default authSlice.reducer;

@@ -10,8 +10,8 @@ import {
 
 interface ShowPopoverProps {
   modalTitle?: string;
-  onConfirm: () => void;
-  onClose: () => void;
+  onConfirm?: () => void;
+  onClose?: () => void;
   confirmButtonLabel?: string;
   closeButtonLabel?: string;
   confirmButtonLoading?: boolean;

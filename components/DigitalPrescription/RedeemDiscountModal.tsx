@@ -12,11 +12,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import {
   setIsRedeemDiscount,
+  setIsRedeemPopover,
   setPharmacyUserId,
 } from "@/redux/slices/digitalPrescription/auth.slice";
 import { redeemDiscountToken } from "@/services/api.digitalPrescription.service";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { toast } from "react-toastify";
+import RedeemSuccessfullyPopover from "./RedeemSuccessfullyPopover";
 
 export default function RedeemDiscountModal() {
   const dispatch = useDispatch<AppDispatch>();
@@ -42,6 +44,7 @@ export default function RedeemDiscountModal() {
         toast.success("Token Redeemed Successfully.");
         dispatch(setPharmacyUserId(null));
         onClose();
+        dispatch(setIsRedeemPopover(true));
       })
       .catch((error) => {
         const errMsg =
@@ -77,6 +80,8 @@ export default function RedeemDiscountModal() {
           <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
+
+      <RedeemSuccessfullyPopover />
     </>
   );
 }

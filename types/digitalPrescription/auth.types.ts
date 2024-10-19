@@ -25,4 +25,5 @@ export interface AuthState {
   signUpData: SignUpDataState;
   pharmacyUserId: null | string;
   isRedeemDiscountOpen: boolean;
+  isRedeemPopoverOpen: boolean;
 }
