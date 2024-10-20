@@ -205,3 +205,18 @@ export const redeemDiscountToken = async (payload: any) => {
   const { data } = await axios.post(`${baseUrl}users/redeem`, payload, headers);
   return data;
 };
+
+/**
+ *
+ * @param investigation_id
+ * @returns
+ */
+export const fetchInvestigationDetails = async (
+  investigation_id: string | number | null
+) => {
+  const { data } = await axios.get(
+    `${baseUrl}investigation/investigation-data?investigation_id=${investigation_id}`,
+    headers
+  );
+  return data;
+};

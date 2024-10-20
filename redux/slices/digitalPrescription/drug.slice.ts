@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { fetchDrugDetails } from "@/services/api.digitalPrescription.service";
+import { fetchDrugDetails, fetchInvestigationDetails } from "@/services/api.digitalPrescription.service";
 import { AxiosError } from "axios";
 import { transformDataToArray } from "@/helper/objectHelper";
+import { testcmsm } from "./data";
 
 interface DrugState {
   data: any;
@@ -10,7 +11,7 @@ interface DrugState {
 }
 
 const initialState: DrugState = {
-  data: null,
+  data: transformDataToArray(testcmsm),
   loading: false,
   error: null,
 };
@@ -38,6 +39,32 @@ export const getDrugDetails = createAsyncThunk<
   }
 });
 
+export const getInvestigationDetails = createAsyncThunk<
+  any,
+  string | number | null, 
+  { rejectValue: string }
+>(
+  "investigation/getInvestigationDetails",
+  async (investigation_id, { rejectWithValue }) => {
+    try {
+      const data = await fetchInvestigationDetails(investigation_id);
+      return data;
+    } catch (err) {
+      const error = err as AxiosError;
+
+      if (
+        error.response &&
+        error.response.data &&
+        (error.response.data as any).message
+      ) {
+        return rejectWithValue((error.response.data as any).message);
+      }
+
+      return rejectWithValue("Something went wrong");
+    }
+  }
+);
+
 // Create the slice
 const drugSlice = createSlice({
   name: "drug",
@@ -57,6 +84,23 @@ const drugSlice = createSlice({
         }
       )
       .addCase(getDrugDetails.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+
+      // Handle investigation details actions
+      .addCase(getInvestigationDetails.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        getInvestigationDetails.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.data = transformDataToArray(testcmsm);
+        }
+      )
+      .addCase(getInvestigationDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

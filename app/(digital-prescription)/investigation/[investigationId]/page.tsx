@@ -1,9 +1,28 @@
 import InvestigationStep from "./_components/InvestigationStep";
+import type { Metadata } from "next";
 
-const InvestigationDetailPage = () => {
+export async function generateMetadata({
+  params,
+}: {
+  params: { investigationId: string | number };
+}): Promise<Metadata> {
+  const { investigationId } = params;
+
+  return {
+    title: `${investigationId}`,
+  };
+}
+
+const InvestigationDetailPage = ({
+  params,
+}: {
+  params: { investigationId: string | number };
+}) => {
+  const { investigationId } = params;
+
   return (
     <div>
-      <InvestigationStep />
+      <InvestigationStep investigationId={investigationId} />
     </div>
   );
 };
