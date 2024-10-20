@@ -1,19 +1,23 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { fetchDrugDetails, fetchInvestigationDetails } from "@/services/api.digitalPrescription.service";
+import {
+  fetchDrugDetails,
+  fetchInvestigationDetails,
+} from "@/services/api.digitalPrescription.service";
 import { AxiosError } from "axios";
 import { transformDataToArray } from "@/helper/objectHelper";
-import { testcmsm } from "./data";
 
 interface DrugState {
   data: any;
   loading: boolean;
   error: string | null;
+  subGroupData: any;
 }
 
 const initialState: DrugState = {
-  data: transformDataToArray(testcmsm),
+  data: null,
   loading: false,
   error: null,
+  subGroupData: null,
 };
 
 export const getDrugDetails = createAsyncThunk<
@@ -41,7 +45,7 @@ export const getDrugDetails = createAsyncThunk<
 
 export const getInvestigationDetails = createAsyncThunk<
   any,
-  string | number | null, 
+  string | number | null,
   { rejectValue: string }
 >(
   "investigation/getInvestigationDetails",
@@ -69,7 +73,11 @@ export const getInvestigationDetails = createAsyncThunk<
 const drugSlice = createSlice({
   name: "drug",
   initialState,
-  reducers: {},
+  reducers: {
+    setSubGroupDetail: (state, action) => {
+      state.subGroupData = transformDataToArray(action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getDrugDetails.pending, (state) => {
@@ -88,7 +96,7 @@ const drugSlice = createSlice({
         state.error = action.payload as string;
       })
 
-      // Handle investigation details actions
+      // Handle investigation details
       .addCase(getInvestigationDetails.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -97,7 +105,7 @@ const drugSlice = createSlice({
         getInvestigationDetails.fulfilled,
         (state, action: PayloadAction<any>) => {
           state.loading = false;
-          state.data = transformDataToArray(testcmsm);
+          state.data = transformDataToArray(action.payload);
         }
       )
       .addCase(getInvestigationDetails.rejected, (state, action) => {
@@ -106,5 +114,7 @@ const drugSlice = createSlice({
       });
   },
 });
+
+export const { setSubGroupDetail } = drugSlice.actions;
 
 export default drugSlice.reducer;
