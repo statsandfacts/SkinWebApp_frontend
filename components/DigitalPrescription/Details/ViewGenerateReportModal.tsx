@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setViewUploadedReportModal } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import Image from "next/image";
 import Link from "next/link";
+import DigitalLabReport from "./Report/DigitalLabReport";
 
 export default function ViewGenerateReportModal() {
   const dispatch = useDispatch();
@@ -46,10 +47,14 @@ export default function ViewGenerateReportModal() {
             <>
               <ModalHeader className="bg-gray-100 p-4 rounded-t-md">
                 <h2 className="text-lg font-bold text-center text-sky-700">
-                  {"Health Camp Report"}
+                  {singlePrescriptionDetails?.report_type === "HCR" ||
+                  singlePrescriptionDetails?.report_type ===
+                    "Health Camp Report"
+                    ? "Health Camp Report"
+                    : "Smart Lab Report"}
                 </h2>
               </ModalHeader>
-              <ModalBody className="bg-white p-6 ">
+              <ModalBody className="bg-white">
                 {singlePrescriptionDetails?.report_type === "HCR" ||
                 singlePrescriptionDetails?.report_type ===
                   "Health Camp Report" ? (
@@ -280,9 +285,10 @@ export default function ViewGenerateReportModal() {
                     </div>
                   </div>
                 ) : (
-                  <p className="w-full text-center text-slate-500">
-                    This Feature Loading... Almost There! Please have patience.
-                  </p>
+                  <DigitalLabReport />
+                  // <p className="w-full text-center text-slate-500">
+                  //   This Feature Loading... Almost There! Please have patience.
+                  // </p>
                 )}
               </ModalBody>
               <ModalFooter className="bg-gray-100 p-4 rounded-b-md flex items-center">
