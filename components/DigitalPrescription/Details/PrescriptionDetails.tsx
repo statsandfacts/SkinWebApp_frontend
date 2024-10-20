@@ -213,7 +213,7 @@ const PrescriptionDetails: React.FC = () => {
                                               setViewOriginalImageModal(true)
                                             );
                                           }}
-                                          title="View Original Image"
+                                          title="Original Prescription Image"
                                           key={2}
                                         >
                                           <EyeIcon className="h-5 w-5" />
