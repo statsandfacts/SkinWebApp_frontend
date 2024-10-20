@@ -123,9 +123,11 @@ export default function ViewPrescriptionDetailsModal() {
                                 </TableCell>
                                 <TableCell
                                   onClick={() => {
-                                    router.push(
-                                      `/prescription/${medicineDetail?.o_id}`
-                                    );
+                                    if (medicineDetail?.o_id) {
+                                      router.push(
+                                        `/prescription/${medicineDetail?.o_id}`
+                                      );
+                                    }
                                   }}
                                 >
                                   <span
@@ -183,8 +185,25 @@ export default function ViewPrescriptionDetailsModal() {
                                 <TableCell className="text-center">
                                   {mx + 1}
                                 </TableCell>
-                                <TableCell className="uppercase">
-                                  {report?.name}
+                                <TableCell
+                                  className="uppercase"
+                                  onClick={() => {
+                                    if (report?.o_id) {
+                                      router.push(
+                                        `/investigation/${report?.o_id}`
+                                      );
+                                    }
+                                  }}
+                                >
+                                  <span
+                                    className={`${
+                                      report?.o_id
+                                        ? "border-b-2 border-sky-600 cursor-pointer uppercase text-sky-800"
+                                        : ""
+                                    }`}
+                                  >
+                                    {report?.name}
+                                  </span>
                                 </TableCell>
                                 <TableCell className="uppercase">
                                   {report?.desc}

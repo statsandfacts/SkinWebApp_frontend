@@ -18,9 +18,9 @@ const UsedForComponent: React.FC<UsedForComponentProps> = ({ useCases }) => {
           useCases.map((useCase, index) => (
             <li
               key={index}
-              className="p-4 border rounded-lg bg-white shadow-sm"
+              className="p-2 border rounded-lg bg-white shadow-sm"
             >
-              <p className="text-gray-700">{useCase.value}</p>{" "}
+              <p className="text-gray-500 font-normal text-base">{useCase.value}</p>{" "}
             </li>
           ))
         ) : (

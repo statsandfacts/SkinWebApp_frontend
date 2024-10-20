@@ -20,10 +20,10 @@ const FAQ: React.FC<FAQProps> = ({ faqs }) => {
         <div>
           {faqs.map((faq, index) => (
             <div key={index} className="mb-4 border-b pb-2">
-              <h3 className="text-lg font-medium text-gray-800">
+              <h3 className="text-base font-semibold text-gray-800">
                 {faq?.Value_1}
               </h3>
-              <p className="text-gray-600">{faq?.Value_2}</p>
+              <p className="text-gray-500 font-normal text-base">{faq?.Value_2}</p>
             </div>
           ))}
         </div>
