@@ -62,9 +62,9 @@ const NavButtonDP = () => {
           name: userDetails?.name
             ? userDetails?.name
                 .split(" ")
-                .map((word: string) => word[0].toUpperCase())
+                .map((word: string) => word[0]?.toUpperCase() || "")
                 .join("")
-            : userDetails?.name,
+            : "User",
         }}
       />
     </Link>
