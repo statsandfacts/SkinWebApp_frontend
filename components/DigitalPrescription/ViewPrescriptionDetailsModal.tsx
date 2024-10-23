@@ -105,12 +105,12 @@ export default function ViewPrescriptionDetailsModal() {
                     >
                       <TableHeader>
                         <TableColumn>Sl No</TableColumn>
-                        <TableColumn>Basic Information</TableColumn>
+                        <TableColumn>Medicine Name</TableColumn>
                         <TableColumn>Composition</TableColumn>
                         <TableColumn>How To Use</TableColumn>
                         <TableColumn>Days</TableColumn>
                         <TableColumn>Dosage</TableColumn>
-                        <TableColumn>Description</TableColumn>
+                        {/* <TableColumn>Description</TableColumn> */}
                         <TableColumn>Comments</TableColumn>
                       </TableHeader>
                       <TableBody>
@@ -152,9 +152,9 @@ export default function ViewPrescriptionDetailsModal() {
                                 <TableCell className="uppercase">
                                   {medicineDetail?.dosage}
                                 </TableCell>
-                                <TableCell className="uppercase">
+                                {/* <TableCell className="uppercase">
                                   {medicineDetail?.description}
-                                </TableCell>
+                                </TableCell> */}
                                 <TableCell>
                                   {medicineDetail?.comments}
                                 </TableCell>

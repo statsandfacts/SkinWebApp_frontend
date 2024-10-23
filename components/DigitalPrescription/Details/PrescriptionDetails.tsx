@@ -136,7 +136,7 @@ const PrescriptionDetails: React.FC = () => {
                                 <TableColumn>Name</TableColumn>
                                 <TableColumn>Prescription Date</TableColumn>
                                 <TableColumn>Prescription Type</TableColumn>
-                                <TableColumn>Action</TableColumn>
+                                <TableColumn>Prescription</TableColumn>
                               </TableHeader>
                               <TableBody>
                                 {cases?.prescription_dtls.map(

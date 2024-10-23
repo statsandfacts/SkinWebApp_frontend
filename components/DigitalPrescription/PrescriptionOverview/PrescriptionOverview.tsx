@@ -417,7 +417,7 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                                 ) => (
                                   <div
                                     key={index}
-                                    className="mb-1 flex justify-between w-full sm:w-3/6 bg-green-100 p-2 rounded-md"
+                                    className="mb-1 flex justify-between w-full sm:w-3/6 bg-sky-100 p-2 rounded-md"
                                   >
                                     <p className="text-gray-500 text-sm font-normal">
                                       {" "}
@@ -469,6 +469,14 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                       </div>
                     </ScrollElement>
                   ))}
+                </div>
+                <div className="bg-gray-100 border-l-4 border-sky-700 p-4 md:p-6 rounded-md shadow-md mt-5">
+                  <p className="text-black text-sm md:text-base leading-relaxed">
+                    <strong className="text-sky-800">Disclaimer:</strong> The
+                    information provided here is for general purposes only.
+                    Please consult with your healthcare provider before
+                    practicing any of these recommendations.
+                  </p>
                 </div>
               </div>
             </React.Fragment>
