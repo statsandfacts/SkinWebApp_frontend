@@ -46,7 +46,7 @@ const PrescriptionDetails: React.FC = () => {
   const { dashboardData, loading, error } = useSelector(
     (state: RootState) => state.userDashboard
   );
-  const { pharmacyUserId } = useSelector((state: any) => state.auth);
+  // const { pharmacyUserId } = useSelector((state: any) => state.auth);
 
   useEffect(() => {
     dispatch(fetchPatientDashboard(userId));

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Tabs, Tab, Button } from "@nextui-org/react";
 import PrescriptionDetails from "./PrescriptionDetails";
 import AddFamilyMembers from "./AddFamilyMembers";
-import MedicationReminder from "./MedicationReminder";
+import MedicationReminder from "./Reminder/MedicationReminder";
 import Account from "./Account";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -49,13 +49,20 @@ export default function PrescriptionDetailPage() {
         <Button
           color="primary"
           variant="solid"
+          className="rounded-lg"
           onPress={() => {
             router.push("/upload-prescription");
           }}
         >
           <ArrowUpTrayIcon className="h-5 w-5 mr-1" /> Upload
         </Button>
-        <Button isLoading={isLoading} color="danger" variant="light" onPress={handleLogout}>
+        <Button
+          isLoading={isLoading}
+          color="danger"
+          className="rounded-lg"
+          variant="light"
+          onPress={handleLogout}
+        >
           <ArrowLeftStartOnRectangleIcon className="h-5 w-5 mr-2" /> Logout
         </Button>
       </div>
@@ -71,11 +78,11 @@ export default function PrescriptionDetailPage() {
           <Tab key="My Documents" title="My Documents">
             <PrescriptionDetails />
           </Tab>
-          <Tab key="family_members" title="Family Members">
-            <AddFamilyMembers />
-          </Tab>
           <Tab key="medication_reminder" title="Medication Reminder">
             <MedicationReminder />
+          </Tab>
+          <Tab key="family_members" title="Family Members">
+            <AddFamilyMembers />
           </Tab>
         </Tabs>
       </div>
