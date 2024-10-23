@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 
-const baseUrl = process.env.NEXT_PUBLIC_SERVER_HOST_API_URL;
+export const baseUrl = process.env.NEXT_PUBLIC_SERVER_HOST_API_URL;
 
 const headers = {
   headers: {
