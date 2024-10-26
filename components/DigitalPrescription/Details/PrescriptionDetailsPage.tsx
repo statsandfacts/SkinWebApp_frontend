@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Tabs, Tab, Button } from "@nextui-org/react";
 import PrescriptionDetails from "./PrescriptionDetails";
-import AddFamilyMembers from "./AddFamilyMembers";
+import AddFamilyMembers from "./Family/AddFamilyMembers";
 import MedicationReminder from "./Reminder/MedicationReminder";
 import Account from "./Account";
 import { useDispatch, useSelector } from "react-redux";

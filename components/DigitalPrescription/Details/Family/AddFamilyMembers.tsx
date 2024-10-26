@@ -12,7 +12,7 @@ import { InformationCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { ToolTipBtn } from "@/components/common/ToolTipBtn";
 import { setCreateMemberModal } from "@/redux/slices/digitalPrescription/familyMembers.slice";
 import { useDispatch } from "react-redux";
-import CreateFamilyMemberModal from "./CreateFamilyMemberModal";
+import CreateFamilyMemberModal from "../CreateFamilyMemberModal";
 import ComingSoon from "@/components/ComingSoon";
 
 interface FamilyMember {
@@ -43,11 +43,11 @@ const AddFamilyMembers: FC = () => {
   return (
     <>
       <Card>
-        <ComingSoon />
-        {/* <CardHeader>
+        <CardHeader>
           <div className="flex justify-end w-full">
             <Button
               color="primary"
+              className="rounded-lg"
               onPress={() => {
                 dispatch(setCreateMemberModal(true));
               }}
@@ -84,7 +84,7 @@ const AddFamilyMembers: FC = () => {
               ))}
             </TableBody>
           </Table>
-        </CardBody> */}
+        </CardBody>
       </Card>
 
       <CreateFamilyMemberModal />
