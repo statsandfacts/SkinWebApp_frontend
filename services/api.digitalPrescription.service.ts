@@ -220,3 +220,9 @@ export const fetchInvestigationDetails = async (
   );
   return data;
 };
+
+
+export const getAllBlogs = async () => {
+  const { data } = await axios.get(`${baseUrl}blogs/all`, headers);
+  return data;
+};

@@ -18,16 +18,15 @@ const BlogItem: React.FC<BlogProps> = ({ blog }) => {
     <Card className="rounded-lg shadow-lg h-full">
       <CardBody className="overflow-visible p-0">
         <Image
-          alt={blog.title}
+          alt={blog?.title}
           className="object-cover"
-          src={"/blog_test_image.jpeg"}
+          src={blog?.image}
         />
       </CardBody>
       <CardFooter className="flex flex-col space-y-2 p-4">
-        <b className="text-lg text-gray-700">{blog.title}</b>
+        <b className="text-lg text-gray-700">{blog?.title}</b>
         <small className="text-gray-600 line-clamp-2 w-full">
-          To improve the image display, it might help to set width and height to
-          100% so it scales to fit the container.
+        {blog?.meta_description}
         </small>
         <motion.button
           whileHover={{ x: 5 }}

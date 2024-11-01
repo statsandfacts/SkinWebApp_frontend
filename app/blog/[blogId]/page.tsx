@@ -17,11 +17,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { blogId } = params;
   const response = await instance.get(
-    `${baseUrl}users/get-user?user_id=00010ef8-5d5a-4372-a48d-27ac1a05bc71`
+    `${baseUrl}blogs/?blog_id=${blogId}`
   );
 
   return {
-    title: `${response.data?.detail?.name}`,
+    title: `${response.data?.title}`,
+    description: response.data?.meta_description,
+    keywords: response.data?.metatags,
   };
 }
 
