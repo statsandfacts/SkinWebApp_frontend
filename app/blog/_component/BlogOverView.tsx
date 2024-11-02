@@ -2,25 +2,36 @@
 
 import React, { useEffect } from "react";
 import Image from "next/image";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
-import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useParams } from "next/navigation";
+import ManageComments from "./ManageComments";
+import { fetchBlogDtls } from "@/redux/slices/digitalPrescription/blog.slice";
+import Loader from "@/components/Loader";
 
 interface BlogOverviewProps {}
 
 const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
-  const { singleBlog } = useSelector((state: RootState) => state.blogs);
-  const router = useRouter();
+  const { blogId } = useParams();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { singleBlog, sbErrorMessage, sbLoading } = useSelector(
+    (state: RootState) => state.blogs
+  );
 
   useEffect(() => {
     if (!singleBlog) {
-      router.push("/blog");
+      dispatch(fetchBlogDtls(blogId));
     }
   }, [singleBlog]);
 
   return (
     <>
-      {singleBlog ? (
+      {sbLoading ? (
+        <Loader />
+      ) : sbErrorMessage ? (
+        <p className="p-10 md:px-40 text-red-500">{sbErrorMessage}</p>
+      ) : singleBlog ? (
         <div className="max-w-5xl mx-auto p-6 mb-6 border rounded-lg shadow-lg bg-white">
           <div className="relative w-full h-auto mb-4">
             <Image
@@ -54,6 +65,8 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
             className="text-gray-700 text-sm md:text-base"
             dangerouslySetInnerHTML={{ __html: singleBlog.content }}
           />
+
+          <ManageComments />
         </div>
       ) : (
         <> </>

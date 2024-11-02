@@ -226,3 +226,35 @@ export const getAllBlogs = async () => {
   const { data } = await axios.get(`${baseUrl}blogs/all`, headers);
   return data;
 };
+
+export const getBlogDtls = async (blog_id: string) => {
+  const { data } = await axios.get(
+    `${baseUrl}blogs/?blog_id=${blog_id}`,
+    headers
+  );
+  return data;
+};
+
+
+// comments
+export const createComment = (payload: any) => {
+  return axios.post(`${baseUrl}blogs/comments`, payload, headers);
+};
+export const updateComment = async (
+  payload: any,
+  comment_id: string
+) => {
+  const { data } = await axios.put(
+    `${baseUrl}blogs/comments/?comment_id=${comment_id}`,
+    payload,
+    headers
+  );
+  return data;
+};
+export const deleteComment = async (comment_id: string) => {
+  const { data } = await axios.delete(
+    `${baseUrl}blogs/comments/?comment_id=${comment_id}`,
+    headers
+  );
+  return data;
+};
