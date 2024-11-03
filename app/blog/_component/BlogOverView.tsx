@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import ManageComments from "./ManageComments";
 import { fetchBlogDtls } from "@/redux/slices/digitalPrescription/blog.slice";
 import Loader from "@/components/Loader";
+import dayjs from "dayjs";
 
 interface BlogOverviewProps {}
 
@@ -34,18 +35,23 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
       ) : singleBlog ? (
         <div className="max-w-5xl mx-auto p-6 mb-6 border rounded-lg shadow-lg bg-white">
           <div className="relative w-full h-auto mb-4">
-            <Image
-              src={singleBlog?.image}
-              alt={singleBlog?.title}
-              layout="responsive"
-              width={700}
-              height={400}
-              className="rounded-lg"
-            />
+            {singleBlog?.image ? (
+              <Image
+                src={singleBlog?.image}
+                alt={singleBlog?.title}
+                layout="responsive"
+                width={700}
+                height={400}
+                className="rounded-lg"
+              />
+            ) : (
+              <div className="h-40"></div>
+            )}
+
             <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white bg-black bg-opacity-50 rounded-lg p-4">
-              <h1 className="text-3xl font-bold mb-2">{singleBlog?.title}</h1>
+              <h1 className="text-lg sm:text-xl md:text-3xl font-bold mb-2">{singleBlog?.title}</h1>
               <span className="text-sm">
-                {new Date(singleBlog?.date).toLocaleDateString()}
+                {dayjs(singleBlog?.date).format('DD MMMM YYYY')}
               </span>
             </div>
           </div>
@@ -66,7 +72,7 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
             dangerouslySetInnerHTML={{ __html: singleBlog.content }}
           />
 
-          <ManageComments />
+          {/* <ManageComments /> */}
         </div>
       ) : (
         <> </>
