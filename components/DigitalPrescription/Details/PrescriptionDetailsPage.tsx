@@ -79,10 +79,10 @@ export default function PrescriptionDetailPage() {
             <PrescriptionDetails />
           </Tab>
           <Tab key="medication_reminder" title="Medication Reminder">
-            <MedicationReminder />
+            {/* <MedicationReminder /> */}
           </Tab>
           <Tab key="family_members" title="Family Members">
-            <AddFamilyMembers />
+            {/* <AddFamilyMembers /> */}
           </Tab>
         </Tabs>
       </div>
