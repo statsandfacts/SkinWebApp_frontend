@@ -6,74 +6,101 @@ import {
   ModalBody,
   ModalFooter,
   Button,
+  SelectItem,
+  Select,
 } from "@nextui-org/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import InputField from "@/components/common/InputField";
-import { setCreateMemberModal } from "@/redux/slices/digitalPrescription/familyMembers.slice";
+import {
+  fetchFamilyMembers,
+  setCreateMemberModal,
+} from "@/redux/slices/digitalPrescription/familyMembers.slice";
+import dayjs from "dayjs";
+import { createFamilyMember } from "@/services/api.digitalPrescription.service";
+import { useAuthInfo } from "@/hooks/useAuthInfo";
+import { AppDispatch } from "@/redux/store";
 
 interface FamilyMemberFormValues {
   name: string;
   email: string;
   phone_number: string;
-  zip_code: string;
   dob: string;
+  gender: string;
+  relation: string;
 }
 
 export default function CreateFamilyMemberModal() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const { userId } = useAuthInfo();
   const { isCreateMemberModal } = useSelector(
     (state: any) => state.familyMember
   );
   const [isLoading, setIsLoading] = useState(false);
 
-  const onClose = () => {
-    dispatch(setCreateMemberModal(false));
-  };
-
   const initialValues: FamilyMemberFormValues = {
     name: "",
     email: "",
     phone_number: "",
-    zip_code: "",
     dob: "",
+    gender: "",
+    relation: "",
   };
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
-    email: Yup.string()
-      .email("Invalid email format")
-      .required("Email is required"),
+    email: Yup.string().email("Invalid email format").optional(),
     phone_number: Yup.string()
-      .required("Phone number is required")
-      .matches(/^[0-9]{10}$/, "Phone number must be 10 digits"),
-    zip_code: Yup.string().required("Zip code is required"),
+      .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
+      .optional(),
     dob: Yup.date().required("Date of Birth is required").nullable(),
+    gender: Yup.string().required("Gender is required"),
+    relation: Yup.string().required("Relation is required"),
   });
 
   const formik = useFormik<FamilyMemberFormValues>({
     initialValues,
     validationSchema,
-    validateOnChange: false,
-    onSubmit: async (values, { resetForm }) => {
+    validateOnChange: true,
+    onSubmit: async (values) => {
       try {
         setIsLoading(true);
-        const payload = { ...values };
+        const payload = {
+          user_id: userId,
+          member_name: values.name,
+          relation: values.relation,
+          gender: values.gender,
+          phone_no: values.phone_number,
+          dob: values.dob,
+          email: values.email,
+        };
 
-        // Handle form submission logic here
-
+        const result = await createFamilyMember(payload);
+        dispatch(fetchFamilyMembers(userId));
         toast.success("Family member added successfully!");
-        resetForm();
-        setIsLoading(false);
         onClose();
       } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.message ||
+          error.message ||
+          "Something went wrong";
+        toast.error(errorMessage);
+      } finally {
         setIsLoading(false);
-        toast.error("Something went wrong");
       }
     },
   });
+
+  const isUnder18 = formik.values.dob
+    ? dayjs().diff(dayjs(formik.values.dob), "year") < 18
+    : false;
+
+  const onClose = () => {
+    dispatch(setCreateMemberModal(false));
+    formik.resetForm();
+  };
 
   return (
     <Modal
@@ -129,72 +156,123 @@ export default function CreateFamilyMemberModal() {
             <InputField
               onChange={formik.handleChange}
               isLabel={true}
-              value={formik.values.email}
-              type="email"
-              name="email"
-              placeholder="Email"
+              value={formik.values.dob}
+              type="date"
+              name="dob"
+              placeholder="Date of Birth"
               error={
-                formik.touched.email && formik.errors.email
-                  ? formik.errors.email
-                  : ""
+                formik.touched.dob && formik.errors.dob ? formik.errors.dob : ""
               }
               onBlur={formik.handleBlur}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
-            <InputField
-              onChange={formik.handleChange}
-              isLabel={true}
-              value={formik.values.phone_number}
-              type="text"
-              name="phone_number"
-              placeholder="Phone Number"
-              error={
-                formik.touched.phone_number && formik.errors.phone_number
-                  ? formik.errors.phone_number
-                  : ""
-              }
-              onBlur={formik.handleBlur}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            />
-            <div className="flex gap-2 justify-between w-full">
-              <InputField
-                onChange={formik.handleChange}
-                isLabel={true}
-                value={formik.values.dob}
-                type="date"
-                name="dob"
-                placeholder="Date of Birth"
-                error={
-                  formik.touched.dob && formik.errors.dob
-                    ? formik.errors.dob
-                    : ""
-                }
-                onBlur={formik.handleBlur}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              />
-              <InputField
-                onChange={formik.handleChange}
-                isLabel={true}
-                value={formik.values.zip_code}
-                type="text"
-                name="zip_code"
-                placeholder="Zip Code"
-                error={
-                  formik.touched.zip_code && formik.errors.zip_code
-                    ? formik.errors.zip_code
-                    : ""
-                }
-                onBlur={formik.handleBlur}
-                className="bg-gray-50 border w-full border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              />
+
+            {isUnder18 && (
+              <>
+                <InputField
+                  onChange={formik.handleChange}
+                  isLabel={true}
+                  value={formik.values.email}
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  error={
+                    formik.touched.email && formik.errors.email
+                      ? formik.errors.email
+                      : ""
+                  }
+                  onBlur={formik.handleBlur}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+                <InputField
+                  onChange={formik.handleChange}
+                  isLabel={true}
+                  value={formik.values.phone_number}
+                  type="text"
+                  name="phone_number"
+                  placeholder="Phone Number"
+                  error={
+                    formik.touched.phone_number && formik.errors.phone_number
+                      ? formik.errors.phone_number
+                      : ""
+                  }
+                  onBlur={formik.handleBlur}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+              </>
+            )}
+
+            <div className="grid grid-cols-2 gap-2 w-full">
+              <div>
+                {/* <label className="block text-sm font-medium text-gray-700">
+                  Relation
+                </label> */}
+                <Select
+                  name="relation"
+                  label="Relation"
+                  onChange={formik.handleChange}
+                  value={formik.values.relation}
+                  errorMessage={
+                    formik.touched.relation && formik.errors.relation
+                      ? formik.errors.relation
+                      : ""
+                  }
+                >
+                  <SelectItem value={"parent"} key={"parent"}>
+                    Parent
+                  </SelectItem>
+                  <SelectItem value={"child"} key={"child"}>
+                    Child
+                  </SelectItem>
+                  <SelectItem value={"inlaws"} key={"inlaws"}>
+                    Inlaws
+                  </SelectItem>
+                  <SelectItem value={"spouse"} key={"spouse"}>
+                    Spouse
+                  </SelectItem>
+                </Select>
+              </div>
+
+              <div>
+                {/* <label className="block text-sm font-medium text-gray-700">
+                  Gender
+                </label> */}
+                <Select
+                  name="gender"
+                  label="Gender"
+                  onChange={formik.handleChange}
+                  value={formik.values.gender}
+                  errorMessage={
+                    formik.touched.gender && formik.errors.gender
+                      ? formik.errors.gender
+                      : ""
+                  }
+                >
+                  <SelectItem value={"male"} key={"male"}>
+                    Male
+                  </SelectItem>
+                  <SelectItem value={"female"} key={"female"}>
+                    Female
+                  </SelectItem>
+                  <SelectItem value={"other"} key={"other"}>
+                    Other
+                  </SelectItem>
+                </Select>
+              </div>
             </div>
           </form>
         </ModalBody>
         <ModalFooter>
-          <Button color="danger" variant="light" onPress={onClose}>
+          <Button
+            className="rounded-lg"
+            color="danger"
+            variant="light"
+            onPress={onClose}
+          >
             Close
           </Button>
           <Button
+            className="rounded-lg"
             color="primary"
             onPress={() => formik.handleSubmit()}
             isLoading={isLoading}

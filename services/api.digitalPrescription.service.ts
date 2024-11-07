@@ -221,7 +221,6 @@ export const fetchInvestigationDetails = async (
   return data;
 };
 
-
 export const getAllBlogs = async () => {
   const { data } = await axios.get(`${baseUrl}blogs/all`, headers);
   return data;
@@ -235,15 +234,11 @@ export const getBlogDtls = async (blog_id: string) => {
   return data;
 };
 
-
 // comments
 export const createComment = (payload: any) => {
   return axios.post(`${baseUrl}blogs/comments`, payload, headers);
 };
-export const updateComment = async (
-  payload: any,
-  comment_id: string
-) => {
+export const updateComment = async (payload: any, comment_id: string) => {
   const { data } = await axios.put(
     `${baseUrl}blogs/comments/?comment_id=${comment_id}`,
     payload,
@@ -256,5 +251,54 @@ export const deleteComment = async (comment_id: string) => {
     `${baseUrl}blogs/comments/?comment_id=${comment_id}`,
     headers
   );
+  return data;
+};
+
+// ? Family Member APIS
+/**
+ *
+ * @param payload {user_id, member_name, relation, gender, phone_no, dob, email }
+ * @returns
+ */
+export const createFamilyMember = async (payload: any) => {
+  const { data } = await axios.post(
+    `${baseUrl}users/family-member`,
+    payload,
+    headers
+  );
+  return data;
+};
+
+/**
+ *
+ * @param payload {family_member_id, member_name, relation, gender, phone_no, dob, email }
+ * @returns
+ */
+export const updateFamilyMember = async (payload: any) => {
+  const { data } = await axios.put(
+    `${baseUrl}users/family-member`,
+    payload,
+    headers
+  );
+  return data;
+};
+
+/**
+ *
+ * @param family_member_id
+ * @returns
+ */
+export const getFamilyMemberDtls = async (family_member_id: string | null) => {
+  const { data } = await axios.get(`${baseUrl}users/family-member?family_member_id=${family_member_id}`, headers);
+  return data;
+};
+
+/**
+ *
+ * @param user_id
+ * @returns
+ */
+export const getFamilyMembers = async (user_id: string | null) => {
+  const { data } = await axios.get(`${baseUrl}users/family-member/all?user_id=${user_id}`, headers);
   return data;
 };
