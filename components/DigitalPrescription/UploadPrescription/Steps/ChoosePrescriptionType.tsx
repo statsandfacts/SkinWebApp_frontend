@@ -27,7 +27,7 @@ type SubType =
   | "CT Scan"
   | "MRI"
   | "PET Scan"
-  | "CSG"
+  | "ECG"
   | "Echo";
 
 const ChoosePrescriptionType: React.FC = () => {
@@ -84,7 +84,7 @@ const ChoosePrescriptionType: React.FC = () => {
       label: "ECG/ECHO Report",
       color: "bg-red-300",
       h_color: "bg-red-600",
-      subtypes: ["CSG", "Echo"],
+      subtypes: ["ECG", "Echo"],
     },
   ];
 

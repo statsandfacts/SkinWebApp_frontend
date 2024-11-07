@@ -110,8 +110,8 @@ const Footer = (props: Props) => {
                 <Link href={'/coming-soon'} className='text-base font-medium'>
                   Support
                 </Link>
-                <Link href={'/coming-soon'} className='mt-4'>
-                  Blog
+                <Link href={'/blog'} className='mt-4'>
+                  Health Feed
                 </Link>
                 <Link href={'/coming-soon'} className='mt-4'>
                   Reviews

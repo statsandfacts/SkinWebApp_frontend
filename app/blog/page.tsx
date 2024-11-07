@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import BlogPage from "./_component/Blog";
 
 export const metadata: Metadata = {
-  title: "Health News",
+  title: "Health Feed",
 };
 
 const Blog = () => {
