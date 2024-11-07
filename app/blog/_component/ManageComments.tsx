@@ -42,7 +42,7 @@ const ManageComments: React.FC<ManageCommentsProps> = () => {
   };
 
   return (
-    <div className="mt-8">
+    <div className="mt-4">
       <h2 className="text-xl font-semibold mb-4">Comments</h2>
 
       <div className="mb-4 min-h-[3rem]">
