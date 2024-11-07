@@ -8,7 +8,7 @@ import { fetchAllBlogs } from "@/redux/slices/digitalPrescription/blog.slice";
 import Loader from "@/components/Loader";
 
 const categories = [
-  // "All Categories",
+  "Digital Health Care",
   "Health Tips",
   "Investigation",
   "NextCare Events",
