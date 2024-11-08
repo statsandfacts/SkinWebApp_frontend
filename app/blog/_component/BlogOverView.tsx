@@ -182,7 +182,9 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
               <ManageComments />
             </div>
             <div className="w-full md:w-1/5 mt-3 md:mt-0">
-              <p className="font-semibold text-slate-700 text-center">Related Posts</p>
+              <p className="font-semibold text-slate-700 text-center">
+                Related Posts
+              </p>
               {loading ? (
                 <Loader />
               ) : errorMessage ? (
@@ -191,7 +193,7 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
                 <div className="grid gap-5 grid-cols-1">
                   {filterData(data).length > 0 ? (
                     filterData(data).map((blog: any, index: number) => (
-                      <BlogItem blog={blog} key={index} />
+                      <BlogItem blog={blog} key={index} isReadMore={false} />
                     ))
                   ) : (
                     <p className="text-center text-slate-400 font-light text-sm">
