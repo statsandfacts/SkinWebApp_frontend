@@ -17,6 +17,7 @@ import { COMMON } from "@/config/const";
 import NavButtonDP from "../DigitalPrescription/Auth/NavButton";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import SearchMedicine from "./SearchMedicine";
+import LabInvestigationNavItem from "./LabInvestigationNavItem";
 
 type MenuItem = {
   name: string;
@@ -84,6 +85,7 @@ export default function Header() {
               </Link>
             </NavbarItem>
           ))}
+          <LabInvestigationNavItem />
           {/* <NavbarItem>
           <Link color='foreground' href='/coming-soon'>
             Products
