@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import {
   Pill,
   FileText,
@@ -10,6 +11,10 @@ import {
 } from "lucide-react";
 import ItemCard from "./_components/ItemCard";
 import DashboardHeader from "./_components/DashboardHeader";
+
+export const metadata: Metadata = {
+  title: "Dashboard"
+};
 
 const Dashboard = () => {
   const items = [
