@@ -47,6 +47,9 @@ const familyMembersSlice = createSlice({
     setCreateMemberModal: (state, action) => {
       state.isCreateMemberModal = action.payload;
     },
+    setSingleMember: (state, action) => {
+      state.memberDetail = action.payload;
+    },
     resetFamilyMember: (state) => {
       state.isCreateMemberModal = false;
     },
@@ -78,6 +81,7 @@ export const {
   setPrescriptionDetailTab,
   resetFamilyMember,
   setCreateMemberModal,
+  setSingleMember,
 } = familyMembersSlice.actions;
 
 export default familyMembersSlice.reducer;

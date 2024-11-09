@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
 import {
   Table,
@@ -8,18 +8,19 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/react";
-import { InformationCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { ToolTipBtn } from "@/components/common/ToolTipBtn";
+import { PlusIcon } from "@heroicons/react/24/outline";
 import {
   FamilyMembersState,
   fetchFamilyMembers,
   setCreateMemberModal,
+  setSingleMember,
 } from "@/redux/slices/digitalPrescription/familyMembers.slice";
 import { useDispatch, useSelector } from "react-redux";
 import CreateFamilyMemberModal from "../CreateFamilyMemberModal";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { AppDispatch } from "@/redux/store";
 import Loader from "@/components/Loader";
+import { Eye, PencilLine } from "lucide-react";
 
 const AddFamilyMembers: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,11 +29,19 @@ const AddFamilyMembers: FC = () => {
     (state: { familyMember: FamilyMembersState }) => state.familyMember
   );
 
+  const [actionKey, setActionKey] = useState<string>("");
+
   useEffect(() => {
     if (!familyMembers.data || familyMembers.data.length <= 0) {
       dispatch(fetchFamilyMembers(userId));
     }
   }, [dispatch]);
+
+  const EditFamilyMember = (data: any, key: string) => {
+    setActionKey(key);
+    dispatch(setSingleMember(data));
+    dispatch(setCreateMemberModal(true));
+  };
 
   return (
     <>
@@ -43,6 +52,7 @@ const AddFamilyMembers: FC = () => {
               color="primary"
               className="rounded-lg"
               onPress={() => {
+                setActionKey("create");
                 dispatch(setCreateMemberModal(true));
               }}
             >
@@ -70,17 +80,28 @@ const AddFamilyMembers: FC = () => {
               <TableBody>
                 {familyMembers.data.map((member: any, index: number) => (
                   <TableRow key={index}>
-                    <TableCell className="capitalize">{member?.member_name}</TableCell>
+                    <TableCell className="capitalize">
+                      {member?.member_name}
+                    </TableCell>
                     <TableCell>{member?.dob}</TableCell>
                     <TableCell>{member?.relation}</TableCell>
                     <TableCell>
-                      <ToolTipBtn
-                        onClick={() => {}}
-                        title="View Details"
-                        key={index}
-                      >
-                        <InformationCircleIcon className="h-5 w-5" />
-                      </ToolTipBtn>
+                      <div className="flex gap-3">
+                        <button
+                          onClick={() => EditFamilyMember(member, "edit")}
+                          className="flex items-center gap-1 text-slate-500"
+                        >
+                          <p className="font-medium">Edit</p>
+                          <PencilLine className="h-5 w-5" />
+                        </button>
+                        <button
+                          onClick={() => EditFamilyMember(member, "view")}
+                          className="flex items-center gap-1 text-slate-500"
+                        >
+                          <p className="font-medium">View</p>
+                          <Eye className="h-5 w-5" />
+                        </button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -96,7 +117,7 @@ const AddFamilyMembers: FC = () => {
         </CardBody>
       </Card>
 
-      <CreateFamilyMemberModal />
+      <CreateFamilyMemberModal actionKey={actionKey} />
     </>
   );
 };

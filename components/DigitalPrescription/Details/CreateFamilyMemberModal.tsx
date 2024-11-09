@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -15,11 +15,16 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import InputField from "@/components/common/InputField";
 import {
+  FamilyMembersState,
   fetchFamilyMembers,
   setCreateMemberModal,
+  setSingleMember,
 } from "@/redux/slices/digitalPrescription/familyMembers.slice";
 import dayjs from "dayjs";
-import { createFamilyMember } from "@/services/api.digitalPrescription.service";
+import {
+  createFamilyMember,
+  updateFamilyMember,
+} from "@/services/api.digitalPrescription.service";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { AppDispatch } from "@/redux/store";
 
@@ -32,11 +37,17 @@ interface FamilyMemberFormValues {
   relation: string;
 }
 
-export default function CreateFamilyMemberModal() {
+interface CreateFamilyMemberModalProps {
+  actionKey?: string;
+}
+
+export default function CreateFamilyMemberModal({
+  actionKey = "create",
+}: CreateFamilyMemberModalProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { userId } = useAuthInfo();
-  const { isCreateMemberModal } = useSelector(
-    (state: any) => state.familyMember
+  const { isCreateMemberModal, memberDetail } = useSelector(
+    (state: { familyMember: FamilyMembersState }) => state.familyMember
   );
   const [isLoading, setIsLoading] = useState(false);
 
@@ -77,9 +88,21 @@ export default function CreateFamilyMemberModal() {
           email: values.email,
         };
 
-        const result = await createFamilyMember(payload);
+        if (actionKey === "create") {
+          const result = await createFamilyMember(payload);
+        } else if (actionKey === "edit") {
+          const result = await updateFamilyMember({
+            ...payload,
+            family_member_id: memberDetail?.family_member_id,
+          });
+        }
+
         dispatch(fetchFamilyMembers(userId));
-        toast.success("Family member added successfully!");
+        toast.success(
+          `Family member ${
+            actionKey === "edit" ? "updated" : "added"
+          } successfully!`
+        );
         onClose();
       } catch (error: any) {
         const errorMessage =
@@ -97,8 +120,22 @@ export default function CreateFamilyMemberModal() {
     ? dayjs().diff(dayjs(formik.values.dob), "year") < 18
     : false;
 
+  useEffect(() => {
+    if (memberDetail) {
+      formik.setValues({
+        name: memberDetail.member_name || "",
+        email: memberDetail.email || "",
+        phone_number: memberDetail.phone_no || "",
+        dob: memberDetail.dob || "",
+        gender: memberDetail.gender || "",
+        relation: memberDetail.relation || "",
+      });
+    }
+  }, [memberDetail]);
+
   const onClose = () => {
     dispatch(setCreateMemberModal(false));
+    dispatch(setSingleMember(null));
     formik.resetForm();
   };
 
@@ -139,6 +176,7 @@ export default function CreateFamilyMemberModal() {
             onSubmit={formik.handleSubmit}
           >
             <InputField
+              disabled={actionKey === "view"}
               onChange={formik.handleChange}
               isLabel={true}
               value={formik.values.name}
@@ -154,6 +192,7 @@ export default function CreateFamilyMemberModal() {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
             <InputField
+              disabled={actionKey === "view"}
               onChange={formik.handleChange}
               isLabel={true}
               value={formik.values.dob}
@@ -170,6 +209,7 @@ export default function CreateFamilyMemberModal() {
             {isUnder18 && (
               <>
                 <InputField
+                  disabled={actionKey === "view"}
                   onChange={formik.handleChange}
                   isLabel={true}
                   value={formik.values.email}
@@ -185,6 +225,7 @@ export default function CreateFamilyMemberModal() {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
                 <InputField
+                  disabled={actionKey === "view"}
                   onChange={formik.handleChange}
                   isLabel={true}
                   value={formik.values.phone_number}
@@ -204,14 +245,13 @@ export default function CreateFamilyMemberModal() {
 
             <div className="grid grid-cols-2 gap-2 w-full">
               <div>
-                {/* <label className="block text-sm font-medium text-gray-700">
-                  Relation
-                </label> */}
                 <Select
+                  isDisabled={actionKey === "view"}
                   name="relation"
                   label="Relation"
                   onChange={formik.handleChange}
                   value={formik.values.relation}
+                  selectedKeys={[formik.values.relation]}
                   errorMessage={
                     formik.touched.relation && formik.errors.relation
                       ? formik.errors.relation
@@ -234,14 +274,13 @@ export default function CreateFamilyMemberModal() {
               </div>
 
               <div>
-                {/* <label className="block text-sm font-medium text-gray-700">
-                  Gender
-                </label> */}
                 <Select
+                  isDisabled={actionKey === "view"}
                   name="gender"
                   label="Gender"
                   onChange={formik.handleChange}
                   value={formik.values.gender}
+                  selectedKeys={[formik.values.gender]}
                   errorMessage={
                     formik.touched.gender && formik.errors.gender
                       ? formik.errors.gender
@@ -263,22 +302,26 @@ export default function CreateFamilyMemberModal() {
           </form>
         </ModalBody>
         <ModalFooter>
-          <Button
-            className="rounded-lg"
-            color="danger"
-            variant="light"
-            onPress={onClose}
-          >
-            Close
-          </Button>
-          <Button
-            className="rounded-lg"
-            color="primary"
-            onPress={() => formik.handleSubmit()}
-            isLoading={isLoading}
-          >
-            Add Member
-          </Button>
+          {actionKey !== "view" && (
+            <>
+              <Button
+                className="rounded-lg"
+                color="danger"
+                variant="light"
+                onPress={onClose}
+              >
+                Close
+              </Button>
+              <Button
+                className="rounded-lg"
+                color="primary"
+                onPress={() => formik.handleSubmit()}
+                isLoading={isLoading}
+              >
+                {actionKey === "edit" ? "Update" : "Add Member"}
+              </Button>
+            </>
+          )}
         </ModalFooter>
       </ModalContent>
     </Modal>
