@@ -1,13 +1,13 @@
 "use client";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { Link as ScrollLink, Element as ScrollElement } from "react-scroll";
 import SubGroupingMapping from "./SubGroupingMapping";
 import { useRouter } from "next/navigation";
-import { Button } from "@nextui-org/button";
 import InterpretingResult from "./InterpretingResult";
 import FAQ from "./FAQ";
 import UsedForComponent from "./UsedForComponent";
+import InterpretationDetails from "./InterpretationDetails";
+import { ChevronLeftIcon } from "lucide-react";
 
 const MapInvestigationData = ({ data }: { data: any[] }) => {
   const router = useRouter();
@@ -38,13 +38,13 @@ const MapInvestigationData = ({ data }: { data: any[] }) => {
 
           <div className="w-full sm:w-3/4 sm:ml-4">
             <div>
-              <Button
+              <button
                 onClick={() => router.back()}
-                className="rounded-lg bg-white shadow-md"
-                startContent={<ArrowLeftIcon className="w-4 h-4" />}
+                className="flex justify-center items-center text-slate-600 mb-2 transition ease-in-out duration-200 hover:text-sky-700 hover:translate-x-1"
               >
+                <ChevronLeftIcon className="h-4 w-4 transition-transform duration-200 ease-in-out group-hover:-translate-x-1" />
                 Back
-              </Button>
+              </button>
             </div>
             <div className="mt-2">
               {data.map((section: any, i: number) => (
@@ -77,6 +77,8 @@ const MapInvestigationData = ({ data }: { data: any[] }) => {
                           </span>
                         </div>
                       </div>
+                    ) : section?.keyName === "interpretation_dtls" ? (
+                      <InterpretationDetails interpretationData={section} />
                     ) : section?.keyName === "understanding_test" ? (
                       <div>
                         <p className="text-gray-800 font-semibold text-base mb-3">
