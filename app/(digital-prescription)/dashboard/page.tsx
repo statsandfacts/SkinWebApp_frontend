@@ -26,7 +26,7 @@ const Dashboard = () => {
       icon: Stethoscope,
     },
     { title: "Set Reminder", link: "/reminders", icon: Bell },
-    { title: "Add Family Member", link: "/add-family-member", icon: UserPlus },
+    { title: "Add Family Member", link: "/dashboard/add-family-member", icon: UserPlus },
     {
       title: "General Health Indicators",
       link: "/health-indicators",

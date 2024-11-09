@@ -1,11 +1,16 @@
 import { Metadata } from "next";
+import FamilyMember from "../_components/FamilyMember";
 
 export const metadata: Metadata = {
   title: "Family Member",
 };
 
-const page = () => {
-  return <div>page</div>;
+const FamilyMemberPage = () => {
+  return (
+    <>
+      <FamilyMember />
+    </>
+  );
 };
 
-export default page;
+export default FamilyMemberPage;
