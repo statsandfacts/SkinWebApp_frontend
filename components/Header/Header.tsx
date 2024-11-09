@@ -85,7 +85,8 @@ export default function Header() {
               </Link>
             </NavbarItem>
           ))}
-          <LabInvestigationNavItem />
+          {pathname === "/" && <LabInvestigationNavItem />}
+
           {/* <NavbarItem>
           <Link color='foreground' href='/coming-soon'>
             Products
@@ -94,9 +95,11 @@ export default function Header() {
         </NavbarContent>
 
         <NavbarContent justify="end">
-          <div className="hidden lg:block">
-            <SearchMedicine />
-          </div>
+          {pathname === "/" && (
+            <div className="hidden lg:block">
+              <SearchMedicine />
+            </div>
+          )}
 
           <NavButtonDP />
           {/* {
@@ -127,6 +130,7 @@ export default function Header() {
               </Link>
             </NavbarMenuItem>
           ))}
+          {pathname === "/" && <LabInvestigationNavItem />}
         </NavbarMenu>
       </Navbar>
       <div className="lg:hidden">

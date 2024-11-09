@@ -26,7 +26,7 @@ export default function InvestigationSearchModal() {
   return (
     <>
       <Modal isOpen={isSearchReportModalOpen} onOpenChange={onClose}>
-        <ModalContent>
+        <ModalContent className="mb-20">
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
