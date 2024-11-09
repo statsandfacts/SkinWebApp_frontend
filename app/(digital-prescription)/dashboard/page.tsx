@@ -6,7 +6,7 @@ import {
   Activity,
   Stethoscope,
   User,
-  Upload,
+  Phone
 } from "lucide-react";
 import ItemCard from "./_components/ItemCard";
 import DashboardHeader from "./_components/DashboardHeader";
@@ -28,6 +28,11 @@ const Dashboard = () => {
       icon: Activity,
     },
     { title: "Manage Account", link: "/manage-account", icon: User },
+    {
+      title: "Emergency Contact",
+      link: "/dashboard/emergency-contact",
+      icon: Phone,
+    },
   ];
 
   return (

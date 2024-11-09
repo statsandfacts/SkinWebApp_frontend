@@ -27,6 +27,20 @@ export const CreateUser = async (payload: any) => {
  * @param payload
  * @returns
  */
+export const updateUser = async (payload: any) => {
+  const { data } = await axios.put(
+    `${baseUrl}users/update-user`,
+    payload,
+    headers
+  );
+  return data;
+};
+
+/**
+ *
+ * @param payload
+ * @returns
+ */
 export const login = async (payload: any) => {
   const { data } = await axios.post(
     baseUrl + "users/user-login",
@@ -289,7 +303,10 @@ export const updateFamilyMember = async (payload: any) => {
  * @returns
  */
 export const getFamilyMemberDtls = async (family_member_id: string | null) => {
-  const { data } = await axios.get(`${baseUrl}users/family-member?family_member_id=${family_member_id}`, headers);
+  const { data } = await axios.get(
+    `${baseUrl}users/family-member?family_member_id=${family_member_id}`,
+    headers
+  );
   return data;
 };
 
@@ -299,6 +316,9 @@ export const getFamilyMemberDtls = async (family_member_id: string | null) => {
  * @returns
  */
 export const getFamilyMembers = async (user_id: string | null) => {
-  const { data } = await axios.get(`${baseUrl}users/family-member/all?user_id=${user_id}`, headers);
+  const { data } = await axios.get(
+    `${baseUrl}users/family-member/all?user_id=${user_id}`,
+    headers
+  );
   return data;
 };
