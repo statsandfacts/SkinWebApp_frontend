@@ -13,6 +13,8 @@ import Image from "next/image";
 import { Button } from "@nextui-org/button";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
+import { ChevronLeftIcon } from "lucide-react";
+import FAQ from "@/app/(digital-prescription)/investigation/[investigationId]/_components/FAQ";
 
 const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
   medicineName,
@@ -65,13 +67,13 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
 
               <div className="w-full sm:w-3/4 sm:ml-4">
                 <div>
-                  <Button
+                  <button
                     onClick={() => router.back()}
-                    className="rounded-lg bg-white shadow-md"
-                    startContent={<ArrowLeftIcon className="w-4 h-4" />}
+                    className="flex justify-center items-center text-slate-600 mb-2 transition ease-in-out duration-200 hover:text-sky-700 hover:translate-x-1"
                   >
+                    <ChevronLeftIcon className="h-4 w-4 transition-transform duration-200 ease-in-out group-hover:-translate-x-1" />
                     Back
-                  </Button>
+                  </button>
                 </div>
                 <div className="mt-2">
                   {data.map((section: any, i: number) => (
@@ -437,32 +439,7 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                             )}
                           </div>
                         ) : section.keyName === "faqs" ? (
-                          <div>
-                            <h2 className="text-xl font-semibold text-gray-900 mb-4 border-b pb-2">
-                              FAQs
-                            </h2>
-                            {section.faqs && section.faqs.length > 0 ? (
-                              section.faqs.map(
-                                (
-                                  faq: { Value_1: string; Value_2: string },
-                                  index: number
-                                ) => (
-                                  <div key={index} className="mb-4">
-                                    <p className="text-gray-700 font-medium">
-                                      <strong>{faq.Value_1}:</strong>
-                                    </p>
-                                    <p className="text-gray-500 text-sm font-normal">
-                                      {faq.Value_2}
-                                    </p>
-                                  </div>
-                                )
-                              )
-                            ) : (
-                              <p className="text-gray-500 text-sm font-normal">
-                                No FAQs available.
-                              </p>
-                            )}
-                          </div>
+                          <FAQ faqs={section?.faqs || []} />
                         ) : (
                           <></>
                         )}
