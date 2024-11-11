@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import InputField from "@/components/common/InputField";
+import { setLoginModal } from "@/redux/slices/loginModal.slice";
+import LoginModal from "./LoginModal";
 
 interface FormValues {
   email: string;
@@ -67,6 +69,20 @@ const ForgetPasswordForm = () => {
           Reset
         </Button>
       </form>
+
+      <div className="mt-3 text-center">
+        <p className="text-gray-700 text-sm">
+          Already have an account?{" "}
+          <span
+            className="text-sky-800 font-semibold cursor-pointer"
+            onClick={() => dispatch(setLoginModal(true))}
+          >
+            Please login
+          </span>
+        </p>
+      </div>
+
+      <LoginModal isCloseIcon={false} />
     </>
   );
 };
