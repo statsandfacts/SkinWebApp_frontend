@@ -74,6 +74,14 @@ export default function Header() {
         </NavbarContent>
 
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
+          {userId && (
+            <NavbarItem>
+              <Link href={"/dashboard"} color="foreground">
+                Dashboard
+              </Link>
+            </NavbarItem>
+          )}
+
           {menuItems.map((item) => (
             <NavbarItem
               key={item.link}
@@ -112,6 +120,13 @@ export default function Header() {
         </NavbarContent>
 
         <NavbarMenu>
+          {userId && (
+            <NavbarMenuItem>
+              <Link href={"/dashboard"} color="foreground">
+                Dashboard
+              </Link>
+            </NavbarMenuItem>
+          )}
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
@@ -133,9 +148,11 @@ export default function Header() {
           {pathname === "/" && <LabInvestigationNavItem />}
         </NavbarMenu>
       </Navbar>
-      <div className="lg:hidden">
-        <SearchMedicine />
-      </div>
+      {pathname === "/" && (
+        <div className="lg:hidden">
+          <SearchMedicine />
+        </div>
+      )}
     </>
   );
 }
