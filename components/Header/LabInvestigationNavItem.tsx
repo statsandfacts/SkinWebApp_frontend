@@ -16,7 +16,13 @@ const LabInvestigationNavItem = ({
   const dispatch = useDispatch();
   return (
     <>
-      <NavbarItem onClick={() => setIsMenuOpen(!isMenuOpen)}>
+      <NavbarItem
+        onClick={() => {
+          if (isMenuOpen) {
+            setIsMenuOpen(!isMenuOpen);
+          }
+        }}
+      >
         <button
           onClick={() => {
             dispatch(setIsTestSearchModal(true));

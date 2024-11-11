@@ -106,10 +106,7 @@ export default function Header() {
             </NavbarItem>
           ))}
           {pathname === "/" && (
-            <LabInvestigationNavItem
-              isMenuOpen={isMenuOpen}
-              setIsMenuOpen={setIsMenuOpen}
-            />
+            <LabInvestigationNavItem />
           )}
 
           {/* <NavbarItem>
