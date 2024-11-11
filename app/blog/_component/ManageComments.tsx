@@ -59,7 +59,7 @@ const ManageComments: React.FC<ManageCommentsProps> = () => {
               className="p-4 mb-2 border rounded-lg bg-gray-50 flex flex-col md:flex-row md:justify-between items-start"
             >
               <p className="text-sm text-slate-600">{comment.content}</p>
-              <div className="text-right flex flex-row md:flex-col text-xs min-w-max text-gray-500 ml-4">
+              <div className="text-right flex flex-row gap-2 md:gap-0 md:flex-col text-xs min-w-max text-gray-500 ml-0 md:ml-4">
                 <p>{comment.name || "Anonymous"}</p>
                 <p>{dayjs(comment.date).format("MMM D, YYYY h:mm A")}</p>
               </div>
