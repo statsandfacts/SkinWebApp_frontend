@@ -25,14 +25,14 @@ const Dashboard = () => {
       link: "/dashboard/health-camp-reports",
       icon: Stethoscope,
     },
-    { title: "Set Reminder", link: "/reminders", icon: Bell },
+    { title: "Set Reminder", link: "/dashboard/reminders", icon: Bell },
     { title: "Add Family Member", link: "/dashboard/add-family-member", icon: UserPlus },
     {
       title: "General Health Indicators",
       link: "/dashboard/health-indicators",
       icon: Activity,
     },
-    { title: "Manage Account", link: "/manage-account", icon: User },
+    // { title: "Manage Account", link: "/manage-account", icon: User },
     {
       title: "Emergency Contact",
       link: "/dashboard/emergency-contact",

@@ -322,3 +322,18 @@ export const getFamilyMembers = async (user_id: string | null) => {
   );
   return data;
 };
+
+// ? Set Reminder APIS
+/**
+ *
+ * @param payload {user_id, medicine_name, reminder_start_date, reminder_time, reminder_days }
+ * @returns
+ */
+export const setReminder = async (payload: any) => {
+  const { data } = await axios.post(
+    `${baseUrl}users/reminder`,
+    payload,
+    headers
+  );
+  return data;
+};
