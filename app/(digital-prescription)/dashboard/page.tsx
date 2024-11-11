@@ -18,11 +18,11 @@ export const metadata: Metadata = {
 
 const Dashboard = () => {
   const items = [
-    { title: "Prescriptions", link: "/prescriptions", icon: Pill },
-    { title: "Reports", link: "/reports", icon: FileText },
+    { title: "Prescriptions", link: "/dashboard/prescriptions", icon: Pill },
+    { title: "Reports", link: "/dashboard/reports", icon: FileText },
     {
       title: "Health Camp Reports",
-      link: "/health-camp-reports",
+      link: "/dashboard/health-camp-reports",
       icon: Stethoscope,
     },
     { title: "Set Reminder", link: "/reminders", icon: Bell },

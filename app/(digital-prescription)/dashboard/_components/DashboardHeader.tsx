@@ -11,7 +11,11 @@ import { logOutUser } from "@/redux/slices/digitalPrescription/auth.slice";
 import { resetPrescription } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import { resetFamilyMember } from "@/redux/slices/digitalPrescription/familyMembers.slice";
 
-const DashboardHeader = () => {
+type DashboardHeaderProps = {
+  isLogout?: boolean; // Optional boolean prop
+};
+
+const DashboardHeader = ({ isLogout = true }: DashboardHeaderProps) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -34,16 +38,18 @@ const DashboardHeader = () => {
 
   return (
     <>
-      <div className="w-full max-w-7xl flex justify-end">
-        <button
-          onClick={handleLogout}
-          className="p-2 flex justify-center items-center text-red-400 hover:text-red-500 transition-all text-sm"
-          disabled={isLoading}
-        >
-          <ArrowLeftStartOnRectangleIcon className="h-5 w-5" />
-          Logout
-        </button>
-      </div>
+      {isLogout && (
+        <div className="w-full max-w-7xl flex justify-end">
+          <button
+            onClick={handleLogout}
+            className="p-2 flex justify-center items-center text-red-400 hover:text-red-500 transition-all text-sm"
+            disabled={isLoading}
+          >
+            <ArrowLeftStartOnRectangleIcon className="h-5 w-5" />
+            Logout
+          </button>
+        </div>
+      )}
 
       {/* Upload Card */}
       <div className="w-full bg-gray-50 rounded-lg shadow-sm p-3 mb-10 flex flex-col justify-center items-center max-w-7xl">
