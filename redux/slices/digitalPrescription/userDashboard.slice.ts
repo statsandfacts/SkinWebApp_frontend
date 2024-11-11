@@ -6,6 +6,7 @@ interface UserDashboardState {
   dashboardData: any;
   loading: boolean;
   error: string | null;
+  isUpdateHealthIndicatorModal: boolean;
 }
 
 const initialState: UserDashboardState = {
@@ -13,6 +14,7 @@ const initialState: UserDashboardState = {
   dashboardData: null,
   loading: false,
   error: null,
+  isUpdateHealthIndicatorModal: false,
 };
 
 export const fetchPatientDashboard = createAsyncThunk<
@@ -43,6 +45,9 @@ const userDashboardSlice = createSlice({
     setDashboardTab: (state, action) => {
       state.selectedTab = action.payload;
     },
+    setUpdateHealthIndicatorModal: (state, action) => {
+      state.isUpdateHealthIndicatorModal = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -67,7 +72,5 @@ const userDashboardSlice = createSlice({
   },
 });
 
-export const {
-  setDashboardTab
-} = userDashboardSlice.actions;
+export const { setDashboardTab, setUpdateHealthIndicatorModal } = userDashboardSlice.actions;
 export default userDashboardSlice.reducer;

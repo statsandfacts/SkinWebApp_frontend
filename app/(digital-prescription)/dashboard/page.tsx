@@ -29,7 +29,7 @@ const Dashboard = () => {
     { title: "Add Family Member", link: "/dashboard/add-family-member", icon: UserPlus },
     {
       title: "General Health Indicators",
-      link: "/health-indicators",
+      link: "/dashboard/health-indicators",
       icon: Activity,
     },
     { title: "Manage Account", link: "/manage-account", icon: User },
@@ -41,7 +41,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center min-h-screen py-10 bg-white">
+    <div className="flex flex-col items-center bg-white">
       <DashboardHeader />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl px-4">
