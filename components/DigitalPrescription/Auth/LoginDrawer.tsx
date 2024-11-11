@@ -75,7 +75,7 @@ export default function LoginDrawer() {
                 const userId = data.user_id;
                 dispatch(setUser({ userId, sessionId: session_id }));
                 // resetForm();
-                router.push("/upload-prescription/prescriptions");
+                router.push("/dashboard");
                 // dispatch(setLoginModal(false));
                 onClose();
               })

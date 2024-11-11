@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -28,6 +28,12 @@ export default function Header() {
   const pathname = usePathname();
   const { userId } = useAuthInfo();
 
+  const [isUserReady, setIsUserReady] = useState(false);
+
+  useEffect(() => {
+    setIsUserReady(true);
+  }, []);
+
   const menuItems: MenuItem[] = useMemo(
     () => [
       { name: "Home", link: "/" },
@@ -41,7 +47,6 @@ export default function Header() {
     []
   );
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [isActive, setIsActive] = useState<string>("Home");
 
   return (
     <>
@@ -74,26 +79,38 @@ export default function Header() {
         </NavbarContent>
 
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
-          {userId && (
-            <NavbarItem>
-              <Link href={"/dashboard"} color="foreground">
-                Dashboard
+          {isUserReady && userId ? (
+            <NavbarItem key={"/dashboard"} isActive={"/dashboard" === pathname}>
+              <Link
+                href={"/dashboard"}
+                color="foreground"
+                className={
+                  "/dashboard" === pathname ? "text-sky-700" : "text-black"
+                }
+              >
+                {"Dashboard"}
               </Link>
             </NavbarItem>
-          )}
+          ) : null}
 
           {menuItems.map((item) => (
-            <NavbarItem
-              key={item.link}
-              isActive={item.name === isActive}
-              onClick={() => setIsActive(item.name)}
-            >
-              <Link href={item.link} color="foreground">
+            <NavbarItem key={item.link} isActive={item.link === pathname}>
+              <Link
+                href={item.link}
+                className={
+                  item.link === pathname ? "text-sky-700" : "text-black"
+                }
+              >
                 {item.name}
               </Link>
             </NavbarItem>
           ))}
-          {pathname === "/" && <LabInvestigationNavItem />}
+          {pathname === "/" && (
+            <LabInvestigationNavItem
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+            />
+          )}
 
           {/* <NavbarItem>
           <Link color='foreground' href='/coming-soon'>
@@ -120,9 +137,13 @@ export default function Header() {
         </NavbarContent>
 
         <NavbarMenu>
-          {userId && (
+          {isUserReady && userId && (
             <NavbarMenuItem>
-              <Link href={"/dashboard"} color="foreground">
+              <Link
+                href={"/dashboard"}
+                color="foreground"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
                 Dashboard
               </Link>
             </NavbarMenuItem>
@@ -145,7 +166,12 @@ export default function Header() {
               </Link>
             </NavbarMenuItem>
           ))}
-          {pathname === "/" && <LabInvestigationNavItem />}
+          {pathname === "/" && (
+            <LabInvestigationNavItem
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+            />
+          )}
         </NavbarMenu>
       </Navbar>
       {pathname === "/" && (

@@ -112,7 +112,7 @@ const CollectSignUpData = () => {
           .then((data) => {
             const userId = data.user_id;
             dispatch(setUser({ userId, sessionId: payloadLogin.session_id }));
-            router.replace("/upload-prescription/prescriptions");
+            router.replace("/dashboard");
             cleanUp();
           })
           .catch((error) => {

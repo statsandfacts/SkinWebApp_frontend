@@ -4,11 +4,19 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import InvestigationSearchModal from "../modal/InvestigationSearchModal";
 
-const LabInvestigationNavItem = () => {
+interface LabInvestigationNavItemProps {
+  setIsMenuOpen?: any;
+  isMenuOpen?: any;
+}
+
+const LabInvestigationNavItem = ({
+  setIsMenuOpen,
+  isMenuOpen,
+}: LabInvestigationNavItemProps) => {
   const dispatch = useDispatch();
   return (
     <>
-      <NavbarItem>
+      <NavbarItem onClick={() => setIsMenuOpen(!isMenuOpen)}>
         <button
           onClick={() => {
             dispatch(setIsTestSearchModal(true));

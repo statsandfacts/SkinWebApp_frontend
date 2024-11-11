@@ -52,7 +52,7 @@ const NavButtonDP = () => {
   };
 
   const profileElement = (
-    <Link href="/upload-prescription/prescriptions">
+    <Link href="/dashboard">
       <User
         as="button"
         name={userDetails?.name}
@@ -92,7 +92,7 @@ const NavButtonDP = () => {
           <DropdownItem key="prescriptions">
             {/* <Link href="/upload-prescription/prescriptions">View Case</Link> */}
             <button
-              onClick={() => router.push("/upload-prescription/prescriptions")}
+              onClick={() => router.push("/dashboard/prescriptions")}
             >
               View Documents
             </button>

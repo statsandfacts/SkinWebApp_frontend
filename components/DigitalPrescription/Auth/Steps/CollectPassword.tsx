@@ -106,7 +106,7 @@ const CollectPassword = () => {
           .then((data) => {
             const userId = data.user_id;
             dispatch(setUser({ userId, sessionId: payloadLogin.session_id }));
-            router.push("/upload-prescription/prescriptions");
+            router.push("/dashboard");
           })
           .catch((error) => {
             toast.success("Login failed");

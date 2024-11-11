@@ -46,7 +46,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isCloseIcon }) => {
           toast.success("Logged in successfully!");
           const userId = data.user_id;
           dispatch(setUser({ userId, sessionId: payload.session_id }));
-          router.push("/upload-prescription/prescriptions");
+          router.push("/dashboard");
           dispatch(setLoginModal(false));
           resetForm();
         } else {
