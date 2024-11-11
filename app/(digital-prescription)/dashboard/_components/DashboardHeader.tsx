@@ -52,7 +52,7 @@ const DashboardHeader = ({ isLogout = true }: DashboardHeaderProps) => {
       )}
 
       {/* Upload Card */}
-      <div className="w-full bg-gray-50 rounded-lg shadow-sm p-3 mb-10 flex flex-col justify-center items-center max-w-7xl">
+      <div className="w-full bg-gray-50 rounded-lg shadow-sm p-3 mb-10 flex flex-col justify-center items-center max-w-sm sm:max-w-7xl">
         <Link href={"/upload-prescription"}>
           <div className="flex justify-center items-center mt-2">
             <Upload className="w-10 h-10 text-sky-600 group-hover:text-sky-700 transition-all duration-500 transform group-hover:translate-y-[-8px] group-hover:scale-110 animate-bounce" />

@@ -42,11 +42,11 @@ const Reports = () => {
   return (
     <>
       <div className="flex flex-col items-center bg-white mt-2">
-        <div className="flex justify-start w-full max-w-7xl">
+        <div className="flex justify-start w-full max-w-sm sm:max-w-7xl">
           <BackButton />
         </div>
         <DashboardHeader isLogout={false} />
-        <div className="w-full max-w-5xl">
+        <div className="w-full max-w-sm sm:max-w-5xl">
           {loading ? (
             <Loader />
           ) : error ? (

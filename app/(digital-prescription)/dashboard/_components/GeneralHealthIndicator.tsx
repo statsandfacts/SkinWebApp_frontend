@@ -93,10 +93,10 @@ const GeneralHealthIndicator = () => {
   return (
     <>
       <div className="w-full flex justify-center flex-col items-center">
-        <div className="flex justify-start w-full max-w-7xl">
+        <div className="flex justify-start w-full max-w-sm sm:max-w-7xl">
           <BackButton />
         </div>
-        <div className="w-full bg-gray-50 rounded-lg shadow-sm p-6 flex flex-col justify-center items-center max-w-7xl cursor-pointer">
+        <div className="w-full bg-gray-50 rounded-lg shadow-sm p-6 flex flex-col justify-center items-center max-w-sm sm:max-w-7xl cursor-pointer">
           <div className="flex flex-col justify-center items-center text-center">
             <div className="flex justify-center items-center">
               <HeartHandshake className="w-10 h-10 text-sky-600 transition-all duration-300 transform animate-bounce" />
@@ -116,7 +116,7 @@ const GeneralHealthIndicator = () => {
           <p className="text-red-500 ml-3"> Error: {error} </p>
         ) : (
           <>
-            <div className="w-full max-w-5xl p-6">
+            <div className="w-full max-w-sm sm:max-w-5xl mt-4">
               <div>
                 <div className="flex justify-end">
                   <button

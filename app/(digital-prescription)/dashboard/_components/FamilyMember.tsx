@@ -46,10 +46,10 @@ const FamilyMember = () => {
   return (
     <>
       <div className="w-full flex justify-center flex-col items-center">
-        <div className="flex justify-start w-full max-w-7xl">
+        <div className="flex justify-start w-full max-w-sm sm:max-w-7xl">
           <BackButton />
         </div>
-        <div className="w-full bg-gray-50 rounded-lg shadow-sm shadow-red-100 p-6 flex flex-col justify-center items-center max-w-7xl cursor-pointer">
+        <div className="w-full bg-gray-50 rounded-lg shadow-sm shadow-red-100 p-6 flex flex-col justify-center items-center max-w-sm sm:max-w-7xl cursor-pointer">
           <div className="flex flex-col justify-center items-center text-center">
             <div className="flex justify-center items-center">
               <UserPlusIcon className="w-10 h-10 text-sky-600 transition-all duration-300 transform animate-bounce" />
@@ -76,7 +76,7 @@ const FamilyMember = () => {
           </div>
         </div>
 
-        <div className="max-w-5xl w-full mt-4">
+        <div className="max-w-sm sm:max-w-5xl w-full mt-4">
           {familyMembers.loading ? (
             <Loader />
           ) : familyMembers.errorMessage ? (

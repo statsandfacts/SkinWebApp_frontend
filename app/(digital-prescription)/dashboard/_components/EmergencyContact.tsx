@@ -65,7 +65,7 @@ const EmergencyContact = () => {
 
   return (
     <div className="flex flex-col items-center py-10 px-4">
-      <div className="flex justify-start w-full max-w-7xl">
+      <div className="flex justify-start w-full max-w-sm sm:max-w-7xl">
         <BackButton />
       </div>
 
@@ -76,7 +76,7 @@ const EmergencyContact = () => {
       ) : (
         <>
           <div
-            className="w-full bg-gray-50 rounded-lg shadow-sm shadow-red-100 p-6 mb-10 flex flex-col justify-center items-center max-w-7xl cursor-pointer"
+            className="w-full bg-gray-50 rounded-lg shadow-sm shadow-red-100 p-6 mb-10 flex flex-col justify-center items-center max-w-sm sm:max-w-7xl cursor-pointer"
             onClick={handleEmergencyCall}
           >
             <div className="flex flex-col justify-center items-center text-center">
