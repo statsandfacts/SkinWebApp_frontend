@@ -29,7 +29,9 @@ const MapInvestigationData = ({ data }: { data: any[] }) => {
                     className="block py-2 px-4 rounded-lg hover:bg-sky-50 transition duration-200 cursor-pointer"
                     offset={-100}
                   >
-                    {section.name}
+                    {section?.keyName === "interpretation_dtls"
+                      ? "Interpretation Details"
+                      : section.name}
                   </ScrollLink>
                 </li>
               ))}
