@@ -51,9 +51,9 @@ const InterpretationDetails: React.FC<InterpretationDetailsProps> = ({
 
             {/* High Range */}
             <p className="flex items-center">
-              <strong className="mr-1 text-green-500">High:</strong>
+              <strong className="mr-1 text-orange-500">High:</strong>
               {item.interpreting_result?.high ? (
-                <span className="text-green-500 flex items-center">
+                <span className="text-orange-500 flex items-center">
                   <ArrowUp className="mr-1" /> {item.interpreting_result.high}
                 </span>
               ) : (

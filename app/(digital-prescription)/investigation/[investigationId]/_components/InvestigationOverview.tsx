@@ -29,7 +29,7 @@ const InvestigationOverview: React.FC = () => {
     fetchDrugDetails();
   }, [fetchDrugDetails]);
   return (
-    <div className="flex min-h-screen bg-gray-50 p-6">
+    <div className="flex min-h-screen bg-gray-50 p-2 md:p-6">
       {loading ? (
         <Loader />
       ) : error ? (
