@@ -46,7 +46,7 @@ const Reports = () => {
           <BackButton />
         </div>
         <DashboardHeader isLogout={false} />
-        <div className="w-full max-w-sm sm:max-w-5xl">
+        <div className="w-full overflow-auto max-w-sm sm:max-w-5xl">
           {loading ? (
             <Loader />
           ) : error ? (

@@ -116,7 +116,7 @@ const GeneralHealthIndicator = () => {
           <p className="text-red-500 ml-3"> Error: {error} </p>
         ) : (
           <>
-            <div className="w-full max-w-sm sm:max-w-5xl mt-4">
+            <div className="w-full overflow-auto max-w-sm sm:max-w-5xl mt-4">
               <div>
                 <div className="flex justify-end">
                   <button
