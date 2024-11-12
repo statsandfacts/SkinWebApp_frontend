@@ -8,20 +8,23 @@ import { setLoginModal } from "@/redux/slices/loginModal.slice";
 import LoginModal from "./LoginModal";
 import {
   sendOtp,
-  // verifyOtp,
-  // updatePhoneNumber,
+  updateUser,
 } from "@/services/api.digitalPrescription.service";
+import { useRouter } from "next/navigation";
 
 interface SendOtpResponse {
   verification_code?: string;
+  user_id?: string;
 }
 
 const ForgetPasswordForm = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState<string>("");
   const [otp, setOtp] = useState<string>("");
-  const [responseOtp, setResponseOtp] = useState<string | undefined>(undefined);
+  const [userId, setUserId] = useState<string | undefined>("");
+  const [responseOtp, setResponseOtp] = useState<string | undefined>("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isOtpVerified, setIsOtpVerified] = useState(false);
   const [newPhoneNumber, setNewPhoneNumber] = useState<string>("");
@@ -29,8 +32,13 @@ const ForgetPasswordForm = () => {
   const handleSendOtp = async () => {
     setIsLoading(true);
     try {
-      const response: SendOtpResponse = await sendOtp({ email });
+      const response: SendOtpResponse = await sendOtp({ email_id: email });
+      if (!response.user_id) {
+        toast.error("User dose not exist, please register.");
+        return;
+      }
       setResponseOtp(response.verification_code);
+      setUserId(response.user_id);
       setIsOtpSent(true);
       toast.success("OTP sent successfully");
     } catch (error) {
@@ -43,8 +51,8 @@ const ForgetPasswordForm = () => {
   const handleVerifyOtp = async () => {
     setIsLoading(true);
     try {
-      // const isVerified = await verifyOtp({ otp, email });
-      if (true) {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (otp === responseOtp) {
         setIsOtpVerified(true);
         toast.success("OTP verified successfully");
       } else {
@@ -60,13 +68,26 @@ const ForgetPasswordForm = () => {
   const handleUpdatePhoneNumber = async () => {
     setIsLoading(true);
     try {
-      // await updatePhoneNumber({ email, phone_number: newPhoneNumber });
+      await updateUser({ user_id: userId, phone_no: newPhoneNumber });
+      router.replace("/");
+      dispatch(setLoginModal(true));
       toast.success("Phone number updated successfully");
+      cleanUp();
     } catch (error) {
       toast.error("Failed to update phone number");
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const cleanUp = () => {
+    setEmail("");
+    setOtp("");
+    setUserId(undefined);
+    setResponseOtp(undefined);
+    setIsOtpSent(false);
+    setIsOtpVerified(false);
+    setNewPhoneNumber("");
   };
 
   return (

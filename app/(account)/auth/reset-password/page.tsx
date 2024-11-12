@@ -2,13 +2,13 @@ import ForgetPasswordForm from "@/components/DigitalPrescription/Auth/ForgetPass
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Forget Password",
+  title: "Reset Phone Number",
 };
 
 const ForgetPassword = () => {
   return (
     <div className="flex flex-col gap-5 justify-center items-center h-screen">
-      <h1 className="text-slate-900 text-xl font-bold mt-3">Reset Password</h1>
+      <h1 className="text-slate-900 text-xl font-bold mt-3">Reset Phone Number</h1>
       <ForgetPasswordForm />
     </div>
   );
