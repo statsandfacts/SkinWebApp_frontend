@@ -91,7 +91,7 @@ const Reminders = () => {
           </div>
         </div>
 
-        <div className="w-full max-w-sm sm:max-w-5xl">
+        <div className="w-full max-w-sm sm:max-w-5xl overflow-auto">
           {loading ? (
             <Loader />
           ) : error ? (
@@ -99,7 +99,7 @@ const Reminders = () => {
           ) : (
             <>
               <section className="reports-section">
-                <h2 className="text-lg font-bold mb-4">Health Camp Reports</h2>
+                <h2 className="text-lg font-bold mb-4">Reminders Data</h2>
                 <div>
                   {dashboardData &&
                   dashboardData?.reminder_dtls &&
