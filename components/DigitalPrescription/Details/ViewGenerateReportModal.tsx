@@ -293,7 +293,7 @@ export default function ViewGenerateReportModal() {
               </ModalBody>
               <ModalFooter className="bg-gray-100 p-4 rounded-b-md flex items-center">
                 <Image
-                  src={"/favicon/android-chrome-512x512.png"}
+                  src={"/favicon/android-chrome-192x192.png"}
                   className="rounded-md"
                   alt="logo"
                   width={50}
