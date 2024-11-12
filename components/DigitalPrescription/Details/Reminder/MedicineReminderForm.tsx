@@ -2,28 +2,41 @@ import { Button } from "@nextui-org/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import InputField from "@/components/common/InputField";
 import SearchMedicinePortal from "./SearchMedicinePortal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { setReminder } from "@/services/api.digitalPrescription.service";
+import {
+  setReminder,
+  updateReminder,
+} from "@/services/api.digitalPrescription.service";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { setIsReminderModal } from "@/redux/slices/digitalPrescription/drug.slice";
 import dayjs from "dayjs";
+import { fetchPatientDashboard } from "@/redux/slices/digitalPrescription/userDashboard.slice";
+import { AppDispatch, RootState } from "@/redux/store";
 
 interface FormValues {
   medicineName: string;
-  tillWhen: string;
+  tillWhen: any;
   time: any;
   reminderDays: string;
 }
 
-const MedicineReminderForm = () => {
-  const dispatch = useDispatch();
+interface MedicineReminderFormProps {
+  onClose?: any;
+}
+
+const MedicineReminderForm = ({ onClose }: MedicineReminderFormProps) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { userId } = useAuthInfo();
   const [isLoading, setIsLoading] = useState(false);
+
+  const { reminderActionKey, reminderMedicineDtls } = useSelector(
+    (state: RootState) => state.drugs
+  );
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -45,24 +58,37 @@ const MedicineReminderForm = () => {
     onSubmit: async (values) => {
       setIsLoading(true);
       try {
-        const reminder = await setReminder({
-          user_id: userId,
-          medicine_name: values?.medicineName,
-          reminder_start_date: values?.tillWhen,
-          reminder_time: dayjs(values?.time).format("HH:mm:ss"),
-          reminder_days: values?.reminderDays,
-        });
+        if (reminderActionKey === "create") {
+          await setReminder({
+            user_id: userId,
+            medicine_name: values?.medicineName,
+            reminder_start_date: values?.tillWhen,
+            reminder_time: dayjs(values?.time).format("HH:mm:ss"),
+            reminder_days: values?.reminderDays,
+          });
+          const formattedDate = dayjs(values.tillWhen).format("MMMM D, YYYY");
+          const formattedTime = dayjs(values.time).format("h:mm:ss A");
+          toast.success(
+            `Reminder set successfully! You'll receive reminders for "${
+              values.medicineName
+            }" every ${
+              values.reminderDays || "day"
+            } starting from ${formattedDate} at ${formattedTime}.`
+          );
+        } else if (reminderActionKey === "edit") {
+          console.log("edit value", reminderMedicineDtls);
+          await updateReminder({
+            id: reminderMedicineDtls?.id,
+            medicine_name: values?.medicineName,
+            reminder_start_date: values?.tillWhen,
+            reminder_time: dayjs(values?.time).format("HH:mm:ss"),
+            reminder_days: values?.reminderDays,
+          });
+          toast.success("Reminder updated successfully.");
+        }
 
-        const formattedDate = dayjs(values.tillWhen).format("MMMM D, YYYY");
-        const formattedTime = dayjs(values.time).format("h:mm:ss A");
-        toast.success(
-          `Reminder set successfully! You'll receive reminders for "${
-            values.medicineName
-          }" every ${
-            values.reminderDays || "day"
-          } starting from ${formattedDate} at ${formattedTime}.`
-        );
-        dispatch(setIsReminderModal(false));
+        dispatch(fetchPatientDashboard(userId));
+        onClose();
         formik.resetForm();
       } catch (error: any) {
         const errorMsg =
@@ -74,6 +100,25 @@ const MedicineReminderForm = () => {
       }
     },
   });
+
+  useEffect(() => {
+    if (
+      (reminderActionKey === "edit" || reminderActionKey === "view") &&
+      reminderMedicineDtls
+    ) {
+      const todayDate = dayjs().format("YYYY-MM-DD");
+      const reminderTime = dayjs(
+        `${todayDate} ${reminderMedicineDtls.reminder_time}`,
+        "YYYY-MM-DD HH:mm:ss"
+      ).toDate();
+      formik.setValues({
+        medicineName: reminderMedicineDtls.medicine_name || "",
+        tillWhen: reminderMedicineDtls.reminder_start_date,
+        time: reminderTime,
+        reminderDays: reminderMedicineDtls.reminder_days || "",
+      });
+    }
+  }, [reminderActionKey, reminderMedicineDtls]);
 
   const handleMedicineChange = (medicine: any) => {
     formik.setFieldValue("medicineName", medicine.name);
@@ -105,6 +150,7 @@ const MedicineReminderForm = () => {
         </div> */}
 
         <InputField
+          disabled={reminderActionKey === "view"}
           onChange={formik.handleChange}
           value={formik.values.medicineName}
           type="text"
@@ -121,6 +167,7 @@ const MedicineReminderForm = () => {
         />
 
         <InputField
+          disabled={reminderActionKey === "view"}
           onChange={formik.handleChange}
           value={formik.values.tillWhen}
           type="date"
@@ -142,6 +189,7 @@ const MedicineReminderForm = () => {
               Time (HH:MM AM/PM)
             </label>
             <DatePicker
+              disabled={reminderActionKey === "view"}
               selected={formik.values.time}
               onChange={(val) => formik.setFieldValue("time", val)}
               showTimeSelect
@@ -161,6 +209,7 @@ const MedicineReminderForm = () => {
           </div>
 
           <InputField
+            disabled={reminderActionKey === "view"}
             onChange={formik.handleChange}
             value={formik.values.reminderDays}
             type="number"
@@ -176,13 +225,15 @@ const MedicineReminderForm = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           />
         </div>
-        <Button
-          isLoading={isLoading}
-          type="submit"
-          className="p-6 w-full text-white bg-sky-900 rounded-xl"
-        >
-          Set Reminder
-        </Button>
+        {reminderActionKey !== "view" && (
+          <Button
+            isLoading={isLoading}
+            type="submit"
+            className="p-6 w-full text-white bg-sky-900 rounded-xl"
+          >
+            Set Reminder
+          </Button>
+        )}
       </form>
     </>
   );

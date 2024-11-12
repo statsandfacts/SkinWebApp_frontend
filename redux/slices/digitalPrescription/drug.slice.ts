@@ -13,6 +13,9 @@ interface DrugState {
   subGroupData: any;
   isReminderModalOpen: boolean;
   isSearchReportModalOpen: boolean;
+
+  reminderMedicineDtls: any;
+  reminderActionKey: null | string;
 }
 
 const initialState: DrugState = {
@@ -22,6 +25,8 @@ const initialState: DrugState = {
   subGroupData: null,
   isReminderModalOpen: false,
   isSearchReportModalOpen: false,
+  reminderMedicineDtls: null,
+  reminderActionKey: null,
 };
 
 export const getDrugDetails = createAsyncThunk<
@@ -83,6 +88,12 @@ const drugSlice = createSlice({
     setIsReminderModal: (state, action: PayloadAction<boolean>) => {
       state.isReminderModalOpen = action.payload;
     },
+    setReminderDetails: (state, action: PayloadAction<any>) => {
+      state.reminderMedicineDtls = action.payload;
+    },
+    setReminderActionKey: (state, action: PayloadAction<string | null>) => {
+      state.reminderActionKey = action.payload;
+    },
     setIsTestSearchModal: (state, action: PayloadAction<boolean>) => {
       state.isSearchReportModalOpen = action.payload;
     },
@@ -124,7 +135,12 @@ const drugSlice = createSlice({
   },
 });
 
-export const { setSubGroupDetail, setIsReminderModal, setIsTestSearchModal } =
-  drugSlice.actions;
+export const {
+  setSubGroupDetail,
+  setIsReminderModal,
+  setIsTestSearchModal,
+  setReminderDetails,
+  setReminderActionKey,
+} = drugSlice.actions;
 
 export default drugSlice.reducer;

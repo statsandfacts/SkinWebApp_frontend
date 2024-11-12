@@ -1,15 +1,63 @@
 "use client";
 import BackButton from "@/components/common/BackButton";
+import { ToolTipBtn } from "@/components/common/ToolTipBtn";
 import AddReminderModal from "@/components/DigitalPrescription/Details/Reminder/AddReminderModal";
-import { setIsReminderModal } from "@/redux/slices/digitalPrescription/drug.slice";
-import { AppDispatch } from "@/redux/store";
+import Loader from "@/components/Loader";
+import { useAuthInfo } from "@/hooks/useAuthInfo";
+import {
+  setIsReminderModal,
+  setReminderActionKey,
+  setReminderDetails,
+} from "@/redux/slices/digitalPrescription/drug.slice";
+import { fetchPatientDashboard } from "@/redux/slices/digitalPrescription/userDashboard.slice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { deleteReminder } from "@/services/api.digitalPrescription.service";
 import { Button } from "@nextui-org/button";
-import { Bell, PlusIcon } from "lucide-react"; // Use a reminder icon, e.g., a bell
-import React from "react";
-import { useDispatch } from "react-redux";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+} from "@nextui-org/react";
+import { Bell, Eye, EyeIcon, PencilLine, PlusIcon, Trash2 } from "lucide-react"; // Use a reminder icon, e.g., a bell
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const Reminders = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { userId } = useAuthInfo();
+
+  const { dashboardData, loading, error } = useSelector(
+    (state: RootState) => state.userDashboard
+  );
+
+  useEffect(() => {
+    if (!dashboardData) {
+      dispatch(fetchPatientDashboard(userId));
+    }
+  }, [dispatch, dashboardData]);
+
+  const DeleteReminder = (reminder: any) => {
+    toast.promise(
+      deleteReminder(reminder?.id).then((response) => {
+        dispatch(fetchPatientDashboard(userId));
+      }),
+      {
+        pending: "Deleting reminder...",
+        success: "Reminder deleted successfully!",
+        error: "Failed to delete reminder.",
+      }
+    );
+  };
+
+  const EditViewReminder = (reminder: any, isActionKey: string) => {
+    dispatch(setReminderActionKey(isActionKey));
+    dispatch(setReminderDetails(reminder));
+    dispatch(setIsReminderModal(true));
+  };
 
   return (
     <>
@@ -33,6 +81,7 @@ const Reminders = () => {
               color="primary"
               className="rounded-lg"
               onPress={() => {
+                dispatch(setReminderActionKey("create"));
                 dispatch(setIsReminderModal(true));
               }}
             >
@@ -40,6 +89,81 @@ const Reminders = () => {
               <PlusIcon className="h-5 w-5" />{" "}
             </Button>
           </div>
+        </div>
+
+        <div className="w-full max-w-sm sm:max-w-5xl">
+          {loading ? (
+            <Loader />
+          ) : error ? (
+            <p className="text-red-500 ml-3"> Error: {error} </p>
+          ) : (
+            <>
+              <section className="reports-section">
+                <h2 className="text-lg font-bold mb-4">Health Camp Reports</h2>
+                <div>
+                  {dashboardData &&
+                  dashboardData?.reminder_dtls &&
+                  dashboardData?.reminder_dtls.length > 0 ? (
+                    <Table
+                      removeWrapper
+                      aria-label="Example static collection table"
+                    >
+                      <TableHeader>
+                        <TableColumn>Medicine Name</TableColumn>
+                        <TableColumn>Start Date</TableColumn>
+                        <TableColumn>Reminder Time</TableColumn>
+                        <TableColumn>Days</TableColumn>
+                        <TableColumn>Action</TableColumn>
+                      </TableHeader>
+                      <TableBody>
+                        {dashboardData.reminder_dtls.map(
+                          (item: any, pi: number) => (
+                            <TableRow key={pi}>
+                              <TableCell className="capitalize">
+                                {item?.medicine_name}
+                              </TableCell>
+                              <TableCell>{item?.reminder_start_date}</TableCell>
+                              <TableCell>{item?.reminder_time}</TableCell>
+                              <TableCell> {item?.reminder_days} </TableCell>
+                              <TableCell className="flex gap-2">
+                                <ToolTipBtn
+                                  onClick={() => EditViewReminder(item, "view")}
+                                  title="View"
+                                  key={1}
+                                  color="primary"
+                                >
+                                  <EyeIcon className="h-5 w-5" />
+                                </ToolTipBtn>
+                                <ToolTipBtn
+                                  onClick={() => EditViewReminder(item, "edit")}
+                                  title="Edit"
+                                  key={2}
+                                >
+                                  <PencilLine className="h-5 w-5" />
+                                </ToolTipBtn>
+                                <ToolTipBtn
+                                  onClick={() => DeleteReminder(item)}
+                                  title="Delete"
+                                  key={3}
+                                  color="danger"
+                                >
+                                  <Trash2 className="h-5 w-5" />
+                                </ToolTipBtn>
+                              </TableCell>
+                            </TableRow>
+                          )
+                        )}
+                      </TableBody>
+                    </Table>
+                  ) : (
+                    <p className="text-slate-600 text-center text-xs">
+                      Please Add Reminder.
+                    </p>
+                  )}
+                </div>
+              </section>
+            </>
+          )}
         </div>
       </div>
 

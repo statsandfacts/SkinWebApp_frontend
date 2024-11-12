@@ -337,3 +337,43 @@ export const setReminder = async (payload: any) => {
   );
   return data;
 };
+
+/**
+ *
+ * @param payload {id, medicine_name, reminder_start_date, reminder_time, reminder_days  }
+ * @returns
+ */
+export const updateReminder = async (payload: any) => {
+  const { data } = await axios.put(
+    `${baseUrl}users/reminder`,
+    payload,
+    headers
+  );
+  return data;
+};
+
+/**
+ *
+ * @param id
+ * @returns
+ */
+export const getReminderById = async (id: string | null) => {
+  const { data } = await axios.get(
+    `${baseUrl}users/reminder?id=${id}`,
+    headers
+  );
+  return data;
+};
+
+/**
+ *
+ * @param id
+ * @returns
+ */
+export const deleteReminder = async (id: string) => {
+  const { data } = await axios.delete(
+    `${baseUrl}users/reminder?id=${id}`,
+    headers
+  );
+  return data;
+};
