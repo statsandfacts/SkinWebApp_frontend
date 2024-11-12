@@ -24,6 +24,7 @@ const LabInvestigationNavItem = ({
         }}
       >
         <button
+          className="text-lg"
           onClick={() => {
             dispatch(setIsTestSearchModal(true));
           }}
