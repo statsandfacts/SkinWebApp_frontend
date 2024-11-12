@@ -22,7 +22,7 @@ const DigitalPrescriptionAboutUs = () => {
         <div className="flex flex-col gap-4">
           <p className="text-sm md:text-xl text-gray-600 font-bold text-center w-full">
             Welcome to{" "}
-            <span className="font-semibold text-blue-600">Nextcare.Life</span>,
+            <span className="font-semibold text-sky-700">Nextcare.Life</span>,
             where cutting-edge technology transforms healthcare innovation.
           </p>
 
