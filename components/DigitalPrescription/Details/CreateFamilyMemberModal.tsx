@@ -88,6 +88,11 @@ export default function CreateFamilyMemberModal({
           email: values.email,
         };
 
+        if (dayjs().diff(dayjs(formik.values.dob), "year") > 18) {
+          toast.info("Working on progress(18+ user).");
+          return;
+        }
+
         if (actionKey === "create") {
           const result = await createFamilyMember(payload);
         } else if (actionKey === "edit") {
@@ -117,7 +122,7 @@ export default function CreateFamilyMemberModal({
   });
 
   const isUnder18 = formik.values.dob
-    ? dayjs().diff(dayjs(formik.values.dob), "year") < 18
+    ? dayjs().diff(dayjs(formik.values.dob), "year") > 18
     : false;
 
   useEffect(() => {

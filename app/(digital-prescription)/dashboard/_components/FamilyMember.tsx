@@ -76,7 +76,7 @@ const FamilyMember = () => {
           </div>
         </div>
 
-        <div className="max-w-sm sm:max-w-5xl w-full mt-4">
+        <div className="max-w-sm sm:max-w-5xl overflow-auto w-full mt-4">
           {familyMembers.loading ? (
             <Loader />
           ) : familyMembers.errorMessage ? (
