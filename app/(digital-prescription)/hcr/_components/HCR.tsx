@@ -48,7 +48,7 @@ const HCR = () => {
             })
               .then((response) => {
                 resolve(response);
-                router.push("/dashboard/health-camp-reports");
+                router.push("/dashboard");
                 dispatch(
                   setUser({
                     userId: response.user_id,
