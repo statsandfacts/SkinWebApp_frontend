@@ -88,8 +88,6 @@ const GeneralHealthIndicator = () => {
     dispatch(setUpdateHealthIndicatorModal(true));
   };
 
-  console.log("dashboardData", dashboardData);
-
   return (
     <>
       <div className="w-full flex justify-center flex-col items-center">
