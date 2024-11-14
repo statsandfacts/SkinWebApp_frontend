@@ -85,7 +85,7 @@ export default function ViewPrescriptionDetailsModal() {
                         Date: {singlePrescriptionDetails?.prescription_date}
                       </p>
                       <p className="text-xs font-normal text-slate-400">
-                        Prescription Id: {singlePrescriptionDetails?.rx_id}
+                        Prescription Id: {singlePrescriptionDetails?.prescription_id}
                       </p>
                     </div>
                   </div>

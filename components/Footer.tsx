@@ -29,7 +29,7 @@ const Footer = (props: Props) => {
                   By
                 </div>
                 <div className="flex-auto  text-xs font-medium text-stone-700">
-                  Stats & Facts Technologies Pvt. Ltd.
+                  Stats&Facts Technologies Pvt. Ltd.
                 </div>
               </div>
               <div className="flex gap-2 self-start mt-5 whitespace-nowrap">
