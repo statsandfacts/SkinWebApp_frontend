@@ -11,7 +11,10 @@ import {
 } from "@/redux/slices/digitalPrescription/drug.slice";
 import { fetchPatientDashboard } from "@/redux/slices/digitalPrescription/userDashboard.slice";
 import { AppDispatch, RootState } from "@/redux/store";
-import { deleteReminder } from "@/services/api.digitalPrescription.service";
+import {
+  deleteReminder,
+  updateReminder,
+} from "@/services/api.digitalPrescription.service";
 import { Button } from "@nextui-org/button";
 import {
   Table,
@@ -21,7 +24,16 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import { Bell, Eye, EyeIcon, PencilLine, PlusIcon, Trash2 } from "lucide-react"; // Use a reminder icon, e.g., a bell
+import {
+  Bell,
+  Eye,
+  EyeIcon,
+  PencilLine,
+  PlusIcon,
+  ShieldCheckIcon,
+  ShieldXIcon,
+  Trash2,
+} from "lucide-react"; // Use a reminder icon, e.g., a bell
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -41,14 +53,24 @@ const Reminders = () => {
   }, [dispatch, dashboardData]);
 
   const DeleteReminder = (reminder: any) => {
+    if (!reminder?.status) {
+      toast.error("Reminder status missing.");
+      return;
+    }
     toast.promise(
-      deleteReminder(reminder?.id).then((response) => {
+      // deleteReminder(reminder?.id).then((response) => {
+      //   dispatch(fetchPatientDashboard(userId));
+      // })
+      updateReminder({
+        id: reminder?.id,
+        status: !reminder?.status,
+      }).then((response) => {
         dispatch(fetchPatientDashboard(userId));
       }),
       {
-        pending: "Deleting reminder...",
-        success: "Reminder deleted successfully!",
-        error: "Failed to delete reminder.",
+        pending: "inactive reminder...",
+        success: "Reminder inactive successfully!",
+        error: "Failed to inactive reminder.",
       }
     );
   };
@@ -143,11 +165,15 @@ const Reminders = () => {
                                 </ToolTipBtn>
                                 <ToolTipBtn
                                   onClick={() => DeleteReminder(item)}
-                                  title="Delete"
+                                  title={!item?.status ? "Inactive" : "Active"}
                                   key={3}
-                                  color="danger"
+                                  color={!item?.status ? "danger" : "success"}
                                 >
-                                  <Trash2 className="h-5 w-5" />
+                                  {!item?.status ? (
+                                    <ShieldXIcon className="h-5 w-5" />
+                                  ) : (
+                                    <ShieldCheckIcon className="h-5 w-5" />
+                                  )}
                                 </ToolTipBtn>
                               </TableCell>
                             </TableRow>
