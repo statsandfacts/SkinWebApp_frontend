@@ -16,7 +16,7 @@ const BlogItem: React.FC<BlogProps> = ({ blog, isReadMore = true }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   return (
-    <Card className="rounded-lg shadow-lg h-full">
+    <Card className="rounded-lg shadow-lg h-full animate-fade-in">
       <CardBody className="overflow-visible p-0">
         <Image
           alt={blog?.title}

@@ -34,21 +34,28 @@ const BlogPage = () => {
   return (
     <>
       <div className="p-10 md:px-40">
-        <header className="mb-2 w-full rounded-lg p-2 shadow-md bg-white">
-          <h1 className="text-2xl md:text-3xl font-bold text-center text-sky-700">
-            Digital Health Feed
-          </h1>
-          <p className="mt-2 md:mt-4 text-base sm:text-2xl font-medium text-center text-slate-600 mx-auto">
-            Stay informed with the latest in digital health and wellness.
-          </p>
+        <header className="relative mb-6 w-full p-6 rounded-lg shadow-lg bg-gradient-to-r from-sky-700 via-sky-500 to-cyan-700 animate-fade-in">
+          <div className="absolute inset-0 bg-opacity-20 bg-white rounded-lg pointer-events-none"></div>
+          <div className="relative text-center">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">
+              Digital Health Feed
+            </h1>
+            <p className="mt-4 md:mt-6 text-lg md:text-2xl text-white/90 font-medium mx-auto max-w-3xl leading-relaxed">
+              Stay informed with the latest in digital health and wellness.
+            </p>
+          </div>
         </header>
 
-        <section className="flex flex-wrap justify-start sm:justify-end gap-3 mb-10">
-          {categories.map((category: string) => (
+        <section className="flex flex-wrap justify-start sm:justify-end gap-3 mb-10 animate-slide-up">
+          {categories.map((category: string, index: number) => (
             <button
               key={category}
-              className={`px-2 sm:px-4 py-1 sm:py-2 text-sm font-medium text-sky-700 bg-gray-100 rounded-full shadow-md hover:bg-sky-100 transition`}
+              className={`px-2 sm:px-4 py-1 sm:py-2 text-sm font-medium text-sky-700 bg-gray-100 rounded-full shadow-md hover:bg-sky-100 hover:scale-105 transform transition duration-300 ease-in-out`}
               onClick={() => console.log(`Category selected: ${category}`)}
+              style={{
+                animationDelay: `${index * 100}ms`,
+                animationDuration: "500ms",
+              }}
             >
               {category}
             </button>
@@ -56,17 +63,23 @@ const BlogPage = () => {
         </section>
 
         {loading ? (
-          <Loader />
+          <div className="flex justify-center items-center h-40 animate-pulse">
+            <Loader />
+          </div>
         ) : errorMessage ? (
-          <p className="p-10 md:px-40 text-red-500">{errorMessage}</p>
+          <p className="p-10 md:px-40 text-red-500 animate-fade-in">
+            {errorMessage}
+          </p>
         ) : data.length > 0 ? (
-          <div className="grid gap-5 grid-cols-1 md:grid-cols-3">
+          <div className="grid gap-5 grid-cols-1 md:grid-cols-3 animate-slide-up">
             {data.map((blog: any, index: number) => (
               <BlogItem blog={blog} key={index} />
             ))}
           </div>
         ) : (
-          <></>
+          <div className="text-center animate-fade-in">
+            <p className="text-gray-500">No blogs available.</p>
+          </div>
         )}
       </div>
     </>
