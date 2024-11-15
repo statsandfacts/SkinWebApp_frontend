@@ -28,11 +28,9 @@ export function Providers({ children, themeProps }: ProvidersProps) {
     <NextUIProvider>
       <SWRConfig value={options}>
         <StoreProvider store={store}>
-          <AuthProviderNC>
-            {" "}
-            {/* this component for check user loged in or not */}
+          {/* <AuthProviderNC> */}
             <>{children}</>
-          </AuthProviderNC>
+          {/* </AuthProviderNC> */}
         </StoreProvider>
         <ToastContainer
           position="top-right"
