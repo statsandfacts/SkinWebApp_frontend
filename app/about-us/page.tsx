@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { CheckCircle, FileText, Heart, Search, Smartphone } from "lucide-react"; // Import icons from lucide-react
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -11,25 +12,32 @@ const AboutUs = () => {
 
 export default AboutUs;
 
+
 const DigitalPrescriptionAboutUs = () => {
   return (
     <div>
-      <div className="flex flex-col items-center justify-center gap-8 p-10 md:px-40 rounded-lg shadow-lg">
-        {/* <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
-          About Us
-        </h1> */}
+      <div className="p-10 md:px-40">
+        {/* Header Section */}
+        <header className="relative mb-6 w-full p-8 rounded-lg shadow-lg bg-gradient-to-r from-indigo-600 via-indigo-500 to-sky-600 animate-fade-in">
+          <div className="absolute inset-0 bg-opacity-30 bg-white rounded-lg pointer-events-none"></div>
+          <div className="relative text-center">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">
+              About Us
+            </h1>
+            <p className="mt-4 md:mt-6 text-lg md:text-2xl text-white/90 font-medium mx-auto max-w-3xl leading-relaxed">
+              Welcome to{" "}
+              <span className="font-semibold text-sky-700">Nextcare.Life</span>,
+              where cutting-edge technology transforms healthcare innovation.
+            </p>
+          </div>
+        </header>
 
-        <div className="flex flex-col gap-4">
-          <p className="text-sm md:text-xl text-gray-600 font-bold text-center w-full">
-            Welcome to{" "}
-            <span className="font-semibold text-sky-700">Nextcare.Life</span>,
-            where cutting-edge technology transforms healthcare innovation.
-          </p>
-
-          <p className="text-sm md:text-base text-gray-600">
+        {/* Main Content Section */}
+        <section className="flex flex-col gap-6 animate-slide-up">
+          <p className="text-sm md:text-base text-gray-700">
             We are redefining prescription management through our
             state-of-the-art
-            <span className="font-semibold text-gray-600">
+            <span className="font-semibold text-gray-800">
               {" "}
               Clinical Decision Support System (CDSS)
             </span>
@@ -37,131 +45,121 @@ const DigitalPrescriptionAboutUs = () => {
             prescriptions into accurate, digital formats.
           </p>
 
-          <p className="text-sm md:text-base text-gray-600">
+          <p className="text-sm md:text-base text-gray-700">
             Our mission is to prioritize patient safety, improve healthcare
             efficiency, and drastically reduce medication errors by leveraging
             the latest in AI technology.
           </p>
 
-          <p className="text-sm md:text-base text-gray-600">
+          <p className="text-sm md:text-base text-gray-700">
             On our homepage, you’ll discover a wealth of resources that explain
             how our system works, the advantages it brings to patients and
             healthcare providers alike, and the story behind our unwavering
             commitment to advancing the Healthtech landscape.
           </p>
 
-          <p className="text-sm md:text-base text-gray-600">
+          <p className="text-sm md:text-base text-gray-700">
             Our CDSS is designed not just to streamline prescription management
             but to set a new standard for digital health solutions.
           </p>
 
-          <p className="text-sm md:text-base text-gray-600">
+          <p className="text-sm md:text-base text-gray-700">
             Be sure to visit our{" "}
-            <span className="font-semibold text-gray-600"> FAQs</span> section,
+            <span className="font-semibold text-gray-800">FAQs</span> section,
             where we address common questions about the security, accuracy, and
-            practical implementation of our platform.{" "}
+            practical implementation of our platform.
           </p>
 
-          <p className="text-sm md:text-base text-gray-600">
+          <p className="text-sm md:text-base text-gray-700">
             Whether you are a healthcare professional, a patient, or simply
             curious, we’ve ensured that our site is intuitive, visually
-            engaging, and packed with valuable content tailored to your needs
+            engaging, and packed with valuable content tailored to your needs.
           </p>
 
           <div>
-            <p className="text-sm md:text-base font-semibold text-gray-600">
+            <p className="text-sm md:text-base font-semibold text-gray-800">
               Ready to embrace the future of healthcare?
             </p>
-            <p className="text-sm md:text-base text-gray-600">
+            <p className="text-sm md:text-base text-gray-700">
               You can log in to unlock personalized features or browse the
               platform to discover how we’re shaping the future of digital
               healthcare.
             </p>
           </div>
 
-          <div>
-            <p className="text-sm md:text-base font-semibold text-gray-600">
-              New Features for Enhanced Healthcare
-            </p>
-            <ul className="list-disc pl-5 space-y-2 text-sm md:text-base text-gray-600">
-              <li>
-                At{" "}
-                <span className="font-semibold text-gray-600">
-                  Nextcare.Life
-                </span>
-                , we are constantly evolving to meet the demands of modern
-                healthcare. In addition to our prescription management system,
-                we’ve introduced a feature that interprets{" "}
-                <span className="font-semibold text-gray-600">
-                  lab reports{" "}
-                </span>
-                and generates{" "}
-                <span className="font-semibold text-gray-600">
-                  smart lab summaries
-                </span>{" "}
-                across various medical conditions.
-              </li>
-              <li>
-                This tool empowers healthcare providers with swift, detailed
-                insights based on the latest medical guidelines, enabling
-                informed clinical decisions.
-              </li>
-              <li>
-                Patients also benefit by receiving simplified versions of their
-                lab reports, making it easier to understand their health status
-                and the recommended next steps.
-              </li>
-              <li>
-                We are also proud to present our{" "}
-                <span className="font-semibold text-gray-600">Symptom Bot</span>
-                , an intuitive tool designed to help users identify potential
-                health concerns based on their symptoms.
-              </li>
-              <li>
-                By simply inputting your symptoms, the bot suggests possible
-                conditions and provides guidance on whether medical attention is
-                needed.
-              </li>
-              <li>
-                This feature is particularly valuable for early detection and
-                preventive care, helping users take timely and proactive steps
-                toward their well-being.
-              </li>
-            </ul>
+          {/* New Features Section - Cards with Icons */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+            <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+              <FileText className="text-sky-500 text-4xl mb-4" />
+              <h3 className="text-xl font-semibold text-gray-800">
+                Smart Lab Summaries
+              </h3>
+              <p className="text-sm text-gray-600 text-center mt-2">
+                Our tool interprets lab reports and generates smart summaries
+                based on medical conditions, empowering healthcare providers.
+              </p>
+            </div>
+            <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+              <Search className="text-sky-500 text-4xl mb-4" />
+              <h3 className="text-xl font-semibold text-gray-800">
+                Symptom Bot
+              </h3>
+              <p className="text-sm text-gray-600 text-center mt-2">
+                The Symptom Bot helps users identify potential health concerns
+                and suggests the need for medical attention.
+              </p>
+            </div>
+            <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+              <Heart className="text-sky-500 text-4xl mb-4" />
+              <h3 className="text-xl font-semibold text-gray-800">
+                Preventive Care
+              </h3>
+              <p className="text-sm text-gray-600 text-center mt-2">
+                Take proactive steps for your well-being by identifying early
+                signs of health conditions with our digital tools.
+              </p>
+            </div>
+            <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+              <Smartphone className="text-sky-500 text-4xl mb-4" />
+              <h3 className="text-xl font-semibold text-gray-800">
+                Mobile-Friendly Interface
+              </h3>
+              <p className="text-sm text-gray-600 text-center mt-2">
+                Access your healthcare information from anywhere, on any device,
+                with our user-friendly mobile platform.
+              </p>
+            </div>
           </div>
 
-          <p className="text-sm md:text-base text-gray-600">
-            Explore these new features and experience firsthand how
-            <span className="font-semibold text-gray-600">
-              {" "}
-              Nextcare.Life
-            </span>{" "}
+          <p className="text-sm md:text-base text-gray-700 mt-6">
+            Explore these new features and experience firsthand how{" "}
+            <span className="font-semibold text-gray-800">Nextcare.Life</span>{" "}
             is revolutionizing digital healthcare, one innovation at a time!
           </p>
-        </div>
 
-        {/* Incubated and Supported Section */}
-        <div className="flex flex-col items-center justify-center gap-2 mt-4">
-          <p className="text-sm md:text-base font-semibold text-gray-600">
-            Incubated at KIIT and Supported by DST NIDHI PRAYAS
-          </p>
-          <div className="flex gap-5" >
-            <Image
-              src="/digitalPrescription/dst-logo.png"
-              alt="DST NIDHI PRAYAS Logo"
-              width={150}
-              height={100}
-              className="object-contain"
-            />
-            <Image
-              src="/digitalPrescription/dst-nidhi.png"
-              alt="DST NIDHI PRAYAS Logo"
-              width={80}
-              height={80}
-              className="object-contain"
-            />
+          {/* Footer Section */}
+          <div className="flex flex-col items-center justify-center gap-3 mt-6">
+            <p className="text-sm md:text-base font-semibold text-gray-800">
+              Incubated at KIIT and Supported by DST NIDHI PRAYAS
+            </p>
+            <div className="flex gap-5">
+              <Image
+                src="/digitalPrescription/dst-logo.png"
+                alt="DST NIDHI PRAYAS Logo"
+                width={150}
+                height={100}
+                className="object-contain hover:scale-105 transition-all duration-300"
+              />
+              <Image
+                src="/digitalPrescription/dst-nidhi.png"
+                alt="DST NIDHI PRAYAS Logo"
+                width={80}
+                height={80}
+                className="object-contain hover:scale-105 transition-all duration-300"
+              />
+            </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );
