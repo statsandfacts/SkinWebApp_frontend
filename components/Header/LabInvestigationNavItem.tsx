@@ -29,7 +29,7 @@ const LabInvestigationNavItem = ({
             dispatch(setIsTestSearchModal(true));
           }}
         >
-          Lab Investigations
+          Lab&Meds
         </button>
       </NavbarItem>
 

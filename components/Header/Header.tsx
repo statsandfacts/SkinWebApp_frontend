@@ -117,12 +117,6 @@ export default function Header() {
         </NavbarContent>
 
         <NavbarContent justify="end">
-          {pathname === "/" && (
-            <div className="hidden lg:block">
-              <SearchMedicine />
-            </div>
-          )}
-
           <NavButtonDP />
           {/* {
           COMMON.DIGITAL_PRESCRIPTION_ROUTES.includes(pathname) ? (
@@ -171,11 +165,6 @@ export default function Header() {
           )}
         </NavbarMenu>
       </Navbar>
-      {pathname === "/" && (
-        <div className="lg:hidden">
-          <SearchMedicine />
-        </div>
-      )}
     </>
   );
 }

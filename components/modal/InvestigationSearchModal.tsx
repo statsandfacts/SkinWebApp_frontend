@@ -6,11 +6,10 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-  useDisclosure,
 } from "@nextui-org/react";
 import { useDispatch, useSelector } from "react-redux";
 import SearchMedicinePortal from "../Header/SearchMedicine";
+import { useState } from "react";
 
 export default function InvestigationSearchModal() {
   const dispatch = useDispatch();
@@ -18,6 +17,8 @@ export default function InvestigationSearchModal() {
   const { isSearchReportModalOpen } = useSelector(
     (state: RootState) => state.drugs
   );
+
+  const [searchName, setSearchName] = useState<string>("medicine");
 
   const onClose = () => {
     dispatch(setIsTestSearchModal(false));
@@ -30,11 +31,39 @@ export default function InvestigationSearchModal() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Search Lab Investigations 
+                Search Medicines/Lab-Investigations
               </ModalHeader>
-              <ModalBody>
-                <div className="min-h-[6rem] mb-4" >
-                    <SearchMedicinePortal name={"investigation"} />
+              <ModalBody className="flex flex-col">
+                <div className="h-72">
+                  <div className="w-full flex justify-between bg-gray-50 px-2 py-1">
+                    <button
+                      onClick={() => setSearchName("medicine")}
+                      className={`${
+                        searchName === "medicine"
+                          ? "border-b-2 border-sky-700 hover:border-sky-600"
+                          : ""
+                      } w-2/4 text-center text-slate-700 hover:text-slate-500 text-base font-medium`}
+                    >
+                      Medicines
+                    </button>
+                    <button
+                      onClick={() => setSearchName("investigation")}
+                      className={`${
+                        searchName === "investigation"
+                          ? "border-b-2 border-sky-700 hover:border-sky-600"
+                          : ""
+                      } w-2/4 text-center text-slate-700 hover:text-slate-500 text-base font-medium`}
+                    >
+                      Lab Investigations
+                    </button>
+                  </div>
+
+                  <div className="mt-2">
+                    <SearchMedicinePortal
+                      name={searchName}
+                      boxStyle={{ maxHeight: "0" }}
+                    />
+                  </div>
                 </div>
               </ModalBody>
               <ModalFooter></ModalFooter>

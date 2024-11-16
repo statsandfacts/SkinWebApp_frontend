@@ -20,10 +20,12 @@ interface Medicine {
 
 interface SearchMedicinePortalProps {
   name?: string;
+  boxStyle?: string | {};
 }
 
 const SearchMedicinePortal: React.FC<SearchMedicinePortalProps> = ({
   name,
+  boxStyle={},
 }) => {
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
@@ -115,6 +117,7 @@ const SearchMedicinePortal: React.FC<SearchMedicinePortalProps> = ({
       {isDropdownOpen && (
         <div
           ref={dropdownRef}
+          style={boxStyle}
           className={`absolute left-0 ${
             name !== "investigation"
               ? "lg:left-[-5rem] min-h-[15rem]"
