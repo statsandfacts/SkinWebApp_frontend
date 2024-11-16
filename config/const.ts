@@ -64,14 +64,14 @@ const CONST = {
 
   DIGITAL_PRESCRIPTION_SLIDER_ITEMS: [
     {
-      image: "/images/review-girl-1.jpg",
-      name: "Priya S.",
+      image: "/images/review-girl-1.jpeg",
+      name: "Sabita Pattanaik",
       comment:
         "Nextcare.life converted my handwritten prescription into a digital format. It was so convenient, and now I can easily share it with my chemist. The digital copy is clear and organized.",
     },
     {
-      image: "/images/review-boy-1.jpg",
-      name: "Rajesh P.",
+      image: "/images/review-boy-1.jpeg",
+      name: "Ashok Kumar Rastogi",
       comment:
         "The service at Nextcare.life is very useful. They turned my doctor's handwritten notes into a digital prescription, making it easy to share.",
     },
