@@ -1,5 +1,5 @@
-import { COMMON } from "@/config/const";
 import type { Metadata } from "next";
+import { DigitalPrescriptionFAQ } from "./_components/DigitalPrescriptionFAQ";
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -22,9 +22,6 @@ const SkinCareFAQ = () => {
       </p>
 
       <div className="w-full">
-        {/* <h2 className='text-lg text-gray-800 font-bold text-left w-full mt-5'>
-          How it works:
-        </h2> */}
         <h2 className="text-lg text-gray-800 font-bold text-left w-full mt-5">
           What is Nextcare.life?
         </h2>
@@ -142,29 +139,4 @@ const SkinCareFAQ = () => {
   );
 };
 
-const DigitalPrescriptionFAQ = () => {
-  return (
-    <>
-      <div className="flex flex-col items-center justify-center gap-8 p-10 md:px-40 rounded-lg shadow-lg">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800">Frequently Asked Questions</h1>
-        <div className="flex flex-col" >
-          <p className="text-sm md:text-base text-gray-600" >
-            Find answers to all your questions regarding NextCare app, products,
-            services and more
-          </p>
 
-          {COMMON.FAQ.map((faq: { q: string; a: string }, index: number) => (
-            <div key={index} className="flex flex-col">
-              <h2 className="text-sm md:text-base text-gray-700 font-bold text-left w-full mt-5">
-                {faq.q}
-              </h2>
-              <ul className="space-y-1 list-disc list-inside w-full">
-                <li className="text-sm md:text-base text-gray-500">{faq.a}</li>
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
-  );
-};
