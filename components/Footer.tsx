@@ -120,9 +120,9 @@ const Footer = (props: Props) => {
                 <Link href={"/blog"} className="mt-4">
                   Health Feed
                 </Link>
-                <Link href={"/coming-soon"} className="mt-4">
+                {/* <Link href={"/coming-soon"} className="mt-4">
                   Reviews
-                </Link>
+                </Link> */}
                 <Link href={"/coming-soon"} className="mt-4">
                   Careers
                 </Link>

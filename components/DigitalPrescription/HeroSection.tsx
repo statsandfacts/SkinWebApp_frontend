@@ -58,10 +58,9 @@ const textItems = [
     id: 1,
     text: (
       <>
-        Upload your handwritten prescriptions or test reports, and we&apos;ll convert
-        them into a digital format for{" "}
-        <span className="text-red-500 bg-red-100 py-1 px-2 rounded-xl font-bold">FREE</span>. Simplify your
-        healthcare experience!
+        Upload your handwritten prescriptions or test reports, and we&apos;ll
+        convert them into a digital format. Simplify your healthcare
+        experience!
       </>
     ),
   },
@@ -70,8 +69,7 @@ const textItems = [
     text: (
       <>
         Organize your health history by uploading and securely storing all your
-        medical records in one place for{" "}
-        <span className="text-red-500 bg-red-100 py-1 px-2 rounded-xl font-bold">FREE</span>.
+        medical records in one place.
       </>
     ),
   },
