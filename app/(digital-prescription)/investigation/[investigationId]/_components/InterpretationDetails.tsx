@@ -38,7 +38,7 @@ const InterpretationDetails: React.FC<InterpretationDetailsProps> = ({
 
           <div className="space-y-2 text-sm text-gray-700">
             {/* Low Range */}
-            <p className="flex items-center">
+            {/* <p className="flex items-center">
               <strong className="mr-1 text-red-500">Low:</strong>
               {item.interpreting_result?.low ? (
                 <span className="text-red-500 flex items-center">
@@ -47,10 +47,10 @@ const InterpretationDetails: React.FC<InterpretationDetailsProps> = ({
               ) : (
                 ""
               )}
-            </p>
+            </p> */}
 
             {/* High Range */}
-            <p className="flex items-center">
+            {/* <p className="flex items-center">
               <strong className="mr-1 text-orange-500">High:</strong>
               {item.interpreting_result?.high ? (
                 <span className="text-orange-500 flex items-center">
@@ -59,61 +59,103 @@ const InterpretationDetails: React.FC<InterpretationDetailsProps> = ({
               ) : (
                 ""
               )}
-            </p>
+            </p> */}
 
             {/* Male Range */}
-            <p className="flex items-center text-blue-500">
-              <User />
-              <strong className="mx-1">Male Range:</strong>{" "}
-              {item.interpreting_result?.male_low_range ?? ""} -{" "}
-              {item.interpreting_result?.male_high_range ?? ""}{" "}
-              {item.interpreting_result?.unit_of_measure}
-            </p>
+            {(item.interpreting_result?.male_low_range ||
+              item.interpreting_result?.male_high_range) && (
+              <p className="flex items-center text-blue-500">
+                <User />
+                <strong className="mx-1">Male Range:</strong>{" "}
+                {item.interpreting_result?.male_low_range ?? ""} -{" "}
+                {item.interpreting_result?.male_high_range ?? ""}{" "}
+                {item.interpreting_result?.unit_of_measure}
+              </p>
+            )}
 
             {/* Female Range */}
-            <p className="flex items-center text-pink-500">
-              <Users />
-              <strong className="mx-1">Female Range:</strong>{" "}
-              {item.interpreting_result?.female_low_range ?? ""} -{" "}
-              {item.interpreting_result?.female_high_range ?? ""}{" "}
-              {item.interpreting_result?.unit_of_measure}
-            </p>
+            {(item.interpreting_result?.female_low_range ||
+              item.interpreting_result?.female_high_range) && (
+              <p className="flex items-center text-pink-500">
+                <Users />
+                <strong className="mx-1">Female Range:</strong>{" "}
+                {item.interpreting_result?.female_low_range ?? ""} -{" "}
+                {item.interpreting_result?.female_high_range ?? ""}{" "}
+                {item.interpreting_result?.unit_of_measure}
+              </p>
+            )}
 
             {/* Child Range */}
-            <p className="flex items-center text-yellow-500">
-              <Baby />
-              <strong className="mx-1">Child Range:</strong>{" "}
-              {item.interpreting_result?.child_low_range ?? ""} -{" "}
-              {item.interpreting_result?.child_high_range ?? ""}{" "}
-              {item.interpreting_result?.unit_of_measure}
-            </p>
+            {(item.interpreting_result?.child_low_range ||
+              item.interpreting_result?.child_high_range) && (
+              <p className="flex items-center text-yellow-500">
+                <Baby />
+                <strong className="mx-1">Child Range:</strong>{" "}
+                {item.interpreting_result?.child_low_range ?? ""} -{" "}
+                {item.interpreting_result?.child_high_range ?? ""}{" "}
+                {item.interpreting_result?.unit_of_measure}
+              </p>
+            )}
 
             {/* Pregnant Women Range */}
-            <p className="flex items-center text-purple-500">
-              <Heart />
-              <strong className="mx-1">Pregnant Women Range:</strong>{" "}
-              {item.interpreting_result?.pregnent_women_low_range ?? ""} -{" "}
-              {item.interpreting_result?.pregnent_women_high_range ?? ""}{" "}
-              {item.interpreting_result?.unit_of_measure}
-            </p>
+            {(item.interpreting_result?.pregnent_women_low_range ||
+              item.interpreting_result?.pregnent_women_high_range) && (
+              <p className="flex items-center text-purple-500">
+                <Heart />
+                <strong className="mx-1">Pregnant Women Range:</strong>{" "}
+                {item.interpreting_result?.pregnent_women_low_range ?? ""} -{" "}
+                {item.interpreting_result?.pregnent_women_high_range ?? ""}{" "}
+                {item.interpreting_result?.unit_of_measure}
+              </p>
+            )}
 
             {/* High Range Indication Block */}
-            <div className="mt-4 p-4 bg-green-100 border-l-8 border-green-500 text-green-800 rounded-lg flex items-start">
-              <CheckCircle className="mr-3 text-green-600 w-5 h-5" />
-              <div>
-                <strong>High Range Indication:</strong>{" "}
-                <p>{item.interpreting_result?.high_range_indication || ""}</p>
+            {item.interpreting_result?.high_range_indication && (
+              <div className="mt-4 p-4 bg-green-100 border-l-8 border-green-500 text-green-800 rounded-lg flex items-start">
+                <CheckCircle className="mr-3 text-green-600 w-5 h-5" />
+                <div>
+                  <strong>High Range Indication:</strong>{" "}
+                  <p>{item.interpreting_result?.high_range_indication || ""}</p>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Low Range Indication Block */}
-            <div className="mt-4 p-4 bg-red-100 border-l-8 border-red-500 text-red-800 rounded-lg flex items-start">
-              <AlertTriangle className="mr-3 text-red-600 w-5 h-5" />
-              <div>
-                <strong>Low Range Indication:</strong>{" "}
-                <p>{item.interpreting_result?.low_range_indication || ""}</p>
+            {item.interpreting_result?.low_range_indication && (
+              <div className="mt-4 p-4 bg-orange-100 border-l-8 border-orange-500 text-orange-800 rounded-lg flex items-start">
+                <AlertTriangle className="mr-3 text-orange-600 w-5 h-5" />
+                <div>
+                  <strong>Low Range Indication:</strong>{" "}
+                  <p>{item.interpreting_result?.low_range_indication || ""}</p>
+                </div>
               </div>
-            </div>
+            )}
+
+            {/* Normal Block */}
+            {item.interpreting_result?.Normal && (
+              <div className="mt-4 p-4 bg-orange-100 border-l-8 border-orange-500 text-orange-800 rounded-lg flex items-start">
+                <div>
+                  <CheckCircle className="mr-3 text-orange-600 w-5 h-5" />
+                </div>
+                <div>
+                  <strong>Normal:</strong>{" "}
+                  <p>{item.interpreting_result?.Normal || ""}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Low Range Indication Block */}
+            {item.interpreting_result?.Abnormal && (
+              <div className="mt-4 p-4 bg-red-100 border-l-8 border-red-500 text-red-800 rounded-lg flex items-start">
+                <div>
+                  <AlertTriangle className="mr-3 text-red-600 w-5 h-5" />
+                </div>
+                <div>
+                  <strong>Abnormal:</strong>{" "}
+                  <p>{item.interpreting_result?.Abnormal || ""}</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       ))}

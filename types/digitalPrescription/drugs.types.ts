@@ -14,6 +14,9 @@ type InterpretingResult = {
   pregnent_women_high_range?: string | null;
   high_range_indication?: string | null;
   low_range_indication?: string | null;
+
+  Normal?: string | null;
+  Abnormal?: string | null;
 };
 
 type InterpretationItem = {

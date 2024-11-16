@@ -24,7 +24,7 @@ const UsedForComponent: React.FC<UsedForComponentProps> = ({ useCases }) => {
             </li>
           ))
         ) : (
-          <p className="text-gray-600 text-center">No use cases available.</p>
+          <p className="text-gray-600 text-center">No used for available.</p>
         )}
       </ul>
     </div>
