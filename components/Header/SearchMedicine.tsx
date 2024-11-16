@@ -120,7 +120,7 @@ const SearchMedicinePortal: React.FC<SearchMedicinePortalProps> = ({
           style={boxStyle}
           className={`absolute left-0 ${
             name !== "investigation"
-              ? "lg:left-[-5rem] min-h-[15rem]"
+              ? "lg:left-[0]] min-h-[15rem]"
               : "h-full left-[-9px] min-h-[6rem]"
           } w-full lg:w-96 mt-2 p-1 bg-white border border-slate-300 rounded-md max-h-96 z-10 overflow-y-auto shadow-xl`}
         >
