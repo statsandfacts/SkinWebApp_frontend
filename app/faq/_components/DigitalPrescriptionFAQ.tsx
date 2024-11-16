@@ -19,10 +19,14 @@ export const DigitalPrescriptionFAQ = () => {
           </div>
         </header>
 
-        <Accordion variant="shadow" className="animate-slide-up">
+        <Accordion
+          variant="shadow"
+          defaultExpandedKeys={["0"]}
+          className="animate-slide-up"
+        >
           {COMMON.FAQ.map((faq: { q: string; a: string }, index: number) => (
             <AccordionItem key={index} aria-label={faq?.q} title={faq?.q}>
-              <p className="text-slate-500 " > {faq?.a} </p>
+              <p className="text-slate-500 "> {faq?.a} </p>
             </AccordionItem>
           ))}
         </Accordion>
