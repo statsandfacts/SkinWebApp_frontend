@@ -53,7 +53,7 @@ const Reminders = () => {
   }, [dispatch, dashboardData]);
 
   const DeleteReminder = (reminder: any) => {
-    if (!reminder?.status) {
+    if (reminder?.status === "") {
       toast.error("Reminder status missing.");
       return;
     }
@@ -68,9 +68,9 @@ const Reminders = () => {
         dispatch(fetchPatientDashboard(userId));
       }),
       {
-        pending: "inactive reminder...",
-        success: "Reminder inactive successfully!",
-        error: "Failed to inactive reminder.",
+        pending: `${reminder?.status ? "inactive" : "Active"} reminder...`,
+        success: `Reminder ${reminder?.status ? "inactive" : "Active"} successfully!`,
+        error: `Failed to ${reminder?.status ? "inactive" : "Active"} reminder.`,
       }
     );
   };
