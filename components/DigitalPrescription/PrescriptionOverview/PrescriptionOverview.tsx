@@ -1,20 +1,15 @@
 "use client";
 import React, { useCallback, useEffect } from "react";
-import {
-  Link as ScrollLink,
-  Element as ScrollElement,
-  scroller,
-} from "react-scroll";
+import { Link as ScrollLink, Element as ScrollElement } from "react-scroll";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { getDrugDetails } from "@/redux/slices/digitalPrescription/drug.slice";
 import Loader from "@/components/Loader";
-import Image from "next/image";
-import { Button } from "@nextui-org/button";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { ChevronLeftIcon } from "lucide-react";
 import FAQ from "@/app/(digital-prescription)/investigation/[investigationId]/_components/FAQ";
+import { FactBox, SubstitutesMedicines } from "./SubstitutesMedicines";
+import { SafetyAdvice } from "./SafetyAdvice";
 
 const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
   medicineName,
@@ -81,42 +76,42 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                       <div className="bg-white shadow-md rounded-lg mb-4 transition-transform duration-200 p-4">
                         {section.keyName === "overview" ? (
                           <div>
-                            <h2 className="text-3xl font-semibold text-gray-900 mb-4 border-b pb-2">
+                            <h1 className="text-2xl font-semibold text-sky-700 mb-4 border-b pb-2 border-sky-500">
                               {section.overview?.name}
-                            </h2>
+                            </h1>
 
                             <div className="mb-2">
-                              <label className="text-gray-700 font-medium block uppercase">
+                              <label className="text-sky-900 font-medium block uppercase">
                                 Manufacturers
                               </label>
-                              <p className="text-gray-500 text-sm font-normal">
+                              <p className="text-slate-500 text-sm font-normal">
                                 {section.overview?.manufacturers}
                               </p>
                             </div>
 
                             <div className="mb-2">
-                              <label className="text-gray-700 font-medium block  uppercase">
+                              <label className="text-sky-900 font-medium block  uppercase">
                                 SALT COMPOSITION
                               </label>
-                              <p className="text-gray-500 text-sm font-normal">
+                              <p className="text-slate-500 text-sm font-normal">
                                 {section.overview?.salt_composition}
                               </p>
                             </div>
 
                             <div className="mb-2">
-                              <label className="text-gray-700 font-medium block uppercase ">
+                              <label className="text-sky-900 font-medium block uppercase ">
                                 Storage
                               </label>
-                              <p className="text-gray-500 text-sm font-normal">
+                              <p className="text-slate-500 text-sm font-normal">
                                 {section.overview?.storage}
                               </p>
                             </div>
 
                             <div className="mb-2">
-                              <label className="text-gray-700 font-medium block uppercase ">
+                              <label className="text-sky-900 font-medium block uppercase ">
                                 Prescription Required
                               </label>
-                              <p className="text-gray-500 text-sm font-normal">
+                              <p className="text-slate-500 text-sm font-normal">
                                 {section.overview?.prescription_required
                                   ? "Yes"
                                   : "No"}
@@ -124,322 +119,84 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                             </div>
 
                             <div className="mb-2">
-                              <label className="text-gray-700 font-medium block uppercase ">
+                              <label className="text-sky-900 font-medium block uppercase ">
                                 Product Introduction
                               </label>
-                              <p className="text-gray-500 text-sm font-normal">
+                              <p className="text-slate-500 text-sm font-normal">
                                 {section.overview?.product_information}
                               </p>
                             </div>
                           </div>
                         ) : section.keyName === "uses_and_benefits" ? (
                           <div>
-                            <h2 className="text-sm uppercase font-semibold text-gray-900 mb-4 border-b pb-2">
+                            <h1 className="text-2xl font-bold text-sky-700 mb-2 border-b pb-2 border-sky-500">
                               Uses and Benefits
-                            </h2>
+                            </h1>
 
                             <div className="mb-4">
-                              <p className="text-gray-500 text-sm font-normal">
+                              <p className="text-slate-500 text-sm font-normal">
                                 {section.uses_and_benefits?.introduction ||
                                   "N/A"}
                               </p>
                             </div>
 
                             <div className="mb-2">
-                              <label className="text-gray-700 font-medium block  uppercase">
+                              <label className="text-sky-900 font-semibold block uppercase">
                                 Use of Medicine
                               </label>
-                              <p className="text-gray-500 text-sm font-normal">
+                              <p className="text-slate-500 text-sm font-normal">
                                 {section.uses_and_benefits?.use_of}
                               </p>
                             </div>
                           </div>
                         ) : section.keyName === "side_effects" ? (
                           <div>
-                            <h2 className="text-sm uppercase font-semibold text-gray-900 mb-4 border-b pb-2">
+                            <h1 className="text-2xl font-bold text-sky-700 mb-2 border-b pb-2 border-sky-500">
                               Side Effects
-                            </h2>
+                            </h1>
 
-                            <div className="mb-2">
-                              <label className="text-gray-700 text-sm font-medium block uppercase">
-                                Common Side Effects
-                              </label>
-                              <p className="text-gray-500 text-sm font-normal">
-                                {section.side_effects?.common_side_effect}
-                              </p>
-                            </div>
+                            <p className="text-slate-500 text-sm font-normal">
+                              {section.side_effects?.common_side_effect}
+                            </p>
                           </div>
                         ) : section.keyName === "how_to_use" ? (
                           <div>
-                            <h2 className="text-sm uppercase font-semibold text-gray-900 mb-4 border-b pb-2">
+                            <h1 className="text-xl font-bold text-sky-700 mb-2 border-b pb-2 border-sky-500">
                               How to Use
-                            </h2>
-                            <p className="text-gray-500 text-sm font-normal">
+                            </h1>
+                            <p className="text-slate-500 text-sm font-normal">
                               {section.how_to_use?.how_to_use}
                             </p>
                           </div>
                         ) : section.keyName === "how_drug_works" ? (
                           <div>
-                            <h2 className="text-sm uppercase font-semibold text-gray-900 mb-4 border-b pb-2">
+                            <h1 className="text-xl font-bold text-sky-700 mb-2 border-b pb-2 border-sky-500">
                               How the Drug Works
-                            </h2>
-                            <p className="text-gray-500 text-sm font-normal">
+                            </h1>
+                            <p className="text-slate-600 text-sm font-normal">
                               {section.how_drug_works?.function}
                             </p>
                           </div>
                         ) : section.keyName === "safety_advice" ? (
-                          <div>
-                            <h2 className="text-sm font-semibold uppercase text-gray-900 mb-4 border-b pb-2">
-                              Safety advice
-                            </h2>
-                            <div className="flex flex-col gap-3">
-                              <div>
-                                <div className="flex gap-3">
-                                  <Image
-                                    alt="alcohol image"
-                                    height={30}
-                                    width={30}
-                                    src={"/safety/alcohol.png"}
-                                  />
-                                  <div className="flex justify-center items-center gap-3">
-                                    <p className="text-gray-800 text-sm font-semibold">
-                                      Alcohol
-                                    </p>
-                                    <div
-                                      className={`text-gray-600 text-xs font-normal w-fit ${
-                                        section.safety_advice
-                                          ?.alcoholInteraction === "UNSAFE"
-                                          ? "bg-red-100"
-                                          : section.safety_advice
-                                              ?.alcoholInteraction === "SAFE"
-                                          ? "bg-green-100"
-                                          : "bg-blue-100"
-                                      } px-2 py-1 rounded-2xl`}
-                                    >
-                                      {section.safety_advice
-                                        ?.alcoholInteraction || "N/A"}
-                                    </div>
-                                  </div>
-                                </div>
-                                <p className="text-gray-500 text-sm font-normal ml-3">
-                                  {section.safety_advice?.AlcoholDetails ||
-                                    "N/A"}
-                                </p>
-                              </div>
-
-                              <div>
-                                <div className="flex gap-3">
-                                  <Image
-                                    alt="alcohol image"
-                                    height={30}
-                                    width={30}
-                                    src={"/safety/pregnancy.png"}
-                                  />
-                                  <div className="flex justify-center items-center gap-3">
-                                    <p className="text-gray-800 text-sm font-semibold">
-                                      Pregnancy
-                                    </p>
-                                    <div
-                                      className={`text-gray-600 text-xs font-normal w-fit ${
-                                        section.safety_advice
-                                          ?.pregnancyInteraction === "UNSAFE"
-                                          ? "bg-red-100"
-                                          : section.safety_advice
-                                              ?.pregnancyInteraction === "SAFE"
-                                          ? "bg-green-100"
-                                          : "bg-blue-100"
-                                      } px-2 py-1 rounded-2xl`}
-                                    >
-                                      {section.safety_advice
-                                        ?.pregnancyInteraction || "N/A"}
-                                    </div>
-                                  </div>
-                                </div>
-                                <p className="text-gray-500 text-sm font-normal ml-3">
-                                  {section.safety_advice?.PregnencyDetails ||
-                                    "N/A"}
-                                </p>
-                              </div>
-
-                              <div>
-                                <div className="flex gap-3">
-                                  <Image
-                                    alt="alcohol image"
-                                    height={30}
-                                    width={30}
-                                    src={"/safety/lactation.png"}
-                                  />
-                                  <div className="flex justify-center items-center gap-3">
-                                    <p className="text-gray-800 text-sm font-semibold">
-                                      Breast feeding
-                                    </p>
-                                    <div
-                                      className={`text-gray-600 text-xs font-normal w-fit ${
-                                        section.safety_advice
-                                          ?.lactationInteraction === "UNSAFE"
-                                          ? "bg-red-100"
-                                          : section.safety_advice
-                                              ?.lactationInteraction === "SAFE"
-                                          ? "bg-green-100"
-                                          : "bg-blue-100"
-                                      } px-2 py-1 rounded-2xl`}
-                                    >
-                                      {section.safety_advice
-                                        ?.lactationInteraction || "N/A"}
-                                    </div>
-                                  </div>
-                                </div>
-                                <p className="text-gray-500 text-sm font-normal ml-3">
-                                  {section.safety_advice
-                                    ?.BreastfeedingDetails || "N/A"}
-                                </p>
-                              </div>
-
-                              <div>
-                                <div className="flex gap-3">
-                                  <Image
-                                    alt="alcohol image"
-                                    height={30}
-                                    width={30}
-                                    src={"/safety/driving.png"}
-                                  />
-                                  <div className="flex justify-center items-center gap-3">
-                                    <p className="text-gray-800 text-sm font-semibold">
-                                      Driving
-                                    </p>
-                                    <div
-                                      className={`text-gray-600 text-xs font-normal w-fit ${
-                                        section.safety_advice
-                                          ?.drivingInteraction === "UNSAFE"
-                                          ? "bg-red-100"
-                                          : section.safety_advice
-                                              ?.drivingInteraction === "SAFE"
-                                          ? "bg-green-100"
-                                          : "bg-blue-100"
-                                      } px-2 py-1 rounded-2xl`}
-                                    >
-                                      {section.safety_advice
-                                        ?.drivingInteraction || "N/A"}
-                                    </div>
-                                  </div>
-                                </div>
-                                <p className="text-gray-500 text-sm font-normal ml-3">
-                                  {section.safety_advice?.DrivingDetails ||
-                                    "N/A"}
-                                </p>
-                              </div>
-
-                              <div>
-                                <div className="flex gap-3">
-                                  <Image
-                                    alt="alcohol image"
-                                    height={30}
-                                    width={30}
-                                    src={"/safety/kidney.png"}
-                                  />
-                                  <div className="flex justify-center items-center gap-3">
-                                    <p className="text-gray-800 text-sm font-semibold">
-                                      Kidney
-                                    </p>
-                                    <div
-                                      className={`text-gray-600 text-xs font-normal w-fit ${
-                                        section.safety_advice
-                                          ?.kidneyInteraction === "UNSAFE"
-                                          ? "bg-red-100"
-                                          : section.safety_advice
-                                              ?.kidneyInteraction === "SAFE"
-                                          ? "bg-green-100"
-                                          : "bg-blue-100"
-                                      } px-2 py-1 rounded-2xl`}
-                                    >
-                                      {section.safety_advice
-                                        ?.kidneyInteraction || "N/A"}
-                                    </div>
-                                  </div>
-                                </div>
-                                <p className="text-gray-500 text-sm font-normal ml-3">
-                                  {section.safety_advice?.KidneyDetails ||
-                                    "N/A"}
-                                </p>
-                              </div>
-
-                              <div>
-                                <div className="flex gap-3">
-                                  <Image
-                                    alt="alcohol image"
-                                    height={30}
-                                    width={30}
-                                    src={"/safety/liver.png"}
-                                  />
-                                  <div className="flex justify-center items-center gap-3">
-                                    <p className="text-gray-800 text-sm font-semibold">
-                                      Liver
-                                    </p>
-                                    <div
-                                      className={`text-gray-600 text-xs font-normal w-fit ${
-                                        section.safety_advice
-                                          ?.liverInteraction === "UNSAFE"
-                                          ? "bg-red-100"
-                                          : section.safety_advice
-                                              ?.liverInteraction === "SAFE"
-                                          ? "bg-green-100"
-                                          : "bg-blue-100"
-                                      } px-2 py-1 rounded-2xl`}
-                                    >
-                                      {section.safety_advice
-                                        ?.liverInteraction || "N/A"}
-                                    </div>
-                                  </div>
-                                </div>
-                                <p className="text-gray-500 text-sm font-normal ml-3">
-                                  {section.safety_advice?.LiverDetails || "N/A"}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
+                          <SafetyAdvice safetyAdvice={section.safety_advice} />
                         ) : section.keyName === "missed_does" ? (
                           <div>
-                            <h2 className="text-sm uppercase font-semibold text-gray-900 mb-4 border-b pb-2">
+                            <h2 className="text-xl font-bold text-sky-700 mb-2 border-b pb-2 border-sky-500">
                               Missed Dose
                             </h2>
-                            <p className="text-gray-500 text-sm font-normal">
+                            <p className="text-sm text-sky-600 font-normal">
                               {section.missed_does?.if_miss}
                             </p>
                           </div>
                         ) : section.keyName === "fact_box" ? (
-                          <div>
-                            <h2 className="text-xl font-semibold text-gray-900 mb-4 border-b pb-2">
-                              Fact Box
-                            </h2>
-                            {section.fact_box && section.fact_box.length > 0 ? (
-                              section.fact_box.map(
-                                (
-                                  fact: { Value_1: string; Value_2: string },
-                                  index: number
-                                ) => (
-                                  <div
-                                    key={index}
-                                    className="mb-1 flex justify-between w-full sm:w-3/6 bg-sky-100 p-2 rounded-md"
-                                  >
-                                    <p className="text-gray-500 text-sm font-normal">
-                                      {" "}
-                                      {fact.Value_1}{" "}
-                                    </p>
-                                    <p className="text-gray600 text-sm font-medium">
-                                      {" "}
-                                      {fact.Value_2}{" "}
-                                    </p>
-                                  </div>
-                                )
-                              )
-                            ) : (
-                              <p className="text-gray-500 text-sm font-normal">
-                                No facts available.
-                              </p>
-                            )}
-                          </div>
+                          <FactBox factBoxItems={section.fact_box} />
                         ) : section.keyName === "faqs" ? (
                           <FAQ faqs={section?.faqs || []} />
+                        ) : section.keyName === "substitutes" ? (
+                          <SubstitutesMedicines
+                            substitutesMedicines={section?.substitutes}
+                            medicineName={medicineName}
+                          />
                         ) : (
                           <></>
                         )}

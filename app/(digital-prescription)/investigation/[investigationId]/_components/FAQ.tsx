@@ -14,7 +14,9 @@ interface FAQProps {
 const FAQ: React.FC<FAQProps> = ({ faqs }) => {
   return (
     <div>
-      <h2 className="text-lg font-semibold">Frequently Asked Questions</h2>
+      <h1 className="text-xl font-bold text-sky-700 mb-2 border-b pb-2 border-sky-500">
+        Frequently Asked Questions
+      </h1>
       {faqs.length > 0 ? (
         <div>
           <Accordion isCompact defaultExpandedKeys={["0"]}>
@@ -22,9 +24,9 @@ const FAQ: React.FC<FAQProps> = ({ faqs }) => {
               <AccordionItem
                 key={index}
                 aria-label={faq?.Value_1}
-                title={faq?.Value_1}
+                title={<p className="text-base font-semibold text-sky-900" >{faq?.Value_1}</p>}
               >
-                <p className="text-gray-500 font-normal text-base">
+                <p className="text-sm text-slate-600 font-normal">
                   {faq?.Value_2}
                 </p>
               </AccordionItem>

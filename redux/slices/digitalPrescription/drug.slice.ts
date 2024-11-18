@@ -31,7 +31,7 @@ const initialState: DrugState = {
 
 export const getDrugDetails = createAsyncThunk<
   any, // Adjust the return type according to the expected data from API
-  string | null, // The argument type (drug_id)
+  any, // The argument type (drug_id)
   { rejectValue: string } // The error type
 >("drug/getDrugDetails", async (drug_id, { rejectWithValue }) => {
   try {
