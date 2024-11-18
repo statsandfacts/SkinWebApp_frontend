@@ -92,9 +92,9 @@ const SearchMedicinePortal: React.FC<SearchMedicinePortalProps> = ({
   }, []);
 
   const HandleClick = (medicine: Medicine) => {
+    dispatch(setIsTestSearchModal(false));
     if (name === "investigation") {
       router.push(`/investigation/${medicine?.Id}`);
-      dispatch(setIsTestSearchModal(false));
     } else {
       router.push(`/prescription/${medicine?.Id}`);
     }
