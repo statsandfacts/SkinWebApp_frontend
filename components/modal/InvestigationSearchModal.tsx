@@ -35,14 +35,14 @@ export default function InvestigationSearchModal() {
               </ModalHeader>
               <ModalBody className="flex flex-col">
                 <div className="h-72">
-                  <div className="w-full flex justify-between bg-gray-50 px-2 py-1">
+                  <div className="w-full flex justify-between rounded-md bg-gray-50 px-2 py-1">
                     <button
                       onClick={() => setSearchName("medicine")}
                       className={`${
                         searchName === "medicine"
-                          ? "border-b-2 border-sky-700 hover:border-sky-600"
-                          : ""
-                      } w-2/4 text-center text-slate-700 hover:text-slate-500 text-base font-medium`}
+                          ? "border-b-2 border-sky-700 hover:border-sky-600 text-sky-800 hover:text-sky-600"
+                          : "text-slate-700 hover:text-slate-500"
+                      } w-2/4 text-center  text-base font-medium`}
                     >
                       Medicines
                     </button>
@@ -50,9 +50,9 @@ export default function InvestigationSearchModal() {
                       onClick={() => setSearchName("investigation")}
                       className={`${
                         searchName === "investigation"
-                          ? "border-b-2 border-sky-700 hover:border-sky-600"
-                          : ""
-                      } w-2/4 text-center text-slate-700 hover:text-slate-500 text-base font-medium`}
+                          ? "border-b-2 border-sky-700 hover:border-sky-600 text-sky-800 hover:text-sky-600"
+                          : "text-slate-700 hover:text-slate-500"
+                      } w-2/4 text-center  text-base font-medium`}
                     >
                       Lab Investigations
                     </button>

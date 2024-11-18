@@ -105,9 +105,9 @@ export default function Header() {
               </Link>
             </NavbarItem>
           ))}
-          {pathname === "/" && (
+          {/* {pathname === "/" && ( */}
             <LabInvestigationNavItem />
-          )}
+          {/* )} */}
 
           {/* <NavbarItem>
           <Link color='foreground' href='/coming-soon'>
@@ -157,12 +157,12 @@ export default function Header() {
               </Link>
             </NavbarMenuItem>
           ))}
-          {pathname === "/" && (
+          {/* {pathname === "/" && ( */}
             <LabInvestigationNavItem
               isMenuOpen={isMenuOpen}
               setIsMenuOpen={setIsMenuOpen}
             />
-          )}
+          {/* )} */}
         </NavbarMenu>
       </Navbar>
     </>

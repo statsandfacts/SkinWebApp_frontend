@@ -152,7 +152,7 @@ const GeneralHealthIndicator = () => {
                   <div className="flex gap-2">
                     <span className="text-sm text-slate-600">Weight:</span>
                     <span className="text-sm text-slate-800">
-                      {dashboardData?.weight}
+                      {dashboardData?.weight} kg
                     </span>
                   </div>
 
