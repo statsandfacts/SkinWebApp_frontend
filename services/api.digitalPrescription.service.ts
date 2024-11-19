@@ -248,6 +248,11 @@ export const getBlogDtls = async (blog_id: string) => {
   return data;
 };
 
+export const getAllCategories = async () => {
+  const { data } = await axios.get(`${baseUrl}blogs/categories/all`, headers);
+  return data;
+};
+
 // comments
 export const createComment = (payload: any) => {
   return axios.post(`${baseUrl}blogs/comments`, payload, headers);

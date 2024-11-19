@@ -1,5 +1,6 @@
 import {
   getAllBlogs,
+  getAllCategories,
   getBlogDtls,
 } from "@/services/api.digitalPrescription.service";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
@@ -14,6 +15,12 @@ interface BlogState {
   errorMessage: null | string;
 
   comments: {
+    data: any;
+    loading: boolean;
+    errorMessage: null | string;
+  };
+
+  categories: {
     data: any;
     loading: boolean;
     errorMessage: null | string;
@@ -56,6 +63,18 @@ export const fetchComments = createAsyncThunk(
   }
 );
 
+export const fetchAllCategories = createAsyncThunk(
+  "blog/fetchAllCategories",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getAllCategories();
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 const initialState: BlogState = {
   singleBlog: null,
   sbLoading: false,
@@ -66,6 +85,12 @@ const initialState: BlogState = {
   errorMessage: null,
 
   comments: {
+    data: [],
+    errorMessage: null,
+    loading: false,
+  },
+
+  categories: {
     data: [],
     errorMessage: null,
     loading: false,
@@ -134,6 +159,25 @@ const blogSlice = createSlice({
       .addCase(fetchComments.rejected, (state, action) => {
         state.comments.loading = false;
         state.comments.errorMessage = action.payload as string;
+      })
+
+      // Categories data
+      .addCase(fetchAllCategories.pending, (state) => {
+        state.categories.loading = true;
+        state.categories.errorMessage = null;
+        state.categories.data = null;
+      })
+      .addCase(
+        fetchAllCategories.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.categories.loading = false;
+          state.categories.errorMessage = null;
+          state.categories.data = action.payload ?? [];
+        }
+      )
+      .addCase(fetchAllCategories.rejected, (state, action) => {
+        state.categories.loading = false;
+        state.categories.errorMessage = action.payload as string;
       });
   },
 });
