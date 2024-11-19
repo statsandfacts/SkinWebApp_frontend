@@ -7,6 +7,12 @@ interface UserDashboardState {
   loading: boolean;
   error: string | null;
   isUpdateHealthIndicatorModal: boolean;
+  prescriptionCases: {
+    approved: any[];
+    conditionallyApproved: any[];
+    inProgress: any[];
+    reUpload: any[];
+  };
 }
 
 const initialState: UserDashboardState = {
@@ -15,6 +21,12 @@ const initialState: UserDashboardState = {
   loading: false,
   error: null,
   isUpdateHealthIndicatorModal: false,
+  prescriptionCases: {
+    approved: [],
+    conditionallyApproved: [],
+    inProgress: [],
+    reUpload: [],
+  },
 };
 
 export const fetchPatientDashboard = createAsyncThunk<
@@ -54,12 +66,32 @@ const userDashboardSlice = createSlice({
       .addCase(fetchPatientDashboard.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.prescriptionCases.approved = [];
+        state.prescriptionCases.conditionallyApproved = [];
+        state.prescriptionCases.inProgress = [];
+        state.prescriptionCases.reUpload = [];
       })
       .addCase(
         fetchPatientDashboard.fulfilled,
         (state, action: PayloadAction<any>) => {
           state.loading = false;
           state.dashboardData = action.payload;
+          state.prescriptionCases.approved =
+            action.payload?.patient_case_dtls?.filter(
+              (item: any) => item?.status === "approve"
+            );
+          state.prescriptionCases.reUpload =
+            action.payload?.patient_case_dtls?.filter(
+              (item: any) => item?.status === "reupload"
+            );
+          state.prescriptionCases.conditionallyApproved =
+            action.payload?.patient_case_dtls?.filter(
+              (item: any) => item?.status === "conditionally-approve"
+            );
+          state.prescriptionCases.inProgress =
+            action.payload?.patient_case_dtls?.filter(
+              (item: any) => item?.status === "In progress"
+            );
         }
       )
       .addCase(
@@ -67,10 +99,15 @@ const userDashboardSlice = createSlice({
         (state, action: PayloadAction<string | undefined>) => {
           state.loading = false;
           state.error = action.payload || "Unknown error occurred";
+          state.prescriptionCases.approved = [];
+          state.prescriptionCases.conditionallyApproved = [];
+          state.prescriptionCases.inProgress = [];
+          state.prescriptionCases.reUpload = [];
         }
       );
   },
 });
 
-export const { setDashboardTab, setUpdateHealthIndicatorModal } = userDashboardSlice.actions;
+export const { setDashboardTab, setUpdateHealthIndicatorModal } =
+  userDashboardSlice.actions;
 export default userDashboardSlice.reducer;

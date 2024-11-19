@@ -1,23 +1,43 @@
 "use client";
-import React, { useEffect } from "react";
-import DashboardHeader from "./DashboardHeader";
 import BackButton from "@/components/common/BackButton";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
+import { ToolTipBtn } from "@/components/common/ToolTipBtn";
 import Loader from "@/components/Loader";
-import { fetchPatientDashboard } from "@/redux/slices/digitalPrescription/userDashboard.slice";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
-import RedeemDiscountModal from "@/components/DigitalPrescription/RedeemDiscountModal";
-import ItemCard from "./ItemCard";
 import {
-  CheckCircle,
-  AlertCircle,
-  LoaderIcon,
-  UploadCloud,
-} from "lucide-react";
+  setReuploadModal,
+  setSingleCaseDetails,
+  setSinglePrescriptionDetails,
+  setViewOriginalImageModal,
+  setViewPrescriptionDetailsModal,
+} from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
+import { fetchPatientDashboard } from "@/redux/slices/digitalPrescription/userDashboard.slice";
+import { AppDispatch, RootState } from "@/redux/store";
+import {
+  ArrowUpTrayIcon,
+  DocumentMagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
+import {
+  Accordion,
+  AccordionItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+} from "@nextui-org/react";
+import { EyeIcon } from "lucide-react";
+import { useParams } from "next/navigation";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import ViewPrescriptionDetailsModal from "../ViewPrescriptionDetailsModal";
+import ViewOriginalPrescriptionImage from "../ViewOriginalPrescriptionImage";
+import ReUploadImageModal from "../Details/ReUploadImageModal";
 
-const Prescriptions = () => {
+const CasesDetails = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { prescriptionStatus = "unknown" }: { prescriptionStatus?: string } =
+    useParams();
   const { userId } = useAuthInfo();
 
   const { dashboardData, loading, error, prescriptionCases } = useSelector(
@@ -30,13 +50,27 @@ const Prescriptions = () => {
     }
   }, [dispatch, dashboardData]);
 
+  const getCasesByStatus = () => {
+    switch (prescriptionStatus) {
+      case "approved":
+        return prescriptionCases?.approved;
+      case "conditionally-approved":
+        return prescriptionCases?.conditionallyApproved;
+      case "in-progress":
+        return prescriptionCases?.inProgress;
+      case "re-upload":
+        return prescriptionCases?.reUpload;
+      default:
+        return [];
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col items-center bg-white mt-2">
-        <div className="flex justify-start w-full max-w-sm sm:max-w-7xl">
+        <div className="flex justify-start w-full ml-3 max-w-sm sm:max-w-5xl">
           <BackButton />
         </div>
-        <DashboardHeader isLogout={false} />
 
         <div className="w-full max-w-sm overflow-auto sm:max-w-5xl">
           {loading ? (
@@ -47,41 +81,13 @@ const Prescriptions = () => {
             <>
               {dashboardData && dashboardData?.show_case_details && (
                 <section className="prescriptions-section mb-4">
-                  <h2 className="text-lg font-bold mb-2">Prescriptions</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl px-4">
-                    {prescriptionCases.approved.length > 0 && (
-                      <ItemCard
-                        title={"Approved"}
-                        link={"/dashboard/prescriptions/approved"}
-                        icon={CheckCircle}
-                      />
-                    )}
-                    {prescriptionCases.conditionallyApproved.length > 0 && (
-                      <ItemCard
-                        title={"Conditionally Approved"}
-                        link={"/dashboard/prescriptions/conditionally-approved"}
-                        icon={AlertCircle}
-                      />
-                    )}
-                    {prescriptionCases.approved.length > 0 && (
-                      <ItemCard
-                        title={"In-Progress"}
-                        link={"/dashboard/prescriptions/in-progress"}
-                        icon={LoaderIcon}
-                      />
-                    )}
-                    {prescriptionCases.conditionallyApproved.length > 0 && (
-                      <ItemCard
-                        title={"Re-Upload"}
-                        link={"/dashboard/prescriptions/re-upload"}
-                        icon={UploadCloud}
-                      />
-                    )}
-                  </div>
-                  {/* {dashboardData?.patient_case_dtls.length > 0 ? (
-                    <Accordion variant="splitted">
-                      {dashboardData?.patient_case_dtls.map(
-                        (cases: any, cx: number) => (
+                  <h2 className="text-lg font-bold capitalize text-sky-800 border-b border-sky-600 pb-3 mb-4 mx-2">
+                    {prescriptionStatus?.replace("-", " ")} Prescriptions
+                  </h2>
+                  <div className="max-w-5xl px-4">
+                    {getCasesByStatus().length > 0 ? (
+                      <Accordion variant="splitted">
+                        {getCasesByStatus().map((cases: any, cx: number) => (
                           <AccordionItem
                             key={cx}
                             aria-label={cases?.case_id + cx}
@@ -228,14 +234,14 @@ const Prescriptions = () => {
                               )}
                             </div>
                           </AccordionItem>
-                        )
-                      )}
-                    </Accordion>
-                  ) : (
-                    <p className="text-slate-600 text-center text-xs">
-                      No Prescription Uploaded Yet.
-                    </p>
-                  )} */}
+                        ))}
+                      </Accordion>
+                    ) : (
+                      <p className="text-slate-600 text-center text-xs">
+                        No Prescription Uploaded Yet.
+                      </p>
+                    )}
+                  </div>
                 </section>
               )}
             </>
@@ -243,9 +249,11 @@ const Prescriptions = () => {
         </div>
       </div>
 
-      <RedeemDiscountModal />
+      <ViewPrescriptionDetailsModal />
+      <ViewOriginalPrescriptionImage />
+      <ReUploadImageModal />
     </>
   );
 };
 
-export default Prescriptions;
+export default CasesDetails;
