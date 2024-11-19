@@ -93,7 +93,7 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
 
           <div className="flex flex-col md:flex-row gap-2">
             <div className="w-full md:w-4/5">
-              <div className="relative w-full h-auto mb-4">
+              {/* <div className="relative w-full h-auto mb-4">
                 {singleBlog?.image ? (
                   <Image
                     src={singleBlog?.image}
@@ -115,7 +115,26 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
                     {dayjs(singleBlog?.date).format("DD MMMM YYYY")}
                   </span>
                 </div>
+              </div> */}
+
+              <div className="mb-4">
+                {singleBlog?.image ? (
+                  <Image
+                    src={singleBlog?.image}
+                    alt={singleBlog?.title}
+                    layout="responsive"
+                    width={700}
+                    height={400}
+                    className="rounded-lg"
+                  />
+                ) : (
+                  <div className="h-40"></div>
+                )}
               </div>
+
+              <p className="text-sm mb-4 text-slate-400">
+                {dayjs(singleBlog?.date).format("DD MMMM YYYY")}
+              </p>
 
               {/* add Share Social media links */}
               <div className="flex gap-4 items-center mb-6">
@@ -173,6 +192,10 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
                   </span>
                 ))}
               </div>
+
+              <h1 className="text-lg sm:text-xl md:text-4xl font-bold mb-8">
+                {singleBlog?.title}
+              </h1>
 
               <div
                 className="text-slate-700 text-lg sm:text-xl md:text-2xl"
