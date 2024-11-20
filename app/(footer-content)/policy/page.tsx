@@ -1,4 +1,4 @@
-import ComingSoon from "@/components/ComingSoon";
+import PrivacyPolicy from "@/components/Policy/PrivacyPolicy";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export default Privacy;
 const DigitalPrescriptionPolicy = () => {
   return (
     <>
-      <ComingSoon />
+      <PrivacyPolicy />
     </>
   );
 };

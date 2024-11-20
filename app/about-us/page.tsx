@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { CheckCircle, FileText, Heart, Search, Smartphone } from "lucide-react"; // Import icons from lucide-react
+import CustomHeader from "@/components/Header/PublicLayoutHeader";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -12,25 +13,16 @@ const AboutUs = () => {
 
 export default AboutUs;
 
-
 const DigitalPrescriptionAboutUs = () => {
   return (
     <div>
       <div className="p-10 md:px-40">
         {/* Header Section */}
-        <header className="relative mb-6 w-full p-8 rounded-lg shadow-lg bg-gradient-to-r from-indigo-600 via-indigo-500 to-sky-600 animate-fade-in">
-          <div className="absolute inset-0 bg-opacity-30 bg-white rounded-lg pointer-events-none"></div>
-          <div className="relative text-center">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">
-              About Us
-            </h1>
-            <p className="mt-4 md:mt-6 text-lg md:text-2xl text-white/90 font-medium mx-auto max-w-3xl leading-relaxed">
-              Welcome to{" "}
-              <span className="font-semibold text-sky-700">Nextcare.Life</span>,
-              where cutting-edge technology transforms healthcare innovation.
-            </p>
-          </div>
-        </header>
+        <CustomHeader
+          header="About Us"
+          subHeader="Welcome to Nextcare.Life: Innovating Healthcare Technology"
+          imageURL="/vector/about_us.png"
+        />
 
         {/* Main Content Section */}
         <section className="flex flex-col gap-6 animate-slide-up">
