@@ -80,7 +80,7 @@ const DigitalPrescriptionAboutUs = () => {
           </div>
 
           {/* New Features Section - Cards with Icons */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
             <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
               <FileText className="text-sky-500 text-4xl mb-4" />
               <h3 className="text-xl font-semibold text-gray-800">
@@ -113,7 +113,7 @@ const DigitalPrescriptionAboutUs = () => {
             </div>
             <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
               <Smartphone className="text-sky-500 text-4xl mb-4" />
-              <h3 className="text-xl font-semibold text-gray-800">
+              <h3 className="text-lg font-semibold text-gray-800">
                 Mobile-Friendly Interface
               </h3>
               <p className="text-sm text-gray-600 text-center mt-2">
@@ -122,12 +122,73 @@ const DigitalPrescriptionAboutUs = () => {
               </p>
             </div>
           </div>
-
-          <p className="text-sm md:text-base text-gray-700 mt-6">
+          <p className="text-sm md:text-base text-gray-700 mt-2">
             Explore these new features and experience firsthand how{" "}
             <span className="font-semibold text-gray-800">Nextcare.Life</span>{" "}
             is revolutionizing digital healthcare, one innovation at a time!
           </p>
+
+          {/* Mission Section */}
+          <section className="flex flex-col md:flex-row items-center gap-6 my-12">
+            <div className="flex-1">
+              <h2 className="text-2xl font-bold text-gray-800">Our Mission</h2>
+              <p className="text-sm md:text-base text-gray-700 mt-4">
+                Our mission is to revolutionize healthcare with innovative,
+                user-friendly technology that addresses the real-world needs of
+                patients, doctors, and pharmacists. By leveraging our Clinical
+                Decision Support System (CDSS), we transform handwritten
+                prescriptions into precise digital formats, empower users with
+                tools like smart lab reports and symptom bots, and provide
+                predictive health alerts.
+              </p>
+              <p className="text-sm md:text-base text-gray-700 mt-2">
+                Committed to quality, accuracy, and accessibility, Nextcare.Life
+                enhances patient engagement, simplifies medical workflows, and
+                ensures timely care. With a focus on serving both urban and
+                rural populations, we aim to make healthcare smarter, proactive,
+                and impactful for all.
+              </p>
+            </div>
+            <div className="flex-1">
+              <Image
+                src="/images/digitalPrescription/about_mission.png"
+                alt="Mission Image"
+                width={500}
+                height={300}
+                className="object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </section>
+
+          {/* Vision Section */}
+          <section className="flex flex-col md:flex-row-reverse items-center gap-6 my-12">
+            <div className="flex-1">
+              <h2 className="text-2xl font-bold text-gray-800">Our Vision</h2>
+              <p className="text-sm md:text-base text-gray-700 mt-4">
+                Nextcare.Life envisions a future where healthcare is not just
+                digitized but transformed into a seamless, accessible, and
+                intelligent system that empowers patients, supports healthcare
+                providers, and revolutionizes the way medical information is
+                managed. By leveraging Clinical Decision Support Systems (CDSS)
+                and advanced analytics, we aim to reduce errors, provide
+                real-time insights, and ensure effective healthcare
+                interactions.
+              </p>
+              <p className="text-sm md:text-base text-gray-700 mt-2">
+                We aspire to bridge healthcare gaps and create a proactive,
+                predictive, and patient-centered system that transforms lives.
+              </p>
+            </div>
+            <div className="flex-1">
+              <Image
+                src="/images/digitalPrescription/about_vision.png"
+                alt="Vision Image"
+                width={500}
+                height={300}
+                className="object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </section>
 
           {/* Footer Section */}
           <div className="flex flex-col items-center justify-center gap-3 mt-6">

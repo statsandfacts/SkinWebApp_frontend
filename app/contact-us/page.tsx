@@ -1,4 +1,3 @@
-// import { EnvelopeIcon, MapPinIcon } from '@heroicons/react/24/outline';
 import React from "react";
 import { EnvelopeIcon, MapPinIcon, PhoneIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
