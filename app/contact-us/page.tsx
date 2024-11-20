@@ -13,7 +13,7 @@ const ContactUs = () => {
           subHeader="Get in touch with Nextcare.Life for support and inquiries"
           imageURL="/vector/contact_us.png"
         />
-        <div className="grid gap-8 px-10 py-6 grid-cols-1 md:grid-cols-2 bg-gray-100 text-gray-900 rounded-lg shadow-lg">
+        <div className="grid gap-8 px-10 py-6 grid-cols-1 md:grid-cols-2 bg-gray-100 text-gray-900 rounded-lg shadow-lg animate-slide-up">
           <div className="flex flex-col justify-between">
             <div>
               <h2 className="text-4xl lg:text-5xl font-bold leading-tight text-sky-700">
