@@ -21,6 +21,7 @@ export const metadata: Metadata = {
     shortcut: "/favicon/favicon-16x16.png",
     apple: "/favicon/apple-touch-icon.png",
   },
+  authors: [{ name: `${siteConfig.name} Team`, url: siteConfig.url }],
   openGraph: {
     url: siteConfig.url,
     title: siteConfig.title,
