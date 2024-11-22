@@ -1,7 +1,9 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
+  url:"https://nextcare.life/",
   name: "Nextcare.life",
+  title: "Nextcare.life - Future of care",
   description:
     "Nextcare Life delivers AI-powered digital healthcare solutions, converting handwritten prescriptions into accurate digital formats using advanced CDSS technology. Streamline workflows and enhance healthcare with our innovative platform.",
   // 'An unique approach to skin care. Prescription based Skincare at your fingertips',
