@@ -86,7 +86,27 @@ const Footer = (props: Props) => {
                 </div>
               </div>
             </div>
-            <div className="flex gap-5 justify-between self-start text-sm text-stone-900">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 self-start text-sm text-stone-900">
+              <div className="flex flex-col flex-1 pr-12">
+                <div className="text-base font-medium whitespace-nowrap">
+                  Calculators
+                </div>
+                <Link href={"/calculator/bmi"} className="mt-4">
+                  BMI
+                </Link>
+                <Link href={"/calculator/bmr"} className="mt-4">
+                  BMR
+                </Link>
+                <Link href={"/calculator/blood-pressure-risk-calculator"} className="mt-4">
+                  Blood Pressure Risk
+                </Link>
+                <Link href={"/calculator/pregnancy-due-date"} className="mt-4">
+                  Pregnancy Due Date
+                </Link>
+                <Link href={"/calculator/diabetes-risk-calculator"} className="mt-4">
+                  Diabetes Risk
+                </Link>
+              </div>
               <div className="flex flex-col flex-1 pr-12">
                 <div className="text-base font-medium whitespace-nowrap">
                   Get Started
