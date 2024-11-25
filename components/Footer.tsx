@@ -86,24 +86,24 @@ const Footer = (props: Props) => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 self-start text-sm text-stone-900">
-              <div className="flex flex-col flex-1 pr-12">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 self-start text-sm text-stone-900">
+              <div className="flex flex-col gap-2 flex-1 pr-12">
                 <div className="text-base font-medium whitespace-nowrap">
                   Calculators
                 </div>
-                <Link href={"/calculator/bmi"} className="mt-4">
+                <Link href={"/calculator/bmi"}>
                   BMI
                 </Link>
-                <Link href={"/calculator/bmr"} className="mt-4">
+                <Link href={"/calculator/bmr"}>
                   BMR
                 </Link>
-                <Link href={"/calculator/blood-pressure-risk-calculator"} className="mt-4">
+                <Link href={"/calculator/blood-pressure-risk-calculator"}>
                   Blood Pressure Risk
                 </Link>
-                <Link href={"/calculator/pregnancy-due-date"} className="mt-4">
+                <Link href={"/calculator/pregnancy-due-date"}>
                   Pregnancy Due Date
                 </Link>
-                <Link href={"/calculator/diabetes-risk-calculator"} className="mt-4">
+                <Link href={"/calculator/diabetes-risk-calculator"}>
                   Diabetes Risk
                 </Link>
               </div>
