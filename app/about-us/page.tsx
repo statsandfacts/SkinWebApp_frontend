@@ -188,7 +188,7 @@ const DigitalPrescriptionAboutUs = () => {
 
           <section className="mt-8">
             <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-              Explore Our Health Calculators
+              Explore Our Health <Link href={"/calculator"} className="text-sky-900 hover:text-sky-600"> Calculators </Link>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {calculators.map((calculator, index) => (
