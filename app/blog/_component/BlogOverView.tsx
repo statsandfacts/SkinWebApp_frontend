@@ -198,7 +198,7 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
               </h1>
 
               <div
-                className="text-slate-700 text-lg sm:text-xl md:text-2xl"
+                // className="text-lg sm:text-xl md:text-2xl"
                 dangerouslySetInnerHTML={{ __html: singleBlog.content }}
               />
 

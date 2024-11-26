@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { CheckCircle, FileText, Heart, Search, Smartphone } from "lucide-react"; // Import icons from lucide-react
+import {
+  Calendar,
+  CheckCircle,
+  Droplet,
+  FileText,
+  FireExtinguisher,
+  Heart,
+  HeartPulse,
+  Pill,
+  Scale,
+  Search,
+  Smartphone,
+} from "lucide-react"; // Import icons from lucide-react
 import CustomHeader from "@/components/Header/PublicLayoutHeader";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -14,6 +27,77 @@ const AboutUs = () => {
 export default AboutUs;
 
 const DigitalPrescriptionAboutUs = () => {
+  const calculators = [
+    {
+      icon: <Scale className="text-sky-500 text-4xl mb-2" />,
+      title: "BMI Calculator",
+      description:
+        "Calculate your Body Mass Index (BMI) to understand your ideal weight range.",
+      link: "/calculator/bmi",
+    },
+    {
+      icon: <FireExtinguisher className="text-sky-500 text-4xl mb-2" />,
+      title: "BMR Calculator",
+      description:
+        "Estimate your Basal Metabolic Rate (BMR) to know your daily calorie needs.",
+      link: "/calculator/bmr",
+    },
+    {
+      icon: <HeartPulse className="text-sky-500 text-4xl mb-2" />,
+      title: "Blood Pressure Risk",
+      description:
+        "Assess your blood pressure risk and get recommendations for a healthy lifestyle.",
+      link: "/calculator/blood-pressure-risk-calculator",
+    },
+    {
+      icon: <Calendar className="text-sky-500 text-4xl mb-2" />,
+      title: "Pregnancy Due Date",
+      description:
+        "Determine your estimated due date based on your last menstrual period.",
+      link: "/calculator/pregnancy-due-date",
+    },
+    {
+      icon: <Droplet className="text-sky-500 text-4xl mb-2" />,
+      title: "Diabetes Risk Calculator",
+      description:
+        "Evaluate your risk of developing diabetes based on various health factors.",
+      link: "/calculator/diabetes-risk-calculator",
+    },
+  ];
+
+  const features = [
+    {
+      icon: <Pill className="text-sky-500 text-4xl mb-4" />,
+      title: "Prescription Digitization",
+      description:
+        "Effortlessly convert handwritten prescriptions to digital prescriptions accurately in a secured way.",
+    },
+    {
+      icon: <FileText className="text-sky-500 text-4xl mb-4" />,
+      title: "Smart Lab Report",
+      description:
+        "Our tool interprets lab reports and generates smart summaries based on medical conditions, empowering healthcare providers.",
+    },
+    {
+      icon: <Search className="text-sky-500 text-4xl mb-4" />,
+      title: "Symptom Bot",
+      description:
+        "The Symptom Bot helps users identify potential health concerns and suggests the need for medical attention.",
+    },
+    {
+      icon: <Heart className="text-sky-500 text-4xl mb-4" />,
+      title: "Preventive Care",
+      description:
+        "Take proactive steps for your well-being by identifying early signs of health conditions with our digital tools.",
+    },
+    {
+      icon: <Smartphone className="text-sky-500 text-4xl mb-4" />,
+      title: "Mobile-Friendly Interface",
+      description:
+        "Access your healthcare information from anywhere, on any device, with our user-friendly mobile platform.",
+    },
+  ];
+
   return (
     <div>
       <div className="p-10 md:px-40">
@@ -80,53 +164,55 @@ const DigitalPrescriptionAboutUs = () => {
           </div>
 
           {/* New Features Section - Cards with Icons */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-            <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-              <FileText className="text-sky-500 text-4xl mb-4" />
-              <h3 className="text-xl font-semibold text-gray-800">
-                Smart Lab Summaries
-              </h3>
-              <p className="text-sm text-gray-600 text-center mt-2">
-                Our tool interprets lab reports and generates smart summaries
-                based on medical conditions, empowering healthcare providers.
-              </p>
-            </div>
-            <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-              <Search className="text-sky-500 text-4xl mb-4" />
-              <h3 className="text-xl font-semibold text-gray-800">
-                Symptom Bot
-              </h3>
-              <p className="text-sm text-gray-600 text-center mt-2">
-                The Symptom Bot helps users identify potential health concerns
-                and suggests the need for medical attention.
-              </p>
-            </div>
-            <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-              <Heart className="text-sky-500 text-4xl mb-4" />
-              <h3 className="text-xl font-semibold text-gray-800">
-                Preventive Care
-              </h3>
-              <p className="text-sm text-gray-600 text-center mt-2">
-                Take proactive steps for your well-being by identifying early
-                signs of health conditions with our digital tools.
-              </p>
-            </div>
-            <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
-              <Smartphone className="text-sky-500 text-4xl mb-4" />
-              <h3 className="text-lg font-semibold text-gray-800">
-                Mobile-Friendly Interface
-              </h3>
-              <p className="text-sm text-gray-600 text-center mt-2">
-                Access your healthcare information from anywhere, on any device,
-                with our user-friendly mobile platform.
-              </p>
-            </div>
-          </div>
           <p className="text-sm md:text-base text-gray-700 mt-2">
             Explore these new features and experience firsthand how{" "}
             <span className="font-semibold text-gray-800">Nextcare.Life</span>{" "}
             is revolutionizing digital healthcare, one innovation at a time!
           </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+            {features.map((item, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 hover:scale-105"
+              >
+                {item.icon}
+                <h3 className="text-xl font-semibold text-gray-800">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-gray-600 text-center mt-2">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <section className="mt-8">
+            <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+              Explore Our Health Calculators
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {calculators.map((calculator, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 hover:scale-105"
+                >
+                  {calculator.icon}
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    {calculator.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 text-center ">
+                    {calculator.description}
+                  </p>
+                  <Link
+                    href={calculator.link}
+                    className="text-sky-800 font-semibold hover:text-sky-600 hover:underline mt-2"
+                  >
+                    Calculate Now
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </section>
 
           {/* Mission Section */}
           <section className="flex flex-col md:flex-row items-center gap-6 my-12">
