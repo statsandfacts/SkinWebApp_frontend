@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 interface Medicine {
   name: string;
   salt_composition: string;
+  description: string;
   manufacturers: string;
   ProductForm: string;
   use_of: string;
@@ -25,7 +26,7 @@ interface SearchMedicinePortalProps {
 
 const SearchMedicinePortal: React.FC<SearchMedicinePortalProps> = ({
   name,
-  boxStyle={},
+  boxStyle = {},
 }) => {
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");
@@ -131,13 +132,15 @@ const SearchMedicinePortal: React.FC<SearchMedicinePortalProps> = ({
           ) : filteredMedicines?.length > 0 ? (
             filteredMedicines?.map((medicine, index) => (
               <button
-                className="text-sm text-slate-500 p-2 border-b-1 w-full text-left"
+                className="text-sm flex flex-col text-slate-500 p-2 border-b-1 w-full text-left"
                 key={index}
                 onClick={() => HandleClick(medicine)}
               >
-                {medicine?.name} <br />
+                {medicine?.name}
                 <small className="text-slate-400">
-                  {medicine?.salt_composition}
+                  {name === "investigation"
+                    ? medicine?.description
+                    : medicine?.salt_composition}
                 </small>
               </button>
             ))
