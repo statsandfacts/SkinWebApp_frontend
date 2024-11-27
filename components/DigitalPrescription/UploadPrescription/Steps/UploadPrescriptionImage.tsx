@@ -74,7 +74,7 @@ const UploadDocumentImage: React.FC = () => {
             setLoading(false);
             toast.success("Case created successfully.");
             toast.success("Documents Submitted Successfully.");
-            router.push("/upload-prescription/prescriptions");
+            router.push("/dashboard");
             dispatch(resetDetailsAfterSubmit());
           })
           .catch((error: any) => {

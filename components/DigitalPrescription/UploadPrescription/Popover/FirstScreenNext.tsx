@@ -122,7 +122,7 @@ const FirstScreenNext: React.FC = () => {
         if (pharmacyUserId) {
           dispatch(setIsRedeemDiscount(true));
         }
-        router.push("/upload-prescription/prescriptions");
+        router.push("/dashboard");
         dispatch(resetDetailsAfterSubmit());
       })
       .catch((error: any) => {

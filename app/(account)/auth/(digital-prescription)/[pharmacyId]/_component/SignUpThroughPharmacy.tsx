@@ -74,7 +74,7 @@ const SignUpThroughPharmacy = () => {
         toast.success("User Signup successful!");
         dispatch(setUser({ userId, sessionId: payloadLogin.session_id }));
         dispatch(setPharmacyUserId(pharmacyId));
-        router.replace("/upload-prescription/prescriptions");
+        router.replace("/dashboard");
       } catch (error: any) {
         const errorMessage =
           error.response?.data?.detail || "Something went wrong";

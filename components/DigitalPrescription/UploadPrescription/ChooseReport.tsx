@@ -44,7 +44,7 @@ const ChooseReport: React.FC<ChooseReportProps> = ({ setStep, step }) => {
 
     createCase(payload)
       .then((response) => {
-        router.push('/upload-prescription/prescriptions')
+        router.push('/dashboard')
         toast.success("Case Created Successfully.");
         dispatch(setPrescriptionDetailTab("Prescriptions"));
         dispatch(clearImages([]));

@@ -55,7 +55,7 @@ const SubmitDocumentsPopover: React.FC = () => {
       .then((response) => {
         toast.success("All Documents Submitted Successfully.");
         dispatch(setSubmitDocumentsPopoverOpen(false));
-        router.push("/upload-prescription/prescriptions");
+        router.push("/dashboard");
         dispatch(resetDetailsAfterSubmit());
       })
       .catch((error: any) => {
