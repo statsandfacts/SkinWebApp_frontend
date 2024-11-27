@@ -41,7 +41,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center bg-white">
+    <div className="flex flex-col items-center bg-white pb-8">
       <DashboardHeader />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl px-4">

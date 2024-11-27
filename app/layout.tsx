@@ -10,6 +10,7 @@ const inter = Inter({
   display: "swap",
 });
 export const metadata: Metadata = {
+  metadataBase: new URL('https://nextcare.life'),
   title: {
     default: siteConfig.title,
     template: `%s | ${siteConfig.name}`,

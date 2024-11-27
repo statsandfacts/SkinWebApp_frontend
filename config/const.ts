@@ -1,6 +1,6 @@
 const CONST = {
   WITHOUT_HEADER_PAGE: "/auth",
-  WITHOUT_FOOTER: ["/treatment", "/auth", "/upload-prescription"],
+  WITHOUT_FOOTER: ["/treatment", "/auth", "/upload-prescription", "/dashboard"],
   RUPEE: "₹",
   IMAGE_URL: "https://s3.us-east-2.amazonaws.com/nextcare.life",
   APP_URL: "https://nextcare.life",
