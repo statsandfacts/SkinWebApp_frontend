@@ -89,10 +89,10 @@ const MapInvestigationData = ({ data }: { data: any[] }) => {
                         <div className="bg-white shadow-md rounded-lg mb-4 transition-transform duration-200 p-4">
                           {section?.keyName === "test_details" ? (
                             <div>
-                              <h2 className="text-3xl font-semibold text-gray-900">
+                              <h2 className="text-3xl font-semibold text-sky-700 border-b border-sky-500 pb-1">
                                 {section?.test_details?.name}
                               </h2>
-                              <p className="mb-4 border-b pb-2 text-gray-500 font-normal text-base mt-2">
+                              <p className="mb-4 pb-2 text-gray-500 font-normal text-base mt-2">
                                 {section?.test_details?.synonyms}{" "}
                               </p>
                               <div>
@@ -120,7 +120,7 @@ const MapInvestigationData = ({ data }: { data: any[] }) => {
                             />
                           ) : section?.keyName === "understanding_test" ? (
                             <div>
-                              <p className="text-gray-800 font-semibold text-base mb-3">
+                              <p className="text-sky-800 font-semibold text-base mb-3">
                                 {section?.understanding_test?.short_desc}
                               </p>
                               <p className="text-gray-500 font-normal text-base mt-2">
