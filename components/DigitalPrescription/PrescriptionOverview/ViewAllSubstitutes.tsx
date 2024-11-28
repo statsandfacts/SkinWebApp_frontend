@@ -45,7 +45,8 @@ const ViewAllSubstitutes = () => {
             ?.substitutes?.map((medicine: any, index: number) => (
               <li
                 key={index}
-                className="p-2 bg-white border border-sky-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow"
+                className="p-2 bg-white border border-sky-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow cursor-pointer"
+                onClick={() => router.push(`/prescription/${medicine?.id}`)}
               >
                 <p className="text-lg font-semibold text-sky-900">
                   {medicine?.name}
