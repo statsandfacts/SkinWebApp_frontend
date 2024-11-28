@@ -182,7 +182,7 @@ export default function LoginDrawer() {
                           dispatch(setLoginModal(false));
                         }}
                       >
-                        Forget Password?
+                        Reset Phone Number ?
                       </button>
                     </div>
                   </div>
