@@ -45,14 +45,20 @@ const ViewAllSubstitutes = () => {
             ?.substitutes?.map((medicine: any, index: number) => (
               <li
                 key={index}
-                className="p-2 bg-white border border-sky-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow cursor-pointer"
+                className="p-2 bg-white border border-sky-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow cursor-pointer flex flex-col sm:flex-row sm:justify-between sm:items-center"
                 onClick={() => router.push(`/prescription/${medicine?.id}`)}
               >
-                <p className="text-lg font-semibold text-sky-900">
-                  {medicine?.name}
-                </p>
-                <p className="text-sm text-slate-600">
-                  Manufactured by: {medicine?.manufacturers}
+                <div>
+                  <p className="text-lg font-semibold text-sky-900">
+                    {medicine?.name}
+                  </p>
+                  <p className="text-sm text-slate-600">
+                    Manufactured by: {medicine?.manufacturers}
+                  </p>
+                </div>
+                <p className="text-sm font-semibold text-slate-600">
+                  {" "}
+                  <span className="sm:hidden">Price: </span> ₹{medicine?.MRP}
                 </p>
               </li>
             ))}

@@ -7,6 +7,7 @@ interface Medicine {
   id?: string;
   name?: string;
   manufacturers?: string;
+  MRP?: string;
 }
 
 interface Fact {
@@ -39,14 +40,20 @@ export const SubstitutesMedicines: React.FC<SubstitutesMedicinesProps> = ({
           {substitutesMedicines.slice(0, 5).map((medicine, index) => (
             <li
               key={index}
-              className="p-2 bg-white border border-sky-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow cursor-pointer"
+              className="p-2 bg-white border border-sky-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow cursor-pointer flex flex-col sm:flex-row sm:justify-between sm:items-center"
               onClick={() => router.push(`/prescription/${medicine?.id}`)}
             >
-              <p className="text-lg font-semibold text-sky-900">
-                {medicine?.name}
-              </p>
-              <p className="text-sm text-slate-600">
-                Manufactured by: {medicine?.manufacturers}
+              <div>
+                <p className="text-lg font-semibold text-sky-900">
+                  {medicine?.name}
+                </p>
+                <p className="text-sm text-slate-600">
+                  Manufactured by: {medicine?.manufacturers}
+                </p>
+              </div>
+              <p className="text-sm font-semibold text-slate-600">
+                {" "}
+                <span className="sm:hidden">Price: </span> ₹{medicine?.MRP}
               </p>
             </li>
           ))}
@@ -56,7 +63,9 @@ export const SubstitutesMedicines: React.FC<SubstitutesMedicinesProps> = ({
       )}
       {substitutesMedicines.length > 5 && (
         <button
-          onClick={() => router.push(`/prescription/${medicineName}/all-substitutes`)}
+          onClick={() =>
+            router.push(`/prescription/${medicineName}/all-substitutes`)
+          }
           className="mt-4 flex items-center justify-center px-4 py-2 bg-sky-700 text-white font-medium rounded-md hover:bg-sky-800 transition-colors group"
         >
           View All Substitutes

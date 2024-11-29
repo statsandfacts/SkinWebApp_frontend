@@ -90,11 +90,20 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                             </div>
 
                             <div className="mb-2">
-                              <label className="text-sky-900 font-medium block  uppercase">
+                              <label className="text-sky-900 font-medium block uppercase">
                                 SALT COMPOSITION
                               </label>
                               <p className="text-slate-500 text-sm font-normal">
                                 {section.overview?.salt_composition}
+                              </p>
+                            </div>
+
+                            <div className="mb-2">
+                              <label className="text-sky-900 font-medium block uppercase">
+                                Price
+                              </label>
+                              <p className="text-slate-500 text-sm font-normal">
+                                ₹{section.overview?.MRP}
                               </p>
                             </div>
 
