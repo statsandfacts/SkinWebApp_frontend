@@ -82,15 +82,18 @@ export default function UpdateHealthIndicatorsModal({
       };
     } else if (actionKey === "add_bp") {
       const inpData = {
-        value: updateData?.value,
+        sys: updateData?.value,
+        dia: updateData?.value2,
         date: dayjs(updateData?.date).format("DD/MM/YYYY"),
+        value: "0"
       };
+      
       payload = {
         user_id: userId,
         health_data: {
           smoking: updateData.isSmoking,
           drinking: updateData.isDrinking,
-          bp: updateData?.bpData ? updateData?.bpData.push(inpData) : [inpData],
+          bp: updateData?.bpData ? [...updateData.bpData, inpData] : [inpData],
           spo2: updateData?.spo2_Data,
         },
       };
@@ -105,7 +108,7 @@ export default function UpdateHealthIndicatorsModal({
           smoking: updateData.isSmoking,
           drinking: updateData.isDrinking,
           spo2: updateData?.spo2_Data
-            ? updateData?.spo2_Data.push(inpData)
+            ? [...updateData?.spo2_Data, inpData]
             : [inpData],
           bp: updateData?.bpData,
         },
@@ -145,12 +148,30 @@ export default function UpdateHealthIndicatorsModal({
                 placeholder="Enter Date"
                 type="date"
               />
-              <Input
-                value={updateData.value}
-                onChange={(e) => handleChange("value", e.target.value)}
-                label="Value"
-                placeholder="Enter Value"
-              />
+              {
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Input
+                    value={updateData.value}
+                    onChange={(e) => handleChange("value", e.target.value)}
+                    label={actionKey === "add_bp" ? "Systolic (mm Hg)" : "SpO₂ Value (%)"}
+                    placeholder={
+                      actionKey === "add_bp" ? "Enter Systolic Value" : "SpO₂ Value (%)"
+                    }
+                  />
+                  {actionKey === "add_bp" && (
+                    <Input
+                      value={updateData.value2}
+                      onChange={(e) => handleChange("value2", e.target.value)}
+                      label={actionKey === "add_bp" ? "Diastolic (mm Hg)" : "Value"}
+                      placeholder={
+                        actionKey === "add_bp"
+                          ? "Enter Diastolic Value"
+                          : "Enter Value"
+                      }
+                    />
+                  )}
+                </div>
+              }
             </div>
           ) : (
             <div className="space-y-2">

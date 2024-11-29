@@ -31,6 +31,7 @@ const initialStateData = {
 
   date: null,
   value: null,
+  value2: null,
   bpData: null,
   spo2_Data: null,
 };
@@ -189,7 +190,8 @@ const GeneralHealthIndicator = () => {
                 >
                   <TableHeader>
                     <TableColumn>Date</TableColumn>
-                    <TableColumn>Value</TableColumn>
+                    <TableColumn>Systolic (mm Hg)</TableColumn>
+                    <TableColumn>Diastolic (mm Hg)</TableColumn>
                   </TableHeader>
                   <TableBody>
                     {dashboardData?.health_data &&
@@ -198,7 +200,8 @@ const GeneralHealthIndicator = () => {
                           (item: any, index: number) => (
                             <TableRow key={index}>
                               <TableCell>{item?.date}</TableCell>
-                              <TableCell>{item?.value}</TableCell>
+                              <TableCell>{item?.sys}</TableCell>
+                              <TableCell>{item?.dia}</TableCell>
                             </TableRow>
                           )
                         )
@@ -224,7 +227,7 @@ const GeneralHealthIndicator = () => {
                 >
                   <TableHeader>
                     <TableColumn>Date</TableColumn>
-                    <TableColumn>Value</TableColumn>
+                    <TableColumn>SpO₂(%)</TableColumn>
                   </TableHeader>
                   <TableBody>
                     {dashboardData?.health_data &&
@@ -233,7 +236,7 @@ const GeneralHealthIndicator = () => {
                           (item: any, index: number) => (
                             <TableRow key={index}>
                               <TableCell>{item?.date}</TableCell>
-                              <TableCell>{item?.value}</TableCell>
+                              <TableCell>{item?.value}%</TableCell>
                             </TableRow>
                           )
                         )
