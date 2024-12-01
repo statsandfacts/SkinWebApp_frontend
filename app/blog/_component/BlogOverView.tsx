@@ -21,6 +21,7 @@ import {
   CopyIcon,
 } from "lucide-react";
 import BlogItem from "./BlogItem";
+import styles from "./BlogContent.module.css";
 
 interface BlogOverviewProps {}
 
@@ -197,10 +198,11 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
                 {singleBlog?.title}
               </h1>
 
-              <div
-                // className="text-lg sm:text-xl md:text-2xl"
-                dangerouslySetInnerHTML={{ __html: singleBlog.content }}
-              />
+              <div className={styles.content}>
+                <div
+                  dangerouslySetInnerHTML={{ __html: singleBlog?.content }}
+                />
+              </div>
 
               <ManageComments />
             </div>
