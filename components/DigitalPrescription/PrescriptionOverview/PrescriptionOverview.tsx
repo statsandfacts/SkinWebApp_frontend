@@ -100,7 +100,7 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
 
                             <div className="mb-2">
                               <label className="text-sky-900 font-medium block uppercase">
-                                Price
+                                MRP
                               </label>
                               <p className="text-slate-500 text-sm font-normal">
                                 ₹{section.overview?.MRP}

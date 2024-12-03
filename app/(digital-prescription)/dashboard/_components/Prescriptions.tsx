@@ -11,9 +11,9 @@ import RedeemDiscountModal from "@/components/DigitalPrescription/RedeemDiscount
 import ItemCard from "./ItemCard";
 import {
   CheckCircle,
-  AlertCircle,
   LoaderIcon,
   UploadCloud,
+  FileCheck
 } from "lucide-react";
 
 const Prescriptions = () => {
@@ -60,17 +60,17 @@ const Prescriptions = () => {
                       <ItemCard
                         title={"Conditionally Approved"}
                         link={"/dashboard/prescriptions/conditionally-approved"}
-                        icon={AlertCircle}
+                        icon={FileCheck}
                       />
                     )}
-                    {prescriptionCases.approved.length > 0 && (
+                    {prescriptionCases.inProgress.length > 0 && (
                       <ItemCard
                         title={"In-Progress"}
                         link={"/dashboard/prescriptions/in-progress"}
                         icon={LoaderIcon}
                       />
                     )}
-                    {prescriptionCases.conditionallyApproved.length > 0 && (
+                    {prescriptionCases.reUpload.length > 0 && (
                       <ItemCard
                         title={"Re-Upload"}
                         link={"/dashboard/prescriptions/re-upload"}
@@ -78,164 +78,6 @@ const Prescriptions = () => {
                       />
                     )}
                   </div>
-                  {/* {dashboardData?.patient_case_dtls.length > 0 ? (
-                    <Accordion variant="splitted">
-                      {dashboardData?.patient_case_dtls.map(
-                        (cases: any, cx: number) => (
-                          <AccordionItem
-                            key={cx}
-                            aria-label={cases?.case_id + cx}
-                            title={
-                              <span>
-                                Status:{" "}
-                                {["approve", "conditionally-approve"].includes(
-                                  cases?.status
-                                )
-                                  ? `${cases?.status}d`
-                                  : cases?.status}{" "}
-                                {cases?.reason && (
-                                  <span
-                                    className={`text-sm font-normal ${
-                                      cases?.status === "hold"
-                                        ? "text-orange-400"
-                                        : "text-red-400"
-                                    }`}
-                                  >
-                                    ({cases?.reason})
-                                  </span>
-                                )}
-                              </span>
-                            }
-                            className={`border ${
-                              cases?.status === "approve"
-                                ? "border-green-400"
-                                : cases?.status === "conditionally-approve"
-                                ? "border-indigo-400"
-                                : cases?.status === "hold"
-                                ? "border-orange-400"
-                                : cases?.status === "reupload"
-                                ? "border-red-400"
-                                : "border-yellow-400"
-                            }`}
-                          >
-                            <div>
-                              {cases?.prescription_dtls &&
-                              cases?.prescription_dtls?.length > 0 ? (
-                                <Table
-                                  removeWrapper
-                                  aria-label="Example static collection table"
-                                >
-                                  <TableHeader>
-                                    <TableColumn>Name</TableColumn>
-                                    <TableColumn>Prescription Date</TableColumn>
-                                    <TableColumn>Prescription Type</TableColumn>
-                                    <TableColumn>Prescription</TableColumn>
-                                  </TableHeader>
-                                  <TableBody>
-                                    {cases?.prescription_dtls.map(
-                                      (prescription: any, pi: number) => (
-                                        <TableRow key={pi}>
-                                          <TableCell className="capitalize">
-                                            {dashboardData?.name}
-                                          </TableCell>
-                                          <TableCell>
-                                            {cases?.upload_date}
-                                          </TableCell>
-                                          <TableCell>
-                                            {prescription?.report_type
-                                              ? prescription?.report_type
-                                              : "Prescription"}
-                                          </TableCell>
-                                          <TableCell className="flex gap-2">
-                                            {[
-                                              "approve",
-                                              "conditionally-approve",
-                                            ].includes(cases?.status) && (
-                                              <ToolTipBtn
-                                                onClick={() => {
-                                                  dispatch(
-                                                    setSinglePrescriptionDetails(
-                                                      prescription
-                                                    )
-                                                  );
-                                                  dispatch(
-                                                    setSingleCaseDetails(cases)
-                                                  );
-                                                  dispatch(
-                                                    setViewPrescriptionDetailsModal(
-                                                      true
-                                                    )
-                                                  );
-                                                }}
-                                                title="View Prescription Details"
-                                                key={1}
-                                              >
-                                                <DocumentMagnifyingGlassIcon className="h-5 w-5" />
-                                              </ToolTipBtn>
-                                            )}
-
-                                            {cases?.status === "reupload" && (
-                                              <ToolTipBtn
-                                                onClick={() => {
-                                                  dispatch(
-                                                    setSinglePrescriptionDetails(
-                                                      prescription
-                                                    )
-                                                  );
-                                                  dispatch(
-                                                    setSingleCaseDetails(cases)
-                                                  );
-                                                  dispatch(
-                                                    setReuploadModal(true)
-                                                  );
-                                                }}
-                                                title="Reupload Your Prescription."
-                                                color="danger"
-                                                key={1}
-                                              >
-                                                <ArrowUpTrayIcon className="h-5 w-5" />
-                                              </ToolTipBtn>
-                                            )}
-
-                                            <ToolTipBtn
-                                              onClick={() => {
-                                                dispatch(
-                                                  setSinglePrescriptionDetails(
-                                                    prescription
-                                                  )
-                                                );
-                                                dispatch(
-                                                  setViewOriginalImageModal(
-                                                    true
-                                                  )
-                                                );
-                                              }}
-                                              title="Original Prescription Image"
-                                              key={2}
-                                            >
-                                              <EyeIcon className="h-5 w-5" />
-                                            </ToolTipBtn>
-                                          </TableCell>
-                                        </TableRow>
-                                      )
-                                    )}
-                                  </TableBody>
-                                </Table>
-                              ) : (
-                                <p className="text-slate-600 text-center text-xs">
-                                  No Prescription Uploaded For This Case.
-                                </p>
-                              )}
-                            </div>
-                          </AccordionItem>
-                        )
-                      )}
-                    </Accordion>
-                  ) : (
-                    <p className="text-slate-600 text-center text-xs">
-                      No Prescription Uploaded Yet.
-                    </p>
-                  )} */}
                 </section>
               )}
             </>

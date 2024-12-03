@@ -92,31 +92,8 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
             Back
           </button>
 
-          <div className="flex flex-col md:flex-row gap-2">
+          <article className="flex flex-col md:flex-row gap-2">
             <div className="w-full md:w-4/5">
-              {/* <div className="relative w-full h-auto mb-4">
-                {singleBlog?.image ? (
-                  <Image
-                    src={singleBlog?.image}
-                    alt={singleBlog?.title}
-                    layout="responsive"
-                    width={700}
-                    height={400}
-                    className="rounded-lg"
-                  />
-                ) : (
-                  <div className="h-40"></div>
-                )}
-
-                <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white bg-black bg-opacity-50 rounded-lg p-4">
-                  <h1 className="text-lg sm:text-xl md:text-4xl font-bold mb-2">
-                    {singleBlog?.title}
-                  </h1>
-                  <span className="text-sm">
-                    {dayjs(singleBlog?.date).format("DD MMMM YYYY")}
-                  </span>
-                </div>
-              </div> */}
 
               <div className="mb-4">
                 {singleBlog?.image ? (
@@ -230,7 +207,7 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
                 <></>
               )}
             </div>
-          </div>
+          </article>
         </div>
       ) : (
         <> </>

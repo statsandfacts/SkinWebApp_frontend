@@ -53,7 +53,7 @@ export const SubstitutesMedicines: React.FC<SubstitutesMedicinesProps> = ({
               </div>
               <p className="text-sm font-semibold text-slate-600">
                 {" "}
-                <span className="sm:hidden">Price: </span> ₹{medicine?.MRP}
+                <span className="sm:hidden">MRP: </span> ₹{medicine?.MRP}
               </p>
             </li>
           ))}
