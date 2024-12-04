@@ -13,7 +13,7 @@ interface MergedImageResult {
 }
 
 export const mergeImagesHelper = async (
-  mergedImageArray: File[]
+  mergedImageArray: any[]
 ): Promise<MergedImageResult> => {
   try {
     const imagePromises: Promise<ImageObject>[] = mergedImageArray.map(

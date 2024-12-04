@@ -24,6 +24,7 @@ import ThirdScreenNext from "./ThirdScreenNext";
 import { useRouter } from "next/navigation";
 import { setIsRedeemDiscount } from "@/redux/slices/digitalPrescription/auth.slice";
 import RedeemDiscountModal from "../../RedeemDiscountModal";
+import { mergeImagesHelper } from "@/utils/mergeImagesHelper";
 
 const FirstScreenNext: React.FC = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const FirstScreenNext: React.FC = () => {
   const { pharmacyUserId } = useSelector((state: any) => state.auth);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const clockToNo = () => {
+  const clockToNo = async () => {
     if (!uploadImageDetail[0]?.file) {
       toast.warning("Please select a file to upload.");
       return;
@@ -67,7 +68,16 @@ const FirstScreenNext: React.FC = () => {
       dispatch(setFirstScreenNextPopoverOpen(false));
       return;
     } else {
-      formData.append("files", uploadImageDetail[0].file);
+      if (uploadImageDetail.length >= 2) {
+        const mergedImageArray = [...uploadImageDetail].map(
+          (detail) => detail.file
+        );
+
+        const { file, base64 } = await mergeImagesHelper(mergedImageArray);
+        formData.append("files", file);
+      } else {
+        formData.append("files", uploadImageDetail[0].file);
+      }
       formData.append("doc_types", singleDocumentDetails?.selectedSubType);
     }
 
