@@ -97,7 +97,7 @@ const HeroSection: React.FC = () => {
           variants={textVariants}
           className="text-4xl font-bold text-gray-800"
         >
-          Welcome to Your Health Solution
+          Welcome to the Future Of Care
         </motion.h1>
 
         <div className="relative h-24 lg:h-20 overflow-hidden">
