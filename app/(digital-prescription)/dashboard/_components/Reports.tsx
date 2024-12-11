@@ -83,7 +83,7 @@ const Reports = () => {
                               </TableCell>
                               <TableCell>{report?.ocr_op?.Date}</TableCell>
                               <TableCell className="flex gap-2">
-                                <ToolTipBtn
+                                {/* <ToolTipBtn
                                   onClick={() => {
                                     dispatch(
                                       setSinglePrescriptionDetails(report)
@@ -94,7 +94,7 @@ const Reports = () => {
                                   key={1}
                                 >
                                   <DocumentMagnifyingGlassIcon className="h-5 w-5" />
-                                </ToolTipBtn>
+                                </ToolTipBtn> */}
 
                                 <ToolTipBtn
                                   onClick={() => {
