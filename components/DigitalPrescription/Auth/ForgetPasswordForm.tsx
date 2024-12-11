@@ -4,13 +4,13 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import InputField from "@/components/common/InputField";
-import { setLoginModal } from "@/redux/slices/loginModal.slice";
-import LoginModal from "./LoginModal";
 import {
   sendOtp,
   updateUser,
 } from "@/services/api.digitalPrescription.service";
 import { useRouter } from "next/navigation";
+import { setLoginModal } from "@/redux/slices/digitalPrescription/auth.slice";
+import LoginDrawer from "./LoginDrawer";
 
 interface SendOtpResponse {
   verification_code?: string;
@@ -163,7 +163,7 @@ const ForgetPasswordForm = () => {
         </p>
       </div>
 
-      <LoginModal isCloseIcon={false} />
+      <LoginDrawer />
     </>
   );
 };
