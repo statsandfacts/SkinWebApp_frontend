@@ -60,6 +60,7 @@
     "react-error-boundary": "^4.0.13",
     "react-redux": "^9.1.0",
     "react-scroll": "^1.9.0",
+    "react-simple-chatbot": "^0.6.1",
     "react-to-print": "^2.15.1",
     "react-toastify": "^10.0.4",
     "swr": "^2.2.5",
