@@ -34,7 +34,7 @@ const DownloadAbhaCardSection: React.FC = () => {
           the portal.
         </p>
         <p className="mt-4 text-lg text-sky-700">
-          Alternatively, you can use the ABHA mobile app. If you haven't
+          Alternatively, you can use the ABHA mobile app. If you haven&apos;t
           installed it yet, Android users can download it directly from the Play
           Store. Once installed, log in to your ABHA account and download your
           ABHA card on the go.
