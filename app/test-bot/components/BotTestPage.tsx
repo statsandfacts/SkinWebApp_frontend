@@ -4,77 +4,17 @@ import React, { useState, ReactNode } from "react";
 import { ChatBubbleLeftIcon, XCircleIcon } from "@heroicons/react/24/solid";
 import Chatbot, { createChatBotMessage } from "react-chatbot-kit";
 import "react-chatbot-kit/build/main.css";
+import MessageParser from "./MessageParser";
+import ActionProvider from "./ActionProvider";
 
 const config = {
   botName: "Assistant",
   initialMessages: [
-    createChatBotMessage("Hi! I'm your assistant. What's your name?", {}),
+    createChatBotMessage(
+      "Hello! I’m your health assistant. To begin, could you tell me your age?",
+      {}
+    ),
   ],
-};
-
-interface ActionProviderProps {
-  createChatBotMessage: typeof createChatBotMessage;
-  setState: React.Dispatch<React.SetStateAction<any>>;
-  children: ReactNode;
-}
-
-const ActionProvider: React.FC<ActionProviderProps> = ({
-  createChatBotMessage,
-  setState,
-  children,
-}) => {
-  const handleUserMessage = (message: string) => {
-    let botResponse = "Sorry, I didn't understand that.";
-
-    // Check the user's message and respond accordingly
-    if (message.toLowerCase() === "hi") {
-      botResponse = "Hello!";
-    }
-
-    const botMessage = createChatBotMessage(botResponse, {});
-    setState((prevState: any) => ({
-      ...prevState,
-      messages: [...prevState.messages, botMessage],
-    }));
-  };
-
-  return (
-    <>
-      {React.Children.map(children, (child) => {
-        return React.cloneElement(child as any, {
-          actions: {
-            handleUserMessage,
-          },
-        });
-      })}
-    </>
-  );
-};
-
-interface MessageParserProps {
-  children: ReactNode;
-  actions: {
-    handleUserMessage: (message: string) => void;
-  };
-}
-
-const MessageParser: React.FC<MessageParserProps> = ({ children, actions }) => {
-  const parse = (message: string) => {
-    if (message) {
-      actions.handleUserMessage(message);
-    }
-  };
-
-  return (
-    <>
-      {React.Children.map(children, (child) => {
-        return React.cloneElement(child as any, {
-          parse: parse,
-          actions,
-        });
-      })}
-    </>
-  );
 };
 
 const BotTestPage: React.FC = () => {
@@ -98,26 +38,11 @@ const BotTestPage: React.FC = () => {
       </button>
 
       {isOpen && (
-        <div className="fixed bottom-24 right-8 w-[300px]">
+        <div className="fixed bottom-24 right-8">
           <Chatbot
             config={config}
-            messageParser={(props: any) => (
-              <MessageParser
-                {...props}
-                actions={{
-                  handleUserMessage: (message: string) => {
-                    // Handle user message
-                    console.log(message);
-                  },
-                }}
-              />
-            )}
-            actionProvider={(props: any) => (
-              <ActionProvider
-                {...props}
-                createChatBotMessage={createChatBotMessage}
-              />
-            )}
+            messageParser={MessageParser}
+            actionProvider={ActionProvider}
           />
         </div>
       )}
