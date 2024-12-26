@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 
 export const baseUrl = process.env.NEXT_PUBLIC_SERVER_HOST_API_URL;
 
-const headers = {
+export const headers = {
   headers: {
     "Content-Type": "application/json",
   },
