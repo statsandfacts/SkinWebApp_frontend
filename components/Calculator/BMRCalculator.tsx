@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import CustomHeader from "../Header/PublicLayoutHeader";
 import { toast } from "react-toastify";
+import CalculatorFAQ from "./Faqs";
+import { bmrData } from "@/utils/calculatorsFaqs";
 
 const BMRCalculator: React.FC = () => {
   const [weight, setWeight] = useState<string>("");
@@ -210,6 +212,8 @@ const BMRCalculator: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <CalculatorFAQ faqs={bmrData} />
     </div>
   );
 };

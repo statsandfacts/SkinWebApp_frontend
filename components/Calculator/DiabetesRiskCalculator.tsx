@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import CustomHeader from "../Header/PublicLayoutHeader";
+import CalculatorFAQ from "./Faqs";
+import { faqDiabetes } from "@/utils/calculatorsFaqs";
 
 const DiabetesRiskCalculator: React.FC = () => {
   const [age, setAge] = useState<string>("");
@@ -237,6 +239,8 @@ const DiabetesRiskCalculator: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <CalculatorFAQ faqs={faqDiabetes} />
     </div>
   );
 };

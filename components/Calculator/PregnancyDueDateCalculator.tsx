@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import CustomHeader from "../Header/PublicLayoutHeader";
+import CalculatorFAQ from "./Faqs";
+import { faqPregnancyDueDate } from "@/utils/calculatorsFaqs";
 
 const PregnancyDueDateCalculator: React.FC = () => {
   const [lmp, setLmp] = useState<string>(""); // Last Menstrual Period
@@ -109,6 +111,8 @@ const PregnancyDueDateCalculator: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <CalculatorFAQ faqs={faqPregnancyDueDate} />
     </div>
   );
 };

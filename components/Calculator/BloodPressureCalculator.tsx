@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import CustomHeader from "../Header/PublicLayoutHeader";
+import CalculatorFAQ from "./Faqs";
+import { faqHypertension } from "@/utils/calculatorsFaqs";
 
 const BloodPressureCalculator: React.FC = () => {
   const [systolic, setSystolic] = useState<string>("");
@@ -144,6 +146,8 @@ const BloodPressureCalculator: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <CalculatorFAQ faqs={faqHypertension} />
     </div>
   );
 };

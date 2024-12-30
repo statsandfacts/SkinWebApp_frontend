@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import CustomHeader from "../Header/PublicLayoutHeader";
 import { useRouter } from "next/navigation";
+import CalculatorFAQ from "./Faqs";
+import { bmiData } from "@/utils/calculatorsFaqs";
 
 const BMICalculator: React.FC = () => {
   const router = useRouter();
@@ -171,6 +173,8 @@ const BMICalculator: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <CalculatorFAQ faqs={bmiData} />
     </div>
   );
 };
