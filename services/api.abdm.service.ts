@@ -71,3 +71,19 @@ export const downloadAbhaCard = async (xToken: any) => {
   });
   return data;
 };
+
+/**
+ *
+ * @param payload
+ * @returns
+ */
+export const downloadAbha = async (xToken: any) => {
+  const headerData = {
+    headers: {
+      token: `Bearer ${xToken}`,
+    },
+  };
+
+  const { data } = await axios.get(baseUrl + "download-abha/", headerData);
+  return data;
+};

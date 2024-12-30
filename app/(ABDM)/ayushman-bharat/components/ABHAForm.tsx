@@ -1,6 +1,7 @@
 "use client";
 import {
   createAbhaNumber,
+  downloadAbha,
   downloadAbhaCard,
   generateOtpThroughAadhar,
   linkAbdmMobile,
@@ -30,9 +31,8 @@ const ABHAForm: React.FC = () => {
     "",
   ]);
   const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
-  const [isOptSendSuccessfully, setIsOptSendSuccessfully] = useState<boolean>(
-    false
-  );
+  const [isOptSendSuccessfully, setIsOptSendSuccessfully] =
+    useState<boolean>(false);
   const [isLinkedMobOptSend, setIsLinkedMobOptSend] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -197,7 +197,7 @@ const ABHAForm: React.FC = () => {
   };
 
   const DownloadAbhaCard = (token: any) => {
-    downloadAbhaCard(token)
+    downloadAbha(token)
       .then((res) => {
         console.log("response----------------", res);
       })
