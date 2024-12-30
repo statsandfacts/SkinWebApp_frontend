@@ -80,7 +80,7 @@ export const downloadAbhaCard = async (xToken: any) => {
 export const downloadAbha = async (xToken: any) => {
   const headerData = {
     headers: {
-      token: `Bearer ${xToken}`,
+      token: xToken,
     },
   };
 
