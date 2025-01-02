@@ -38,6 +38,7 @@ const ABHAForm: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [message, setMessage] = useState<string | null>(null);
   const [txnId, setTxnId] = useState<string>("");
+  const [abhaTokens, setAbhaTokens] = useState<any>(null);
 
   const inputRefs = [
     useRef<HTMLInputElement>(null),
@@ -122,10 +123,11 @@ const ABHAForm: React.FC = () => {
         .then((res) => {
           console.log("response----------------", res);
           setMessage(res?.message);
+          setAbhaTokens(res?.tokens);
           if (!res?.ABHAProfile?.mobile) {
             getOtpForLinkMobile();
           } else {
-            DownloadAbhaCard(res?.tokens?.token);
+            DownloadAbhaCard(res?.tokens);
           }
         })
         .catch((error) => {
@@ -184,6 +186,7 @@ const ABHAForm: React.FC = () => {
       .then((res) => {
         setMessage(res?.message);
         setMessage("");
+        DownloadAbhaCard(abhaTokens);
       })
       .catch((error) => {
         setError(
@@ -197,9 +200,9 @@ const ABHAForm: React.FC = () => {
   };
 
   const DownloadAbhaCard = (token: any) => {
-    downloadAbha(token)
+    downloadAbhaCard(token)
       .then((res) => {
-        console.log("response----------------", res);
+        console.log("responseDownload ABHA----------------", res);
       })
       .catch((error) => {
         setError(error?.response?.data?.detail || "Download failed.");

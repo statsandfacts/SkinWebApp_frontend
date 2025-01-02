@@ -60,9 +60,10 @@ export const linkAbdmMobile = async (payload: any) => {
  * @param xToken
  * @returns
  */
-export const downloadAbhaCard = async (xToken: any) => {
+export const downloadAbhaCard = async (token: any) => {
   const abhaHeaders = {
-    "X-Token": xToken,
+    "X-Token": `Bearer ${token?.token}`,
+    "Authorization": `Bearer ${token?.k_token}`,
     "request-id": crypto.randomUUID(),
     timestamp: new Date().toISOString(),
   };
