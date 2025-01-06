@@ -1,4 +1,6 @@
 "use client";
+import { setAbhaImages, setAbhaImagesData } from "@/redux/slices/abdm.slics";
+import { AppDispatch } from "@/redux/store";
 import {
   createAbhaNumber,
   downloadAbha,
@@ -8,10 +10,14 @@ import {
   updateAbdmLinkedMobileOtp,
 } from "@/services/api.abdm.service";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useState, useRef } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 const ABHAForm: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
   const [inputValues, setInputValues] = useState<string[]>(["", "", ""]);
   const [otpValues, setOtpValues] = useState<string[]>([
     "",
@@ -121,7 +127,6 @@ const ABHAForm: React.FC = () => {
       setIsLoading(true);
       createAbhaNumber({ txnId, otpVal: otp, mobile: mobileNo })
         .then((res) => {
-          console.log("response----------------", res);
           setMessage(res?.message);
           setAbhaTokens(res?.tokens);
           if (!res?.ABHAProfile?.mobile) {
@@ -140,14 +145,11 @@ const ABHAForm: React.FC = () => {
     } else {
       const healthId = inputValues.join("");
       if (isButtonEnabled) {
-        console.log("Aadhaar Number Submitted:", healthId);
-
         setIsButtonEnabled(false);
         setIsLoading(true);
         generateOtpThroughAadhar({ loginId: healthId })
           .then((response) => {
             setIsButtonEnabled(true);
-            console.log("response ==========", response);
             setMessage(response?.message);
             setTxnId(response?.txnId);
             setIsOptSendSuccessfully(true);
@@ -200,9 +202,13 @@ const ABHAForm: React.FC = () => {
   };
 
   const DownloadAbhaCard = (token: any) => {
-    downloadAbhaCard(token)
+    downloadAbha(token?.token)
       .then((res) => {
-        console.log("responseDownload ABHA----------------", res);
+        dispatch(setAbhaImagesData(res));
+        const base64ImageString = Buffer.from(res, "binary").toString("base64");
+
+        dispatch(setAbhaImages(base64ImageString));
+        router.push("/ayushman-bharat/download-abha-card");
       })
       .catch((error) => {
         setError(error?.response?.data?.detail || "Download failed.");
@@ -211,7 +217,6 @@ const ABHAForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 w-full">
-      {/* {!true ? ( */}
       {!isOptSendSuccessfully ? (
         <div className="mb-4">
           <label

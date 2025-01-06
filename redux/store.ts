@@ -1,13 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from './slices/questionary.slice';
-import loginModalSlice from './slices/loginModal.slice';
-import digitalPrescriptionReducer from './slices/digitalPrescription/digitalPrescription.slice';
-import familyMemberReducer from './slices/digitalPrescription/familyMembers.slice';
-import authReducer from './slices/digitalPrescription/auth.slice';
-import stepManagementReducer from './slices/digitalPrescription/stepManagement.slice';
-import userDashboardReducer from './slices/digitalPrescription/userDashboard.slice';
-import drugReducer from './slices/digitalPrescription/drug.slice';
-import blogReducer from './slices/digitalPrescription/blog.slice';
+import { configureStore } from "@reduxjs/toolkit";
+import counterReducer from "./slices/questionary.slice";
+import loginModalSlice from "./slices/loginModal.slice";
+import digitalPrescriptionReducer from "./slices/digitalPrescription/digitalPrescription.slice";
+import familyMemberReducer from "./slices/digitalPrescription/familyMembers.slice";
+import authReducer from "./slices/digitalPrescription/auth.slice";
+import stepManagementReducer from "./slices/digitalPrescription/stepManagement.slice";
+import userDashboardReducer from "./slices/digitalPrescription/userDashboard.slice";
+import drugReducer from "./slices/digitalPrescription/drug.slice";
+import blogReducer from "./slices/digitalPrescription/blog.slice";
+import abdmReducer from "./slices/abdm.slics";
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
     userDashboard: userDashboardReducer,
     drugs: drugReducer,
     blogs: blogReducer,
+    abdm: abdmReducer,
   },
 });
 

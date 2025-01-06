@@ -63,7 +63,7 @@ export const linkAbdmMobile = async (payload: any) => {
 export const downloadAbhaCard = async (token: any) => {
   const abhaHeaders = {
     "X-Token": `Bearer ${token?.token}`,
-    "Authorization": `Bearer ${token?.k_token}`,
+    Authorization: `Bearer ${token?.k_token}`,
     "request-id": crypto.randomUUID(),
     timestamp: new Date().toISOString(),
   };
@@ -79,12 +79,17 @@ export const downloadAbhaCard = async (token: any) => {
  * @returns
  */
 export const downloadAbha = async (xToken: any) => {
-  const headerData = {
+  // const headerData = {
+  //   headers: {
+  //     token: xToken,
+  //   },
+  // };
+
+  const { data } = await axios.get(baseUrl + "download-abha/", {
     headers: {
       token: xToken,
     },
-  };
-
-  const { data } = await axios.get(baseUrl + "download-abha/", headerData);
+    responseType: "arraybuffer",
+  });
   return data;
 };
