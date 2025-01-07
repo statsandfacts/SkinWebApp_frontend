@@ -9,9 +9,9 @@ const ABHA = () => {
       <section className="mt-10 text-white animate-slide-up gap-8 flex flex-col md:flex-row items-center">
         <div className="w-full md:w-1/2">
           <h2 className="text-3xl font-extrabold text-sky-800">
-            About Ayushman Bharat Health Account
+            What is Ayushman Bharat Health Account ?
           </h2>
-          <p className="mt-4 text-lg text-sky-700">
+          <p className="mt-4 text-lg text-slate-700">
             The Ayushman Bharat Health Account (ABHA) is a key initiative under
             the Ayushman Bharat Digital Mission (ABDM). It allows individuals to
             create a unique health ID, providing seamless access to their
@@ -26,7 +26,7 @@ const ABHA = () => {
             <h3 className="text-xl font-bold mb-4 text-sky-800">
               Create Your ABHA Health ID
             </h3>
-            <p className="text-slate-800 text-sm font-semibold">By Using Aadhaar Number</p>
+            {/* <p className="text-slate-800 text-sm font-semibold">By Using Aadhaar Number</p> */}
           </div>
           <ABHAForm />
 

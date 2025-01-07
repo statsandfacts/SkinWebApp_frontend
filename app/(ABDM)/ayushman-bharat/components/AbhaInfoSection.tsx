@@ -20,18 +20,18 @@ const AbhaInfoSection: React.FC = () => {
         <h2 className="text-3xl font-extrabold text-sky-800">
           What is ABHA Card?
         </h2>
-        <p className="mt-4 text-lg text-sky-700">
+        <p className="mt-4 text-lg text-slate-700">
           The ABHA Card, also known as the Health ID Card, is a digital identity
           for individuals in India’s healthcare ecosystem. It allows you to
           securely store and share your medical records with healthcare
           providers, ensuring hassle-free access to healthcare services.
         </p>
-        <p className="mt-4 text-lg text-sky-700">
+        <p className="mt-4 text-lg text-slate-700">
           With an ABHA Card, you can manage your health records digitally,
           access telemedicine services, and connect to a vast network of
           healthcare facilities across the country.
         </p>
-        <p className="mt-4 text-lg text-sky-700">
+        <p className="mt-4 text-lg text-slate-700">
           Each ABHA Card contains a unique 14-digit identification number that
           links your health records across healthcare providers, making it
           easier to access and manage your medical information anytime,

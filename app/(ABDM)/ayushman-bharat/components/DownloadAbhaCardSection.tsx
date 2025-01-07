@@ -20,7 +20,7 @@ const DownloadAbhaCardSection: React.FC = () => {
         <h2 className="text-3xl font-extrabold text-sky-800">
           How to Download ABHA Card
         </h2>
-        <p className="mt-4 text-lg text-sky-700">
+        <p className="mt-4 text-lg text-slate-700">
           To download your ABHA card online, visit the official ABHA portal at{" "}
           <a
             href="https://abdm.gov.in/"
@@ -33,7 +33,7 @@ const DownloadAbhaCardSection: React.FC = () => {
           . Log in to your ABHA account and download your ABHA card easily from
           the portal.
         </p>
-        <p className="mt-4 text-lg text-sky-700">
+        <p className="mt-4 text-lg text-slate-700">
           Alternatively, you can use the ABHA mobile app. If you haven&apos;t
           installed it yet, Android users can download it directly from the Play
           Store. Once installed, log in to your ABHA account and download your

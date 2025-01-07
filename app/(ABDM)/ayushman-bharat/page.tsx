@@ -32,7 +32,7 @@ const ABDMPage = () => {
           <h2 className="text-3xl font-extrabold text-sky-800">
             Create Your ABHA (Ayushman Bharat Health Account)
           </h2>
-          <p className="mt-4 text-lg text-sky-700">
+          <p className="mt-4 text-lg text-slate-700">
             ABHA is your gateway to a seamless digital healthcare experience.
             Create your unique health ID today and connect to India’s futuristic
             healthcare services.
@@ -50,9 +50,9 @@ const ABDMPage = () => {
       <section className="mt-10 text-white transform hover:scale-[1.02] animate-slide-up transition-transform duration-300 ease-in-out flex flex-col md:flex-row items-center">
         <div className="w-full md:w-1/2">
           <h2 className="text-3xl font-extrabold text-sky-800">
-            About Ayushman Bharat Digital Mission
+            What is Ayushman Bharat Digital Mission ?
           </h2>
-          <p className="mt-4 text-lg text-sky-700">
+          <p className="mt-4 text-lg text-slate-700">
             The Ayushman Bharat Digital Mission (ABDM) is a revolutionary
             initiative aimed at transforming the Indian healthcare ecosystem. By
             enabling the creation of digital health IDs, it seeks to empower

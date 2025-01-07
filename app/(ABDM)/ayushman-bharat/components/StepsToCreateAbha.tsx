@@ -10,7 +10,7 @@ const StepsToCreateAbha: React.FC = () => {
         <h2 className="text-3xl font-extrabold text-sky-800">
           Steps to Create ABHA Card
         </h2>
-        <ol className="mt-4 text-lg text-sky-700 list-decimal space-y-2 pl-6">
+        <ol className="mt-4 text-lg text-slate-700 list-decimal space-y-2 pl-6">
           <li>
             Go to the official ABHA website and click &apos;Create ABHA number&apos;.
           </li>
