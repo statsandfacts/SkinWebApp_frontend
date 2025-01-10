@@ -47,7 +47,7 @@ const Footer = (props: Props) => {
                   Phone
                 </div>
                 <div className="grow  text-xs font-medium text-stone-700">
-                  (+91) 91244 26966
+                  (+91) 91244 16966
                 </div>
               </div>
               <div className="flex gap-2 items-center mt-1">

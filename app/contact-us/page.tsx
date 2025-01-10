@@ -27,7 +27,7 @@ const ContactUs = () => {
                       <span className="pr-2">
                         <PhoneIcon className="inline-block text-sky-700 w-6 h-6 mr-2" />
                       </span>
-                      +91 91244 26966
+                      +91 91244 16966
                     </a>
                   </li>
                   <li className="p-2">
