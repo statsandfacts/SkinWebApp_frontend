@@ -8,6 +8,7 @@ import { fetchAllBlogs } from "@/redux/slices/digitalPrescription/blog.slice";
 import Loader from "@/components/Loader";
 import CustomHeader from "@/components/Header/PublicLayoutHeader";
 import BlogNavMenu from "./BlogNavMenu";
+import BlogSegregation from "./BlogSegregation";
 
 const BlogPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,7 +33,9 @@ const BlogPage = () => {
 
         <BlogNavMenu />
 
-        {loading ? (
+        <BlogSegregation />
+
+        {/* {loading ? (
           <div className="flex justify-center items-center h-40 animate-pulse">
             <Loader />
           </div>
@@ -50,7 +53,7 @@ const BlogPage = () => {
           <div className="text-center animate-fade-in">
             <p className="text-gray-500">No blogs available.</p>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

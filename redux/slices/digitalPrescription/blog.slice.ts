@@ -1,5 +1,6 @@
 import {
   getAllBlogs,
+  getAllBlogsByCategory,
   getAllCategories,
   getBlogDtls,
 } from "@/services/api.digitalPrescription.service";
@@ -25,6 +26,12 @@ interface BlogState {
     loading: boolean;
     errorMessage: null | string;
   };
+
+  allBlogsByCategories: {
+    data: any;
+    loading: boolean;
+    errorMessage: null | string;
+  };
 }
 
 export const fetchAllBlogs = createAsyncThunk(
@@ -32,6 +39,18 @@ export const fetchAllBlogs = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getAllBlogs();
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const fetchAllBlogsByCategory = createAsyncThunk(
+  "blog/fetchAllBlogsByCategory",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getAllBlogsByCategory();
       return response;
     } catch (error: any) {
       return rejectWithValue(error.response?.data || error.message);
@@ -83,6 +102,12 @@ const initialState: BlogState = {
   data: [],
   loading: false,
   errorMessage: null,
+
+  allBlogsByCategories: {
+    data: [],
+    errorMessage: null,
+    loading: false,
+  },
 
   comments: {
     data: [],
@@ -178,6 +203,25 @@ const blogSlice = createSlice({
       .addCase(fetchAllCategories.rejected, (state, action) => {
         state.categories.loading = false;
         state.categories.errorMessage = action.payload as string;
+      })
+
+      // Blogs data by id
+      .addCase(fetchAllBlogsByCategory.pending, (state) => {
+        state.allBlogsByCategories.loading = true;
+        state.allBlogsByCategories.errorMessage = null;
+        state.allBlogsByCategories.data = null;
+      })
+      .addCase(
+        fetchAllBlogsByCategory.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.allBlogsByCategories.loading = false;
+          state.allBlogsByCategories.errorMessage = null;
+          state.allBlogsByCategories.data = action.payload ?? [];
+        }
+      )
+      .addCase(fetchAllBlogsByCategory.rejected, (state, action) => {
+        state.allBlogsByCategories.loading = false;
+        state.allBlogsByCategories.errorMessage = action.payload as string;
       });
   },
 });
