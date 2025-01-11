@@ -94,7 +94,6 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
 
           <article className="flex flex-col md:flex-row gap-2">
             <div className="w-full md:w-4/5">
-
               <div className="mb-4">
                 {singleBlog?.image ? (
                   <Image

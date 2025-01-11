@@ -3,6 +3,7 @@
 import {
   fetchAllBlogs,
   fetchAllBlogsByCategory,
+  setReduxCatData,
 } from "@/redux/slices/digitalPrescription/blog.slice";
 import { AppDispatch, RootState } from "@/redux/store";
 import {
@@ -20,9 +21,11 @@ import { useDispatch, useSelector } from "react-redux";
 import LatestBlogCarousel from "./LatestBlogCarousel";
 import Image from "next/image";
 import BlogItem from "./BlogItem";
+import { useRouter } from "next/navigation";
 
 const BlogSegregation = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
   const { allBlogsByCategories, data, errorMessage, loading } = useSelector(
     (state: RootState) => state.blogs
   );
@@ -153,14 +156,19 @@ const BlogSegregation = () => {
                   return (
                     <div key={index}>
                       <div className="flex justify-between">
-                        <p className="text-sky-800 text-xl font-medium">{cat?.name}</p>
-                        <Link
-                          href={"#"}
+                        <p className="text-sky-800 text-xl font-medium">
+                          {cat?.name}
+                        </p>
+                        <button
+                          onClick={() => {
+                            dispatch(setReduxCatData(cat));
+                            router.push(`/blog/category/${cat.category_id}`);
+                          }}
                           className="text-sky-800 flex items-center transition ease-in-out duration-200 hover:translate-x-1 hover:text-sky-700"
                         >
                           View More
                           <ChevronRight className="w-4 h-4 text-sky-800 transition-transform duration-200 ease-in-out hover:translate-x-1" />
-                        </Link>
+                        </button>
                       </div>
 
                       <div className="grid gap-5 grid-cols-1 md:grid-cols-3 mt-2">

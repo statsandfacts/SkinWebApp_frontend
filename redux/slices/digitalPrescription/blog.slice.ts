@@ -32,6 +32,8 @@ interface BlogState {
     loading: boolean;
     errorMessage: null | string;
   };
+
+  reduxCatData: any;
 }
 
 export const fetchAllBlogs = createAsyncThunk(
@@ -120,6 +122,8 @@ const initialState: BlogState = {
     errorMessage: null,
     loading: false,
   },
+
+  reduxCatData: null,
 };
 
 const blogSlice = createSlice({
@@ -131,6 +135,10 @@ const blogSlice = createSlice({
       state.sbLoading = false;
       state.sbErrorMessage = null;
       state.comments.data = action.payload?.comments;
+    },
+
+    setReduxCatData: (state, action: PayloadAction<any>) => {
+      state.reduxCatData = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -226,6 +234,6 @@ const blogSlice = createSlice({
   },
 });
 
-export const { setABlog } = blogSlice.actions;
+export const { setABlog, setReduxCatData } = blogSlice.actions;
 
 export default blogSlice.reducer;
