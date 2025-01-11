@@ -15,9 +15,11 @@ import {
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 
 const BlogNavMenu = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
   const { categories } = useSelector((state: RootState) => state.blogs);
 
   useEffect(() => {
@@ -82,7 +84,14 @@ const BlogNavMenu = () => {
                             },
                             index: number
                           ) => (
-                            <DropdownItem key={index}>
+                            <DropdownItem
+                              key={index}
+                              onClick={() => {
+                                router.push(
+                                  `/blog/sub-category/${item.sub_category_id}`
+                                );
+                              }}
+                            >
                               {item?.name}
                             </DropdownItem>
                           )
