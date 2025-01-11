@@ -159,16 +159,18 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
                 )}
               </div>
 
-              <div className="flex flex-wrap mb-4">
-                {singleBlog?.categories.map((tag: any, index: number) => (
-                  <span
-                    key={index}
-                    className="bg-sky-200 text-sky-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full"
-                  >
-                    {tag?.name}
-                  </span>
-                ))}
-              </div>
+              {singleBlog?.categories && (
+                <div className="flex flex-wrap mb-4">
+                  {singleBlog?.categories.map((tag: any, index: number) => (
+                    <span
+                      key={index}
+                      className="bg-sky-200 text-sky-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full"
+                    >
+                      {tag?.name}
+                    </span>
+                  ))}
+                </div>
+              )}
 
               <h1 className="text-lg sm:text-xl md:text-4xl font-bold mb-8">
                 {singleBlog?.title}

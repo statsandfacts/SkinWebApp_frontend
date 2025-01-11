@@ -43,17 +43,17 @@ const BlogCategoryData = () => {
             </p>
 
             <div>
-              {(
-                reduxCatData?.sub_categories?.flatMap(
-                  (subCat: any) => subCat?.blogs || []
-                ) || []
-              ).map((blog: any, index: number) => (
-                <div key={index}>
-                  <div className="grid gap-5 grid-cols-1 md:grid-cols-3 mt-2">
+              <div className="grid gap-5 grid-cols-1 md:grid-cols-3 mt-2">
+                {(
+                  reduxCatData?.sub_categories?.flatMap(
+                    (subCat: any) => subCat?.blogs || []
+                  ) || []
+                ).map((blog: any, index: number) => (
+                  <div key={index}>
                     <BlogItem blog={blog} />
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>

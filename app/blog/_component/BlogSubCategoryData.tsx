@@ -17,12 +17,15 @@ const BlogSubCategoryData = () => {
   );
 
   useEffect(() => {
-    if (!allBlogsByCategories.data || allBlogsByCategories.data.length <= 0) {
+    if (
+      !allBlogsByCategories.data?.categories ||
+      allBlogsByCategories.data?.categories.length <= 0
+    ) {
       dispatch(fetchAllBlogsByCategory());
     }
   }, [allBlogsByCategories]);
 
-  const subCategoryData = allBlogsByCategories?.data
+  const subCategoryData = allBlogsByCategories?.data?.categories
     ?.flatMap((category: any) => category.sub_categories || [])
     .find((subCat: any) => subCat.sub_category_id === subCategoryId);
 
@@ -50,19 +53,19 @@ const BlogSubCategoryData = () => {
             </p>
 
             <div>
-              {subCategoryData?.blogs.length > 0 ? (
-                subCategoryData?.blogs.map((blog: any, index: number) => (
-                  <div key={index}>
-                    <div className="grid gap-5 grid-cols-1 md:grid-cols-3 mt-2">
+              <div className="grid gap-5 grid-cols-1 md:grid-cols-3 mt-2">
+                {subCategoryData?.blogs.length > 0 ? (
+                  subCategoryData?.blogs.map((blog: any, index: number) => (
+                    <div key={index}>
                       <BlogItem blog={blog} />
                     </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-gray-700 text-lg font-normal text-center">
-                  No feeds found.
-                </p>
-              )}
+                  ))
+                ) : (
+                  <p className="text-gray-700 text-lg font-normal text-center">
+                    No feeds found.
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>
