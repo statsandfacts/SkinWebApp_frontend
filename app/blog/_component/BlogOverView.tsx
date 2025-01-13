@@ -36,13 +36,13 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!singleBlog) {
+    // if (!singleBlog) {
       dispatch(fetchBlogDtls(blogId));
-    }
+    // }
     if (!data || data.length <= 0) {
       dispatch(fetchAllBlogs());
     }
-  }, [singleBlog]);
+  }, []);
 
   const blogUrl = typeof window !== "undefined" ? window.location.href : "";
   const shareText = encodeURIComponent(
