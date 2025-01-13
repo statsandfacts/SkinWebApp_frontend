@@ -49,7 +49,7 @@ const LatestBlogCarousel: React.FC<LatestBlogCarouselProps> = ({ data }) => {
     <section className=" overflow-hidden p-0">
       <div className="embla w-full" ref={emblaRef}>
         <div className="embla__container">
-          {data.length > 0 &&
+          {data && data.length > 0 &&
             data.slice(0, 7).map((item: any, index: number) => (
               <div className="embla__slide" key={index}>
                 <Link href={`/blog/${item.blog_id}`}>

@@ -31,8 +31,9 @@ const BlogSegregation = () => {
 
   useEffect(() => {
     if (
-      !allBlogsByCategories.data?.categories ||
-      allBlogsByCategories.data?.categories.length <= 0
+      allBlogsByCategories.data &&
+      (!allBlogsByCategories.data?.categories ||
+        allBlogsByCategories.data?.categories.length <= 0)
     ) {
       dispatch(fetchAllBlogsByCategory());
     }
@@ -54,7 +55,10 @@ const BlogSegregation = () => {
             <div className="w-full flex flex-col md:flex-row gap-3 md:gap-12">
               <div className="w-2/3">
                 <LatestBlogCarousel
-                  data={allBlogsByCategories.data?.recent_blogs}
+                  data={
+                    allBlogsByCategories.data &&
+                    allBlogsByCategories.data?.recent_blogs
+                  }
                 />
               </div>
 
@@ -64,7 +68,8 @@ const BlogSegregation = () => {
                     Latest Feeds
                   </p>
                   <div className="flex flex-col gap-4">
-                    {allBlogsByCategories.data?.recent_blogs.length > 0 &&
+                    {allBlogsByCategories.data &&
+                      allBlogsByCategories.data?.recent_blogs &&
                       allBlogsByCategories.data?.recent_blogs
                         .slice(0, 4)
                         .map((item: any, index: number) => (
@@ -136,42 +141,46 @@ const BlogSegregation = () => {
 
             <div className="mt-6">
               <div className="flex flex-col gap-4 animate-slide-up">
-                {allBlogsByCategories.data.categories.map(
-                  (cat: any, index: number) => {
-                    const allBlogs =
-                      cat?.sub_categories?.flatMap(
-                        (subCat: any) => subCat?.blogs || []
-                      ) || [];
+                {allBlogsByCategories.data &&
+                  allBlogsByCategories.data.categories &&
+                  allBlogsByCategories.data.categories.map(
+                    (cat: any, index: number) => {
+                      const allBlogs =
+                        cat?.sub_categories?.flatMap(
+                          (subCat: any) => subCat?.blogs || []
+                        ) || [];
 
-                    const topBlogs = allBlogs.slice(0, 3);
+                      const topBlogs = allBlogs.slice(0, 3);
 
-                    return (
-                      <div key={index}>
-                        <div className="flex justify-between">
-                          <p className="text-sky-800 text-xl font-medium">
-                            {cat?.name}
-                          </p>
-                          <button
-                            onClick={() => {
-                              dispatch(setReduxCatData(cat));
-                              router.push(`/blog/category/${cat.category_id}`);
-                            }}
-                            className="text-sky-800 flex items-center transition ease-in-out duration-200 hover:translate-x-1 hover:text-sky-700"
-                          >
-                            View More
-                            <ChevronRight className="w-4 h-4 text-sky-800 transition-transform duration-200 ease-in-out hover:translate-x-1" />
-                          </button>
+                      return (
+                        <div key={index}>
+                          <div className="flex justify-between">
+                            <p className="text-sky-800 text-xl font-medium">
+                              {cat?.name}
+                            </p>
+                            <button
+                              onClick={() => {
+                                dispatch(setReduxCatData(cat));
+                                router.push(
+                                  `/blog/category/${cat.category_id}`
+                                );
+                              }}
+                              className="text-sky-800 flex items-center transition ease-in-out duration-200 hover:translate-x-1 hover:text-sky-700"
+                            >
+                              View More
+                              <ChevronRight className="w-4 h-4 text-sky-800 transition-transform duration-200 ease-in-out hover:translate-x-1" />
+                            </button>
+                          </div>
+
+                          <div className="grid gap-5 grid-cols-1 md:grid-cols-3 mt-2">
+                            {topBlogs.map((blog: any, blogIndex: number) => (
+                              <BlogItem blog={blog} key={blogIndex} />
+                            ))}
+                          </div>
                         </div>
-
-                        <div className="grid gap-5 grid-cols-1 md:grid-cols-3 mt-2">
-                          {topBlogs.map((blog: any, blogIndex: number) => (
-                            <BlogItem blog={blog} key={blogIndex} />
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  }
-                )}
+                      );
+                    }
+                  )}
               </div>
             </div>
           </>

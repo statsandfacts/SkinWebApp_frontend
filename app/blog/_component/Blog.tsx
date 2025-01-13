@@ -16,7 +16,7 @@ const BlogPage = () => {
 
         <BlogNavMenu />
 
-        {/* <BlogSegregation /> */}
+        <BlogSegregation />
       </div>
     </>
   );
