@@ -14,9 +14,9 @@ const BlogPage = () => {
           imageURL="/vector/health_feed.png"
         />
 
-        <BlogNavMenu />
+        {/* <BlogNavMenu />
 
-        <BlogSegregation />
+        <BlogSegregation /> */}
       </div>
     </>
   );
