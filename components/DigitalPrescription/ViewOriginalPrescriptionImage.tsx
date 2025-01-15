@@ -41,8 +41,11 @@ export default function ViewOriginalPrescriptionImage() {
       <ModalContent className="mb-20">
         {() => (
           <>
-            <ModalHeader className="flex flex-col gap-1">
-              Prescription Original Image
+            <ModalHeader className="flex flex-col gap-1 capitalize">
+              {singlePrescriptionDetails?.report_type
+                ? singlePrescriptionDetails?.report_type
+                : "Prescription"}{" "}
+              Original Image
             </ModalHeader>
             <ModalBody>
               <div>
