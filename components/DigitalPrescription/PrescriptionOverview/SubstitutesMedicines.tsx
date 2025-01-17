@@ -30,14 +30,17 @@ export const SubstitutesMedicines: React.FC<SubstitutesMedicinesProps> = ({
 }) => {
   const router = useRouter();
 
+  const filteredMedicines =
+    substitutesMedicines?.filter((ele) => ele?.MRP && ele.MRP !== "0.0") || [];
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-sky-700 mb-2 border-b pb-2 border-sky-500">
         Substitute Medicines
       </h1>
-      {substitutesMedicines && substitutesMedicines.length > 0 ? (
+      {filteredMedicines.length > 0 ? (
         <ul className="space-y-2">
-          {substitutesMedicines.slice(0, 5).map((medicine, index) => (
+          {filteredMedicines.slice(0, 5).map((medicine, index) => (
             <li
               key={index}
               className="p-2 bg-white border border-sky-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow cursor-pointer flex flex-col sm:flex-row sm:justify-between sm:items-center"
@@ -61,7 +64,7 @@ export const SubstitutesMedicines: React.FC<SubstitutesMedicinesProps> = ({
       ) : (
         <p className="text-sky-600">No substitute medicines available.</p>
       )}
-      {substitutesMedicines.length > 5 && (
+      {filteredMedicines.length > 5 && (
         <button
           onClick={() =>
             router.push(`/prescription/${medicineName}/all-substitutes`)

@@ -98,14 +98,17 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                               </p>
                             </div>
 
-                            <div className="mb-2">
-                              <label className="text-sky-900 font-medium block uppercase">
-                                MRP
-                              </label>
-                              <p className="text-slate-500 text-sm font-normal">
-                                ₹{section.overview?.MRP}
-                              </p>
-                            </div>
+                            {section.overview?.MRP &&
+                              section.overview?.MRP !== "0.0" && (
+                                <div className="mb-2">
+                                  <label className="text-sky-900 font-medium block uppercase">
+                                    MRP
+                                  </label>
+                                  <p className="text-slate-500 text-sm font-normal">
+                                    ₹{section.overview?.MRP}
+                                  </p>
+                                </div>
+                              )}
 
                             <div className="mb-2">
                               <label className="text-sky-900 font-medium block uppercase ">
