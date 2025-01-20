@@ -48,11 +48,30 @@ export default function Header() {
     []
   );
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>
       <Navbar
-        className="px-1 md:px-5"
+        className={`px-1 md:px-5 transition-shadow ${
+          isScrolled ? "shadow-xl" : ""
+        }`}
         maxWidth="full"
         isMenuOpen={isMenuOpen}
         onMenuOpenChange={setIsMenuOpen}
@@ -107,7 +126,7 @@ export default function Header() {
             </NavbarItem>
           ))}
           {/* {pathname === "/" && ( */}
-            <LabInvestigationNavItem />
+          <LabInvestigationNavItem />
           {/* )} */}
 
           {/* <NavbarItem>
@@ -159,10 +178,10 @@ export default function Header() {
             </NavbarMenuItem>
           ))}
           {/* {pathname === "/" && ( */}
-            <LabInvestigationNavItem
-              isMenuOpen={isMenuOpen}
-              setIsMenuOpen={setIsMenuOpen}
-            />
+          <LabInvestigationNavItem
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+          />
           {/* )} */}
         </NavbarMenu>
       </Navbar>
