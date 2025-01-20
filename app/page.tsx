@@ -1,4 +1,5 @@
 import {
+  HealthCalculatorSection,
   HeroSection,
   HowToUseSection,
   PrescriptionComparisonSection,
@@ -15,6 +16,7 @@ export default function Home() {
           <SupportSection />
           <HowToUseSection />
           <PrescriptionComparisonSection />
+          <HealthCalculatorSection />
           <ReviewsSection />
         </div>
       </div>

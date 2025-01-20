@@ -14,7 +14,7 @@ const CustomHeader: React.FC<HeaderProps> = ({
   imageURL,
 }) => {
   return (
-    <header className="relative mb-6 min-h-[16rem] w-full py-2 px-12 rounded-lg shadow-lg bg-gradient-to-r from-sky-700 via-sky-500 to-cyan-700 animate-fade-in flex flex-col md:flex-row items-center">
+    <header className="relative mb-6 h-fit md:min-h-[16rem] w-full py-2 px-12 rounded-lg shadow-lg bg-gradient-to-r from-sky-700 via-sky-500 to-cyan-700 animate-fade-in flex flex-col md:flex-row items-center">
       <div className="absolute inset-0 bg-opacity-20 bg-white rounded-lg pointer-events-none"></div>
       <div className="relative text-center md:text-left md:flex-1">
         <h1 className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg">
@@ -24,7 +24,7 @@ const CustomHeader: React.FC<HeaderProps> = ({
           {subHeader}
         </p>
       </div>
-      <div className="relative mt-6 md:mt-0 md:ml-8 flex-shrink-0">
+      <div className="hidden md:flex relative mt-6 md:mt-0 md:ml-8 flex-shrink-0">
         <Image
           src={imageURL}
           alt="Header Illustration"
