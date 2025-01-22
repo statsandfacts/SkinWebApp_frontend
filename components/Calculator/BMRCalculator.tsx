@@ -4,6 +4,7 @@ import CustomHeader from "../Header/PublicLayoutHeader";
 import { toast } from "react-toastify";
 import CalculatorFAQ from "./Faqs";
 import { bmrData } from "@/utils/calculatorsFaqs";
+import BackButton from "../common/BackButton";
 
 const BMRCalculator: React.FC = () => {
   const [weight, setWeight] = useState<string>("");
@@ -79,6 +80,7 @@ const BMRCalculator: React.FC = () => {
 
   return (
     <div className="p-10 md:px-40">
+      <BackButton />
       <CustomHeader
         header="BMR Calculator"
         subHeader="Calculate your Basal Metabolic Rate to understand your body's energy needs."

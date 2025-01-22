@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import CustomHeader from "../Header/PublicLayoutHeader";
 import CalculatorFAQ from "./Faqs";
 import { faqDiabetes } from "@/utils/calculatorsFaqs";
+import BackButton from "../common/BackButton";
 
 const DiabetesRiskCalculator: React.FC = () => {
   const [age, setAge] = useState<string>("");
@@ -96,6 +97,7 @@ const DiabetesRiskCalculator: React.FC = () => {
 
   return (
     <div className="p-10 md:px-40">
+      <BackButton />
       <CustomHeader
         header="Diabetes Risk Calculator"
         subHeader="Assess your risk for developing Type 2 diabetes based on common risk factors."

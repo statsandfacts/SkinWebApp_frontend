@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import CustomHeader from "../Header/PublicLayoutHeader";
 import CalculatorFAQ from "./Faqs";
 import { faqHypertension } from "@/utils/calculatorsFaqs";
+import BackButton from "../common/BackButton";
 
 const BloodPressureCalculator: React.FC = () => {
   const [systolic, setSystolic] = useState<string>("");
@@ -58,6 +59,7 @@ const BloodPressureCalculator: React.FC = () => {
 
   return (
     <div className="p-10 md:px-40">
+      <BackButton />
       <CustomHeader
         header="Blood Pressure Risk Calculator"
         subHeader="Understand your blood pressure levels and risk category."

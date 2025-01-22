@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import CustomHeader from "../Header/PublicLayoutHeader";
 import CalculatorFAQ from "./Faqs";
 import { faqPregnancyDueDate } from "@/utils/calculatorsFaqs";
+import BackButton from "../common/BackButton";
 
 const PregnancyDueDateCalculator: React.FC = () => {
   const [lmp, setLmp] = useState<string>(""); // Last Menstrual Period
@@ -40,6 +41,7 @@ const PregnancyDueDateCalculator: React.FC = () => {
 
   return (
     <div className="p-10 md:px-40">
+      <BackButton />
       <CustomHeader
         header="Pregnancy Due Date Calculator"
         subHeader="Estimate your baby's due date using your Last Menstrual Period (LMP)."

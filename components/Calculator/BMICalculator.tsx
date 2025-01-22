@@ -4,6 +4,7 @@ import CustomHeader from "../Header/PublicLayoutHeader";
 import { useRouter } from "next/navigation";
 import CalculatorFAQ from "./Faqs";
 import { bmiData } from "@/utils/calculatorsFaqs";
+import BackButton from "../common/BackButton";
 
 const BMICalculator: React.FC = () => {
   const router = useRouter();
@@ -65,6 +66,7 @@ const BMICalculator: React.FC = () => {
 
   return (
     <div className="p-10 md:px-40">
+      <BackButton />
       <CustomHeader
         header="BMI Calculator"
         subHeader="Calculate your Body Mass Index and learn about your health category."
