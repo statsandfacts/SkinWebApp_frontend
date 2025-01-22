@@ -78,17 +78,17 @@ const textVariants = {
 const HealthCalculatorSection: React.FC = () => {
   return (
     <section className="mt-10">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row gap-3">
+      <div className="container mx-auto px-4 flex flex-col gap-3">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={textVariants}
         >
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-center">
             Explore Your Health Calculators
           </h2>
-          <p className="text-gray-600 mb-4">
+          {/* <p className="text-gray-600 mb-4">
             Take control of your health by using our simple and effective
             calculators.
           </p>
@@ -100,7 +100,7 @@ const HealthCalculatorSection: React.FC = () => {
             <div>
               <ChevronRight className="w-6 h-6 text-sky-800 transition-transform duration-200 ease-in-out hover:translate-x-1" />
             </div>
-          </Link>
+          </Link> */}
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
