@@ -3,6 +3,7 @@ import {
   getAllBlogsByCategory,
   getAllCategories,
   getBlogDtls,
+  getBlogDtlsBySlug,
 } from "@/services/api.digitalPrescription.service";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
@@ -64,7 +65,7 @@ export const fetchBlogDtls = createAsyncThunk(
   "blog/fetchBlogDetails",
   async (blogId: any, { rejectWithValue }) => {
     try {
-      const response = await getBlogDtls(blogId);
+      const response = await getBlogDtlsBySlug(blogId);
       return response;
     } catch (error: any) {
       return rejectWithValue(error.response?.data || error.message);
@@ -76,7 +77,7 @@ export const fetchComments = createAsyncThunk(
   "blog/fetchComments",
   async (blogId: any, { rejectWithValue }) => {
     try {
-      const response = await getBlogDtls(blogId);
+      const response = await getBlogDtlsBySlug(blogId);
       return response;
     } catch (error: any) {
       return rejectWithValue(error.response?.data || error.message);

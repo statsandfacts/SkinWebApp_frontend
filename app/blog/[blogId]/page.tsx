@@ -17,7 +17,9 @@ export async function generateMetadata({
   params: { blogId: string };
 }): Promise<Metadata> {
   const { blogId } = params;
-  const response = await instance.get(`${baseUrl}blogs/?blog_id=${blogId}`);
+  const response = await instance.get(
+    `${baseUrl}blogs/blog-by-slug?slug=${blogId}`
+  );
 
   return {
     title: `${response.data?.title}`,

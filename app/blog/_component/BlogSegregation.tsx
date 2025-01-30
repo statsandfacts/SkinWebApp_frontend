@@ -67,7 +67,7 @@ const BlogSegregation = () => {
                         .slice(0, 4)
                         .map((item: any, index: number) => (
                           <Link
-                            href={`/blog/${item.blog_id}`}
+                            href={`/blog/${item?.slug}`}
                             key={index}
                             className="hover:bg-sky-50 p-2 rounded-lg h-fit"
                           >
@@ -139,7 +139,7 @@ const BlogSegregation = () => {
                         <div className="flex flex-col gap-4 md:hidden">
                           {topBlogs.map((blog: any, blogIndex: number) => (
                             <Link
-                              href={`/blog/${blog.blog_id}`}
+                              href={`/blog/${blog?.slug}`}
                               key={blogIndex}
                               className="hover:bg-sky-50 p-2 rounded-lg h-fit"
                             >

@@ -253,6 +253,14 @@ export const getBlogDtls = async (blog_id: string) => {
   return data;
 };
 
+export const getBlogDtlsBySlug = async (blog_id: string) => {
+  const { data } = await axios.get(
+    `${baseUrl}blogs/blog-by-slug?slug=${blog_id}`,
+    headers
+  );
+  return data;
+};
+
 export const getAllCategories = async () => {
   const { data } = await axios.get(`${baseUrl}blogs/categories/all`, headers);
   return data;
