@@ -5,7 +5,7 @@ import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 const FollowUsBlogComponent: React.FC = () => {
   return (
     <>
-      <div className="shadow-2xl p-4 mt-6 rounded-lg ">
+      <div className="shadow-2xl p-4 rounded-lg ">
         <p className="text-gray-700 font-semibold text-2xl">Follow Us</p>
         <div className="flex gap-4 items-center py-2">
           <Link

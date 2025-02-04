@@ -56,36 +56,38 @@ const BlogSegregation = () => {
               </div>
 
               <div className="flex flex-col gap-3">
-                <div className="shadow-2xl p-4 rounded-lg">
+                <div className="shadow-2xl px-2 rounded-lg">
                   <p className="text-gray-700 font-semibold text-2xl">
                     Latest Feeds
                   </p>
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col">
                     {allBlogsByCategories.data &&
                       allBlogsByCategories.data?.recent_blogs &&
                       allBlogsByCategories.data?.recent_blogs
-                        .slice(0, 4)
+                        .slice(0, 3)
                         .map((item: any, index: number) => (
                           <Link
                             href={`/blog/${item?.slug}`}
                             key={index}
                             className="hover:bg-sky-50 p-2 rounded-lg h-fit"
                           >
-                            <div className="flex gap-4">
-                              {item?.image ? (
-                                <Image
-                                  src={item?.image}
-                                  alt={item?.title}
-                                  width={150}
-                                  height={150}
-                                  className="rounded-lg"
-                                />
-                              ) : (
-                                <div className="h-40"></div>
-                              )}
-                              <p className="text-gray-700 font-semibold text-base md:text-lg">
-                                {item?.title?.length > 30
-                                  ? `${item?.title?.slice(0, 30)}...`
+                            <div className="flex flex-col items-center md:items-start">
+                              <div className="w-full max-w-xs md:max-w-sm">
+                                {item?.image ? (
+                                  <Image
+                                    src={item?.image}
+                                    alt={item?.title}
+                                    width={300}
+                                    height={200}
+                                    className="rounded-lg w-full h-28 object-cover"
+                                  />
+                                ) : (
+                                  <div className="h-32 md:h-40 w-full bg-gray-200 rounded-lg"></div>
+                                )}
+                              </div>
+                              <p className="text-gray-700 font-medium text-sm md:text-base w-full text-left">
+                                {item?.title?.length > 60
+                                  ? `${item?.title?.slice(0, 60)}...`
                                   : item?.title}
                               </p>
                             </div>
@@ -148,8 +150,8 @@ const BlogSegregation = () => {
                                   <Image
                                     src={blog?.image}
                                     alt={blog?.title}
-                                    width={150}
-                                    height={150}
+                                    width={120}
+                                    height={120}
                                     className="rounded-lg"
                                   />
                                 ) : (
