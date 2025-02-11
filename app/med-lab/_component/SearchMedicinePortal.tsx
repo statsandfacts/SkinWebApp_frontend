@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation"; // ✅ Use Next.js 13+ App Router
 
 interface Medicine {
   Id: string;
@@ -15,12 +16,11 @@ interface Medicine {
   Dosage: string;
 }
 
-const SearchMedicinePortal: React.FC<{
-  name: "medicine" | "investigation";
-}> = ({ name }) => {
+const SearchMedicinePortal: React.FC<{ name: "medicine" | "investigation" }> = ({ name }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredResults, setFilteredResults] = useState<Medicine[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter(); // ✅ Correctly use router
 
   const fetchDrugDetails = async (input: string) => {
     if (input.length < 3) {
@@ -30,9 +30,11 @@ const SearchMedicinePortal: React.FC<{
 
     setIsLoading(true);
     try {
-      const response = await axios.get(
-        `https://nextcare.life:8000/api/stage1/drug/search?name=${input}`
-      );
+      let url = name === "medicine"
+        ? `https://nextcare.life:8000/api/stage1/drug/search?name=${input}`
+        : `https://nextcare.life:8000/api/stage1/investigation/search?name=${input}`;
+
+      const response = await axios.get(url);
       setFilteredResults(response.data.search_result);
     } catch (error) {
       toast.error("Error fetching search results.");
@@ -45,6 +47,16 @@ const SearchMedicinePortal: React.FC<{
     const query = e.target.value;
     setSearchQuery(query);
     fetchDrugDetails(query);
+  };
+
+  useEffect(() => {
+    setSearchQuery("");
+    setFilteredResults([]);
+  }, [name]);
+
+  // ✅ Handle navigation when clicking on the arrow
+  const handleArrowClick = (item: Medicine) => {
+    router.push(`/${name}/${item.Id}`); // ✅ Correct dynamic navigation
   };
 
   return (
@@ -66,27 +78,26 @@ const SearchMedicinePortal: React.FC<{
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredResults.length > 0 ? (
-            filteredResults.map((medicine, index) => (
+            filteredResults.map((item, index) => (
               <div
                 key={index}
-                className="border p-4 rounded-md shadow-md hover:shadow-lg transition-all"
+                className="border p-4 rounded-md shadow-md hover:shadow-lg transition-all cursor-pointer"
               >
-                <h3 className="text-xl font-semibold">{medicine.name}</h3>
-                <p className="text-sm text-gray-500">
-                  Salt Composition: {medicine.salt_composition}
-                </p>
-                <p className="text-sm text-gray-500">Use: {medicine.use_of}</p>
-                <p className="text-sm text-gray-500">
-                  Manufacturers: {medicine.manufacturers}
-                </p>
-                <p className="text-sm text-gray-500">
-                  Dosage: {medicine.Dosage}
-                </p>
+                <h3 className="text-xl font-semibold">{item.name}</h3>
+                <p className="text-sm text-gray-500">{item.salt_composition}</p>
+                <p className="text-sm text-gray-500">Use: {item.use_of}</p>
+                <p className="text-sm text-gray-500">Manufacturers: {item.manufacturers}</p>
+                <p className="text-sm text-gray-500">Dosage: {item.Dosage}</p>
+                
+                {/* ✅ Right Arrow (Click to view details) */}
+                <div className="text-right text-gray-500 mt-2 cursor-pointer" onClick={() => handleArrowClick(item)}>
+                  {/* <span>&rarr; </span> */}
+                </div>
               </div>
             ))
           ) : (
             <div className="col-span-full text-center text-gray-500">
-              {`No ${name} found ${searchQuery}`}
+              
             </div>
           )}
         </div>
@@ -95,4 +106,4 @@ const SearchMedicinePortal: React.FC<{
   );
 };
 
-export default SearchMedicinePortal;
+export default SearchMedicinePortal;    
