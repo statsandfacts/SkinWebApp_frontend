@@ -5,7 +5,6 @@ import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 
-// Define Medicine Type based on the API data structure
 interface Medicine {
   Id: string;
   name: string;
@@ -16,12 +15,13 @@ interface Medicine {
   Dosage: string;
 }
 
-const SearchMedicinePortal: React.FC<{ name: "medicine" | "investigation" }> = ({ name }) => {
+const SearchMedicinePortal: React.FC<{
+  name: "medicine" | "investigation";
+}> = ({ name }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredResults, setFilteredResults] = useState<Medicine[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // API Call for Search
   const fetchDrugDetails = async (input: string) => {
     if (input.length < 3) {
       setFilteredResults([]);
@@ -30,8 +30,10 @@ const SearchMedicinePortal: React.FC<{ name: "medicine" | "investigation" }> = (
 
     setIsLoading(true);
     try {
-      const response = await axios.get(`https://nextcare.life:8000/api/stage1/drug/search?name=${input}`);
-      setFilteredResults(response.data.search_result); // Assuming response contains search_result
+      const response = await axios.get(
+        `https://nextcare.life:8000/api/stage1/drug/search?name=${input}`
+      );
+      setFilteredResults(response.data.search_result);
     } catch (error) {
       toast.error("Error fetching search results.");
     } finally {
@@ -39,7 +41,6 @@ const SearchMedicinePortal: React.FC<{ name: "medicine" | "investigation" }> = (
     }
   };
 
-  // Handle Search Input
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
@@ -47,17 +48,17 @@ const SearchMedicinePortal: React.FC<{ name: "medicine" | "investigation" }> = (
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
-      {/* Search Input */}
-      <input
-        type="text"
-        value={searchQuery}
-        onChange={handleSearch}
-        placeholder={`Search for ${name}`}
-        className="p-2 border border-gray-300 text-sm font-light rounded-md w-full mb-6"
-      />
+    <div className="w-full">
+      <div className="w-full flex justify-center items-center">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearch}
+          placeholder={`Search for ${name}`}
+          className="p-2 border border-gray-300 text-sm font-light rounded-md w-full mb-4 max-w-4xl"
+        />
+      </div>
 
-      {/* Loading State */}
       {isLoading ? (
         <div className="flex justify-center items-center">
           <Loader2 className="h-6 w-6 animate-spin text-gray-500" />
@@ -71,15 +72,21 @@ const SearchMedicinePortal: React.FC<{ name: "medicine" | "investigation" }> = (
                 className="border p-4 rounded-md shadow-md hover:shadow-lg transition-all"
               >
                 <h3 className="text-xl font-semibold">{medicine.name}</h3>
-                <p className="text-sm text-gray-500">Salt Composition: {medicine.salt_composition}</p>
+                <p className="text-sm text-gray-500">
+                  Salt Composition: {medicine.salt_composition}
+                </p>
                 <p className="text-sm text-gray-500">Use: {medicine.use_of}</p>
-                <p className="text-sm text-gray-500">Manufacturers: {medicine.manufacturers}</p>
-                <p className="text-sm text-gray-500">Dosage: {medicine.Dosage}</p>
+                <p className="text-sm text-gray-500">
+                  Manufacturers: {medicine.manufacturers}
+                </p>
+                <p className="text-sm text-gray-500">
+                  Dosage: {medicine.Dosage}
+                </p>
               </div>
             ))
           ) : (
             <div className="col-span-full text-center text-gray-500">
-              {`No ${name} found for "${searchQuery}"`}
+              {`No ${name} found ${searchQuery}`}
             </div>
           )}
         </div>
