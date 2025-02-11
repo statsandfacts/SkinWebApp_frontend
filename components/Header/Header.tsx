@@ -42,6 +42,7 @@ export default function Header() {
       // { name: "Contact Us", link: "/contact-us" },
       { name: "ABDM", link: "/ayushman-bharat" },
       { name: "Health Feed", link: "/blog" },
+      {name:"Meds&Lab",link:"/med-lab"},
       // { name: 'API Sandbox', link: '/apisandbox' },
       // { name: 'Skin Care', link: '/skin-care' },
     ],
