@@ -1,5 +1,10 @@
 import CustomHeader from "@/components/Header/PublicLayoutHeader";
 import SearchComponent from "./_component/SearchComponent";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Search Medicine/Lab-Investigations",
+};
 
 const HomePage = () => {
   return (
