@@ -84,18 +84,18 @@ const DigitalPrescriptionAboutUs = () => {
       description:
         "The Symptom Bot helps users identify potential health concerns and suggests the need for medical attention.",
     },
-    {
-      icon: <Heart className="text-sky-500 text-4xl mb-4" />,
-      title: "Preventive Care",
-      description:
-        "Take proactive steps for your well-being by identifying early signs of health conditions with our digital tools.",
-    },
-    {
-      icon: <Smartphone className="text-sky-500 text-4xl mb-4" />,
-      title: "Mobile-Friendly Interface",
-      description:
-        "Access your healthcare information from anywhere, on any device, with our user-friendly mobile platform.",
-    },
+    // {
+    //   icon: <Heart className="text-sky-500 text-4xl mb-4" />,
+    //   title: "Preventive Care",
+    //   description:
+    //     "Take proactive steps for your well-being by identifying early signs of health conditions with our digital tools.",
+    // },
+    // {
+    //   icon: <Smartphone className="text-sky-500 text-4xl mb-4" />,
+    //   title: "Mobile-Friendly Interface",
+    //   description:
+    //     "Access your healthcare information from anywhere, on any device, with our user-friendly mobile platform.",
+    // },
   ];
 
   return (
@@ -188,7 +188,14 @@ const DigitalPrescriptionAboutUs = () => {
 
           <section className="mt-8">
             <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-              Explore Our Health <Link href={"/calculator"} className="text-sky-900 hover:text-sky-600"> Calculators </Link>
+              Explore Our Health{" "}
+              <Link
+                href={"/calculator"}
+                className="text-sky-900 hover:text-sky-600"
+              >
+                {" "}
+                Calculators{" "}
+              </Link>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {calculators.map((calculator, index) => (

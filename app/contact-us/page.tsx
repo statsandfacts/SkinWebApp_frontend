@@ -2,6 +2,11 @@ import React from "react";
 import { EnvelopeIcon, MapPinIcon, PhoneIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import CustomHeader from "@/components/Header/PublicLayoutHeader";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+};
 
 const ContactUs = () => {
   return (
