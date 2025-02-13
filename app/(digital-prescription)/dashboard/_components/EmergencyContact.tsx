@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { AlertCircle, Phone, Plus, CheckCircle } from "lucide-react";
+import { AlertCircle, Phone, Plus } from "lucide-react";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { updateUser } from "@/services/api.digitalPrescription.service";
 import { toast } from "react-toastify";
@@ -22,9 +22,7 @@ const EmergencyContact = () => {
     (state: RootState) => state.userDashboard
   );
 
-  const [contact, setContact] = useState<string>(
-    dashboardData?.emergency_contact
-  );
+  const [contact, setContact] = useState<string>(dashboardData?.emergency_contact);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -50,17 +48,17 @@ const EmergencyContact = () => {
         dispatch(fetchPatientDashboard(userId));
       })
       .catch((error) => {
-        toast.error(error?.message || "Emergency Contact Updated Failed!");
+        toast.error(error?.message || "Emergency Contact Update Failed!");
       })
       .finally(() => setIsLoading(false));
   };
 
-  const handleEmergencyCall = () => {
-    if (!dashboardData?.emergency_contact) {
+  const handleEmergencyCall = (number: string) => {
+    if (!number) {
       toast.error("Emergency contact not found.");
       return;
     }
-    window.location.href = `tel:${dashboardData?.emergency_contact}`;
+    window.location.href = `tel:${number}`;
   };
 
   return (
@@ -77,7 +75,7 @@ const EmergencyContact = () => {
         <>
           <div
             className="w-full bg-gray-50 rounded-lg shadow-sm shadow-red-100 p-6 mb-10 flex flex-col justify-center items-center max-w-sm sm:max-w-7xl cursor-pointer"
-            onClick={handleEmergencyCall}
+            onClick={() => handleEmergencyCall(dashboardData?.emergency_contact)}
           >
             <div className="flex flex-col justify-center items-center text-center">
               <div className="flex justify-center items-center">
@@ -97,7 +95,7 @@ const EmergencyContact = () => {
           </div>
 
           <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-            <h2 className="text-2xl font-semibold text-gray-800 flex items-center gap-2 mb-6">
+            <h2 className="text-2xl font-semibold text-gray-800 flex items-center gap-2 mb-6"> 
               <AlertCircle className="text-red-600" size={28} />
               Emergency Contact
             </h2>
@@ -125,6 +123,49 @@ const EmergencyContact = () => {
                   ? "Update Contact"
                   : "Save Contact"}
               </Button>
+            </div>
+          </div>
+
+          {/* New section for Ambulance and Ayushman Bharat PMJAY */}
+          <div className="mt-6 w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+            <div className="flex justify-between space-x-4">
+              {/* Left side - Ambulance */}
+              <div
+                className="w-full max-w-[48%] bg-gray-50 rounded-lg shadow-sm p-4 cursor-pointer transform transition-all hover:scale-105"
+                onClick={() => handleEmergencyCall("102")} // Ambulance Number
+              >
+                <div className="flex items-center">
+                  <Phone className="w-6 h-6 text-red-600 mr-2 transition-all duration-500 transform animate-bounce" />
+                  <div>
+                    <div className="mt-2 text-sm font-semibold text-slate-700">
+                       Ambulance
+                    </div>
+                    <div className="mt-1 text-xs text-slate-500">
+                      Tap to call{" "}
+                      <span className="text-sky-700 font-bold">108</span> for an ambulance.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right side - Ayushman Bharat PMJAY */}
+              <div
+                className="w-full max-w-[48%] bg-gray-50 rounded-lg shadow-sm p-4 cursor-pointer transform transition-all hover:scale-105"
+                onClick={() => handleEmergencyCall("14555")} // Ayushman Bharat PMJAY Number
+              >
+                <div className="flex items-center">
+                  <Phone className="w-7 h-7 text-red-600 mr-2 transition-all duration-500 transform animate-bounce" />
+                  <div>
+                    <div className="mt-2 text-sm font-semibold text-slate-700">
+                       Ayushman Bharat PMJAY
+                    </div>
+                    <div className="mt-1 text-xs text-slate-500">
+                      Tap to call{" "}
+                      <span className="text-sky-700 font-bold">14555</span> for Ayushman Bharat.
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </>
