@@ -10,6 +10,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPatientDashboard } from "@/redux/slices/digitalPrescription/userDashboard.slice";
 import Loader from "@/components/Loader";
+import { emergencyContact } from "@/services/api.digitalPrescription.service";
 
 interface EmergencyContact {
   phone: string;
@@ -22,8 +23,11 @@ const EmergencyContact = () => {
     (state: RootState) => state.userDashboard
   );
 
-  const [contact, setContact] = useState<string>(dashboardData?.emergency_contact);
+  const [contact, setContact] = useState<string>(
+    dashboardData?.emergency_contact
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [sendSmsLoading, setSendSmsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (!dashboardData) {
@@ -61,6 +65,24 @@ const EmergencyContact = () => {
     window.location.href = `tel:${number}`;
   };
 
+  const handleSendSMS = async () => {
+    if (!userId) {
+      toast.error("User ID is not available.");
+      return;
+    }
+    setSendSmsLoading(true);
+    emergencyContact(userId)
+      .then((response) => {
+        toast.success("SMS sent successfully");
+      })
+      .catch((error) => {
+        toast.error(error || "Failed to send SMS");
+      })
+      .finally(() => {
+        setSendSmsLoading(false);
+      });
+  };
+
   return (
     <div className="flex flex-col items-center py-10 px-4">
       <div className="flex justify-start w-full max-w-sm sm:max-w-7xl">
@@ -75,7 +97,9 @@ const EmergencyContact = () => {
         <>
           <div
             className="w-full bg-gray-50 rounded-lg shadow-sm shadow-red-100 p-6 mb-10 flex flex-col justify-center items-center max-w-sm sm:max-w-7xl cursor-pointer"
-            onClick={() => handleEmergencyCall(dashboardData?.emergency_contact)}
+            onClick={() =>
+              handleEmergencyCall(dashboardData?.emergency_contact)
+            }
           >
             <div className="flex flex-col justify-center items-center text-center">
               <div className="flex justify-center items-center">
@@ -94,8 +118,19 @@ const EmergencyContact = () => {
             </div>
           </div>
 
+          {/* New "Send SMS" Button */}
+          <Button
+            onClick={handleSendSMS}
+            isLoading={sendSmsLoading}
+            disabled={sendSmsLoading}
+            color="danger"
+            className="rounded-lg"
+          >
+            Send Emergency SMS
+          </Button>
+
           <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-            <h2 className="text-2xl font-semibold text-gray-800 flex items-center gap-2 mb-6"> 
+            <h2 className="text-2xl font-semibold text-gray-800 flex items-center gap-2 mb-6">
               <AlertCircle className="text-red-600" size={28} />
               Emergency Contact
             </h2>
@@ -138,11 +173,12 @@ const EmergencyContact = () => {
                   <Phone className="w-6 h-6 text-red-600 mr-2 transition-all duration-500 transform animate-bounce" />
                   <div>
                     <div className="mt-2 text-sm font-semibold text-slate-700">
-                       Ambulance
+                      Ambulance
                     </div>
                     <div className="mt-1 text-xs text-slate-500">
                       Tap to call{" "}
-                      <span className="text-sky-700 font-bold">108</span> for an ambulance.
+                      <span className="text-sky-700 font-bold">108</span> for an
+                      ambulance.
                     </div>
                   </div>
                 </div>
@@ -157,11 +193,12 @@ const EmergencyContact = () => {
                   <Phone className="w-7 h-7 text-red-600 mr-2 transition-all duration-500 transform animate-bounce" />
                   <div>
                     <div className="mt-2 text-sm font-semibold text-slate-700">
-                       Ayushman Bharat PMJAY
+                      Ayushman Bharat PMJAY
                     </div>
                     <div className="mt-1 text-xs text-slate-500">
                       Tap to call{" "}
-                      <span className="text-sky-700 font-bold">14555</span> for Ayushman Bharat.
+                      <span className="text-sky-700 font-bold">14555</span> for
+                      Ayushman Bharat.
                     </div>
                   </div>
                 </div>
