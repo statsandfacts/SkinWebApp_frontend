@@ -13,6 +13,7 @@ interface UserDashboardState {
     inProgress: any[];
     reUpload: any[];
   };
+  isUpdateHcrModal: boolean;
 }
 
 const initialState: UserDashboardState = {
@@ -27,6 +28,7 @@ const initialState: UserDashboardState = {
     inProgress: [],
     reUpload: [],
   },
+  isUpdateHcrModal: false,
 };
 
 export const fetchPatientDashboard = createAsyncThunk<
@@ -59,6 +61,9 @@ const userDashboardSlice = createSlice({
     },
     setUpdateHealthIndicatorModal: (state, action) => {
       state.isUpdateHealthIndicatorModal = action.payload;
+    },
+    setIsUpdateHCRModal: (state, action) => {
+      state.isUpdateHcrModal = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -108,6 +113,9 @@ const userDashboardSlice = createSlice({
   },
 });
 
-export const { setDashboardTab, setUpdateHealthIndicatorModal } =
-  userDashboardSlice.actions;
+export const {
+  setDashboardTab,
+  setUpdateHealthIndicatorModal,
+  setIsUpdateHCRModal,
+} = userDashboardSlice.actions;
 export default userDashboardSlice.reducer;

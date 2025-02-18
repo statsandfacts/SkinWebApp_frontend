@@ -20,11 +20,20 @@ import {
   setViewUploadedReportModal,
 } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { EyeIcon } from "lucide-react";
-import { fetchPatientDashboard } from "@/redux/slices/digitalPrescription/userDashboard.slice";
+import {
+  EyeIcon,
+  FileCheckIcon,
+  ImageIcon,
+  PencilLineIcon,
+} from "lucide-react";
+import {
+  fetchPatientDashboard,
+  setIsUpdateHCRModal,
+} from "@/redux/slices/digitalPrescription/userDashboard.slice";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import ViewOriginalPrescriptionImage from "@/components/DigitalPrescription/ViewOriginalPrescriptionImage";
 import ViewGenerateReportModal from "@/components/DigitalPrescription/Details/ViewGenerateReportModal";
+import UpdateHcrModal from "./UpdateHcrModal";
 
 const HealthCampReports = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -92,8 +101,9 @@ const HealthCampReports = () => {
                                   }}
                                   title="View Digital Generated Report"
                                   key={1}
+                                  color="primary"
                                 >
-                                  <DocumentMagnifyingGlassIcon className="h-5 w-5" />
+                                  <FileCheckIcon className="h-5 w-5" />
                                 </ToolTipBtn>
 
                                 <ToolTipBtn
@@ -105,8 +115,23 @@ const HealthCampReports = () => {
                                   }}
                                   title="View Uploaded Report"
                                   key={2}
+                                  color="secondary"
                                 >
-                                  <EyeIcon className="h-5 w-5" />
+                                  <ImageIcon className="h-5 w-5" />
+                                </ToolTipBtn>
+
+                                <ToolTipBtn
+                                  onClick={() => {
+                                    dispatch(
+                                      setSinglePrescriptionDetails(report)
+                                    );
+                                    dispatch(setIsUpdateHCRModal(true));
+                                  }}
+                                  title="Edit Uploaded Report"
+                                  key={2}
+                                  color="default"
+                                >
+                                  <PencilLineIcon className="h-5 w-5" />
                                 </ToolTipBtn>
                               </TableCell>
                             </TableRow>
@@ -128,6 +153,7 @@ const HealthCampReports = () => {
 
       <ViewOriginalPrescriptionImage />
       <ViewGenerateReportModal />
+      <UpdateHcrModal />
     </>
   );
 };

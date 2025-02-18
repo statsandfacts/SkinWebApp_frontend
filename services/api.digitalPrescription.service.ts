@@ -409,3 +409,17 @@ export const contactUs = async (payload: any) => {
   );
   return data;
 };
+
+/**
+ *
+ * @param payload HCR data
+ * @returns
+ */
+export const updateHcr = async (payload: any) => {
+  const { data } = await axios.put(
+    `${baseUrl}users/update-hcr`,
+    payload,
+    headers
+  );
+  return data;
+};
