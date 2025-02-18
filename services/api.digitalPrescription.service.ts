@@ -409,3 +409,16 @@ export const contactUs = async (payload: any) => {
   );
   return data;
 };
+
+/**
+ *
+ * @param user_id
+ * @returns
+ */
+export const emergencyContact = async (userId: string | null) => {
+  const { data } = await axios.get(
+    `${baseUrl}users/send_dynamic_message?user_id=${userId}`,
+    headers
+  );
+  return data;
+};

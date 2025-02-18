@@ -10,6 +10,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPatientDashboard } from "@/redux/slices/digitalPrescription/userDashboard.slice";
 import Loader from "@/components/Loader";
+import { emergencyContact } from "@/services/api.digitalPrescription.service";
 
 interface EmergencyContact {
   phone: string;
@@ -26,6 +27,7 @@ const EmergencyContact = () => {
     dashboardData?.emergency_contact
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [sendSmsLoading, setSendSmsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (!dashboardData) {
@@ -63,6 +65,24 @@ const EmergencyContact = () => {
     window.location.href = `tel:${number}`;
   };
 
+  const handleSendSMS = async () => {
+    if (!userId) {
+      toast.error("User ID is not available.");
+      return;
+    }
+    setSendSmsLoading(true);
+    emergencyContact(userId)
+      .then((response) => {
+        toast.success("SMS sent successfully");
+      })
+      .catch((error) => {
+        toast.error(error || "Failed to send SMS");
+      })
+      .finally(() => {
+        setSendSmsLoading(false);
+      });
+  };
+
   return (
     <div className="flex flex-col items-center py-10 px-4">
       <div className="flex justify-start w-full max-w-sm sm:max-w-7xl">
@@ -97,6 +117,17 @@ const EmergencyContact = () => {
               </div>
             </div>
           </div>
+
+          {/* New "Send SMS" Button */}
+          <Button
+            onClick={handleSendSMS}
+            isLoading={sendSmsLoading}
+            disabled={sendSmsLoading}
+            color="danger"
+            className="rounded-lg"
+          >
+            Send Emergency SMS
+          </Button>
 
           <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
             <h2 className="text-2xl font-semibold text-gray-800 flex items-center gap-2 mb-6">
