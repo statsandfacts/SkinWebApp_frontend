@@ -14,6 +14,7 @@ interface Medicine {
   use_of: string;
   manufacturers: string;
   Dosage: string;
+  mrp?:string;
 }
 
 const SearchMedicinePortal: React.FC<{
@@ -94,6 +95,7 @@ const SearchMedicinePortal: React.FC<{
                   Manufacturers: {item.manufacturers}
                 </p>
                 <p className="text-sm text-gray-500">Dosage: {item.Dosage}</p>
+                <p className="text-sm text-gray-500">Price: ₹{item.mrp}</p>
 
                 {/* <div
                   className="text-right text-gray-500 mt-2 cursor-pointer"

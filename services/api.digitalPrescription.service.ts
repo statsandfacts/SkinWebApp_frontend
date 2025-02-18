@@ -423,3 +423,11 @@ export const updateHcr = async (payload: any) => {
   );
   return data;
 };
+
+export const emergencyContact = async (userId: string | null) => {
+  const { data } = await axios.get(
+    `${baseUrl}users/send_dynamic_message?user_id=${userId}`,
+    headers
+  );
+  return data;
+};
