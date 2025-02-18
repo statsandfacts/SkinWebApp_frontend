@@ -395,3 +395,17 @@ export const deleteReminder = async (id: string) => {
   );
   return data;
 };
+
+/**
+ *
+ * @param payload {name,email,phone_no,message }
+ * @returns
+ */
+export const contactUs = async (payload: any) => {
+  const { data } = await axios.post(
+    `${baseUrl}contact/create`,
+    payload,
+    headers
+  );
+  return data;
+};
