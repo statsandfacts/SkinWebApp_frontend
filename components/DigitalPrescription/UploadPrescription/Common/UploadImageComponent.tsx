@@ -64,7 +64,7 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({
           isDragActive ? "bg-gray-100" : "bg-gray-50"
         }`}
       >
-        <input {...getInputProps()} />
+        <input {...getInputProps()} capture="environment" />
         {isDragActive ? (
           <p className="text-blue-500">Drop the files here...</p>
         ) : (
