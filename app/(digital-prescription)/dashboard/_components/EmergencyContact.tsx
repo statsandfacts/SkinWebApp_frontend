@@ -163,11 +163,11 @@ const EmergencyContact = () => {
 
           {/* New section for Ambulance and Ayushman Bharat PMJAY */}
           <div className="mt-6 w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-            <div className="flex justify-between space-x-4">
+            <div className="flex flex-col md:flex-row justify-between gap-4">
               {/* Left side - Ambulance */}
               <div
-                className="w-full max-w-[48%] bg-gray-50 rounded-lg shadow-sm p-4 cursor-pointer transform transition-all hover:scale-105"
-                onClick={() => handleEmergencyCall("102")} // Ambulance Number
+                className="w-full md:max-w-[48%] bg-gray-50 rounded-lg shadow-sm p-4 cursor-pointer transform transition-all hover:scale-105"
+                onClick={() => handleEmergencyCall("102")}
               >
                 <div className="flex items-center">
                   <Phone className="w-6 h-6 text-red-600 mr-2 transition-all duration-500 transform animate-bounce" />
@@ -186,8 +186,8 @@ const EmergencyContact = () => {
 
               {/* Right side - Ayushman Bharat PMJAY */}
               <div
-                className="w-full max-w-[48%] bg-gray-50 rounded-lg shadow-sm p-4 cursor-pointer transform transition-all hover:scale-105"
-                onClick={() => handleEmergencyCall("14555")} // Ayushman Bharat PMJAY Number
+                className="w-full md:max-w-[48%] bg-gray-50 rounded-lg shadow-sm p-4 cursor-pointer transform transition-all hover:scale-105"
+                onClick={() => handleEmergencyCall("14555")}
               >
                 <div className="flex items-center">
                   <Phone className="w-7 h-7 text-red-600 mr-2 transition-all duration-500 transform animate-bounce" />

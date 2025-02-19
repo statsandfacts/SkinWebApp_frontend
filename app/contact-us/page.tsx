@@ -3,6 +3,7 @@ import { EnvelopeIcon, MapPinIcon, PhoneIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import CustomHeader from "@/components/Header/PublicLayoutHeader";
 import type { Metadata } from "next";
+import ContactUsForm from "@/components/Contact/ContactUsForm";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -82,47 +83,7 @@ const ContactUs = () => {
               </div>
             </div>
           </div>
-          <div className="">
-            <div>
-              <span className="uppercase text-sm text-gray-600 font-bold">
-                Full Name
-              </span>
-              <input
-                className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                type="text"
-                placeholder=""
-              />
-            </div>
-            <div className="mt-4">
-              <span className="uppercase text-sm text-gray-600 font-bold">
-                Email
-              </span>
-              <input
-                className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                type="text"
-              />
-            </div>
-            <div className="mt-4">
-              <span className="uppercase text-sm text-gray-600 font-bold">
-                Phone
-              </span>
-              <input
-                className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                type="text"
-              />
-            </div>
-            <div className="mt-4">
-              <span className="uppercase text-sm text-gray-600 font-bold">
-                Message
-              </span>
-              <textarea className="w-full h-32 bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"></textarea>
-            </div>
-            <div className="mt-4">
-              <button className="uppercase text-sm font-bold tracking-wide bg-sky-700 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline">
-                Send Message
-              </button>
-            </div>
-          </div>
+          <ContactUsForm />
         </div>
       </div>
     </div>
