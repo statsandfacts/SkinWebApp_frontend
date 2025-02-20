@@ -256,11 +256,15 @@ export default function ViewGenerateReportModal() {
                       <div className="flex flex-col">
                         <p className="text-sm text-gray-600">
                           <strong>FBS:</strong>{" "}
-                          {singlePrescriptionDetails?.ocr_op?.fbs}%
+                          {singlePrescriptionDetails?.ocr_op?.fbs
+                            ? `${singlePrescriptionDetails?.ocr_op?.fbs} mg/dl`
+                            : ""}
                         </p>
                         <p className="text-sm text-gray-600">
                           <strong>PPBS:</strong>{" "}
-                          {singlePrescriptionDetails?.ocr_op?.ppbs}%
+                          {singlePrescriptionDetails?.ocr_op?.ppbs
+                            ? `${singlePrescriptionDetails?.ocr_op?.ppbs} mg/dl`
+                            : ""}
                         </p>
                         <p className="text-sm text-sky-800">
                           {singlePrescriptionDetails?.ocr_op?.sugar_value}
