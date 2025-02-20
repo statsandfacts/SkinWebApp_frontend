@@ -39,6 +39,8 @@ export default function ViewGenerateReportModal() {
     }
   };
 
+  console.log("singlePrescriptionDetails", singlePrescriptionDetails);
+
   return (
     <>
       <Modal size={"2xl"} isOpen={isViewReportModal} onClose={onClose}>
@@ -266,9 +268,13 @@ export default function ViewGenerateReportModal() {
                             ? `${singlePrescriptionDetails?.ocr_op?.ppbs} mg/dl`
                             : ""}
                         </p>
-                        <p className="text-sm text-sky-800">
-                          {singlePrescriptionDetails?.ocr_op?.sugar_value}
-                        </p>
+                        {singlePrescriptionDetails?.ocr_op?.sugar_value ===
+                        "No parameters found" ? null : (
+                          <p className="text-sm text-sky-800">
+                            {singlePrescriptionDetails?.ocr_op?.sugar_value}
+                          </p>
+                        )}
+
                         <Link
                           href={
                             "/dashboard/health-camp-reports/blood-sugar-test-details"
