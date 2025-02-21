@@ -2,12 +2,16 @@
 import { ChevronLeftIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { useTranslations } from "next-intl";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const BloodSugarTestBlog = () => {
   const router = useRouter();
+  const t = useTranslations("Sugar");
+
   return (
     <div className="md:max-w-4xl xl:max-w-6xl mx-auto bg-white p-6 md:p-10 ">
-      <div>
+      <div className="flex justify-between items-center mb-3 md:mb-6">
         <button
           onClick={() => router.back()}
           className="flex justify-center items-center text-slate-600 mb-2 transition ease-in-out duration-200 hover:text-sky-700 hover:translate-x-1"
@@ -15,128 +19,94 @@ const BloodSugarTestBlog = () => {
           <ChevronLeftIcon className="h-4 w-4 transition-transform duration-200 ease-in-out group-hover:-translate-x-1" />
           Back
         </button>
+        <LanguageSwitcher />
       </div>
       <h1 className="text-3xl md:text-4xl font-bold text-sky-800 mb-6 text-center">
-        Blood Sugar Test Guide
+        {t("title")}
       </h1>
 
       <section className="mb-8">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          What is Diabetes?
+          {t("what_is_diabetes")}
         </h2>
-        <p className="text-gray-600 leading-relaxed">
-          Diabetes is a chronic condition that affects how your body processes
-          blood sugar (glucose). High blood sugar levels can lead to serious
-          health issues like heart disease, kidney failure, and nerve damage.
-        </p>
+        <p className="text-gray-600 leading-relaxed">{t("diabetes_desc")}</p>
       </section>
 
       <section className="mb-8">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          Blood Sugar Tests: FBS & PPBS
+          {t("blood_sugar_tests")}
         </h2>
         <ul className="list-disc pl-5 text-gray-600 space-y-2">
           <li>
-            <strong>Fasting Blood Sugar (FBS):</strong> Measures blood sugar
-            after an 8-hour fast. Normal:{" "}
-            <span className="text-green-500">below 100 mg/dL</span>, Diabetes:
-            <span className="text-red-500"> 126 mg/dL or higher</span>.
+            <strong>{t("fbs_sugar")}</strong> {t("fbs_drsc")}
+            <span className="text-green-500">{t("fbs_normal")}</span>
+            <span className="text-red-500"> {t("fbs_dia")}</span>
           </li>
           <li>
-            <strong>Postprandial Blood Sugar (PPBS):</strong> Measures blood
-            sugar 2 hours after a meal. Normal:{" "}
-            <span className="text-green-500">below 140 mg/dL</span>, Diabetes:
-            <span className="text-red-500"> above 200 mg/dL</span>.
+            <strong>{t("bps_test")}</strong> {t("bps_desc")}
+            <span className="text-green-500">{t("bps_normal")}</span>
+            <span className="text-red-500"> {t("bps_dia")}</span>
           </li>
         </ul>
       </section>
 
       <section className="mb-8">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          Test Preparation Tips
+          {t("test_prep_tips")}
         </h2>
         <ul className="list-disc pl-5 text-gray-600 space-y-2">
-          <li>
-            FBS: Fast for at least 8 hours before the test (only water allowed).
-          </li>
-          <li>PPBS: Eat a normal meal and test exactly 2 hours later.</li>
-          <li>Avoid caffeine, alcohol, and smoking before the test.</li>
-          <li>Stay relaxed and stress-free before testing.</li>
+          <li>{t("fbs_tip")}</li>
+          <li>{t("ppbs_tip")}</li>
+          <li>{t("avoid_caffeine")}</li>
+          <li>{t("stay_relaxed")}</li>
         </ul>
       </section>
 
       <section className="mb-8">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          Understanding Diabetes Types
+          {t("understanding_diabetes_types")}
         </h2>
         <div className="grid md:grid-cols-3 gap-4">
           <div className="bg-blue-100 p-4 rounded-md">
-            <h3 className="font-semibold text-blue-600">Type 1 Diabetes</h3>
-            <p className="text-gray-600 text-sm">
-              An autoimmune condition where the body doesn’t produce insulin.
-            </p>
+            <h3 className="font-semibold text-blue-600">{t("types_1")}</h3>
+            <p className="text-gray-600 text-sm">{t("type_1_diabetes")}</p>
           </div>
           <div className="bg-green-100 p-4 rounded-md">
-            <h3 className="font-semibold text-green-600">Type 2 Diabetes</h3>
-            <p className="text-gray-600 text-sm">
-              The most common type, where the body doesn’t use insulin
-              effectively.
-            </p>
+            <h3 className="font-semibold text-green-600">{t("types_2")}</h3>
+            <p className="text-gray-600 text-sm">{t("type_2_diabetes")}</p>
           </div>
           <div className="bg-yellow-100 p-4 rounded-md">
-            <h3 className="font-semibold text-yellow-600">
-              Gestational Diabetes
-            </h3>
-            <p className="text-gray-600 text-sm">
-              Develops during pregnancy and usually resolves after childbirth.
-            </p>
+            <h3 className="font-semibold text-yellow-600">{t("types_3")}</h3>
+            <p className="text-gray-600 text-sm">{t("type_3_diabetes")}</p>
           </div>
         </div>
       </section>
 
       <section className="mb-8">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          Frequently Asked Questions
+          {t("faq")}
         </h2>
         <div className="space-y-4">
           <div className="bg-gray-100 p-4 rounded-md">
-            <h3 className="font-semibold text-gray-800">
-              Can diabetes be cured?
-            </h3>
-            <p className="text-gray-600">
-              No, but it can be managed with diet, exercise, and medication.
-            </p>
+            <h3 className="font-semibold text-gray-800">{t("faq_1")}</h3>
+            <p className="text-gray-600">{t("faq_1_ans")}</p>
           </div>
           <div className="bg-gray-100 p-4 rounded-md">
-            <h3 className="font-semibold text-gray-800">
-              What lifestyle changes help?
-            </h3>
-            <p className="text-gray-600">
-              Eat a low-carb diet, exercise regularly, manage stress, and
-              control weight.
-            </p>
+            <h3 className="font-semibold text-gray-800">{t("faq_2")}</h3>
+            <p className="text-gray-600">{t("faq_2_ans")}</p>
           </div>
           <div className="bg-gray-100 p-4 rounded-md">
-            <h3 className="font-semibold text-gray-800">
-              Is diabetes hereditary?
-            </h3>
-            <p className="text-gray-600">
-              Yes, genetics can increase the risk of developing diabetes.
-            </p>
+            <h3 className="font-semibold text-gray-800">{t("faq_3")}</h3>
+            <p className="text-gray-600">{t("faq_3_ans")}</p>
           </div>
         </div>
       </section>
 
       <section className="text-center">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          Conclusion
+          {t("conclusions")}
         </h2>
-        <p className="text-gray-600">
-          Diabetes is a lifelong condition, but with regular monitoring and
-          lifestyle changes, it can be managed effectively. FBS and PPBS tests
-          help track blood sugar levels and prevent complications. Work with
-          your healthcare provider for the best management plan!
-        </p>
+        <p className="text-gray-600">{t("conclusion_text")}</p>
       </section>
     </div>
   );

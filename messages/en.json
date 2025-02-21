@@ -1,0 +1,159 @@
+{
+  "Sugar": {
+    "title": "Blood Sugar Test Guide",
+    "what_is_diabetes": "What is Diabetes?",
+    "diabetes_desc": "Diabetes is a chronic condition that affects how your body processes blood sugar (glucose). High blood sugar levels can lead to serious health issues like heart disease, kidney failure, and nerve damage.",
+
+    "blood_sugar_tests": "Blood Sugar Tests: FBS & PPBS",
+    "fbs_sugar": "Fasting Blood Sugar (FBS): ",
+    "fbs_drsc": "Measures blood sugar after an 8-hour fast. ",
+    "fbs_normal": "Normal: below 100 mg/dL,",
+    "fbs_dia": "Diabetes: 126 mg/dL or higher.",
+
+    "bps_test": "Postprandial Blood Sugar (PPBS): ",
+    "bps_desc": "Measures blood sugar 2 hours after a meal. ",
+    "bps_normal": "Normal: below 140 mg/dL, ",
+    "bps_dia": "Diabetes: above 200 mg/dL.",
+
+    "test_prep_tips": "Test Preparation Tips",
+    "fbs_tip": "FBS: Fast for at least 8 hours before the test (only water allowed).",
+    "ppbs_tip": "PPBS: Eat a normal meal and test exactly 2 hours later.",
+    "avoid_caffeine": "Avoid caffeine, alcohol, and smoking before the test.",
+    "stay_relaxed": "Stay relaxed and stress-free before testing.",
+
+    "understanding_diabetes_types": "Understanding Diabetes Types",
+    "types_1": "Type 1 Diabetes",
+    "type_1_diabetes": "An autoimmune condition where the body doesn’t produce insulin.",
+    "types_2": "Type 2 Diabetes ",
+    "type_2_diabetes": "The most common type, where the body doesn’t use insulin effectively.",
+    "types_3": "Gestational Diabetes",
+    "type_3_diabetes": "Develops during pregnancy and usually resolves after childbirth.",
+
+    "faq": "Frequently Asked Questions",
+    "faq_1": "Can diabetes be cured? ",
+    "faq_1_ans": "No, but it can be managed effectively with lifestyle changes and medication.",
+    "faq_2": "What lifestyle changes help?",
+    "faq_2_ans": "Eat a low-carb diet, exercise regularly, manage stress, and control weight.",
+    "faq_3": "Is diabetes hereditary?",
+    "faq_3_ans": "Yes, genetics can increase the risk of developing diabetes.",
+    "conclusions": "Conclusion",
+    "conclusion_text": "Diabetes is a lifelong condition, but with regular monitoring and lifestyle changes, it can be managed effectively. FBS and PPBS tests help track blood sugar levels and prevent complications. Work with your healthcare provider for the best management plan!"
+  },
+  "BP": {
+    "title": "Hypertension: A Comprehensive Guide",
+    "what_is_bp": "What is Hypertension?",
+    "bp_desc": "Hypertension, commonly known as high blood pressure, refers to the force exerted by blood against the walls of your arteries. When this pressure is consistently high, it strains the heart and blood vessels, increasing the risk of heart disease, stroke, and other serious health complications.",
+    "bp_measured": "Blood pressure is measured in millimeters of mercury (mmHg) and is represented by two numbers:",
+    "sys": "Systolic Pressure: The top number, which measures the pressure in your arteries when your heart beats.",
+    "dia": "Diastolic Pressure: The bottom number, which measures the pressure in your arteries when your heart rests between beats.",
+    "normal_bp": "Normal blood pressure is typically below 120/80 mmHg, while hypertension is diagnosed when readings consistently exceed 130/80 mmHg.",
+
+    "blood_pressure_tests": "Test Preparation for Hypertension",
+    "avoid_caffeine_alcohol_smoking": "Avoid caffeine, alcohol, and smoking at least 30 minutes before your test.",
+    "use_restroom": "Use the restroom before the test, as a full bladder can raise blood pressure.",
+    "sit_quietly": "Sit quietly for 5 minutes before the measurement to stay calm.",
+    "wear_loose_clothing": "Wear loose, comfortable clothing for easy cuff placement.",
+
+    "healthcare_provider_info": "What You Need to Provide to Your Healthcare Provider",
+    "medical_history": "Medical history: Share any family history of hypertension, heart disease, or related conditions.",
+    "medications_supplements": "Medications and supplements: List all medications, including over-the-counter drugs and supplements.",
+    "lifestyle_information": "Lifestyle information: Discuss your diet, exercise habits, and smoking or alcohol consumption.",
+    "symptoms": "Symptoms: Report any symptoms such as headaches, dizziness, or chest pain.",
+
+    "understanding_hypertension": "Understanding Hypertension",
+    "silent_killer": "Hypertension is often referred to as the 'silent killer' because it typically has no noticeable symptoms but can lead to serious health issues.",
+    "types_of_hypertension": "There are two types of hypertension:",
+    "primary_hypertension": "Primary Hypertension: The most common type, developing gradually over many years without a clear cause.",
+    "secondary_hypertension": "Secondary Hypertension: Caused by an underlying condition such as kidney disease or thyroid problems. Untreated hypertension can lead to heart disease, stroke, kidney damage, vision problems, and cognitive decline.",
+
+    "hypertension_test": "What Does a Hypertension Test Measure?",
+    "test_systolic_pressure": "Systolic Pressure: The force your blood exerts against artery walls when the heart contracts.",
+    "test_diastolic_pressure": "Diastolic Pressure: The force exerted when the heart is at rest between beats.",
+    "hypertension_stages": "Hypertension is classified into stages: Stage 1 Hypertension: Readings of 130-139/80-89 mmHg. Stage 2 Hypertension: Readings of 140/90 mmHg or higher. Hypertensive Crisis: When readings exceed 180/120 mmHg, requiring immediate medical attention.",
+
+    "faq": "Frequently Asked Questions",
+    "can_hypertension_be_cured": "Can hypertension be cured? No, but it can be managed with lifestyle changes and medication.",
+    "lifestyle_changes": "What lifestyle changes help reduce hypertension? Healthy diet, reducing salt, regular exercise, and managing stress can help.",
+    "bp_check_frequency": "How often should I check my blood pressure? For most adults, annual screenings are enough, but more frequent checks may be needed for those with hypertension.",
+    "is_hypertension_hereditary": "Is hypertension hereditary? Yes, genetics play a role in developing high blood pressure.",
+
+    "conclusion": "Conclusion",
+    "hypertension_management": "Hypertension is a serious condition, but with regular monitoring, treatment, and lifestyle changes, you can manage it effectively. Make sure to have regular check-ups and work with your healthcare provider to keep your blood pressure under control."
+  },
+  "spo2": {
+    "title": "Pulse Oximeter: Your Complete Guide",
+    "title_desc": "A Pulse Oximeter is a small non-invasive device designed to measure the oxygen saturation level (SpO2) in your blood and your heart rate. It's a critical tool used in healthcare settings and by individuals at home to monitor respiratory and cardiovascular health. Whether you're managing a chronic health condition or looking to keep tabs on your wellness, a pulse oximeter can be an essential part of your toolkit.",
+    "what_is_spo2": "What is a Pulse Oximeter?",
+    "spo2_desc": "A Pulse Oximeter is a clip-like device typically placed on a finger, toe, or earlobe. It shines light through your skin to measure how much oxygen your blood is carrying. The device detects changes in blood oxygen levels and your pulse rate, providing instant feedback on your overall health.",
+
+    "test_preparation": "Test Preparation",
+    "stay_still": "Stay Still: Movement can interfere with the reading.",
+    "warm_fingers": "Warm Fingers: Cold hands may affect the accuracy of the reading.",
+    "avoid_nail_polish": "Avoid Nail Polish: Remove dark nail polish or artificial nails as they can distort results.",
+
+    "understanding_pulse_oximeter": "Understanding the Pulse Oximeter",
+    "how_it_works": "A pulse oximeter works using light wavelengths that pass through your skin and blood. It measures how oxygenated and deoxygenated blood absorb light. Based on this, it estimates your blood oxygen saturation and pulse rate, which are critical indicators of how well oxygen is being transported throughout your body.",
+
+    "blood_oxygen_saturation": "Blood Oxygen Saturation (SpO2)",
+    "blood_oxygen_saturation_desc": "SpO2 refers to the percentage of oxygen-carrying red blood cells in your bloodstream. A typical reading is between 95% and 100%. Lower levels may indicate insufficient oxygen.",
+
+    "pulse_rate": "Pulse Rate",
+    "pulse_rate_desc": "It measures your heart rate, providing insights into cardiovascular health.",
+
+    "uses_of_pulse_oximeter": "Uses of a Pulse Oximeter",
+    "uses_list_1": "Chronic Respiratory Conditions (COPD, asthma, etc.)",
+    "uses_list_2": "Sleep Apnea",
+    "uses_list_3": "COVID-19 Monitoring",
+    "uses_list_4": "Post-Surgical Monitoring",
+    "uses_list_5": "High-Altitude Fitness",
+
+    "what_does_pulse_oximeter_measure": "What Does a Pulse Oximeter Measure?",
+    "oxygen_saturation": "Oxygen Saturation (SpO2): Gauges how much oxygen is in your bloodstream. Readings below 90% may require medical attention.",
+    "pulse_rate_measure": "Pulse Rate: The number of heartbeats per minute, offering real-time monitoring.",
+
+    "faq": "Frequently Asked Questions",
+    "normal_spo2_level": "What is a normal oxygen saturation level? Normal levels fall between 95% and 100%. Levels below 90% require medical attention.",
+    "accuracy_of_pulse_oximeter": "How accurate is a pulse oximeter? Typically accurate within a 2% margin of error. Factors like cold hands or nail polish may affect accuracy.",
+    "use_pulse_oximeter_at_home": "Can I use a pulse oximeter at home? Yes, they are commonly used for monitoring chronic conditions or respiratory illnesses.",
+    "low_oxygen_level_action": "What should I do if my oxygen level is low? If readings fall below 90%, seek medical help immediately.",
+    "replace_doctor_diagnosis": "Can a pulse oximeter replace a doctor's diagnosis? No, it is a helpful tool but does not replace professional medical advice.",
+
+    "conclusion": "Conclusion",
+    "conclusion_text": "A pulse oximeter is a valuable tool for tracking your blood oxygen levels and heart rate, especially for those with chronic conditions. It's simple, non-invasive, and offers real-time insights into your health."
+  },
+  "bmi": {
+    "title": "Understanding BMI",
+    "what_is_bmi": "What is BMI?",
+    "bmi_desc": "BMI or Body Mass Index is a numerical value calculated from your height and weight. It provides a quick and easy way to estimate whether a person falls into categories like underweight, normal weight, overweight, or obese.",
+    "bmi_formula": "Formula: BMI = Weight (kg) / Height (m)^2",
+
+    "bmi_tests": "Test Preparation: How to Prepare for a BMI Test",
+    "bmi_test_preparation_1": "Ensure accurate measurements with light clothing and barefoot for height.",
+    "bmi_test_preparation_2": "Use reliable equipment like a calibrated scale and stadiometer.",
+    "bmi_test_preparation_3": "Maintain consistent timing when taking your measurements.",
+
+    "understanding_bmi_score": "Understanding the BMI Score",
+    "understanding_bmi_desc": "The BMI score categorizes individuals into different weight classes, helping to understand where they stand in terms of body weight and potential health risks.",
+    "underweight": "Underweight: BMI less than 18.5",
+    "normal_weight": "Normal weight: BMI between 18.5 and 24.9",
+    "overweight": "Overweight: BMI between 25 and 29.9",
+    "obese": "Obese: BMI 30 and above",
+
+    "bmi_usage": "What is BMI Used For?",
+    "bmi_usage_desc": "BMI is primarily used as a screening tool to assess general health, monitor weight management, evaluate health risks, and conduct public health assessments.",
+
+    "faq": "FAQs About BMI",
+    "bmi_best_health_measure": "Is BMI the best way to measure health?",
+    "bmi_best_health_answer": "While BMI is a useful tool, it doesn’t account for muscle mass, bone density, or fat distribution.",
+    "healthy_bmi": "What is considered a healthy BMI?",
+    "healthy_bmi_answer": "A BMI between 18.5 and 24.9 is generally considered healthy for most adults.",
+    "bmi_inaccuracy": "Can my BMI be inaccurate?",
+    "bmi_inaccuracy_answer": "Yes, BMI might overestimate body fat in muscular individuals and underestimate it in sedentary people.",
+    "bmi_for_children": "Can BMI be used for children?",
+    "bmi_for_children_answer": "Yes, but children's BMI is interpreted differently using growth charts that consider age and sex.",
+    "lower_bmi": "How can I lower my BMI?",
+    "lower_bmi_answer": "Focus on adopting healthier lifestyle choices such as balanced nutrition and regular exercise.",
+    "conclusion": "Conclusion",
+    "conclusion_text": "BMI is a convenient, non-invasive tool that provides valuable insights into your overall health by evaluating your body weight relative to your height. While it may not provide the full picture of your health status, understanding your BMI can empower you to take control of your health."
+  }
+}

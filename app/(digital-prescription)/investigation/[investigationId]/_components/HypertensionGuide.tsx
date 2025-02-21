@@ -2,34 +2,37 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import { useTranslations } from "next-intl";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const HypertensionGuide: React.FC = () => {
   const router = useRouter();
+  const t = useTranslations("BP");
+
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 bg-white shadow-md rounded-lg">
-      <button
-        onClick={() => router.back()}
-        className="flex items-center mb-4 text-blue-600 focus:outline-none"
-      >
-        <ArrowLeftIcon className="h-5 w-5 mr-1" aria-hidden="true" />
-        Back
-      </button>
+      <div className="flex justify-between items-center mb-4 sm:mb-6">
+        <button
+          onClick={() => router.back()}
+          className="flex items-center mb-4 text-blue-600 focus:outline-none"
+        >
+          <ArrowLeftIcon className="h-5 w-5 mr-1" aria-hidden="true" />
+          Back
+        </button>
+        <LanguageSwitcher />
+      </div>
       <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-center text-blue-600">
-        Hypertension: A Comprehensive Guide
+        {t("title")}
       </h1>
 
       <section className="mb-6 sm:mb-8">
         <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-800">
-          What is Hypertension?
+          {t("what_is_bp")}
         </h2>
         <div className="flex flex-col sm:flex-row gap-6 mb-6">
           <div className="sm:w-2/3">
             <p className="text-gray-700 mb-4 sm:mb-6 leading-relaxed text-justify">
-              Hypertension, commonly known as high blood pressure, refers to the
-              force exerted by blood against the walls of your arteries. When
-              this pressure is consistently high, it strains the heart and blood
-              vessels, increasing the risk of heart disease, stroke, and other
-              serious health complications.
+              {t("bp_desc")}
             </p>
           </div>
 
@@ -45,153 +48,86 @@ const HypertensionGuide: React.FC = () => {
           </div>
         </div>
         <div className="text-gray-700 mb-4 sm:mb-6 leading-relaxed text-justify">
-          Blood pressure is measured in millimeters of mercury (mmHg) and is
-          represented by two numbers:
+          {t("bp_measured")}
         </div>
         <ul className="list-disc pl-4 sm:pl-6 text-gray-700 space-y-2">
-          <li>
-            <strong>Systolic Pressure:</strong> The top number, which measures
-            the pressure in your arteries when your heart beats.
-          </li>
-          <li>
-            <strong>Diastolic Pressure:</strong> The bottom number, which
-            measures the pressure in your arteries when your heart rests between
-            beats.
-          </li>
+          <li>{t("sys")}</li>
+          <li>{t("dia")}</li>
         </ul>
         <p className="text-gray-700 leading-relaxed text-justify">
-          Normal blood pressure is typically below 120/80 mmHg, while
-          hypertension is diagnosed when readings consistently exceed 130/80
-          mmHg.
+          {t("normal_bp")}
         </p>
       </section>
 
       <section className="mb-6 sm:mb-8">
         <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-800">
-          Test Preparation for Hypertension
+          {t("blood_pressure_tests")}
         </h2>
         <ul className="list-disc pl-4 sm:pl-6 text-gray-700 space-y-2 leading-relaxed">
-          <li>
-            Avoid caffeine, alcohol, and smoking at least 30 minutes before your
-            test.
-          </li>
-          <li>
-            Use the restroom before the test, as a full bladder can raise blood
-            pressure.
-          </li>
-          <li>
-            Sit quietly for 5 minutes before the measurement to stay calm.
-          </li>
-          <li>Wear loose, comfortable clothing for easy cuff placement.</li>
+          <li>{t("avoid_caffeine_alcohol_smoking")}</li>
+          <li>{t("use_restroom")}</li>
+          <li>{t("sit_quietly")}</li>
+          <li>{t("wear_loose_clothing")}</li>
         </ul>
       </section>
 
       <section className="mb-6 sm:mb-8">
         <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-800">
-          What You Need to Provide to Your Healthcare Provider
+          {t("healthcare_provider_info")}
         </h2>
         <ul className="list-disc pl-4 sm:pl-6 text-gray-700 space-y-2 leading-relaxed">
-          <li>
-            <strong>Medical history:</strong> Share any family history of
-            hypertension, heart disease, or related conditions.
-          </li>
-          <li>
-            <strong>Medications and supplements:</strong> List all medications,
-            including over-the-counter drugs and supplements.
-          </li>
-          <li>
-            <strong>Lifestyle information:</strong> Discuss your diet, exercise
-            habits, and smoking or alcohol consumption.
-          </li>
-          <li>
-            <strong>Symptoms:</strong> Report any symptoms such as headaches,
-            dizziness, or chest pain.
-          </li>
+          <li>{t("medical_history")}</li>
+          <li>{t("medications_supplements")}</li>
+          <li>{t("lifestyle_information")}</li>
+          <li>{t("symptoms")}</li>
         </ul>
       </section>
 
       <section className="mb-6 sm:mb-8">
         <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-800">
-          Understanding Hypertension
+          {t("understanding_hypertension")}
         </h2>
         <p className="text-gray-700 mb-4 sm:mb-6 leading-relaxed text-justify">
-          Hypertension is often referred to as the &quot;silent killer&quot; because it
-          typically has no noticeable symptoms but can lead to serious health
-          issues. There are two types:
+          {t("silent_killer")}
         </p>
+        <p>{t("types_of_hypertension")}</p>
         <ul className="list-disc pl-4 sm:pl-6 text-gray-700 space-y-2">
-          <li>
-            <strong>Primary Hypertension:</strong> The most common type,
-            developing gradually over many years without a clear cause.
-          </li>
-          <li>
-            <strong>Secondary Hypertension:</strong> Caused by an underlying
-            condition such as kidney disease or thyroid problems.
-          </li>
+          <li>{t("primary_hypertension")}</li>
+          <li>{t("secondary_hypertension")}</li>
+        </ul>
+      </section>
+
+      <section className="mb-6 sm:mb-8">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-800">
+          {t("hypertension_test")}
+        </h2>
+        <ul className="list-disc pl-4 sm:pl-6 text-gray-700 space-y-2 leading-relaxed">
+          <li>{t("test_systolic_pressure")}</li>
+          <li>{t("test_diastolic_pressure")}</li>
         </ul>
         <p className="text-gray-700 leading-relaxed text-justify">
-          Untreated hypertension can lead to heart disease, stroke, kidney
-          damage, vision problems, and cognitive decline.
+          {t("hypertension_stages")}
         </p>
       </section>
 
       <section className="mb-6 sm:mb-8">
         <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-800">
-          What Does a Hypertension Test Measure?
+          {t("faq")}
         </h2>
         <ul className="list-disc pl-4 sm:pl-6 text-gray-700 space-y-2 leading-relaxed">
-          <li>
-            <strong>Systolic Pressure:</strong> The force your blood exerts
-            against artery walls when the heart contracts.
-          </li>
-          <li>
-            <strong>Diastolic Pressure:</strong> The force exerted when the
-            heart is at rest between beats.
-          </li>
-        </ul>
-        <p className="text-gray-700 leading-relaxed text-justify">
-          Hypertension is classified into stages, with readings of 130-139/80-89
-          mmHg being Stage 1 Hypertension, and readings of 140/90 mmHg or higher
-          considered Stage 2. A hypertensive crisis occurs when readings exceed
-          180/120 mmHg and requires immediate medical attention.
-        </p>
-      </section>
-
-      <section className="mb-6 sm:mb-8">
-        <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-800">
-          FAQ
-        </h2>
-        <ul className="list-disc pl-4 sm:pl-6 text-gray-700 space-y-2 leading-relaxed">
-          <li>
-            <strong>Can hypertension be cured?</strong> No, but it can be
-            managed with lifestyle changes and medication.
-          </li>
-          <li>
-            <strong>What lifestyle changes help reduce hypertension?</strong>{" "}
-            Healthy diet, reducing salt, regular exercise, and managing stress
-            can help.
-          </li>
-          <li>
-            <strong>How often should I check my blood pressure?</strong> For
-            most adults, annual screenings are enough, but more frequent checks
-            may be needed for those with hypertension.
-          </li>
-          <li>
-            <strong>Is hypertension hereditary?</strong> Yes, genetics play a
-            role in developing high blood pressure.
-          </li>
+          <li>{t("can_hypertension_be_cured")}</li>
+          <li>{t("lifestyle_changes")}</li>
+          <li>{t("bp_check_frequency")}</li>
+          <li>{t("is_hypertension_hereditary")}</li>
         </ul>
       </section>
 
       <section className="mb-6 sm:mb-8">
         <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-800">
-          Conclusion
+          {t("conclusion")}
         </h2>
         <p className="text-gray-700 leading-relaxed text-justify">
-          Hypertension is a serious condition, but with regular monitoring,
-          treatment, and lifestyle changes, you can manage it effectively. Make
-          sure to have regular check-ups and work with your healthcare provider
-          to keep your blood pressure under control.
+          {t("hypertension_management")}
         </p>
       </section>
     </div>
