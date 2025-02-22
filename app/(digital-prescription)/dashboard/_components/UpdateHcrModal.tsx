@@ -73,15 +73,15 @@ export default function UpdateHcrModal() {
         .required("Phone is required"),
       Email: Yup.string().email("Invalid email").required("Email is required"),
       Gender: Yup.string().required("Gender is required"),
-      Age: Yup.number().positive().integer().required("Age is required"),
+      Age: Yup.string().required("Age is required"),
       Height: Yup.string().required("Height is required"),
       Weight: Yup.string().required("Weight is required"),
       DOB: Yup.string().required("Date of Birth is required"),
       Marital_Status: Yup.string().required("Marital status is required"),
-      PULSE_OXIMETER: Yup.number().required("Pulse Oximeter value is required"),
-      Dia: Yup.number().required("Diastolic pressure is required"),
-      Sys: Yup.number().required("Systolic pressure is required"),
-      Pulse_Rate: Yup.number().required("Pulse rate is required"),
+      PULSE_OXIMETER: Yup.string().required("Pulse Oximeter value is required"),
+      Dia: Yup.string().required("Diastolic pressure is required"),
+      Sys: Yup.string().required("Systolic pressure is required"),
+      Pulse_Rate: Yup.string().required("Pulse rate is required"),
       bmi: Yup.string().required("BMI is required"),
       bp_category: Yup.string().required("BP Category is required"),
       spo2: Yup.string().required("SPO2 value is required"),
@@ -166,12 +166,31 @@ export default function UpdateHcrModal() {
                             ? "BMI Weight Between"
                             : field === "bp_category"
                             ? "Blood Pressure Category"
+                            : field === "result"
+                            ? "Weight category"
                             : field.replace(/_/g, " ")}
                         </label>
                         <Input
                           {...formik.getFieldProps(field)}
                           type={"text"}
                           fullWidth
+                          isInvalid={
+                            !!(formik.touched[field] && formik.errors[field])
+                          }
+                          errorMessage={
+                            formik.touched[field] &&
+                            typeof formik.errors[field] === "string"
+                              ? formik.errors[field]
+                              : ""
+                          }
+                          isDisabled={[
+                            "weight_between",
+                            "result",
+                            "bp_category",
+                            "spo2",
+                            "sugar_value",
+                            "bmi",
+                          ].includes(field)}
                         />
                       </div>
                     )}
