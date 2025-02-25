@@ -1,26 +1,29 @@
 import { Metadata } from "next";
-import {
-  User,      // Represents Account Details Update
-  Phone,     // Represents Update Emergency Contact
-  Mail,      // Represents Contact Us
-} from "lucide-react";
+import { User, Phone, Mail } from "lucide-react";
 
 import MyAccount from "../_components/MyAccount";
 import ItemCard from "../_components/ItemCard";
 export const metadata: Metadata = {
-  title: "AccountDetails"
+  title: "AccountDetails",
 };
 
 const MyAccountPage = () => {
   const items = [
-    { title: "Account Details Update", link: "/dashboard/my-account/account-details-update", icon: User },
-    { title: "Update Emergency Contact", link: "/dashboard/emergency-contact", icon: Phone },
+    {
+      title: "Account Details Update",
+      link: "/dashboard/my-account/account-details-update",
+      icon: User,
+    },
+    {
+      title: "Update Emergency Contact",
+      link: "/dashboard/emergency-contact",
+      icon: Phone,
+    },
     {
       title: "Contact Us",
       link: "/contact-us",
       icon: Mail,
     },
-   
   ];
 
   return (

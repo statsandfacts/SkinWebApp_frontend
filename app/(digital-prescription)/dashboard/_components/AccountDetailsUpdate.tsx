@@ -5,18 +5,16 @@ import { User } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { fetchUserDetails } from "@/redux/slices/digitalPrescription/auth.slice";
-import toast from "react-hot-toast";
 import { updateUser } from "@/services/api.digitalPrescription.service";
-
+import { toast } from "react-toastify";
 
 const AccountDetailsUpdate = () => {
   const dispatch = useDispatch<AppDispatch>();
   const userId = useSelector((state: RootState) => state.auth.userId);
   const userDetails = useSelector((state: RootState) => state.auth.userDetails);
 
-  const [profilePic, setProfilePic] = useState<string | null>(null); 
+  const [profilePic, setProfilePic] = useState<string | null>(null);
   const [formData, setFormData] = useState({
-    
     fullName: "",
     dob: "",
     gender: "",
@@ -45,7 +43,9 @@ const AccountDetailsUpdate = () => {
     }
   }, [userDetails]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -57,7 +57,10 @@ const AccountDetailsUpdate = () => {
 
       const reader = new FileReader();
       reader.onload = () => {
-        setFormData((prev) => ({ ...prev, profilePic: reader.result as string }));
+        setFormData((prev) => ({
+          ...prev,
+          profilePic: reader.result as string,
+        }));
       };
       reader.readAsDataURL(file);
     }
@@ -65,14 +68,19 @@ const AccountDetailsUpdate = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
-    if (!formData.fullName || !formData.dob || !formData.gender || !formData.zipCode) {
+
+    if (
+      !formData.fullName ||
+      !formData.dob ||
+      !formData.gender ||
+      !formData.zipCode
+    ) {
       toast.error("Please fill in all required fields.");
       return;
     }
-  
+
     setLoading(true);
-  
+
     const payload = {
       user_id: userDetails?.user_id,
       name: formData.fullName,
@@ -80,10 +88,10 @@ const AccountDetailsUpdate = () => {
       gender: formData.gender,
       zipcode: formData.zipCode,
     };
-   
+
     try {
       const response = await updateUser(payload);
-  
+
       if (response?.success) {
         toast.success(response.message || "Profile updated successfully!");
         console.log(response);
@@ -92,7 +100,8 @@ const AccountDetailsUpdate = () => {
         console.log(response);
       }
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || "Failed to update profile.";
+      const errorMessage =
+        error.response?.data?.message || "Failed to update profile.";
       toast.error(errorMessage);
     } finally {
       setLoading(false);
@@ -135,25 +144,57 @@ const AccountDetailsUpdate = () => {
           <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium">Full Name</label>
-              <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} className="w-full p-3 border rounded-md" required />
+              <input
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                className="w-full p-3 border rounded-md"
+                required
+              />
             </div>
             <div>
               <label className="block text-sm font-medium">Date of Birth</label>
-              <input type="date" name="dob" value={formData.dob} onChange={handleChange} className="w-full p-3 border rounded-md" required />
+              <input
+                type="date"
+                name="dob"
+                value={formData.dob}
+                onChange={handleChange}
+                className="w-full p-3 border rounded-md"
+                required
+              />
             </div>
             <div>
               <label className="block text-sm font-medium">Gender</label>
-              <select name="gender" value={formData.gender} onChange={handleChange} className="w-full p-3 border rounded-md" required>
-                <option value="" disabled>Select Gender</option>
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                className="w-full p-3 border rounded-md"
+                required
+              >
+                <option value="" disabled>
+                  Select Gender
+                </option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium">Marital Status</label>
-              <select name="maritalStatus" value={formData.maritalStatus} onChange={handleChange} className="w-full p-3 border rounded-md" required>
-                <option value="" disabled>Select Marital Status</option>
+              <label className="block text-sm font-medium">
+                Marital Status
+              </label>
+              <select
+                name="maritalStatus"
+                value={formData.maritalStatus}
+                onChange={handleChange}
+                className="w-full p-3 border rounded-md"
+                required
+              >
+                <option value="" disabled>
+                  Select Marital Status
+                </option>
                 <option value="Married">Married</option>
                 <option value="Unmarried">Unmarried</option>
                 <option value="Single">Single</option>
@@ -161,7 +202,14 @@ const AccountDetailsUpdate = () => {
             </div>
             <div>
               <label className="block text-sm font-medium">ZIP Code</label>
-              <input type="text" name="zipCode" value={formData.zipCode} onChange={handleChange} className="w-full p-3 border rounded-md" required />
+              <input
+                type="text"
+                name="zipCode"
+                value={formData.zipCode}
+                onChange={handleChange}
+                className="w-full p-3 border rounded-md"
+                required
+              />
             </div>
           </form>
 
