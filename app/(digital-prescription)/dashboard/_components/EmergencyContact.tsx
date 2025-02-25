@@ -129,7 +129,7 @@ const EmergencyContact = () => {
             Send Emergency SMS
           </Button>
 
-          <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+          {/* <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
             <h2 className="text-2xl font-semibold text-gray-800 flex items-center gap-2 mb-6">
               <AlertCircle className="text-red-600" size={28} />
               Emergency Contact
@@ -159,7 +159,7 @@ const EmergencyContact = () => {
                   : "Save Contact"}
               </Button>
             </div>
-          </div>
+          </div> */}
 
           {/* New section for Ambulance and Ayushman Bharat PMJAY */}
           <div className="mt-6 w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
