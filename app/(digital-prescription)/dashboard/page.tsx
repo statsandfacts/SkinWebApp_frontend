@@ -38,6 +38,11 @@ const Dashboard = () => {
       link: "/dashboard/emergency-contact",
       icon: Phone,
     },
+    {
+      title: "My Account",
+      link: "/dashboard/my-account/account-details-update",
+      icon: User,
+    },
   ];
 
   return (

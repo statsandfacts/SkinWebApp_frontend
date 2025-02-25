@@ -52,7 +52,7 @@ const NavButtonDP = () => {
   };
 
   const profileElement = (
-    <Link href="/dashboard">
+    <Link href="/dashboard/my-account">
       <User
         as="button"
         name={userDetails?.name}
@@ -88,6 +88,14 @@ const NavButtonDP = () => {
           <DropdownItem key="profile" className="h-14 gap-2">
             <p className="font-semibold">Signed in as</p>
             <p className="font-semibold">{userDetails?.name}</p>
+          </DropdownItem>
+          <DropdownItem key="prescriptions">
+            {/* <Link href="/upload-prescription/prescriptions">View Case</Link> */}
+            <button
+              onClick={() => router.push("/dashboard/my-account")}
+            >
+              My Account
+            </button>
           </DropdownItem>
           <DropdownItem key="prescriptions">
             {/* <Link href="/upload-prescription/prescriptions">View Case</Link> */}
