@@ -16,7 +16,7 @@ const MyAccountPage = () => {
     },
     {
       title: "Update Emergency Contact",
-      link: "/dashboard/emergency-contact",
+      link: "/dashboard/my-account/update-emegency-contact",
       icon: Phone,
     },
     {
