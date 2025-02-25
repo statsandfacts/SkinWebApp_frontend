@@ -37,7 +37,7 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
 
   useEffect(() => {
     // if (!singleBlog) {
-      dispatch(fetchBlogDtls(blogId));
+    dispatch(fetchBlogDtls(blogId));
     // }
     if (!data || data.length <= 0) {
       dispatch(fetchAllBlogs());
@@ -185,28 +185,30 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
               <ManageComments />
             </div>
             <div className="w-full md:w-1/5 mt-3 md:mt-0">
-              <p className="font-semibold text-slate-700 text-center">
-                Related Posts
-              </p>
               {loading ? (
                 <Loader />
               ) : errorMessage ? (
                 <p className="p-10 md:px-40 text-red-500">{errorMessage}</p>
               ) : data.length > 0 ? (
-                <div className="grid gap-5 grid-cols-1">
-                  {filterData(data).length > 0 ? (
-                    filterData(data).map((blog: any, index: number) => (
-                      <BlogItem blog={blog} key={index} isReadMore={false} />
-                    ))
-                  ) : (
-                    <p className="text-center text-slate-400 font-light text-sm">
-                      Related post not found
-                    </p>
-                  )}
+                <div className="h-[650px] overflow-y-auto border rounded-lg p-3">
+                  {/* Heading moved inside the card */}
+                  <p className="font-semibold text-slate-700 text-center mb-3">
+                    Related Posts
+                  </p>
+
+                  <div className="grid gap-5 grid-cols-1">
+                    {filterData(data).length > 0 ? (
+                      filterData(data).map((blog: any, index: number) => (
+                        <BlogItem blog={blog} key={index} isReadMore={false} />
+                      ))
+                    ) : (
+                      <p className="text-center text-slate-400 font-light text-sm">
+                        Related post not found
+                      </p>
+                    )}
+                  </div>
                 </div>
-              ) : (
-                <></>
-              )}
+              ) : null}
             </div>
           </article>
         </div>
