@@ -179,8 +179,9 @@ export default function UpdateHcrModal() {
                           }
                           errorMessage={
                             formik.touched[field] &&
+                            formik.errors[field] &&
                             typeof formik.errors[field] === "string"
-                              ? formik.errors[field]
+                              ? (formik.errors[field] as string)
                               : ""
                           }
                           isDisabled={[
