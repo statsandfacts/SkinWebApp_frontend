@@ -124,12 +124,12 @@ const CONST = {
   TERN_AND_CONDITION_DP: [
     {
       appDescription:
-        "Nextcare .Life, a HealthTech platform, provides clinical decision support services (CDSS) by converting physical prescriptions into digital formats. Our platform also offers features such as medication reminders, lab test interpretation, and advice on prescribed drugs, including dosage recommendations. While we strive to ensure accuracy and clarity, the services offered are informational in nature and are not a substitute for professional medical advice, diagnosis, or treatment.",
+        "Nextcare.Life, a HealthTech platform, provides clinical decision support services (CDSS) by converting physical prescriptions into digital formats. Our platform also offers features such as medication reminders, lab test interpretation, and advice on prescribed drugs, including dosage recommendations. While we strive to ensure accuracy and clarity, the services offered are informational in nature and are not a substitute for professional medical advice, diagnosis, or treatment.",
     },
     {
       heading: "1. No Doctor-Patient Relationship:",
       description: [
-        "By using our platform, you acknowledge that Nextcare .Life does not create a doctor-patient relationship.",
+        "By using our platform, you acknowledge that Nextcare.Life does not create a doctor-patient relationship.",
         "The information provided is meant to assist in decision-making and supplement professional care, not replace consultation with qualified healthcare providers. Always consult a licensed physician for any health concerns or before starting or altering prescribed treatments.",
       ],
     },
@@ -139,6 +139,7 @@ const CONST = {
         "Our digital prescription service aims to clarify and digitize prescriptions for patient convenience. ",
         "The dosage, frequency, and other medication details provided on the platform are based on the input from the physical prescription but must always be verified by the prescribing healthcare professional.",
         "We are not responsible for any adverse outcomes resulting from errors in input or misinterpretation of prescription data.",
+        "To digitize your prescription, we may need to share it with your healthcare provider when necessary.",
       ],
     },
     {
@@ -151,7 +152,7 @@ const CONST = {
     {
       heading: "4. Limitations and Liability:",
       description: [
-        "Although every effort is made to ensure that the information provided is accurate and up-to-date, Nextcare .Life does not guarantee the completeness, accuracy, or timeliness of any information on the platform.",
+        "Although every effort is made to ensure that the information provided is accurate and up-to-date, Nextcare.Life does not guarantee the completeness, accuracy, or timeliness of any information on the platform.",
         "The use of our services is at the user's own risk, and we assume no liability for any damages, injuries, or losses resulting from reliance on the information provided.",
       ],
     },
@@ -171,7 +172,7 @@ const CONST = {
     {
       heading: "7. Changes to Services:",
       description: [
-        "Nextcare .Life reserves the right to modify or discontinue any feature of the platform without prior notice.",
+        "Nextcare.Life reserves the right to modify or discontinue any feature of the platform without prior notice.",
       ],
     },
   ],

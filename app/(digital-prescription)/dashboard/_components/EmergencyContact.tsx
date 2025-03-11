@@ -76,7 +76,7 @@ const EmergencyContact = () => {
         toast.success("SMS sent successfully");
       })
       .catch((error) => {
-        toast.error(error || "Failed to send SMS");
+        toast.error(error?.response?.data?.message || "Failed to send SMS");
       })
       .finally(() => {
         setSendSmsLoading(false);

@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -15,68 +15,45 @@ interface UploadImageComponentProps {
   isLoading?: boolean;
 }
 
-const UploadImageComponent: React.FC<UploadImageComponentProps> = ({
-  isLoading,
-}) => {
+const HcrWitCam: React.FC<UploadImageComponentProps> = ({ isLoading }) => {
   const dispatch = useDispatch();
   const { singleDocumentDetails, uploadImageDetail } = useSelector(
     (state: RootState) => state.stepManagement
   );
-
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      const files = acceptedFiles.map((file) => {
-        const url = URL.createObjectURL(file);
-        return { file, imageUrl: url };
-      });
-      dispatch(setUploadedImageDetails(files));
-    },
-    [dispatch]
-  );
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleRemoveImage = (imageUrl: string) => {
     URL.revokeObjectURL(imageUrl);
     dispatch(removeUploadedImageDetails(imageUrl));
+    // Reset file input value
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/*": [], // Allow images
-      "application/pdf": [], // Allow PDFs if not a prescription
-    },
-    // singleDocumentDetails.selectedSubType === "Prescription"
-    //   ? {
-    //       "image/*": [], // Only images for prescription
-    //     }
-    //   : {
-    //       "image/*": [], // Allow images
-    //       "application/pdf": [], // Allow PDFs if not a prescription
-    //     },
-    multiple: true, // Allow multiple files
-  });
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      dispatch(setUploadedImageDetails([{ file, imageUrl: url }]));
+    }
+  };
 
   return (
     <div className="flex flex-col items-center">
       <div
-        {...getRootProps()}
-        className={`border-2 border-dashed p-6 w-full max-w-lg mx-auto flex flex-col justify-center items-center cursor-pointer ${
-          isDragActive ? "bg-gray-100" : "bg-gray-50"
-        }`}
+        className={`border-2 border-dashed p-6 w-full max-w-lg mx-auto flex flex-col justify-center items-center cursor-pointer bg-gray-50`}
       >
-        <input {...getInputProps()} capture="environment" />
-        {isDragActive ? (
-          <p className="text-blue-500">Drop the files here...</p>
-        ) : (
-          <>
-            <p className="text-gray-500 text-sm">
-              Drag & drop images or PDFs here, or click to select them
-            </p>
-            {isLoading && (
-              <p className="text-xs font-light text-sky-900 mt-1">Loading...</p>
-            )}
-          </>
-        )}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          onChange={handleFileUpload}
+          className="w-full h-full"
+        />
       </div>
       <AnimatePresence>
         {uploadImageDetail.length > 0 && (
@@ -122,4 +99,4 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({
   );
 };
 
-export default UploadImageComponent;
+export default HcrWitCam;

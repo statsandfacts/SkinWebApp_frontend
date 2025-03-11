@@ -15,6 +15,7 @@ import {
 import { setUploadedImageDetails } from "@/redux/slices/digitalPrescription/stepManagement.slice";
 import dayjs from "dayjs";
 import { setUser } from "@/redux/slices/digitalPrescription/auth.slice";
+import HcrWitCam from "./HcrWitCam";
 
 const HCR = () => {
   const router = useRouter();
@@ -96,7 +97,7 @@ const HCR = () => {
       </motion.div>
 
       <div className="mt-6 max-w-lg p-6">
-        <UploadImageComponent />
+        <HcrWitCam />
       </div>
 
       <div className="w-full flex justify-between max-w-lg px-6 sm:px-11 mt-3">

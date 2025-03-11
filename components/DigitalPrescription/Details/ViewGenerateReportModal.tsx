@@ -39,6 +39,8 @@ export default function ViewGenerateReportModal() {
     }
   };
 
+  console.log("singlePrescriptionDetails", singlePrescriptionDetails);
+
   return (
     <>
       <Modal size={"2xl"} isOpen={isViewReportModal} onClose={onClose}>
@@ -248,6 +250,42 @@ export default function ViewGenerateReportModal() {
                       </div>
                     </div>
 
+                    {/* Blood Sugar Tests */}
+                    <div className="mb-6 border-b pb-4">
+                      <h3 className="text-md font-semibold text-gray-700 mb-3">
+                        Blood Sugar Tests
+                      </h3>
+                      <div className="flex flex-col">
+                        <p className="text-sm text-gray-600">
+                          <strong>FBS:</strong>{" "}
+                          {singlePrescriptionDetails?.ocr_op?.fbs
+                            ? `${singlePrescriptionDetails?.ocr_op?.fbs} mg/dl`
+                            : ""}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          <strong>PPBS:</strong>{" "}
+                          {singlePrescriptionDetails?.ocr_op?.ppbs
+                            ? `${singlePrescriptionDetails?.ocr_op?.ppbs} mg/dl`
+                            : ""}
+                        </p>
+                        {singlePrescriptionDetails?.ocr_op?.sugar_value ===
+                        "No parameters found" ? null : (
+                          <p className="text-sm text-sky-800">
+                            {singlePrescriptionDetails?.ocr_op?.sugar_value}
+                          </p>
+                        )}
+
+                        <Link
+                          href={
+                            "/dashboard/health-camp-reports/blood-sugar-test-details"
+                          }
+                          className="text-sm font-light text-sky-500 border-b-2 border-b-sky-500 w-fit"
+                        >
+                          view more...
+                        </Link>
+                      </div>
+                    </div>
+
                     {/* Additional Information Section */}
                     <div className="mb-6 border-b pb-4">
                       <h3 className="text-md font-semibold text-gray-700 mb-3">
@@ -273,10 +311,10 @@ export default function ViewGenerateReportModal() {
 
                     <div className="text-right">
                       <p className="text-sm text-gray-600">
-                        <strong>Checked by:</strong> Harapriya Dash
+                        <strong>Checked by:</strong> Shaswata Shrinivas Panda
                       </p>
                       <p className="text-sm text-gray-600">
-                        <strong>License No:</strong> 4127/O.P.C Dt. 23.06.2022
+                        <strong>OSPC License No:</strong> 32295
                       </p>
                       <p className="text-sm text-gray-500">
                         <strong>Date:</strong>{" "}

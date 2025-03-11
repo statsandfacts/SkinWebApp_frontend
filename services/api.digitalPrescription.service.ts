@@ -412,9 +412,18 @@ export const contactUs = async (payload: any) => {
 
 /**
  *
- * @param user_id
+ * @param payload HCR data
  * @returns
  */
+export const updateHcr = async (payload: any) => {
+  const { data } = await axios.put(
+    `${baseUrl}users/update-hcr`,
+    payload,
+    headers
+  );
+  return data;
+};
+
 export const emergencyContact = async (userId: string | null) => {
   const { data } = await axios.get(
     `${baseUrl}users/send_dynamic_message?user_id=${userId}`,

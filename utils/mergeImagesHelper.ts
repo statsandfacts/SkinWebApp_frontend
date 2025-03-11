@@ -68,3 +68,14 @@ export const mergeImagesHelper = async (
     throw error;
   }
 };
+
+export const base64ToFile = async (
+  base64: string | null,
+  filename = "image.png"
+) => {
+  const res = await fetch(base64 as any);
+  const blob = await res.blob();
+  const file = new File([blob], filename, { type: blob.type });
+
+  return { base64, file };
+};

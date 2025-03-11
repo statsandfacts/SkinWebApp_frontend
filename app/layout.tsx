@@ -5,12 +5,15 @@ import { Providers } from "./providers";
 import { Inter } from "next/font/google";
 import PrimaryLayout from "@/components/layout/PrimaryLayout";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
+
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
 export const metadata: Metadata = {
-  metadataBase: new URL('https://nextcare.life'),
+  metadataBase: new URL("https://nextcare.life"),
   title: {
     default: siteConfig.title,
     template: `%s | ${siteConfig.name}`,
@@ -49,21 +52,30 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en" suppressHydrationWarning={true} className={inter.className}>
+    <html
+      lang={locale}
+      suppressHydrationWarning={true}
+      className={inter.className}
+    >
       <head />
       <body suppressHydrationWarning={true}>
-        <Providers>
-          <div className="w-full light relative flex flex-col min-h-screen text-foreground bg-background">
-            <PrimaryLayout>{children}</PrimaryLayout>
-            <GoogleAnalytics gaId="G-9XLXTME5HQ" />
-          </div>
-        </Providers>
+        <NextIntlClientProvider messages={messages}>
+          <Providers>
+            <div className="w-full light relative flex flex-col min-h-screen text-foreground bg-background">
+              <PrimaryLayout>{children}</PrimaryLayout>
+              <GoogleAnalytics gaId="G-9XLXTME5HQ" />
+            </div>
+          </Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
