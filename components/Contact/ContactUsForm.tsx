@@ -3,6 +3,7 @@ import { contactUs } from "@/services/api.digitalPrescription.service";
 import { Loader2 } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactUsForm = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const ContactUsForm = () => {
     message: "",
   });
   const [loading, setLoading] = useState<boolean>(false);
+  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -21,16 +23,23 @@ const ContactUsForm = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!captchaValue) {
+      toast.error("Please verify the CAPTCHA before submitting.");
+      return;
+    }
+
     setLoading(true);
     contactUs(formData)
       .then((response) => {
-        toast.success("Message send successfully!");
+        toast.success("Message sent successfully!");
         setFormData({
           name: "",
           email: "",
           phone_no: "",
           message: "",
         });
+        setCaptchaValue(null);
       })
       .catch((error) => {
         toast.error(error?.message || "Message send failed!");
@@ -97,6 +106,16 @@ const ContactUsForm = () => {
           required
         />
       </div>
+
+    {/* CAPTCHA Section */}
+    <div className="flex justify-center mt-4">
+        <ReCAPTCHA
+          sitekey="6LfZQOsqAAAAAHLjAiFuuQY_wK7oVPBWdYKmRJcH"
+          onChange={(value) => setCaptchaValue(value)}
+        />
+      </div>
+
+
       <div>
         <button
           type="submit"
@@ -109,6 +128,8 @@ const ContactUsForm = () => {
           )}
         </button>
       </div>
+
+      
     </form>
   );
 };
