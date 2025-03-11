@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import CalculatorFAQ from "./Faqs";
 import { bmrData } from "@/utils/calculatorsFaqs";
 import BackButton from "../common/BackButton";
+import Image from "next/image";
 
 const BMRCalculator: React.FC = () => {
   const [weight, setWeight] = useState<string>("");
@@ -84,7 +85,7 @@ const BMRCalculator: React.FC = () => {
       <CustomHeader
         header="BMR Calculator"
         subHeader="Calculate your Basal Metabolic Rate to understand your body's energy needs."
-        imageURL="/vector/calculator_bmr.png"
+        imageURL="/calculator/bmrcalculator_headerimage.png"
       />
 
       <section className="mt-6 animate-slide-up">
@@ -199,6 +200,16 @@ const BMRCalculator: React.FC = () => {
                 <p className="text-lg font-medium">
                   Your BMR: <span className="text-sky-700">{bmr} kcal/day</span>
                 </p>
+
+
+                <Image
+  src="/calculator/bmrcalculator_image.png"
+  alt="BMR Result"
+  width={328} // Adjust based on your needs
+  height={328} // Adjust based on your needs
+  className="mx-auto md:mx-0"
+/>
+
                 <button
                   onClick={resetForm}
                   className="mt-4 bg-gray-200 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-300 transition duration-200"

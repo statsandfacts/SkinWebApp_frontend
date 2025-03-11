@@ -4,15 +4,16 @@ import CustomHeader from "../Header/PublicLayoutHeader";
 import CalculatorFAQ from "./Faqs";
 import { faqPregnancyDueDate } from "@/utils/calculatorsFaqs";
 import BackButton from "../common/BackButton";
+import Image from "next/image";
 
 const PregnancyDueDateCalculator: React.FC = () => {
   const [lmp, setLmp] = useState<string>(""); // Last Menstrual Period
   const [dueDate, setDueDate] = useState<string>("");
+  const [showImage, setShowImage] = useState<boolean>(false); // State for showing image
 
   const calculateDueDate = (lmpDate: Date): string => {
-    // Add 280 days (40 weeks) to the LMP date
     const dueDate = new Date(lmpDate);
-    dueDate.setDate(dueDate.getDate() + 280);
+    dueDate.setDate(dueDate.getDate() + 280); // Add 280 days (40 weeks)
     return dueDate.toDateString();
   };
 
@@ -32,11 +33,13 @@ const PregnancyDueDateCalculator: React.FC = () => {
 
     const estimatedDueDate = calculateDueDate(lmpDate);
     setDueDate(estimatedDueDate);
+    setShowImage(true); // Show image when due date is calculated
   };
 
   const resetForm = () => {
     setLmp("");
     setDueDate("");
+    setShowImage(false); // Hide image on reset
   };
 
   return (
@@ -56,6 +59,7 @@ const PregnancyDueDateCalculator: React.FC = () => {
         </p>
 
         <div className="mt-10 flex flex-col md:flex-row md:space-x-8">
+          {/* Input Section */}
           <div className="bg-white shadow-lg rounded-lg p-6 w-full md:w-1/2">
             <h2 className="text-xl font-bold text-gray-800 mb-4 text-center md:text-left">
               Enter Your Last Menstrual Period (LMP)
@@ -97,6 +101,20 @@ const PregnancyDueDateCalculator: React.FC = () => {
                 <p className="text-lg font-medium">
                   Your Due Date: <span className="text-sky-700">{dueDate}</span>
                 </p>
+
+                {showImage && (
+  <div className="mt-1 flex justify-center">
+    <Image
+      src="/calculator/pregnancydue_date.png"
+      alt="Pregnancy Due Date Estimation"
+      width={300} // Adjust width as needed
+      height={300} // Adjust height as needed
+      //className="rounded-lg shadow-lg"
+    />
+  </div>
+)}
+
+
                 <button
                   onClick={resetForm}
                   className="mt-4 bg-gray-200 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-300 transition duration-200"
@@ -104,6 +122,7 @@ const PregnancyDueDateCalculator: React.FC = () => {
                   Reset
                 </button>
               </div>
+              
             ) : (
               <p className="text-gray-600 text-center md:text-left">
                 Enter your Last Menstrual Period (LMP) to calculate your due
