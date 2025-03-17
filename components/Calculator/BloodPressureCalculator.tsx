@@ -23,7 +23,10 @@ const BloodPressureCalculator: React.FC = () => {
     } else if (systolic >= 120 && systolic <= 129 && diastolic < 80) {
       setImageURL("/calculator/normalbp_image.png");
       return "Elevated Blood Pressure";
-    } else if ((systolic >= 130 && systolic <= 139) || (diastolic >= 80 && diastolic <= 89)) {
+    } else if (
+      (systolic >= 130 && systolic <= 139) ||
+      (diastolic >= 80 && diastolic <= 89)
+    ) {
       setImageURL("/calculator/hypertension_stage1and2.png");
       return "Hypertension Stage 1";
     } else if (systolic >= 140 || diastolic >= 90) {
@@ -74,7 +77,9 @@ const BloodPressureCalculator: React.FC = () => {
 
       <section className="mt-6 animate-slide-up">
         <p className="text-gray-600 text-center md:text-left">
-          Blood pressure is a vital indicator of your cardiovascular health. Use this calculator to determine your risk category based on systolic and diastolic pressure readings.
+          Blood pressure is a vital indicator of your cardiovascular health. Use
+          this calculator to determine your risk category based on systolic and
+          diastolic pressure readings.
         </p>
 
         <div className="mt-10 flex flex-col md:flex-row md:space-x-8">
@@ -86,7 +91,10 @@ const BloodPressureCalculator: React.FC = () => {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="systolic" className="block text-gray-700 font-medium">
+                <label
+                  htmlFor="systolic"
+                  className="block text-gray-700 font-medium"
+                >
                   Systolic Pressure (mmHg)
                 </label>
                 <input
@@ -101,7 +109,10 @@ const BloodPressureCalculator: React.FC = () => {
               </div>
 
               <div>
-                <label htmlFor="diastolic" className="block text-gray-700 font-medium">
+                <label
+                  htmlFor="diastolic"
+                  className="block text-gray-700 font-medium"
+                >
                   Diastolic Pressure (mmHg)
                 </label>
                 <input
@@ -115,7 +126,10 @@ const BloodPressureCalculator: React.FC = () => {
                 />
               </div>
 
-              <button type="submit" className="w-full bg-sky-700 text-white py-2 px-4 rounded-md hover:bg-sky-900 transition duration-200">
+              <button
+                type="submit"
+                className="w-full bg-sky-700 text-white py-2 px-4 rounded-md hover:bg-sky-900 transition duration-200"
+              >
                 Calculate Risk
               </button>
             </form>
@@ -129,18 +143,26 @@ const BloodPressureCalculator: React.FC = () => {
 
             {riskCategory ? (
               <div className="text-center md:text-left" aria-live="polite">
-                <p className="text-lg font-medium text-sky-700">{riskCategory}</p>
+                <p className="text-lg font-medium text-sky-700">
+                  {riskCategory}
+                </p>
+                {/* Centered Image */}
                 {imageURL && (
-                  <Image
-                    src={imageURL}
-                    alt={riskCategory}
-                    width={300}
-                    height={200}
-                    priority
-                    className=" mt-4 mx-auto md:mx-0 rounded-lg shadow-md"
-                  />
+                  <div className="flex justify-center">
+                    <Image
+                      src={imageURL}
+                      alt={riskCategory}
+                      width={300}
+                      height={200}
+                      priority
+                      className="mx-auto"
+                    />
+                  </div>
                 )}
-                <button onClick={resetForm} className="mt-4 bg-gray-200 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-300 transition duration-200">
+                <button
+                  onClick={resetForm}
+                  className="mt-4 bg-gray-200 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-300 transition duration-200"
+                >
                   Reset
                 </button>
               </div>

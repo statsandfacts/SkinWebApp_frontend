@@ -207,7 +207,8 @@ const BMRCalculator: React.FC = () => {
   alt="BMR Result"
   width={328} // Adjust based on your needs
   height={328} // Adjust based on your needs
-  className="mx-auto md:mx-0"
+  className="mx-auto flex justify-center items-center"
+
 />
 
                 <button

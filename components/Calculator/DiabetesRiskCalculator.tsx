@@ -97,7 +97,7 @@ const DiabetesRiskCalculator: React.FC = () => {
       physicalActivity,
       familyHistory
     );
-    
+
     setRisk(calculatedRisk);
     setRiskImage(getRiskImage(calculatedRisk));
   };
@@ -138,7 +138,10 @@ const DiabetesRiskCalculator: React.FC = () => {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="age" className="block text-gray-700 font-medium">
+                <label
+                  htmlFor="age"
+                  className="block text-gray-700 font-medium"
+                >
                   Age (years)
                 </label>
                 <input
@@ -152,7 +155,10 @@ const DiabetesRiskCalculator: React.FC = () => {
                 />
               </div>
               <div>
-                <label htmlFor="weight" className="block text-gray-700 font-medium">
+                <label
+                  htmlFor="weight"
+                  className="block text-gray-700 font-medium"
+                >
                   Weight (kg)
                 </label>
                 <input
@@ -166,7 +172,10 @@ const DiabetesRiskCalculator: React.FC = () => {
                 />
               </div>
               <div>
-                <label htmlFor="heightFeet" className="block text-gray-700 font-medium">
+                <label
+                  htmlFor="heightFeet"
+                  className="block text-gray-700 font-medium"
+                >
                   Height (feet and inches)
                 </label>
                 <div className="flex space-x-2 mt-2">
@@ -200,36 +209,40 @@ const DiabetesRiskCalculator: React.FC = () => {
           </div>
 
           {/* Result Section */}
-<div className="bg-gray-50 shadow-lg rounded-lg p-6 w-full md:w-1/2 mt-6 md:mt-0">
-  <h2 className="text-xl font-bold text-gray-800 mb-4 text-center md:text-left">
-    Your Risk Level
-  </h2>
+          <div className="bg-gray-50 shadow-lg rounded-lg p-6 w-full md:w-1/2 mt-6 md:mt-0">
+            <h2 className="text-xl font-bold text-gray-800 mb-4 text-center md:text-left">
+              Your Risk Level
+            </h2>
 
-  {risk && (
-    <div className="flex flex-col items-center text-center">
-      {/* Risk Level Text */}
-      <p className="text-lg font-medium text-sky-700 mb-4">{risk}</p>
+            {risk && (
+              <div className="flex flex-col items-left text-left">
+                {/* Risk Level Text */}
+                <p className="text-lg font-medium text-sky-700 mb-4">{risk}</p>
 
-      {/* Centered Image */}
-      {riskImage && (
-        <div className="flex justify-center">
-          <Image src={riskImage} alt={risk} width={300} height={200} />
-        </div>
-      )}
+                {/* Centered Image */}
+                {riskImage && (
+                  <div className="flex justify-center">
+                    <Image
+                      src={riskImage}
+                      alt={risk}
+                      width={300}
+                      height={200}
+                    />
+                  </div>
+                )}
 
-      {/* Reset Button in Separate Div Below the Image */}
-      <div className="mt-4  flex   ">
-        <button 
-          onClick={resetForm} 
-          className="bg-gray-200 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-300 transition duration-200"
-        >
-          Reset
-        </button>
-      </div>
-    </div>
-  )}
-</div>
-
+                {/* Reset Button in Separate Div Below the Image */}
+                <div className="mt-4  flex   ">
+                  <button
+                    onClick={resetForm}
+                    className="bg-gray-200 text-gray-700 py-1 px-3 rounded-md hover:bg-gray-300 transition duration-200"
+                  >
+                    Reset
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
