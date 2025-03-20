@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -25,10 +25,17 @@ export default function LoginDrawer() {
   const { isModalOpen } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement | null>(null!);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isOTPSent, setIsOTPSent] = useState<boolean>(false);
   const [responseOtp, setResponseOtp] = useState<string>("");
+
+  useEffect(() => {
+    if (isModalOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isModalOpen]);
 
   const formik = useFormik({
     initialValues: {
@@ -132,21 +139,25 @@ export default function LoginDrawer() {
                   onSubmit={formik.handleSubmit}
                   className="flex flex-col gap-3 mt-5 w-full mb-5 md:mb-0"
                 >
-                  <InputField
+                  <input
                     onChange={formik.handleChange}
                     value={formik.values.phone}
                     type="number"
                     name="phone"
                     placeholder="Phone Number"
                     onBlur={formik.handleBlur}
-                    disableCopyPaste={true}
-                    error={
+                    className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
                       formik.touched.phone && formik.errors.phone
-                        ? formik.errors.phone
+                        ? "border-red-500"
                         : ""
-                    }
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    }`}
+                    ref={inputRef}
                   />
+                  {formik.touched.phone && formik.errors.phone && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {formik.errors.phone}
+                    </p>
+                  )}
 
                   {isOTPSent && (
                     <InputField
