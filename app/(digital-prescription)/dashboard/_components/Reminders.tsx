@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import BackButton from "@/components/common/BackButton";
 import { ToolTipBtn } from "@/components/common/ToolTipBtn";
 import AddReminderModal from "@/components/DigitalPrescription/Details/Reminder/AddReminderModal";
@@ -26,17 +27,17 @@ import {
 } from "@nextui-org/react";
 import {
   Bell,
-  Eye,
   EyeIcon,
   PencilLine,
   PlusIcon,
   ShieldCheckIcon,
   ShieldXIcon,
   Trash2,
-} from "lucide-react"; // Use a reminder icon, e.g., a bell
+} from "lucide-react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 const Reminders = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -45,6 +46,9 @@ const Reminders = () => {
   const { dashboardData, loading, error } = useSelector(
     (state: RootState) => state.userDashboard
   );
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [selectedReminder, setSelectedReminder] = useState<any>(null);
 
   useEffect(() => {
     if (!dashboardData) {
@@ -69,8 +73,12 @@ const Reminders = () => {
       }),
       {
         pending: `${reminder?.status ? "inactive" : "Active"} reminder...`,
-        success: `Reminder ${reminder?.status ? "inactive" : "Active"} successfully!`,
-        error: `Failed to ${reminder?.status ? "inactive" : "Active"} reminder.`,
+        success: `Reminder ${
+          reminder?.status ? "inactive" : "Active"
+        } successfully!`,
+        error: `Failed to ${
+          reminder?.status ? "inactive" : "Active"
+        } reminder.`,
       }
     );
   };
@@ -79,6 +87,35 @@ const Reminders = () => {
     dispatch(setReminderActionKey(isActionKey));
     dispatch(setReminderDetails(reminder));
     dispatch(setIsReminderModal(true));
+  };
+
+  const openDeleteModal = (reminder: any) => {
+    setSelectedReminder(reminder);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDeleteReminder = () => {
+    if (selectedReminder) {
+      DeleteReminderMedicine(selectedReminder);
+    }
+  };
+
+  const DeleteReminderMedicine = (reminder: any) => {
+    if (!reminder?.id) {
+      toast.error("Reminder ID is missing.");
+      return;
+    }
+    toast.promise(
+      deleteReminder(reminder?.id).then(() => {
+        dispatch(fetchPatientDashboard(userId));
+        setIsDeleteModalOpen(false);
+      }),
+      {
+        pending: "Deleting medicine reminder...",
+        success: "Medicine reminder deleted successfully!",
+        error: "Failed to delete medicine reminder.",
+      }
+    );
   };
 
   return (
@@ -175,6 +212,14 @@ const Reminders = () => {
                                     <ShieldCheckIcon className="h-5 w-5" />
                                   )}
                                 </ToolTipBtn>
+                                <ToolTipBtn
+                                  onClick={() => openDeleteModal(item)}
+                                  title="Delete"
+                                  key={4}
+                                  color={"danger"}
+                                >
+                                  <Trash2 className="h-5 w-5" />
+                                </ToolTipBtn>
                               </TableCell>
                             </TableRow>
                           )
@@ -194,6 +239,11 @@ const Reminders = () => {
       </div>
 
       <AddReminderModal />
+      <DeleteConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={confirmDeleteReminder}
+      />
     </>
   );
 };
