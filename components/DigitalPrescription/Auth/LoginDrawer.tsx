@@ -173,20 +173,20 @@ export default function LoginDrawer() {
                     >
                       {!isOTPSent ? "Send OTP" : "Verify OTP & Login"}
                     </Button>
-
-                    <div className="w-full mt-2 flex justify-end">
-                      <button
-                        className="text-sky-900 text-right text-sm font-semibold"
-                        onClick={() => {
-                          router.push("/auth/reset-password");
-                          dispatch(setLoginModal(false));
-                        }}
-                      >
-                        Reset Phone Number ?
-                      </button>
-                    </div>
                   </div>
                 </form>
+
+                <div className="w-full mt-2 flex justify-end">
+                  <button
+                    className="text-sky-900 text-right text-sm font-semibold"
+                    onClick={() => {
+                      router.push("/auth/reset-password");
+                      dispatch(setLoginModal(false));
+                    }}
+                  >
+                    Reset Phone Number ?
+                  </button>
+                </div>
 
                 <div>
                   <div className="flex justify-center items-center w-full mt-6">
