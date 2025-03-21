@@ -244,6 +244,46 @@ const GeneralHealthIndicator = () => {
                   </TableBody>
                 </Table>
               </div>
+
+
+              <div className="mt-4">
+                <div className="flex justify-between">
+                  <h1>Sugar</h1>
+                  <button
+                    className="flex items-center gap-1 text-slate-400"
+                    onClick={() => {}}
+                  >
+                    <p className="font-medium text-sm">Add</p>
+                    <Plus className="h-5 w-5" />
+                  </button>
+                </div>
+                <Table
+                  removeWrapper
+                  aria-label="Example static collection table"
+                >
+                  <TableHeader>
+                    <TableColumn>fbs</TableColumn>
+                    <TableColumn>ppbs</TableColumn>
+                    <TableColumn>date</TableColumn>
+                    <TableColumn>time</TableColumn>
+                  </TableHeader>
+                  <TableBody>
+                    {dashboardData?.health_data &&
+                    dashboardData?.health_data?.sugar?.length > 0
+                      ? dashboardData?.health_data?.sugar?.map(
+                          (item: any, index: number) => (
+                            <TableRow key={index}>
+                              <TableCell>{item?.fbs}</TableCell>
+                              <TableCell>{item?.ppbs}%</TableCell>
+                              <TableCell>{item?.date}</TableCell>
+                              <TableCell>{item?.time}</TableCell>
+                            </TableRow>
+                          )
+                        )
+                      : ""}
+                  </TableBody>
+                </Table>
+              </div>
             </div>
           </>
         )}
