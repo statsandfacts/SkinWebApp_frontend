@@ -1,5 +1,14 @@
 import { Metadata } from "next";
-import { User, Phone, Mail } from "lucide-react";
+import {
+  User,
+  Phone,
+  Mail,
+  Shield,
+  Lock,
+  Key,
+  Fingerprint,
+  UserCheck,
+} from "lucide-react";
 
 import DashboardHeader from "../_components/DashboardHeader";
 import ItemCard from "../_components/ItemCard";
@@ -23,6 +32,11 @@ const MyAccountPage = () => {
       title: "Contact Us",
       link: "/contact-us",
       icon: Mail,
+    },
+    {
+      title: "Security Questions",
+      link: "/dashboard/my-account/security-questions",
+      icon: Key,
     },
   ];
 

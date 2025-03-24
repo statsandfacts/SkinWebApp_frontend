@@ -40,7 +40,7 @@ const Dashboard = () => {
     },
     {
       title: "My Account",
-      link: "/dashboard/my-account/account-details-update",
+      link: "/dashboard/my-account",
       icon: User,
     },
   ];
