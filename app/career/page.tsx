@@ -1,5 +1,5 @@
 import CustomHeader from "@/components/Header/PublicLayoutHeader";
-import SearchJob from "./_component/SearchJob";
+import SearchJob from "@/components/Career/SearchJob";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ const HomePage = () => {
       <CustomHeader
         header="We are hiring!"
         subHeader="Explore exciting career opportunities and grow with us."
-        imageURL="/vector/careerpage_image.png"
+        imageURL="/vector/careerpage_image.png" 
       />
       <SearchJob/>
      

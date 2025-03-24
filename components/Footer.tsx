@@ -142,7 +142,7 @@ const Footer = (props: Props) => {
                 {/* <Link href={"/coming-soon"} className="mt-4">
                   Reviews
                 </Link> */}
-                <Link href={"/coming-soon"} className="mt-4">
+                <Link href={"/career"} className="mt-4">
                   Careers
                 </Link>
                 <Link href={"/contact-us"} className="mt-4">
