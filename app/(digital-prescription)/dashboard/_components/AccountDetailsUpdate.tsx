@@ -7,6 +7,8 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { fetchUserDetails } from "@/redux/slices/digitalPrescription/auth.slice";
 import { updateUser } from "@/services/api.digitalPrescription.service";
 import { toast } from "react-toastify";
+import { BadgeCheck } from 'lucide-react';
+
 
 const AccountDetailsUpdate = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,6 +22,7 @@ const AccountDetailsUpdate = () => {
     gender: "",
     maritalStatus: "",
     zipCode: "",
+    email:"",
   });
   const [loading, setLoading] = useState(false);
 
@@ -39,6 +42,7 @@ const AccountDetailsUpdate = () => {
         gender: userDetails.gender || "",
         maritalStatus: userDetails.maritalStatus || "",
         zipCode: userDetails.zipCode || "",
+        email:userDetails.email||"",
       });
     }
   }, [userDetails]);
@@ -142,6 +146,22 @@ const AccountDetailsUpdate = () => {
         {/* Form Section */}
         <div className="w-full">
           <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="col-span-2 flex items-center space-x-4">
+      <div className="w-full">
+        <label className="block text-sm font-medium">Email</label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          className="w-full p-3 border rounded-md"
+          required
+        />
+      </div>
+      <div className="flex items-center justify-center h-full">
+        <BadgeCheck className="text-green-500 cursor-pointer mt-5" size={32} />
+      </div>
+    </div>
             <div>
               <label className="block text-sm font-medium">Full Name</label>
               <input
@@ -211,6 +231,8 @@ const AccountDetailsUpdate = () => {
                 required
               />
             </div>
+            
+  
           </form>
 
           {/* Save Changes Button - Positioned Below Form Fields */}
@@ -218,7 +240,7 @@ const AccountDetailsUpdate = () => {
             <button
               type="submit"
               onClick={handleSubmit}
-              className="bg-sky-800 text-white px-8 py-4 rounded-md hover:bg-sky-700 w-full md:w-auto"
+              className="bg-primary-600 text-white px-8 py-4 rounded-md hover:bg-primary-600 w-full md:w-auto"
               disabled={loading}
             >
               {loading ? "Saving..." : "Save Changes"}
