@@ -107,14 +107,13 @@ const ContactUsForm = () => {
         />
       </div>
 
-    {/* CAPTCHA Section */}
-    <div className="flex justify-center mt-4">
+      {/* CAPTCHA Section */}
+      <div className="flex justify-center mt-4">
         <ReCAPTCHA
-          sitekey="6LfZQOsqAAAAAHLjAiFuuQY_wK7oVPBWdYKmRJcH"
+          sitekey="6LeYdAArAAAAAALenH5N6MwlvY8dPORfgv_ymb0p"
           onChange={(value) => setCaptchaValue(value)}
         />
       </div>
-
 
       <div>
         <button
@@ -128,8 +127,6 @@ const ContactUsForm = () => {
           )}
         </button>
       </div>
-
-      
     </form>
   );
 };
