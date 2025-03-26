@@ -18,7 +18,14 @@ const ContactUsForm = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === "name" && !/^[A-Za-z\s]*$/.test(value)) {
+      return;
+    }
+    if (name === "phone_no" && !/^\d*$/.test(value)) {
+      return;
+    }
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
