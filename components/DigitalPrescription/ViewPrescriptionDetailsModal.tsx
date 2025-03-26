@@ -84,12 +84,11 @@ export default function ViewPrescriptionDetailsModal() {
                   <div className="flex justify-between items-center mt-2">
                     <div>
                       <p className="text-xs font-normal text-slate-400 capitalize">
-                        Pharmacist Name:{" "}
-                        {singlePrescriptionDetails?.pharmacist_name}
+                        Pharmacist Name: {singleCaseDetails?.pharmacist_name}
                       </p>
                       <p className="text-xs font-normal text-slate-400">
                         Pharmacist License:{" "}
-                        {singleCaseDetails?.pharmacist_cert_url}
+                        {singleCaseDetails?.pharmacist_certificate_no}
                       </p>
                     </div>
                     <div>
