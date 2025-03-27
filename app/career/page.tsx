@@ -3,21 +3,20 @@ import SearchJob from "@/components/Career/SearchJob";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Job  Search",
+  title: "Career",
 };
 
-const HomePage = () => {
+const CareerPage = () => {
   return (
     <div className="p-10 md:px-40">
       <CustomHeader
         header="We are hiring!"
         subHeader="Explore exciting career opportunities and grow with us."
-        imageURL="/vector/careerpage_image.png" 
+        imageURL="/vector/careerpage_image.png"
       />
-      <SearchJob/>
-     
+      <SearchJob />
     </div>
   );
 };
 
-export default HomePage;
+export default CareerPage;
