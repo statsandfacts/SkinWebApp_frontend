@@ -9,6 +9,7 @@ import userDashboardReducer from "./slices/digitalPrescription/userDashboard.sli
 import drugReducer from "./slices/digitalPrescription/drug.slice";
 import blogReducer from "./slices/digitalPrescription/blog.slice";
 import abdmReducer from "./slices/abdm.slics";
+import careerReducer from "./slices/digitalPrescription/career.slice";
 
 export const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ export const store = configureStore({
     drugs: drugReducer,
     blogs: blogReducer,
     abdm: abdmReducer,
+    career: careerReducer,
   },
 });
 

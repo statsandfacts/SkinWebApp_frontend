@@ -462,7 +462,26 @@ export const verifySecurityAnswer = async (payload: {
 }) => {
   const { data } = await axios.post(
     `${baseUrl}users/verify-security-question`,
-    payload,
+    payload
+  );
+  return data;
+};
+/**
+ *
+ * @returns all career jobs list
+ */
+export const getAllCareerJobs = async () => {
+  const { data } = await axios.get(`${baseUrl}career/get-all-jobs`, headers);
+  return data;
+};
+
+/**
+ *  @param payload jobId
+ * @returns all career jobs list
+ */
+export const getCareerJobById = async (jobId: string) => {
+  const { data } = await axios.get(
+    `${baseUrl}career/get-jobs-by-id?job_id=${jobId}`,
     headers
   );
   return data;
