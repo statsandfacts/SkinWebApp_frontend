@@ -34,6 +34,11 @@ const initialStateData = {
   value2: null,
   bpData: null,
   spo2_Data: null,
+  sugarData: null,
+
+  time: null,
+  fbs: null,
+  ppbs: null,
 };
 
 const GeneralHealthIndicator = () => {
@@ -84,6 +89,7 @@ const GeneralHealthIndicator = () => {
       bpData: dashboardData?.health_data?.bp,
       isSmoking: dashboardData?.health_data?.smoking,
       isDrinking: dashboardData?.health_data?.drinking,
+      sugarData: dashboardData?.health_data?.sugar,
     }));
 
     dispatch(setUpdateHealthIndicatorModal(true));
@@ -245,13 +251,12 @@ const GeneralHealthIndicator = () => {
                 </Table>
               </div>
 
-
               <div className="mt-4">
                 <div className="flex justify-between">
                   <h1>Sugar</h1>
                   <button
                     className="flex items-center gap-1 text-slate-400"
-                    onClick={() => {}}
+                    onClick={() => AddBP("add_sugar")}
                   >
                     <p className="font-medium text-sm">Add</p>
                     <Plus className="h-5 w-5" />
@@ -262,10 +267,10 @@ const GeneralHealthIndicator = () => {
                   aria-label="Example static collection table"
                 >
                   <TableHeader>
-                    <TableColumn>fbs</TableColumn>
-                    <TableColumn>ppbs</TableColumn>
-                    <TableColumn>date</TableColumn>
-                    <TableColumn>time</TableColumn>
+                    <TableColumn>Date</TableColumn>
+                    <TableColumn>Time</TableColumn>
+                    <TableColumn>FBS (mg/dL)</TableColumn>
+                    <TableColumn>PPBS (mg/dL)</TableColumn>
                   </TableHeader>
                   <TableBody>
                     {dashboardData?.health_data &&
@@ -273,10 +278,10 @@ const GeneralHealthIndicator = () => {
                       ? dashboardData?.health_data?.sugar?.map(
                           (item: any, index: number) => (
                             <TableRow key={index}>
-                              <TableCell>{item?.fbs}</TableCell>
-                              <TableCell>{item?.ppbs}%</TableCell>
                               <TableCell>{item?.date}</TableCell>
                               <TableCell>{item?.time}</TableCell>
+                              <TableCell>{item?.fbs}</TableCell>
+                              <TableCell>{item?.ppbs}</TableCell>
                             </TableRow>
                           )
                         )
