@@ -84,7 +84,9 @@ const JobDetail = () => {
           </button>
         </div>
         <div className="mt-6 border p-3 bg-white rounded-lg shadow-sm">
-          <p className="font-bold text-4xl text-slate-700">Job Description</p>
+          <p className="font-bold text-4xl text-slate-700 mb-6">
+            Job Description
+          </p>
           {singleJobDtls?.description && (
             <div className={styles.content}>
               <div
