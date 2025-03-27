@@ -20,6 +20,9 @@ import { updateUser } from "@/services/api.digitalPrescription.service";
 import { toast } from "react-toastify";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import dayjs from "dayjs";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 
 interface UpdateHealthIndicatorsModalProps {
   actionKey?: string;
@@ -61,6 +64,10 @@ export default function UpdateHealthIndicatorsModal({
       value: null,
       bpData: null,
       spo2_Data: null,
+      sugarData: null,
+      time: null,
+      fbs: null,
+      ppbs: null,
     });
   };
 
@@ -100,6 +107,7 @@ export default function UpdateHealthIndicatorsModal({
           drinking: updateData.isDrinking,
           bp: updateData?.bpData ? [...updateData.bpData, inpData] : [inpData],
           spo2: updateData?.spo2_Data,
+          sugar: updateData?.sugarData,
         },
       };
     } else if (actionKey === "add_spo2") {
@@ -116,6 +124,26 @@ export default function UpdateHealthIndicatorsModal({
             ? [...updateData?.spo2_Data, inpData]
             : [inpData],
           bp: updateData?.bpData,
+          sugar: updateData?.sugarData,
+        },
+      };
+    } else if (actionKey === "add_sugar") {
+      const inpData = {
+        date: dayjs(updateData?.date).format("DD/MM/YYYY"),
+        time: moment(updateData?.time, "HH:mm").format("HH:mm A"),
+        fbs: updateData?.fbs ? updateData?.fbs : "",
+        ppbs: updateData?.ppbs ? updateData?.ppbs : "",
+      };
+      payload = {
+        user_id: userId,
+        health_data: {
+          smoking: updateData.isSmoking,
+          drinking: updateData.isDrinking,
+          spo2: updateData?.spo2_Data,
+          bp: updateData?.bpData,
+          sugar: updateData?.sugarData
+            ? [...updateData?.sugarData, inpData]
+            : [inpData],
         },
       };
     }
@@ -133,6 +161,8 @@ export default function UpdateHealthIndicatorsModal({
       .finally(() => setIsLoading(false));
   };
 
+  const keyList = ["add_bp", "add_spo2", "add_sugar"];
+
   return (
     <Modal
       size="2xl"
@@ -144,7 +174,7 @@ export default function UpdateHealthIndicatorsModal({
           Update Health Indicators
         </ModalHeader>
         <ModalBody>
-          {actionKey === "add_bp" || actionKey === "add_spo2" ? (
+          {actionKey && keyList.includes(actionKey) ? (
             <div className="space-y-2">
               <Input
                 value={updateData.date}
@@ -156,20 +186,23 @@ export default function UpdateHealthIndicatorsModal({
               {error && <p className="text-red-500">{error}</p>}
               {
                 <div className="flex flex-col sm:flex-row gap-2">
-                  <Input
-                    value={updateData.value}
-                    onChange={(e) => handleChange("value", e.target.value)}
-                    label={
-                      actionKey === "add_bp"
-                        ? "Systolic (mm Hg)"
-                        : "SpO₂ Value (%)"
-                    }
-                    placeholder={
-                      actionKey === "add_bp"
-                        ? "Enter Systolic Value"
-                        : "SpO₂ Value (%)"
-                    }
-                  />
+                  {actionKey !== "add_sugar" && (
+                    <Input
+                      value={updateData.value}
+                      onChange={(e) => handleChange("value", e.target.value)}
+                      label={
+                        actionKey === "add_bp"
+                          ? "Systolic (mm Hg)"
+                          : "SpO₂ Value (%)"
+                      }
+                      placeholder={
+                        actionKey === "add_bp"
+                          ? "Enter Systolic Value"
+                          : "SpO₂ Value (%)"
+                      }
+                    />
+                  )}
+
                   {actionKey === "add_bp" && (
                     <Input
                       value={updateData.value2}
@@ -183,6 +216,30 @@ export default function UpdateHealthIndicatorsModal({
                           : "Enter Value"
                       }
                     />
+                  )}
+
+                  {actionKey === "add_sugar" && (
+                    <>
+                      <Input
+                        value={updateData.time}
+                        onChange={(e) => handleChange("time", e.target.value)}
+                        label={"Select Time"}
+                        placeholder={"Select Time"}
+                        type="time"
+                      />
+                      <Input
+                        value={updateData.fbs}
+                        onChange={(e) => handleChange("fbs", e.target.value)}
+                        label={"FBS (mg/dL)"}
+                        placeholder={"Enter FBS"}
+                      />
+                      <Input
+                        value={updateData.ppbs}
+                        onChange={(e) => handleChange("ppbs", e.target.value)}
+                        label={"PPBS (mg/dL)"}
+                        placeholder={"Enter PPBS"}
+                      />
+                    </>
                   )}
                 </div>
               }
