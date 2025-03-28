@@ -38,6 +38,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import moment from "moment";
 
 const Reminders = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -182,7 +183,12 @@ const Reminders = () => {
                                 {item?.medicine_name}
                               </TableCell>
                               <TableCell>{item?.reminder_start_date}</TableCell>
-                              <TableCell>{item?.reminder_time}</TableCell>
+                              {/* <TableCell>{item?.reminder_time}</TableCell> */}
+                              <TableCell>
+                                {moment(item?.reminder_time, "HH:mm:ss").format(
+                                  "hh:mm A"
+                                )}
+                              </TableCell>
                               <TableCell> {item?.reminder_days} </TableCell>
                               <TableCell className="flex gap-2">
                                 <ToolTipBtn
