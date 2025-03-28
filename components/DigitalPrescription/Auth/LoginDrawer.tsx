@@ -30,6 +30,25 @@ export default function LoginDrawer() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isOTPSent, setIsOTPSent] = useState<boolean>(false);
   const [responseOtp, setResponseOtp] = useState<string>("");
+  const [timer, setTimer] = useState(30);
+  const [canResend, setCanResend] = useState(false);
+
+  useEffect(() => {
+    if (isOTPSent) {
+      setCanResend(false);
+      setTimer(30);
+      const interval = setInterval(() => {
+        setTimer((prev) => {
+          if (prev === 1) {
+            clearInterval(interval);
+            setCanResend(true);
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [isOTPSent]);
 
   useEffect(() => {
     if (isModalOpen && inputRef.current) {
@@ -110,6 +129,20 @@ export default function LoginDrawer() {
     formik.resetForm();
     setIsOTPSent(false);
     setResponseOtp("");
+    setCanResend(false);
+    setTimer(30);
+  };
+
+  const handleSendOtp = async (phone: string) => {
+    try {
+      const res = await sendOtp({ phone_number: phone });
+      setResponseOtp(res.verification_code);
+      toast.success("OTP sent successfully!");
+      setIsOTPSent(true);
+    } catch (err: any) {
+      toast.error(err.response?.data?.detail || "Error sending OTP");
+    } finally {
+    }
   };
 
   return (
@@ -174,6 +207,21 @@ export default function LoginDrawer() {
                       }
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     />
+                  )}
+
+                  {isOTPSent && (
+                    <div className="text-end mr-2 text-sm text-gray-500">
+                      {canResend ? (
+                        <button
+                          onClick={() => handleSendOtp(formik.values.phone)}
+                          className="text-sky-700 font-semibold"
+                        >
+                          Resend OTP
+                        </button>
+                      ) : (
+                        `Resend OTP in ${timer}s`
+                      )}
+                    </div>
                   )}
 
                   <div>
