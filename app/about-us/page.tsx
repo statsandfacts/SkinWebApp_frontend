@@ -23,6 +23,7 @@ import {
   GlimpsesofNextcare,
   StepIntoHealthCare,
   ExploreOueHealthCare,
+  AboutHeroSection,
 } from "@/components/About";
 
 export const metadata: Metadata = {
@@ -34,6 +35,7 @@ const AboutUs = () => {
     <>
       <div className="flex flex-col">
         <div className="flex flex-col items-center w-full max-md:max-w-full">
+          <AboutHeroSection />
           <OurValuesSection />
           <WhoWeAreSection />
           <UniqueAboutNextCare />

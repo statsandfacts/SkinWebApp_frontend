@@ -4,60 +4,46 @@ import Image from "next/image";
 
 const OurValuesSection = () => {
   return (
-    <div className="text-center p-6">
-      <h1 className="text-4xl font-bold mb-6">Our Values</h1>
-      <div className="flex justify-center gap-20 m-10">
-        <div className="text-center">
-          <Image
-            src="/aboutus/innovative.png"
-            alt="Innovative"
-            width={160}
-            height={160}
-            className="mx-auto"
-          />
-          <h2 className="text-2xl font-semibold mt-4">Innovative</h2>
-          <h3 className="text-xl text-gray-600">AI-driven solution for</h3>
-          <h3 className="text-xl text-gray-600">smarter healthcare</h3>
-        </div>
-        <div className="text-center">
-          <Image
-            src="/aboutus/reliable.png"
-            alt="Reliable"
-            width={160}
-            height={160}
-            className="mx-auto"
-          />
-          <h2 className="text-2xl font-semibold mt-4">Reliable</h2>
-          {/* <h4 className="text-xl text-gray-600">Accurate, secure, and trusted care</h4> */}
-          <h3 className="text-xl text-gray-600">Accurate, secure,</h3>
-          <h3 className="text-xl text-gray-600">and trusted care</h3>
-        </div>
-        <div className="text-center">
-          <Image
-            src="/aboutus/accesible.png"
-            alt="Accessible"
-            width={160}
-            height={160}
-            className="mx-auto"
-          />
-          <h2 className="text-2xl font-semibold mt-4">Accessible</h2>
-          {/* <h4 className="text-xl text-gray-600">Healthcare anytime, anywhere</h4> */}
-          <h3 className="text-xl text-gray-600">Healthcare anytime,</h3>
-          <h3 className="text-xl text-gray-600"> anywhere</h3>
-        </div>
-        <div className="text-center">
-          <Image
-            src="/aboutus/paitaincentric.png"
-            alt="Patient-Centric"
-            width={160}
-            height={160}
-            className="mx-auto"
-          />
-          <h2 className="text-2xl font-semibold mt-4">Patient-Centric</h2>
-          {/* <h4 className="text-xl text-gray-600">Your health, our priority</h4> */}
-          <h3 className="text-xl text-gray-600">Your health,</h3>
-          <h3 className="text-xl text-gray-600"> our priority</h3>
-        </div>
+    <div className="text-center p-6 mt-6">
+      <h1 className="text-5xl font-semibold">Our Values</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+        {[
+          {
+            src: "/aboutus/innovation.png",
+            title: "Innovative",
+            desc: ["AI-driven solution for", "smarter healthcare"],
+          },
+          {
+            src: "/aboutus/reliable (2).png",
+            title: "Reliable",
+            desc: ["Accurate, secure,", "and trusted care"],
+          },
+          {
+            src: "/aboutus/accesible (2).png",
+            title: "Accessible",
+            desc: ["Healthcare anytime,", "anywhere"],
+          },
+          {
+            src: "/aboutus/patient-centric.png",
+            title: "Patient-Centric",
+            desc: ["Your health,", "our priority"],
+          },
+        ].map((item, index) => (
+          <div
+            key={index}
+            className="flex flex-col justify-center items-center"
+          >
+            <div className="bg-primary-mute rounded-full w-44 h-44 flex items-center justify-center">
+              <Image src={item.src} alt={item.title} width={105} height={105} />
+            </div>
+            <h2 className="text-4xl font-bold mt-4">{item.title}</h2>
+            {item.desc.map((line, i) => (
+              <h3 key={i} className="text-2xl font-light text-secondary-lite">
+                {line}
+              </h3>
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   );
