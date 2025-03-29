@@ -12,16 +12,39 @@ import {
   Scale,
   Search,
   Smartphone,
-} from "lucide-react"; // Import icons from lucide-react
+} from "lucide-react";
 import CustomHeader from "@/components/Header/PublicLayoutHeader";
 import Link from "next/link";
+import {
+  MeetTheTeam,
+  OurValuesSection,
+  UniqueAboutNextCare,
+  WhoWeAreSection,
+  GlimpsesofNextcare,
+  StepIntoHealthCare,
+  ExploreOueHealthCare,
+} from "@/components/About";
 
 export const metadata: Metadata = {
   title: "About Us",
 };
 
 const AboutUs = () => {
-  return <DigitalPrescriptionAboutUs />;
+  return (
+    <>
+      <div className="flex flex-col">
+        <div className="flex flex-col items-center w-full max-md:max-w-full">
+          <OurValuesSection />
+          <WhoWeAreSection />
+          <UniqueAboutNextCare />
+          <StepIntoHealthCare />
+          <ExploreOueHealthCare />
+          <MeetTheTeam />
+          <GlimpsesofNextcare />
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default AboutUs;
