@@ -5,8 +5,10 @@ import MeetTheTeam from "./MeetTheTeam";
 import GlimpsesofNextcare from "./GlimpsesofNextcare";
 import ExploreOueHealthCare from "./ExploreOueHealthCare";
 import UniqueAboutNextCare from "./UniqueAboutNextcare";
+import AboutHeroSection from "./AboutHeroSection";
 
 export {
+  AboutHeroSection,
   WhoWeAreSection,
   UniqueAboutNextCare,
   StepIntoHealthCare,
