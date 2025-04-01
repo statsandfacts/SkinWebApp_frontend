@@ -75,12 +75,12 @@ const CONST = {
       comment:
         "The service at Nextcare.life is very useful. They turned my doctor's handwritten notes into a digital prescription, making it easy to share.",
     },
-    {
-      image: "/images/review-girl-2.jpg",
-      name: "Sonali R.",
-      comment:
-        "Nextcare.life is truly a helpful service. It digitized my prescription in no time, allowing me to store my medication details safely and access them whenever needed.",
-    },
+    // {
+    //   image: "/images/review-girl-2.jpg",
+    //   name: "Sonali R.",
+    //   comment:
+    //     "Nextcare.life is truly a helpful service. It digitized my prescription in no time, allowing me to store my medication details safely and access them whenever needed.",
+    // },
     {
       image: "/images/review-boy-2.jpg",
       name: "Arjun M.",
