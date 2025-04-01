@@ -54,8 +54,6 @@ const UploadMoreReportsPopover: React.FC = () => {
         })) || []
       ).concat(multiUploadedDoc || []);
 
-      console.log("mergedArray", mergedArray)
-
       mergedArray.forEach((item: any) => {
         formData.append(`files`, item?.file);
         formData.append(`doc_types`, item?.report_type);
@@ -95,7 +93,7 @@ const UploadMoreReportsPopover: React.FC = () => {
         },
       ])
     ); // store current details use in next step upload multiple
-    dispatch(setStep(0));
+    dispatch(setStep(3));
     dispatch(setUploadMoreReportsPopoverOpen(false));
     dispatch(setUploadedImageDetails([])); // empty current image details
   };

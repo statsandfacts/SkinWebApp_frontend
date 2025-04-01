@@ -5,6 +5,7 @@ import { RootState } from "@/redux/store";
 import {
   resetDetailsAfterSubmit,
   setFirstScreenNextPopoverOpen,
+  setIsTestReportPopoverOpen,
   setStep,
   setUploadedImageDetails,
   setUploadMoreReportsPopoverOpen,
@@ -27,6 +28,7 @@ import {
   uploadImageToAws,
 } from "@/services/api.digitalPrescription.service";
 import { useRouter } from "next/navigation";
+import { set } from "lodash";
 
 const UploadDocumentImage: React.FC = () => {
   const dispatch = useDispatch();
@@ -124,12 +126,18 @@ const UploadDocumentImage: React.FC = () => {
                 toast.warning("Please select a file to upload.");
                 return;
               }
-              // if (
+              if (singleDocumentDetails.selectedSubType === "Test Report") {
+                dispatch(setUploadMoreReportsPopoverOpen(true));
+                
+                return;
+                
+                // if (
               //   singleDocumentDetails.selectedSubType === "Health Camp Report"
               // ) {
               //   UploadHealthCampReport();
               //   return;
               // }
+              }
               if (singleDocumentDetails.selectedType === "Prescription") {
                 dispatch(setFirstScreenNextPopoverOpen(true));
               } else {
