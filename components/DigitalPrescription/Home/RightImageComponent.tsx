@@ -103,7 +103,17 @@ const RightImageComponent = ({
         className="w-full sm:w-1/2"
         viewport={{ once: true }}
       >
-        <Image src={imageSrc} alt={title} width={700} height={500} />
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+          whileHover={{
+            scale: 1.05,
+          }}
+          className="rounded-lg overflow-hidden"
+        >
+          <Image src={imageSrc} alt={title} width={700} height={500} />
+        </motion.div>
       </motion.div>
     </motion.div>
   );
