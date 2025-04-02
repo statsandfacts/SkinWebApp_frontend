@@ -8,6 +8,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import { fetchAllBlogsByCategory } from "@/redux/slices/digitalPrescription/blog.slice";
 import dayjs from "dayjs";
+import Link from "next/link";
 
 const HealthFeed = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -110,6 +111,21 @@ const HealthFeed = () => {
               </motion.div>
             ))}
       </motion.div>
+
+      <Link
+        href={"/blog"}
+        className="mt-6 inline-flex items-center text-[#025687] text-lg font-semibold hover:text-[#013a5c] transition-colors duration-300"
+      >
+        Explore
+        <motion.span
+          initial={{ x: 0 }}
+          whileHover={{ x: 5 }}
+          transition={{ duration: 0.3 }}
+          className="ml-2"
+        >
+          <ArrowRight size={20} />
+        </motion.span>
+      </Link>
     </motion.div>
   );
 };
