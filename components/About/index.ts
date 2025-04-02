@@ -4,7 +4,7 @@ import OurValuesSection from "./OurValuesSection";
 import MeetTheTeam from "./MeetTheTeam";
 import GlimpsesofNextcare from "./GlimpsesofNextcare";
 import ExploreOueHealthCare from "./ExploreOueHealthCare";
-import UniqueAboutNextCare from "./UniqueAboutNextcare";
+import UniqueAboutNextCare from "./UniqueAboutNextCare";
 import AboutHeroSection from "./AboutHeroSection";
 
 export {
