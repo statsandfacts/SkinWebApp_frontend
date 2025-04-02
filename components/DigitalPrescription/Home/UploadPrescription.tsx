@@ -33,7 +33,7 @@ const UploadPrescription: FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2 }}
         >
-          Start Your Digital Healthcare Journey
+          Welcome to the Future Of Care
         </motion.h1>
 
         <motion.button
