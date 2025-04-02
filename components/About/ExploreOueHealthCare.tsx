@@ -67,7 +67,7 @@ const ExploreOurHealthCare = () => {
         whileInView="visible"
         viewport={{ once: true }}
         transition={{ staggerChildren: 0.2 }}
-        className="grid grid-cols-3 gap-6 justify-center items-center"
+        className="grid grid-cols-1 sm:grid-cols-3 gap-6 justify-center items-center"
       >
         {healthCalculators.slice(0, 3).map((calculator, index) => (
           <HealthCalculatorCard
@@ -85,7 +85,7 @@ const ExploreOurHealthCare = () => {
         whileInView="visible"
         viewport={{ once: true }}
         transition={{ staggerChildren: 0.2 }}
-        className="flex justify-center gap-6 mt-7"
+        className="flex flex-col sm:flex-row justify-center gap-6 mt-7"
       >
         {healthCalculators.slice(3, 5).map((calculator, index) => (
           <HealthCalculatorCard
