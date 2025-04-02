@@ -13,6 +13,7 @@ import {
   HealthFeed,
   HomeHeroSection,
   MobileApp,
+  SupportedBySection,
   UploadPrescription,
   WhatUserSay,
   WhyChooseNextcare,
@@ -54,6 +55,7 @@ export default function Home() {
           <HomeHeroSection />
           <UploadPrescription />
           <EmpoweringHealthcare />
+          <SupportedBySection />
           <LeftImageComponent
             action="digital_prescription"
             imageSrc="/homepage/digitalprescriptionimage.png"

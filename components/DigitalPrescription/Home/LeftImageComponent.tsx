@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 interface LeftImageComponentProps {
   imageSrc: string;
@@ -19,6 +20,7 @@ const LeftImageComponent = ({
   features,
   action,
 }: LeftImageComponentProps) => {
+  const router = useRouter();
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -42,6 +44,7 @@ const LeftImageComponent = ({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className=" px-6 py-2 text-lg font-normal text-white bg-[#8476AF] shadow-md rounded-lg"
+              onClick={() => router.push("/ayushman-bharat")}
             >
               CREATE ABHA
             </motion.button>

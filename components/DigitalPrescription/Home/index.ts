@@ -7,6 +7,7 @@ import UploadPrescription from "./UploadPrescription";
 import WhatUserSay from "./WhatUserSay";
 import WhyChooseNextcare from "./WhyChooseNextcare";
 import HomeHeroSection from "./HomeHeroSection";
+import SupportedBySection from "./SupportedBySection";
 
 export {
   HomeHeroSection,
@@ -18,4 +19,5 @@ export {
   UploadPrescription,
   WhatUserSay,
   WhyChooseNextcare,
+  SupportedBySection,
 };

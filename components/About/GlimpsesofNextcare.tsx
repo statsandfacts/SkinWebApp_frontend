@@ -72,13 +72,7 @@ const AnimatedImage = ({ src, alt }: { src: string; alt: string }) => {
       viewport={{ once: true }}
       whileHover={{ scale: 1.05 }}
     >
-      <Image
-        src={src}
-        alt={alt}
-        width={500}
-        height={300}
-        className="rounded-lg shadow-lg"
-      />
+      <Image src={src} alt={alt} width={500} height={300} />
     </motion.div>
   );
 };
