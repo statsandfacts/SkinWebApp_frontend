@@ -83,7 +83,7 @@ const WhyChooseNextcare = () => {
               whileInView={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
               viewport={{ once: true }}
-              className="absolute top-4 left-4 w-16 h-16 bg-cyan-200 rounded-full flex items-center justify-center"
+              className="absolute top-4 left-4 w-28 h-28 bg-cyan-200 rounded-full flex items-center justify-center"
             >
               <Image
                 src={element.image}
@@ -94,7 +94,7 @@ const WhyChooseNextcare = () => {
             </motion.div>
 
             {/* Title & Subtitle */}
-            <div className="mt-20 text-left">
+            <div className="mt-32 text-left">
               <motion.h1
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
