@@ -431,3 +431,22 @@ export const emergencyContact = async (userId: string | null) => {
   );
   return data;
 };
+
+
+export const getSecurityQuestions = async (userId: string | null) => {
+  const { data } = await axios.get(
+    `${baseUrl}users/security-questions-answer?user_id=${userId}`,
+    headers
+  );
+  return data;
+};
+
+
+export const securityAnswer = async (payload: any) => {
+  const { data } = await axios.post(
+    `${baseUrl}users/security-question`,
+    payload,
+    headers
+  );
+  return data;
+};
