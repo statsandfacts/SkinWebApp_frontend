@@ -1,5 +1,5 @@
 "use client";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,11 @@ const HomeHeroSection: FC = () => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { userId }: { userId: string | null } = useAuthInfo();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <>
@@ -41,7 +46,7 @@ const HomeHeroSection: FC = () => {
             reports, and an AI-powered symptom bot.
           </motion.p>
 
-          {!userId && (
+          {isClient && !userId && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

@@ -124,7 +124,7 @@ const JobDetail = () => {
             Email : contact@statsandfacts.in
           </p>
           <p className="text-sm font-normal text-slate-600">
-            Location : 7008524252, 9124416966
+            Phone : 7008524252, 9124416966
           </p>
         </div>
       </div>
