@@ -152,6 +152,7 @@ const FooterV1 = (props: Props) => {
                 {[
                   { name: "HCR", url: "/hcr" },
                   { name: "Why nextcare.life?", url: "/why-next-care" },
+                  { name: "Contact Us", url: "/contact-us" },
                 ].map((item) => (
                   <Link
                     className="text-[#D9D9D9] font-normal text-sm"
