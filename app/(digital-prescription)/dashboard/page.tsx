@@ -7,13 +7,14 @@ import {
   Activity,
   Stethoscope,
   User,
-  Phone
+  Phone,
+  LucideHandHeart,
 } from "lucide-react";
 import ItemCard from "./_components/ItemCard";
 import DashboardHeader from "./_components/DashboardHeader";
 
 export const metadata: Metadata = {
-  title: "Dashboard"
+  title: "Dashboard",
 };
 
 const Dashboard = () => {
@@ -26,7 +27,11 @@ const Dashboard = () => {
       icon: Stethoscope,
     },
     { title: "Set Reminder", link: "/dashboard/reminders", icon: Bell },
-    { title: "Add Family Member", link: "/dashboard/add-family-member", icon: UserPlus },
+    {
+      title: "Add Family Member",
+      link: "/dashboard/add-family-member",
+      icon: UserPlus,
+    },
     {
       title: "General Health Indicators",
       link: "/dashboard/health-indicators",
@@ -42,6 +47,11 @@ const Dashboard = () => {
       title: "My Account",
       link: "/dashboard/my-account",
       icon: User,
+    },
+    {
+      title: "Calculators",
+      link: "/calculator",
+      icon: LucideHandHeart,
     },
   ];
 
