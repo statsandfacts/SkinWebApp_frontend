@@ -19,14 +19,14 @@ import { setViewPrescriptionDetailsModal } from "@/redux/slices/digitalPrescript
 import { useRouter } from "next/navigation";
 import {
   setIsReminderModal,
-  setIsReminderPrescModal,
+  // setIsReminderPrescModal,
   setReminderActionKey,
   setReminderDetails,
-  setReminderMedicineDtlsPresc,
+  // setReminderMedicineDtlsPresc,
 } from "@/redux/slices/digitalPrescription/drug.slice";
 import { Timer } from "lucide-react";
 
-import AddReminderModalFromPrescription from "./Details/Reminder/AddReminderModelFromPrescription";
+// import AddReminderModalFromPrescription from "./Details/Reminder/AddReminderModelFromPrescription";
 
 export default function ViewPrescriptionDetailsModal() {
   const router = useRouter();
@@ -150,7 +150,7 @@ export default function ViewPrescriptionDetailsModal() {
                                   >
                                     <b>{medicineDetail?.medicine_name}</b>
                                   </button>
-                                  <button
+                                  {/* <button
                                     className="text-orange-400"
                                     onClick={(e) => {
                                       dispatch(
@@ -162,7 +162,7 @@ export default function ViewPrescriptionDetailsModal() {
                                     }}
                                   >
                                     <Timer />
-                                  </button>
+                                  </button> */}
                                 </TableCell>
 
                                 <TableCell className="uppercase">
@@ -270,7 +270,7 @@ export default function ViewPrescriptionDetailsModal() {
         </ModalContent>
       </Modal>
 
-      <AddReminderModalFromPrescription />
+      {/* <AddReminderModalFromPrescription /> */}
     </>
   );
 }
