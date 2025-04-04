@@ -190,30 +190,32 @@ const GeneralHealthIndicator = () => {
                     <Plus className="h-5 w-5" />
                   </button>
                 </div>
-                <Table
-                  removeWrapper
-                  aria-label="Example static collection table"
-                >
-                  <TableHeader>
-                    <TableColumn>Date</TableColumn>
-                    <TableColumn>Systolic (mm Hg)</TableColumn>
-                    <TableColumn>Diastolic (mm Hg)</TableColumn>
-                  </TableHeader>
-                  <TableBody>
-                    {dashboardData?.health_data &&
-                    dashboardData?.health_data?.bp?.length > 0
-                      ? dashboardData?.health_data?.bp?.map(
-                          (item: any, index: number) => (
-                            <TableRow key={index}>
-                              <TableCell>{item?.date}</TableCell>
-                              <TableCell>{item?.sys}</TableCell>
-                              <TableCell>{item?.dia}</TableCell>
-                            </TableRow>
+                <div className="max-h-80 overflow-y-auto">
+                  <Table
+                    removeWrapper
+                    aria-label="Example static collection table"
+                  >
+                    <TableHeader>
+                      <TableColumn>Date</TableColumn>
+                      <TableColumn>Systolic (mm Hg)</TableColumn>
+                      <TableColumn>Diastolic (mm Hg)</TableColumn>
+                    </TableHeader>
+                    <TableBody>
+                      {dashboardData?.health_data &&
+                      dashboardData?.health_data?.bp?.length > 0
+                        ? dashboardData?.health_data?.bp?.map(
+                            (item: any, index: number) => (
+                              <TableRow key={index}>
+                                <TableCell>{item?.date}</TableCell>
+                                <TableCell>{item?.sys}</TableCell>
+                                <TableCell>{item?.dia}</TableCell>
+                              </TableRow>
+                            )
                           )
-                        )
-                      : ""}
-                  </TableBody>
-                </Table>
+                        : ""}
+                    </TableBody>
+                  </Table>
+                </div>
               </div>
 
               <div className="mt-4">
@@ -227,33 +229,35 @@ const GeneralHealthIndicator = () => {
                     <Plus className="h-5 w-5" />
                   </button>
                 </div>
-                <Table
-                  removeWrapper
-                  aria-label="Example static collection table"
-                >
-                  <TableHeader>
-                    <TableColumn>Date</TableColumn>
-                    <TableColumn>SpO₂(%)</TableColumn>
-                  </TableHeader>
-                  <TableBody>
-                    {dashboardData?.health_data &&
-                    dashboardData?.health_data?.spo2?.length > 0
-                      ? dashboardData?.health_data?.spo2?.map(
-                          (item: any, index: number) => (
-                            <TableRow key={index}>
-                              <TableCell>{item?.date}</TableCell>
-                              <TableCell>{item?.value}%</TableCell>
-                            </TableRow>
+                <div className="max-h-80 overflow-y-auto">
+                  <Table
+                    removeWrapper
+                    aria-label="Example static collection table"
+                  >
+                    <TableHeader>
+                      <TableColumn>Date</TableColumn>
+                      <TableColumn>SpO₂(%)</TableColumn>
+                    </TableHeader>
+                    <TableBody>
+                      {dashboardData?.health_data &&
+                      dashboardData?.health_data?.spo2?.length > 0
+                        ? dashboardData?.health_data?.spo2?.map(
+                            (item: any, index: number) => (
+                              <TableRow key={index}>
+                                <TableCell>{item?.date}</TableCell>
+                                <TableCell>{item?.value}%</TableCell>
+                              </TableRow>
+                            )
                           )
-                        )
-                      : ""}
-                  </TableBody>
-                </Table>
+                        : ""}
+                    </TableBody>
+                  </Table>
+                </div>
               </div>
 
               <div className="mt-4">
                 <div className="flex justify-between">
-                  <h1>Sugar</h1>
+                  <h1>Blood Sugar</h1>
                   <button
                     className="flex items-center gap-1 text-slate-400"
                     onClick={() => AddBP("add_sugar")}
@@ -262,32 +266,34 @@ const GeneralHealthIndicator = () => {
                     <Plus className="h-5 w-5" />
                   </button>
                 </div>
-                <Table
-                  removeWrapper
-                  aria-label="Example static collection table"
-                >
-                  <TableHeader>
-                    <TableColumn>Date</TableColumn>
-                    <TableColumn>Time</TableColumn>
-                    <TableColumn>FBS (mg/dL)</TableColumn>
-                    <TableColumn>PPBS (mg/dL)</TableColumn>
-                  </TableHeader>
-                  <TableBody>
-                    {dashboardData?.health_data &&
-                    dashboardData?.health_data?.sugar?.length > 0
-                      ? dashboardData?.health_data?.sugar?.map(
-                          (item: any, index: number) => (
-                            <TableRow key={index}>
-                              <TableCell>{item?.date}</TableCell>
-                              <TableCell>{item?.time}</TableCell>
-                              <TableCell>{item?.fbs}</TableCell>
-                              <TableCell>{item?.ppbs}</TableCell>
-                            </TableRow>
+                <div className="max-h-80 overflow-y-auto">
+                  <Table
+                    removeWrapper
+                    aria-label="Example static collection table"
+                  >
+                    <TableHeader>
+                      <TableColumn>Date</TableColumn>
+                      <TableColumn>Time</TableColumn>
+                      <TableColumn>FBS (mg/dL)</TableColumn>
+                      <TableColumn>PPBS (mg/dL)</TableColumn>
+                    </TableHeader>
+                    <TableBody>
+                      {dashboardData?.health_data &&
+                      dashboardData?.health_data?.sugar?.length > 0
+                        ? dashboardData?.health_data?.sugar?.map(
+                            (item: any, index: number) => (
+                              <TableRow key={index}>
+                                <TableCell>{item?.date}</TableCell>
+                                <TableCell>{item?.time}</TableCell>
+                                <TableCell>{item?.fbs}</TableCell>
+                                <TableCell>{item?.ppbs}</TableCell>
+                              </TableRow>
+                            )
                           )
-                        )
-                      : ""}
-                  </TableBody>
-                </Table>
+                        : ""}
+                    </TableBody>
+                  </Table>
+                </div>
               </div>
             </div>
           </>

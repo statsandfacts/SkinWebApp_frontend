@@ -52,6 +52,7 @@ export default function UpdateHealthIndicatorsModal({
 
   const onClose = () => {
     dispatch(setUpdateHealthIndicatorModal(false));
+    setError("");
     setUpdateData({
       chronicDiseases: "",
       bloodGroup: "",
@@ -72,9 +73,43 @@ export default function UpdateHealthIndicatorsModal({
   };
 
   const handleSubmit = () => {
-    if (!updateData.date) {
-      setError("Please select a date.");
-      return;
+    if (actionKey === "edit") {
+      if (!updateData.chronicDiseases) {
+        setError("Please enter chronic diseases.");
+        toast.warning("Please enter chronic diseases.");
+        return;
+      }
+      if (!updateData.heightFeet || !updateData.heightInches) {
+        setError("Please enter height in feet and inches.");
+        toast.warning("Please enter height in feet and inches.");
+        return;
+      }
+      if (!updateData.weight) {
+        setError("Please enter weight.");
+        toast.warning("Please enter weight.");
+        return;
+      }
+      if (!updateData.bloodGroup) {
+        setError("Please select a blood group.");
+        toast.warning("Please select a blood group.");
+        return;
+      }
+      if (updateData.isSmoking === undefined) {
+        setError("Please specify if the user smokes.");
+        toast.warning("Please specify if the user smokes.");
+        return;
+      }
+      if (updateData.isDrinking === undefined) {
+        setError("Please specify if the user drinks alcohol.");
+        toast.warning("Please specify if the user drinks alcohol.");
+        return;
+      }
+    } else {
+      if (!updateData.date) {
+        setError("Please select a date.");
+        toast.warning("Please select a date.");
+        return;
+      }
     }
     setError("");
     let payload = {};
@@ -171,7 +206,17 @@ export default function UpdateHealthIndicatorsModal({
     >
       <ModalContent className="mb-20">
         <ModalHeader className="flex flex-col gap-1">
-          Update Health Indicators
+          {`${actionKey === "edit" ? "Update" : "Add"} ${
+            actionKey === "edit"
+              ? "Health Indicators"
+              : actionKey === "add_bp"
+              ? "Blood Pressure"
+              : actionKey === "add_spo2"
+              ? "Oxygen Saturation"
+              : actionKey === "add_sugar"
+              ? "Blood Sugar"
+              : ""
+          }`}
         </ModalHeader>
         <ModalBody>
           {actionKey && keyList.includes(actionKey) ? (
@@ -246,6 +291,11 @@ export default function UpdateHealthIndicatorsModal({
             </div>
           ) : (
             <div className="space-y-2">
+              {error && (
+                <p className="text-red-500 p-2 bg-red-50 rounded-lg text-center">
+                  {error}
+                </p>
+              )}
               <Input
                 value={updateData.chronicDiseases}
                 onChange={(e) =>
