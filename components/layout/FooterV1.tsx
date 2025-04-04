@@ -5,6 +5,7 @@ import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import FontAwesomeXIcon from "../SvgIcon/FontAwesomeXIcon";
 
 type Props = {};
 
@@ -172,7 +173,8 @@ const FooterV1 = (props: Props) => {
               href="https://twitter.com/NextcareLife"
               className="p-2 rounded-full bg-sky-600 text-white hover:bg-sky-700 transition"
             >
-              <Twitter className="h-4 w-4" />
+              {/* <Twitter className="h-4 w-4" /> */}
+              <FontAwesomeXIcon color="#ffffff" height={16} width={16} />
             </Link>
             <Link
               href="https://www.instagram.com/nextcare.life?igsh=MTdkMjg5M2s2NmRobA%3D%3D&utm_source=qr"

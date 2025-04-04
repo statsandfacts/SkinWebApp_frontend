@@ -14,30 +14,31 @@ const healthCalculators = [
   },
   {
     imageSrc: "/aboutus/bmr.png",
-    title: "Calorie Calculator",
+    title: "BMR Calculator",
     description:
-      "Estimate your daily calorie needs based on activity level and goals.",
+      "Estimate your Basal Metabolic Rate (BMR) to know your daily calorie needs.",
     link: "/calculator/bmr",
   },
   {
     imageSrc: "/aboutus/blood-pressure.png",
-    title: "Heart Health Check",
+    title: "Blood Pressure Calculator",
     description:
-      "Evaluate your heart health risk based on key indicators and lifestyle.",
+      "Assess your blood pressure risk and get recommendations for a healthy lifestyle.",
     link: "/calculator/blood-pressure-risk-calculator",
   },
   {
     imageSrc: "/aboutus/dibatis.png",
-    title: "Blood Pressure Monitor",
-    description: "Track and analyze your blood pressure readings over time.",
-    link: "/calculator/pregnancy-due-date",
+    title: "Diabetes Risk Calculator",
+    description:
+      "Evaluate your risk of developing diabetes based on various health factors.",
+    link: "/calculator/diabetes-risk-calculator",
   },
   {
     imageSrc: "/aboutus/pregancydue.png",
-    title: "Pregnancy Due Date",
+    title: "Pregnancy Due Date Calculator",
     description:
-      "Predict your baby’s due date based on your last menstrual period.",
-    link: "/calculator/diabetes-risk-calculator",
+      "Determine your estimated due date based on your last menstrual period.",
+    link: "/calculator/pregnancy-due-date",
   },
 ];
 
@@ -137,8 +138,8 @@ const HealthCalculatorCard: React.FC<CalculatorProps> = ({
         <Image
           src={imageSrc}
           alt={title}
-          width={60}
-          height={60}
+          width={80}
+          height={80}
           className="mb-4"
         />
         <h2 className="text-xl font-bold">{title}</h2>
