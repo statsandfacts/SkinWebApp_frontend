@@ -76,8 +76,8 @@ const SecurityQuestion = () => {
   };
 
   return (
-    <div className="flex justify-center items-center">
-      <div className="flex flex-col justify-center items-start max-w-7xl">
+    <div className="flex justify-center items-center mt-6">
+      <div className="flex flex-col justify-center items-center max-w-7xl">
         <h2 className="text-4xl font-semibold mb-4">Security Questions</h2>
         <p className="text-gray-600">
           Answer these security questions to verify your identity.
@@ -100,17 +100,21 @@ const SecurityQuestion = () => {
                       <label className="block font-medium ">
                         {question.question}
                       </label>
-                      <Button
-                        isIconOnly
-                        onClick={() => handleSaveAnswer(question)}
-                        color={question?.is_answer ? "warning" : "primary"}
-                      >
-                        {question?.is_answer ? (
-                          <Pencil size={20} className="text-white" />
-                        ) : (
-                          <Save size={20} className="text-white" />
-                        )}
-                      </Button>
+                      {!question?.is_answer && (
+                        <Button
+                          isIconOnly
+                          onClick={() => handleSaveAnswer(question)}
+                          color={question?.is_answer ? "warning" : "primary"}
+                        >
+                          {question?.is_answer ? (
+                            <>
+                              {/* <Pencil size={20} className="text-white" /> */}
+                            </>
+                          ) : (
+                            <Save size={20} className="text-white" />
+                          )}
+                        </Button>
+                      )}
                     </div>
 
                     <Input

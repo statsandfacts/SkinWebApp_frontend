@@ -135,6 +135,9 @@ export default function LoginDrawer() {
 
   const handleSendOtp = async (phone: string) => {
     try {
+      formik.resetForm({
+        values: { phone, otp: "" },
+      });
       const res = await sendOtp({ phone_number: phone });
       setResponseOtp(res.verification_code);
       toast.success("OTP sent successfully!");
@@ -239,7 +242,7 @@ export default function LoginDrawer() {
                   <button
                     className="text-sky-900 text-right text-sm font-semibold"
                     onClick={() => {
-                      router.push("/auth/reset-password");
+                      router.push("/auth/reset-password/email-phone");
                       dispatch(setLoginModal(false));
                     }}
                   >

@@ -27,18 +27,17 @@ const LoginModal: React.FC<LoginModalProps> = ({ isCloseIcon }) => {
       password: "",
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .required("Email/PhoneNumber is required"),
+      email: Yup.string().required("Email/PhoneNumber is required"),
       password: Yup.string().required("Password is required"),
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
         setIsLoading(true);
         const payload = {
-          user_role: "1", 
+          user_role: "1",
           email_or_phone_no: values.email,
           session_id: new Date().getTime().toString(),
-          password: values.password
+          password: values.password,
         };
         const data = await login(payload);
 
@@ -50,7 +49,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isCloseIcon }) => {
           dispatch(setLoginModal(false));
           resetForm();
         } else {
-          toast.success('Login failed');
+          toast.success("Login failed");
         }
         setIsLoading(false);
       } catch (error: any) {
