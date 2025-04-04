@@ -10,7 +10,9 @@ import {
   UserCheck,
 } from "lucide-react";
 
-import DashboardHeader from "../_components/DashboardHeader";
+import DashboardHeader, {
+  ShowDashboardPercentage,
+} from "../_components/DashboardHeader";
 import ItemCard from "../_components/ItemCard";
 export const metadata: Metadata = {
   title: "AccountDetails",
@@ -43,6 +45,8 @@ const MyAccountPage = () => {
   return (
     <div className="flex flex-col items-center bg-white pb-8">
       <DashboardHeader />
+
+      <ShowDashboardPercentage />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl px-4">
         {items.map((item, index) => (

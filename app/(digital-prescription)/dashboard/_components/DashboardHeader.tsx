@@ -2,14 +2,18 @@
 import Link from "next/link";
 import { Upload } from "lucide-react";
 import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "@/services/api.digitalPrescription.service";
 import { toast } from "react-toastify";
 import { logOutUser } from "@/redux/slices/digitalPrescription/auth.slice";
 import { resetPrescription } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import { resetFamilyMember } from "@/redux/slices/digitalPrescription/familyMembers.slice";
+import { useAuthInfo } from "@/hooks/useAuthInfo";
+import { AppDispatch, RootState } from "@/redux/store";
+import { fetchProfileCompletionPercentage } from "@/redux/slices/digitalPrescription/userDashboard.slice";
+import { getColorThroughPercentage } from "@/utils/isMobile";
 
 type DashboardHeaderProps = {
   isLogout?: boolean; // Optional boolean prop
@@ -70,3 +74,43 @@ const DashboardHeader = ({ isLogout = true }: DashboardHeaderProps) => {
 };
 
 export default DashboardHeader;
+
+export const ShowDashboardPercentage = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { userId } = useAuthInfo();
+  const { profileCompletionData } = useSelector(
+    (state: RootState) => state.userDashboard
+  );
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchProfileCompletionPercentage(userId));
+    }
+  }, [userId, dispatch]);
+
+  const colorClassMap: Record<string, string> = {
+    default: "bg-gray-300",
+    danger: "bg-red-500",
+    warning: "bg-yellow-500",
+    secondary: "bg-blue-500",
+    primary: "bg-green-500",
+  };
+
+  const percentage = profileCompletionData?.profileCompletionPercentage || 0;
+  const status = getColorThroughPercentage(percentage);
+  const bgColor = colorClassMap[status] || colorClassMap["default"];
+
+  return (
+    <div className="flex items-center gap-4 p-4 bg-white shadow-md rounded-xl mb-4">
+      <div
+        className={`w-12 h-12 rounded-full ${bgColor} flex justify-center items-center`}
+      >
+        <span className="text-white font-bold text-sm">{percentage}%</span>
+      </div>
+      <div>
+        <p className="text-sm text-gray-500">Profile Completion</p>
+        <p className="text-lg font-semibold text-gray-900">{percentage}%</p>
+      </div>
+    </div>
+  );
+};

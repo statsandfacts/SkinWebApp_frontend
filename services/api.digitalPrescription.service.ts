@@ -188,6 +188,21 @@ export const getPatientDashboard = async (patient_user_id: string | null) => {
 
 /**
  *
+ * @param patient_user_id
+ * @returns
+ */
+export const getProfileCompletionPercentage = async (
+  patient_user_id: string | null
+) => {
+  const { data } = await axios.get(
+    `${baseUrl}users/profile-completion-percentage?user_id=${patient_user_id}`,
+    headers
+  );
+  return data;
+};
+
+/**
+ *
  * @param drug_id
  * @returns
  */

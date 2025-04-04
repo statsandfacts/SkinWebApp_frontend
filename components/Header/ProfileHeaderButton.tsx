@@ -11,7 +11,7 @@ import {
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import {
   logOutUser,
@@ -22,15 +22,27 @@ import { resetFamilyMember } from "@/redux/slices/digitalPrescription/familyMemb
 import { userLogout } from "@/services/api.digitalPrescription.service";
 import LoginModal from "../DigitalPrescription/Auth/LoginModal";
 import LoginDrawer from "../DigitalPrescription/Auth/LoginDrawer";
+import { AppDispatch, RootState } from "@/redux/store";
+import { fetchProfileCompletionPercentage } from "@/redux/slices/digitalPrescription/userDashboard.slice";
+import { getColorThroughPercentage } from "@/utils/isMobile";
 
 const ProfileHeaderButton = () => {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { userId, userDetails } = useAuthInfo();
+  const { profileCompletionData } = useSelector(
+    (state: RootState) => state.userDashboard
+  );
 
   useEffect(() => {
     setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchProfileCompletionPercentage(userId));
+    }
   }, []);
 
   const handleLogout = () => {
@@ -52,15 +64,25 @@ const ProfileHeaderButton = () => {
     <>
       <Dropdown placement="bottom-end">
         <DropdownTrigger>
-          <Avatar
-            isBordered
-            as="button"
-            className="transition-transform"
-            color="primary"
-            name={userDetails?.name}
-            size="sm"
-            src={userDetails?.user_profile_image_path}
-          />
+          <div className="flex gap-2 items-center">
+            <Avatar
+              isBordered
+              as="button"
+              className="transition-transform"
+              color={getColorThroughPercentage(
+                profileCompletionData?.profileCompletionPercentage
+              )}
+              name={userDetails?.name}
+              size="sm"
+              src={userDetails?.user_profile_image_path}
+            />
+            {profileCompletionData?.profileCompletionPercentage &&
+              profileCompletionData?.profileCompletionPercentage !== 100 && (
+                <p className="text-xs font-semibold text-primary p-1 bg-primary-mute rounded-2xl">
+                  {profileCompletionData?.profileCompletionPercentage + "%"}
+                </p>
+              )}
+          </div>
         </DropdownTrigger>
         <DropdownMenu aria-label="Link Actions" variant="flat">
           <DropdownItem key="profile" className="h-14 gap-2">
