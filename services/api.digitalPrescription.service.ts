@@ -432,19 +432,36 @@ export const emergencyContact = async (userId: string | null) => {
   return data;
 };
 
+export const getSecurityQuestions = async (
+  userId?: string | null,
+  phone_no?: string | null
+) => {
+  let url;
+  if (userId) {
+    url = `${baseUrl}users/security-questions-answer?user_id=${userId}`;
+  } else {
+    url = `${baseUrl}users/security-questions-answer?phone_no=${phone_no}`;
+  }
+  const { data } = await axios.get(url, headers);
+  return data;
+};
 
-export const getSecurityQuestions = async (userId: string | null) => {
-  const { data } = await axios.get(
-    `${baseUrl}users/security-questions-answer?user_id=${userId}`,
+export const securityAnswer = async (payload: any) => {
+  const { data } = await axios.post(
+    `${baseUrl}users/security-question`,
+    payload,
     headers
   );
   return data;
 };
 
-
-export const securityAnswer = async (payload: any) => {
+export const verifySecurityAnswer = async (payload: {
+  phone_no: string;
+  answer: string;
+  question_id: string;
+}) => {
   const { data } = await axios.post(
-    `${baseUrl}users/security-question`,
+    `${baseUrl}users/verify-security-question`,
     payload,
     headers
   );

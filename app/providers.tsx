@@ -29,20 +29,20 @@ export function Providers({ children, themeProps }: ProvidersProps) {
       <SWRConfig value={options}>
         <StoreProvider store={store}>
           {/* <AuthProviderNC> */}
-            <>{children}</>
+          <>{children}</>
           {/* </AuthProviderNC> */}
         </StoreProvider>
         <ToastContainer
           position="top-right"
           autoClose={3000}
-          hideProgressBar
+          hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
           rtl={false}
           pauseOnFocusLoss
           draggable
           transition={Slide}
-          theme="light"
+          theme="colored"
         />
       </SWRConfig>
     </NextUIProvider>
