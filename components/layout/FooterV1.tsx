@@ -62,10 +62,6 @@ const FooterV1 = (props: Props) => {
                     url: "/ayushman-bharat/create-abha-health-id",
                   },
                   { name: "About ABDM", url: "/ayushman-bharat" },
-                  {
-                    name: "About PMJAY",
-                    url: "/ayushman-bharat/create-abha-health-id",
-                  },
                 ].map((item) => (
                   <Link
                     href={item.url}
@@ -82,13 +78,13 @@ const FooterV1 = (props: Props) => {
               <div className="flex justify-start items-end">
                 <Image
                   src="/logo-white.svg"
-                  width={100}
-                  height={100}
+                  width={150}
+                  height={150}
                   alt="nextcare logo"
                 />
                 <span className="text-gray-500">Beta</span>
               </div>
-              <p className="font-medium text-4xl drop-shadow-lg text-[#D9D9D9]">
+              <p className="font-medium text-4xl drop-shadow-lg text-white">
                 Future of Care
               </p>
             </div>
@@ -151,7 +147,6 @@ const FooterV1 = (props: Props) => {
               <div className="flex flex-col gap-2  mt-4">
                 {[
                   { name: "HCR", url: "/hcr" },
-                  { name: "Why nextcare.life?", url: "/why-next-care" },
                   { name: "Contact Us", url: "/contact-us" },
                 ].map((item) => (
                   <Link
