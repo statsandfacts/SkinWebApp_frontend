@@ -466,6 +466,7 @@ export const verifySecurityAnswer = async (payload: {
   );
   return data;
 };
+
 /**
  *
  * @returns all career jobs list
