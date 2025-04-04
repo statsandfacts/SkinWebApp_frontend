@@ -44,7 +44,7 @@ const UploadPrescription: FC = () => {
           className="bg-primary text-white text-lg sm:text-xl md:text-2xl font-medium py-2 px-4 sm:py-3 sm:px-6 rounded-full shadow-md transition duration-300"
           onClick={handleUploadClick}
         >
-          Upload a Hand-Written Prescription Now
+          Upload a HandWritten Prescription Now
         </motion.button>
       </motion.div>
       <LoginDrawer />
