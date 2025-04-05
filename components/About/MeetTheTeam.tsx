@@ -7,8 +7,10 @@ const teamMembers = [
   {
     imageSrc: "/aboutus/dr.sir.png",
     name: "Col (Dr) Surendra Ramamurthy",
+    degree: "(MBBS, MD, DNB, FICS)",
     role: "Chief Medical Officer & Founding Member",
   },
+
   {
     imageSrc: "/aboutus/ceo.png",
     name: "Sidharth Mohanty",
@@ -42,7 +44,7 @@ const teamMembers = [
   {
     imageSrc: "/aboutus/subash-qa.png",
     name: "Subas Lenka",
-    role: "QA Engineer",
+    role: "QA and Database professional",
   },
   {
     imageSrc: "/aboutus/amiya-backend.png",
@@ -121,9 +123,10 @@ const MeetTheTeam = () => {
                 className="rounded-full object-cover mb-4"
               />
             </motion.div>
-
-            {/* Name & Role */}
-            <h2 className="text-xl md:text-2xl font-bold">{member.name}</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-gray-800">
+              {member.name}
+            </h2>
+            <p className="text-base md:text-lg font-light text-gray-600">{member?.degree}</p>
             <h3 className="text-base md:text-lg font-light text-gray-600">
               {member.role}
             </h3>

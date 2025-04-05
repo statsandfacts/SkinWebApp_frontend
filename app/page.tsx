@@ -28,14 +28,14 @@ export default function Home() {
     { title: "Prevents fraud & tampering", color: "#0480C9" },
   ];
   const lr_features = [
-    { title: "Eliminates handwriting errors", color: "#817F7F" },
-    { title: "Instant access & storage", color: "#000000" },
-    { title: "Prevents fraud & tampering", color: "#0480C9" },
+    { title: "Simplifies complex medical data", color: "#817F7F" },
+    { title: "Tracks health trends over time", color: "#000000" },
+    { title: "Offers personalized health recommendations", color: "#0480C9" },
   ];
   const sb_features = [
-    { title: "Eliminates handwriting errors", color: "#817F7F" },
-    { title: "Instant access & storage", color: "#000000" },
-    { title: "Prevents fraud & tampering", color: "#0480C9" },
+    { title: "Assesses symptoms in real-time", color: "#817F7F" },
+    { title: "Suggests possible health conditions", color: "#000000" },
+    { title: "Guides on the next steps for care", color: "#0480C9" },
   ];
   const cc_features = [
     { title: "Get expert medical advice in minutes.", color: "#817F7F" },

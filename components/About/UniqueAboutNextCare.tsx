@@ -101,7 +101,7 @@ const UniqueAboutNextCare = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
         viewport={{ once: true }}
-        className="text-xl lg:text-2xl font-light leading-relaxed text-center mt-10"
+        className="text-xl lg:text-2xl font-medium leading-relaxed text-center mt-10"
       >
         At Nextcare.Life, we are redefining healthcare with innovation,
         accessibility, and trust.

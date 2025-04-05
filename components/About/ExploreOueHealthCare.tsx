@@ -140,10 +140,10 @@ const HealthCalculatorCard: React.FC<CalculatorProps> = ({
           alt={title}
           width={80}
           height={80}
-          className="mb-4"
+          className="mb-1"
         />
         <h2 className="text-xl font-bold">{title}</h2>
-        <h3 className="text-lg mt-2">{description}</h3>
+        <h3 className="text-lg ">{description}</h3>
       </motion.div>
 
       {/* Animated Button */}

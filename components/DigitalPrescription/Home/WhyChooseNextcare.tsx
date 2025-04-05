@@ -75,7 +75,7 @@ const WhyChooseNextcare = () => {
             transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.2 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full sm:w-[371px] h-[312px] bg-primary-lite p-6 rounded-2xl shadow-lg relative flex flex-col justify-between"
+            className="w-full sm:w-[371px] h-[312px] bg-primary-lite p-6 rounded-2xl shadow-lg relative"
           >
             {/* Animated Icon */}
             <motion.div
@@ -83,7 +83,7 @@ const WhyChooseNextcare = () => {
               whileInView={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
               viewport={{ once: true }}
-              className="absolute top-4 left-4 w-28 h-28 bg-cyan-200 rounded-full flex items-center justify-center"
+              className="absolute top-4 left-[33%] w-28 h-28 bg-cyan-200 rounded-full flex items-center justify-center"
             >
               <Image
                 src={element.image}
