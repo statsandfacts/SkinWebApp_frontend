@@ -33,13 +33,13 @@ const SupportedBySection = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
-          className="w-32 h-32 flex justify-center items-center"
+          className="w-50 h-50 flex justify-center items-center"
         >
           <Image
             src="/digitalPrescription/dst-logo.png"
             alt="Logo 1"
-            width={120}
-            height={120}
+            width={200}
+            height={200}
             className="object-contain"
           />
         </motion.div>
@@ -65,7 +65,7 @@ const SupportedBySection = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 1 }}
-          className="w-32 h-32 flex justify-center items-center"
+          className="w-50 h-50 flex justify-center items-center"
         >
           <Image
             src="/digitalPrescription/startup_odisha.png"
@@ -97,13 +97,13 @@ const SupportedBySection = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 1.4 }}
-          className="w-36 h-36 flex justify-center items-center"
+          className="w-70 h-70 flex justify-center items-center"
         >
           <Image
             src="/digitalPrescription/startup-india.png"
             alt="Logo 5"
-            width={180}
-            height={180}
+            width={250}
+            height={200}
             className="object-contain"
           />
         </motion.div>

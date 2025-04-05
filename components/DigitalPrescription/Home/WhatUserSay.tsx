@@ -45,19 +45,20 @@ const WhatUserSay = () => {
               boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
             }}
           >
-            {/* User Image */}
-            <div className="h-24 w-24">
-              <Image
-                src={user.image}
-                alt={user.name}
-                width={100}
-                height={100}
-                className="rounded-full h-24"
-              />
+            <div className="flex flex-col items-center">
+              <div className="flex justify-center items-center h-24 w-24">
+                <Image
+                  src={user.image}
+                  alt={user.name}
+                  width={100}
+                  height={100}
+                  className="rounded-full h-24 w-24 object-cover"
+                />
+              </div>
+              <h3 className="text-lg font-bold mt-2 text-center">
+                {user.name}
+              </h3>
             </div>
-
-            {/* User Name */}
-            <h3 className="text-lg font-bold mt-2">{user.name}</h3>
 
             {/* Testimonial */}
             <p className="text-sm mt-2">{user.comment}</p>

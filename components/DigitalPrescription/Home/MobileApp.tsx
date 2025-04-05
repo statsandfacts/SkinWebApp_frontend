@@ -117,8 +117,8 @@ const MobileApp = () => {
             <Image
               src="/homepage/playstore.png"
               alt="Google Play Store"
-              width={150}
-              height={50}
+              width={164}
+              height={55}
             />
           </motion.div>
           <motion.div

@@ -107,9 +107,9 @@ const LeftImageComponent = ({
             >
               <span
                 style={{
-                  borderColor: action === "abdm" ? "#53eafd" : feature.color,
+                  borderColor: action === "abdm" ? "#025687" : feature.color,
                   backgroundColor:
-                    action === "abdm" ? "#53eafd" : feature.color,
+                    action === "abdm" ? "#025687" : feature.color,
                 }}
                 className={`w-6 h-6 rounded-full border flex justify-center items-center`}
               >
