@@ -73,7 +73,7 @@ const LeftImageComponent = ({
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-          className="text-4xl sm:text-5xl font-bold text-primary text-center"
+          className="text-3xl sm:text-4xl font-bold text-primary text-left"
           viewport={{ once: true }}
         >
           {title}
@@ -83,7 +83,7 @@ const LeftImageComponent = ({
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
-          className="text-2xl text-gray-700 mt-4 text-center sm:text-left"
+          className="text-2xl text-gray-700 mt-4 text-left"
           viewport={{ once: true }}
         >
           {description}
@@ -93,7 +93,7 @@ const LeftImageComponent = ({
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
-          className="mt-6 space-y-2 text-xl text-center sm:text-left"
+          className="mt-6 space-y-2 text-xl text-left"
           viewport={{ once: true }}
         >
           {features.map((feature, index) => (

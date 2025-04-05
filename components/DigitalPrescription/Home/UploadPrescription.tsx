@@ -6,16 +6,18 @@ import LoginDrawer from "../Auth/LoginDrawer";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { setLoginModal } from "@/redux/slices/digitalPrescription/auth.slice";
+import { useRouter } from "next/navigation";
 
 const UploadPrescription: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
   const { userId }: { userId: string | null } = useAuthInfo();
   const handleUploadClick = () => {
     if (!userId) {
       dispatch(setLoginModal(true));
     } else {
+      router.push("/upload-prescription");
     }
-    console.log("Upload Prescription Button Clicked");
   };
 
   return (
@@ -42,7 +44,7 @@ const UploadPrescription: FC = () => {
           className="bg-primary text-white text-lg sm:text-xl md:text-2xl font-medium py-2 px-4 sm:py-3 sm:px-6 rounded-full shadow-md transition duration-300"
           onClick={handleUploadClick}
         >
-          Upload a Hand-Written Prescription Now
+          Upload a HandWritten Prescription Now
         </motion.button>
       </motion.div>
       <LoginDrawer />

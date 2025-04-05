@@ -1,4 +1,7 @@
-import { getPatientDashboard } from "@/services/api.digitalPrescription.service";
+import {
+  getPatientDashboard,
+  getProfileCompletionPercentage,
+} from "@/services/api.digitalPrescription.service";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserDashboardState {
@@ -14,6 +17,11 @@ interface UserDashboardState {
     reUpload: any[];
   };
   isUpdateHcrModal: boolean;
+  profileCompletionData: {
+    loading: boolean;
+    error: string | null;
+    profileCompletionPercentage: number | null;
+  };
 }
 
 const initialState: UserDashboardState = {
@@ -29,6 +37,11 @@ const initialState: UserDashboardState = {
     reUpload: [],
   },
   isUpdateHcrModal: false,
+  profileCompletionData: {
+    loading: false,
+    error: null,
+    profileCompletionPercentage: null,
+  },
 };
 
 export const fetchPatientDashboard = createAsyncThunk<
@@ -45,6 +58,27 @@ export const fetchPatientDashboard = createAsyncThunk<
       if (error.response && error.response.data) {
         return rejectWithValue(
           error.response.data.message || "Failed to fetch data"
+        );
+      }
+      return rejectWithValue(error.message || "Network Error");
+    }
+  }
+);
+
+export const fetchProfileCompletionPercentage = createAsyncThunk<
+  any,
+  any,
+  { rejectValue: string }
+>(
+  "userDashboard/fetchProfileCompletionPercentage",
+  async (patient_user_id: string | null, { rejectWithValue }) => {
+    try {
+      const data = await getProfileCompletionPercentage(patient_user_id);
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(
+          error.response.data.message || "Failed to fetch percentage data"
         );
       }
       return rejectWithValue(error.message || "Network Error");
@@ -108,6 +142,29 @@ const userDashboardSlice = createSlice({
           state.prescriptionCases.conditionallyApproved = [];
           state.prescriptionCases.inProgress = [];
           state.prescriptionCases.reUpload = [];
+        }
+      )
+
+      .addCase(fetchProfileCompletionPercentage.pending, (state) => {
+        state.profileCompletionData.loading = true;
+        state.profileCompletionData.error = null;
+        state.profileCompletionData.profileCompletionPercentage = null;
+      })
+      .addCase(
+        fetchProfileCompletionPercentage.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.profileCompletionData.loading = false;
+          state.profileCompletionData.error = null;
+          state.profileCompletionData.profileCompletionPercentage =
+            action.payload?.completion_percentage || null;
+        }
+      )
+      .addCase(
+        fetchProfileCompletionPercentage.rejected,
+        (state, action: PayloadAction<string | undefined>) => {
+          state.profileCompletionData.loading = false;
+          state.profileCompletionData.error = null;
+          state.profileCompletionData.profileCompletionPercentage = null;
         }
       );
   },

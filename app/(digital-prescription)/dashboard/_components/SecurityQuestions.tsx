@@ -1,69 +1,137 @@
-'use client';
-import React, { useState } from 'react';
+"use client";
+
+import { getSecurityQuestions } from "@/services/api.digitalPrescription.service";
+import React, { useState, useEffect } from "react";
+import { useAuthInfo } from "@/hooks/useAuthInfo";
+import { Save, Pencil } from "lucide-react";
+import { securityAnswer } from "@/services/api.digitalPrescription.service";
+import { toast } from "react-toastify";
+import { Button } from "@nextui-org/button";
+import { Input } from "@nextui-org/input";
 
 const SecurityQuestion = () => {
-  const questions = [
-    "What is the first name of your best friend in high school?",
-    "What was the name of your first pet?",
-    "What was the first thing you learned to cook?",
-    "What was the first film you saw in a theater?",
-    "Where did you go the first time you flew on a plane?"
-  ];
+  const { userId } = useAuthInfo();
 
-  const [answers, setAnswers] = useState(Array(5).fill(''));
-  const [error, setError] = useState('');
+  const [questions, setQuestions] = useState<
+    { question_id: number; question: string; answer_hash?: string }[]
+  >([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleAnswerChange = (index: number, value: string) => {
-    const newAnswers = [...answers];
-    
-    newAnswers[index] = value;
-    setAnswers(newAnswers);
+  useEffect(() => {
+    fetchQuestions();
+  }, [userId]);
+
+  const fetchQuestions = async () => {
+    if (!userId) {
+      setError("User ID is missing.");
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    try {
+      const data = await getSecurityQuestions(userId);
+      if (data && data.length > 0) {
+        setQuestions(data);
+      } else {
+        setQuestions([]);
+      }
+    } catch (error) {
+      setError("Failed to load security questions.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const answeredCount = answers.filter(answer => answer.trim() !== '').length;
-    if (answeredCount < 3) {
-        setError('Please provide answers to at least 3 security questions.');
-        return;
-      }
-  
-      setError('Your answers have been submitted!');
-    };
+  const handleAnswerChange = (index: number, value: string) => {
+    setQuestions((prev) =>
+      prev.map((q, i) => (i === index ? { ...q, answer_hash: value } : q))
+    );
+  };
+
+  const handleSaveAnswer = async (q: any) => {
+    if (q?.is_answer) {
+      toast.warning("Working on progress");
+      return;
+    }
+    if (!q.answer_hash) {
+      toast.error("Please enter an answer before saving.");
+      return;
+    }
+    securityAnswer({
+      user_id: userId,
+      question_id: q.question_id,
+      answer_hash: q.answer_hash,
+    })
+      .then((res) => {
+        toast.success(`Answer saved successfully!`);
+        fetchQuestions();
+      })
+      .catch((error) => {
+        toast.error(
+          error?.response?.data?.message ||
+            "Failed to save answer. Please try again."
+        );
+      });
+  };
 
   return (
-    <div className="min-h-screen p-10">
-      {/* Header Section */}
-      <div className="mb-10">
+    <div className="flex justify-center items-center mt-6">
+      <div className="flex flex-col justify-center items-center max-w-7xl">
         <h2 className="text-4xl font-semibold mb-4">Security Questions</h2>
-        <p className="text-gray-600">Select a security question or create one of your own. This question will help us verify your identity should you forget your password.</p>
-      </div>
+        <p className="text-gray-600">
+          Answer these security questions to verify your identity.
+        </p>
 
-      {/* Form Section */}
-      <div className="flex flex-col justify-center p-10 ">
-        <form onSubmit={handleSubmit}>
-          {questions.map((question, index) => (
-            <div key={index} className="mb-6">
-              <label className="block font-medium mb-2">{question}</label>
-              <input
-                type="text"
-                value={answers[index]}
-                onChange={(e) => handleAnswerChange(index, e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter your answer here"
-              />
-            </div>
-          ))}
+        <div className="flex flex-col justify-center p-10">
+          <form>
+            {loading ? (
+              <p>Loading security questions...</p>
+            ) : error ? (
+              <p className="text-red-500">{error}</p>
+            ) : (
+              questions.map((question: any, index: number) => (
+                <div
+                  key={index}
+                  className="flex mb-4 items-center justify-center"
+                >
+                  <div className="flex-grow">
+                    <div className="flex gap-2 justify-between items-center mb-2">
+                      <label className="block font-medium ">
+                        {question.question}
+                      </label>
+                      {!question?.is_answer && (
+                        <Button
+                          isIconOnly
+                          onClick={() => handleSaveAnswer(question)}
+                          color={question?.is_answer ? "warning" : "primary"}
+                        >
+                          {question?.is_answer ? (
+                            <>
+                              {/* <Pencil size={20} className="text-white" /> */}
+                            </>
+                          ) : (
+                            <Save size={20} className="text-white" />
+                          )}
+                        </Button>
+                      )}
+                    </div>
 
-          <button 
-            type="submit" 
-            className="w-full bg-primary-600 text-white px-8 py-4 rounded-md hover:bg-primary-600 "
-            
-          >
-            Submit
-          </button>
-          {error && <p className="text-red-500 mt-4">{error}</p>}
-        </form>
+                    <Input
+                      type="text"
+                      disabled={question?.is_answer}
+                      value={question?.answer_hash || ""}
+                      onChange={(e) =>
+                        handleAnswerChange(index, e.target.value)
+                      }
+                      placeholder="Enter your answer here"
+                    />
+                  </div>
+                </div>
+              ))
+            )}
+          </form>
+        </div>
       </div>
     </div>
   );

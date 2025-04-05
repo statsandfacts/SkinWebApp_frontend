@@ -17,9 +17,21 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setViewPrescriptionDetailsModal } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import { useRouter } from "next/navigation";
+import {
+  setIsReminderModal,
+  // setIsReminderPrescModal,
+  setReminderActionKey,
+  setReminderDetails,
+  // setReminderMedicineDtlsPresc,
+} from "@/redux/slices/digitalPrescription/drug.slice";
+import { Timer } from "lucide-react";
+
+// import AddReminderModalFromPrescription from "./Details/Reminder/AddReminderModelFromPrescription";
 
 export default function ViewPrescriptionDetailsModal() {
   const router = useRouter();
+  const [selectedMedicine, setSelectedMedicine] = React.useState("");
+
   const dispatch = useDispatch();
   const {
     isViewPrescriptionDetailsModal,
@@ -121,25 +133,38 @@ export default function ViewPrescriptionDetailsModal() {
                                 <TableCell className="text-center">
                                   {mx + 1}
                                 </TableCell>
-                                <TableCell
-                                  onClick={() => {
-                                    if (medicineDetail?.o_id) {
-                                      router.push(
-                                        `/prescription/${medicineDetail?.o_id}`
-                                      );
-                                    }
-                                  }}
-                                >
-                                  <span
+                                <TableCell className="flex justify-between items-center">
+                                  <button
                                     className={`${
                                       medicineDetail?.o_id
                                         ? "border-b-2 border-sky-600 cursor-pointer uppercase text-sky-800"
                                         : ""
                                     }`}
+                                    onClick={() => {
+                                      if (medicineDetail?.o_id) {
+                                        router.push(
+                                          `/prescription/${medicineDetail?.o_id}`
+                                        );
+                                      }
+                                    }}
                                   >
-                                    {medicineDetail?.medicine_name}
-                                  </span>
+                                    <b>{medicineDetail?.medicine_name}</b>
+                                  </button>
+                                  {/* <button
+                                    className="text-orange-400"
+                                    onClick={(e) => {
+                                      dispatch(
+                                        setReminderMedicineDtlsPresc(
+                                          medicineDetail
+                                        )
+                                      );
+                                      dispatch(setIsReminderPrescModal(true));
+                                    }}
+                                  >
+                                    <Timer />
+                                  </button> */}
                                 </TableCell>
+
                                 <TableCell className="uppercase">
                                   {medicineDetail?.composition}
                                 </TableCell>
@@ -244,6 +269,8 @@ export default function ViewPrescriptionDetailsModal() {
           )}
         </ModalContent>
       </Modal>
+
+      {/* <AddReminderModalFromPrescription /> */}
     </>
   );
 }

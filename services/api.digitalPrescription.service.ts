@@ -188,6 +188,21 @@ export const getPatientDashboard = async (patient_user_id: string | null) => {
 
 /**
  *
+ * @param patient_user_id
+ * @returns
+ */
+export const getProfileCompletionPercentage = async (
+  patient_user_id: string | null
+) => {
+  const { data } = await axios.get(
+    `${baseUrl}users/profile-completion-percentage?user_id=${patient_user_id}`,
+    headers
+  );
+  return data;
+};
+
+/**
+ *
  * @param drug_id
  * @returns
  */
@@ -428,6 +443,41 @@ export const emergencyContact = async (userId: string | null) => {
   const { data } = await axios.get(
     `${baseUrl}users/send_dynamic_message?user_id=${userId}`,
     headers
+  );
+  return data;
+};
+
+export const getSecurityQuestions = async (
+  userId?: string | null,
+  phone_no?: string | null
+) => {
+  let url;
+  if (userId) {
+    url = `${baseUrl}users/security-questions-answer?user_id=${userId}`;
+  } else {
+    url = `${baseUrl}users/security-questions-answer?phone_no=${phone_no}`;
+  }
+  const { data } = await axios.get(url, headers);
+  return data;
+};
+
+export const securityAnswer = async (payload: any) => {
+  const { data } = await axios.post(
+    `${baseUrl}users/security-question`,
+    payload,
+    headers
+  );
+  return data;
+};
+
+export const verifySecurityAnswer = async (payload: {
+  phone_no: string;
+  answer: string;
+  question_id: string;
+}) => {
+  const { data } = await axios.post(
+    `${baseUrl}users/verify-security-question`,
+    payload
   );
   return data;
 };

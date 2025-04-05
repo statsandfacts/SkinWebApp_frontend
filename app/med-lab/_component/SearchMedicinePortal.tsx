@@ -7,14 +7,15 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 interface Medicine {
-  Id: string;
-  name: string;
-  salt_composition: string;
-  ProductForm: string;
-  use_of: string;
-  manufacturers: string;
-  Dosage: string;
-  mrp?:string;
+  Id?: string;
+  name?: string;
+  description?: string;
+  salt_composition?: string;
+  ProductForm?: string;
+  use_of?: string;
+  manufacturers?: string;
+  Dosage?: string;
+  mrp?: string;
 }
 
 const SearchMedicinePortal: React.FC<{
@@ -39,7 +40,12 @@ const SearchMedicinePortal: React.FC<{
           : `https://nextcare.life:8000/api/stage1/investigation/search?name=${input}`;
 
       const response = await axios.get(url);
-      setFilteredResults(response.data?.search_result || []);
+      if (name === "medicine") {
+        setFilteredResults(response.data?.search_result || []);
+      } else {
+        const result = response.data?.details ? [response.data?.details] : [];
+        setFilteredResults(result);
+      }
     } catch (error) {
       // toast.error("Error fetching search results.");
     } finally {
@@ -89,13 +95,25 @@ const SearchMedicinePortal: React.FC<{
                 onClick={() => handleArrowClick(item)}
               >
                 <h3 className="text-xl font-semibold">{item.name}</h3>
-                <p className="text-sm text-gray-500">{item.salt_composition}</p>
-                <p className="text-sm text-gray-500">Use: {item.use_of}</p>
-                <p className="text-sm text-gray-500">
-                  Manufacturers: {item.manufacturers}
-                </p>
-                <p className="text-sm text-gray-500">Dosage: {item.Dosage}</p>
-                <p className="text-sm text-gray-500">Price: ₹{item.mrp}</p>
+                {name === "medicine" ? (
+                  <>
+                    <p className="text-sm text-gray-500">
+                      {item.salt_composition}
+                    </p>
+                    <p className="text-sm text-gray-500">Use: {item.use_of}</p>
+                    <p className="text-sm text-gray-500">
+                      Manufacturers: {item.manufacturers}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Dosage: {item.Dosage}
+                    </p>
+                    <p className="text-sm text-gray-500">Price: ₹{item.mrp}</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm text-gray-500">{item.description}</p>
+                  </>
+                )}
 
                 {/* <div
                   className="text-right text-gray-500 mt-2 cursor-pointer"

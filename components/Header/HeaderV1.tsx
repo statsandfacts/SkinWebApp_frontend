@@ -105,7 +105,7 @@ export default function HeaderV1() {
                   href={"/dashboard"}
                   color="foreground"
                   className={
-                    "/dashboard" === pathname ? "text-sky-700" : "text-black"
+                    "/dashboard" === pathname ? "text-primary" : "text-white"
                   }
                 >
                   {"Dashboard"}

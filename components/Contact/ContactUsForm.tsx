@@ -36,6 +36,11 @@ const ContactUsForm = () => {
       return;
     }
 
+    if (!/^\+?[0-9]{10,15}$/.test(formData.phone_no)) {
+      toast.error("Please enter a valid phone number.");
+      return;
+    }
+    return;
     setLoading(true);
     contactUs(formData)
       .then((response) => {

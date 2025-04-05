@@ -87,6 +87,7 @@ const AccountDetailsUpdate = () => {
               toast.success(
                 response.message || "User details updated successfully!"
               );
+              dispatch(fetchUserDetails(userDetails?.user_id));
             })
             .catch((error) => {
               const errorMessage =
@@ -135,6 +136,7 @@ const AccountDetailsUpdate = () => {
     updateUser(payload)
       .then((response) => {
         toast.success(response.message || "User details updated successfully!");
+        dispatch(fetchUserDetails(userDetails?.user_id));
       })
       .catch((error) => {
         const errorMessage =

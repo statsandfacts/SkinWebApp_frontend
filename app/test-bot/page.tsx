@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import BotTestPage from "./components/BotTestPage";
+import HealthBot from "./components/HealthBot";
 
 export const metadata: Metadata = {
   title: "Test Bot",
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
 const BotTest = () => {
   return (
     <>
-      <BotTestPage />
+      <HealthBot />
     </>
   );
 };

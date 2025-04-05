@@ -84,7 +84,7 @@ const MobileApp = () => {
               transition={{ duration: 0.8, delay: index * 0.2 }}
               viewport={{ once: true }}
             >
-              <div className="w-14 h-14 lg:w-16 lg:h-16 bg-[#B7DEF6] flex items-center justify-center rounded-full">
+              <div className="w-16 h-16 p-3 lg:w-16 lg:h-16 bg-[#B7DEF6] flex items-center justify-center rounded-full">
                 <Image
                   src={feature.image}
                   alt={feature.title}

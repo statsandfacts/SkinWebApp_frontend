@@ -5,6 +5,7 @@ import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import FontAwesomeXIcon from "../SvgIcon/FontAwesomeXIcon";
 
 type Props = {};
 
@@ -62,10 +63,6 @@ const FooterV1 = (props: Props) => {
                     url: "/ayushman-bharat/create-abha-health-id",
                   },
                   { name: "About ABDM", url: "/ayushman-bharat" },
-                  {
-                    name: "About PMJAY",
-                    url: "/ayushman-bharat/create-abha-health-id",
-                  },
                 ].map((item) => (
                   <Link
                     href={item.url}
@@ -82,13 +79,13 @@ const FooterV1 = (props: Props) => {
               <div className="flex justify-start items-end">
                 <Image
                   src="/logo-white.svg"
-                  width={100}
-                  height={100}
+                  width={150}
+                  height={150}
                   alt="nextcare logo"
                 />
                 <span className="text-gray-500">Beta</span>
               </div>
-              <p className="font-medium text-4xl drop-shadow-lg text-[#D9D9D9]">
+              <p className="font-medium text-4xl drop-shadow-lg text-white">
                 Future of Care
               </p>
             </div>
@@ -151,7 +148,7 @@ const FooterV1 = (props: Props) => {
               <div className="flex flex-col gap-2  mt-4">
                 {[
                   { name: "HCR", url: "/hcr" },
-                  { name: "Why nextcare.life?", url: "/why-next-care" },
+                  { name: "Contact Us", url: "/contact-us" },
                 ].map((item) => (
                   <Link
                     className="text-[#D9D9D9] font-normal text-sm"
@@ -176,7 +173,8 @@ const FooterV1 = (props: Props) => {
               href="https://twitter.com/NextcareLife"
               className="p-2 rounded-full bg-sky-600 text-white hover:bg-sky-700 transition"
             >
-              <Twitter className="h-4 w-4" />
+              {/* <Twitter className="h-4 w-4" /> */}
+              <FontAwesomeXIcon color="#ffffff" height={16} width={16} />
             </Link>
             <Link
               href="https://www.instagram.com/nextcare.life?igsh=MTdkMjg5M2s2NmRobA%3D%3D&utm_source=qr"

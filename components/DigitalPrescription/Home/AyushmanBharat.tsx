@@ -37,14 +37,13 @@ const AyushmanBharat = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="p-10"
     >
       {/* Main Heading with Animation */}
       <motion.h1
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-        className="text-4xl font-bold text-center text-[#025687]"
+        className="text-4xl font-bold text-center text-primary"
       >
         Ayushman Bharat Digital Mission (ABDM)
       </motion.h1>

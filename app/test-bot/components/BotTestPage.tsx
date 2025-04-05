@@ -11,9 +11,10 @@ const config = {
   botName: "Assistant",
   initialMessages: [
     createChatBotMessage(
-      "Hello! I’m your health assistant. To begin, could you tell me your age?",
+      "Hi! I’m here to assist you with your health concerns. To guide you better, I’ll need some basic information.",
       {}
     ),
+    createChatBotMessage("Would you like to proceed? (yes/no)", {}),
   ],
 };
 
