@@ -100,7 +100,7 @@ const FooterV1 = (props: Props) => {
                   },
                   { name: "Privacy Policy", url: "/policy" },
                   { name: "Data Security", url: "/coming-soon" },
-                  { name: "Disclaimer", url: "/coming-soon" },
+                  { name: "Disclaimer", url: "/policy/disclaimer" },
                 ].map((item) => (
                   <Link
                     className="text-[#D9D9D9] font-normal text-sm"
