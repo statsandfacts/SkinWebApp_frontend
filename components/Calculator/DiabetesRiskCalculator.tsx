@@ -4,7 +4,8 @@ import CustomHeader from "../Header/PublicLayoutHeader";
 import CalculatorFAQ from "./Faqs";
 import { faqDiabetes } from "@/utils/calculatorsFaqs";
 import BackButton from "../common/BackButton";
-import Image from "next/image"; // Import Image component from Next.js
+import Image from "next/image";
+import RelatedKeyword from "./RelatedKeyword";
 
 const DiabetesRiskCalculator: React.FC = () => {
   const [age, setAge] = useState<string>("");
@@ -121,7 +122,6 @@ const DiabetesRiskCalculator: React.FC = () => {
         subHeader="Assess your risk for developing Type 2 diabetes based on common risk factors."
         imageURL="/vector/calculator_diabetes_risk.png"
       />
-
       <section className="mt-6 animate-slide-up">
         <p className="text-gray-600 text-center md:text-left">
           This tool provides an estimate of your risk for developing Type 2
@@ -245,7 +245,7 @@ const DiabetesRiskCalculator: React.FC = () => {
           </div>
         </div>
       </section>
-
+      <RelatedKeyword keyword="diabetes_risk" />
       <CalculatorFAQ faqs={faqDiabetes} />
     </div>
   );
