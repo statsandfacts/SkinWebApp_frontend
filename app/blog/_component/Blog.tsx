@@ -3,6 +3,8 @@
 import CustomHeader from "@/components/Header/PublicLayoutHeader";
 import BlogNavMenu from "./BlogNavMenu";
 import BlogSegregation from "./BlogSegregation";
+import SearchByTitle from "./SearchByTitle";
+
 
 const BlogPage = () => {
   return (
@@ -13,8 +15,9 @@ const BlogPage = () => {
           subHeader="Stay informed with the latest in digital health and wellness."
           imageURL="/vector/health_feed.png"
         />
-
+       
         <BlogNavMenu />
+        <SearchByTitle/>
 
         <BlogSegregation />
       </div>
