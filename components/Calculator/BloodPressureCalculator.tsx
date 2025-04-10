@@ -6,6 +6,7 @@ import CustomHeader from "../Header/PublicLayoutHeader";
 import CalculatorFAQ from "./Faqs";
 import { faqHypertension } from "@/utils/calculatorsFaqs";
 import BackButton from "../common/BackButton";
+import RelatedKeyword from "./RelatedKeyword";
 
 const BloodPressureCalculator: React.FC = () => {
   const [systolic, setSystolic] = useState<string>("");
@@ -74,7 +75,6 @@ const BloodPressureCalculator: React.FC = () => {
         subHeader="Understand your blood pressure levels and risk category."
         imageURL="/calculator/bp_calculator_image.png"
       />
-
       <section className="mt-6 animate-slide-up">
         <p className="text-gray-600 text-center md:text-left">
           Blood pressure is a vital indicator of your cardiovascular health. Use
@@ -174,7 +174,7 @@ const BloodPressureCalculator: React.FC = () => {
           </div>
         </div>
       </section>
-
+      <RelatedKeyword keyword="blood_pressure_risk" />
       <CalculatorFAQ faqs={faqHypertension} />
     </div>
   );

@@ -502,3 +502,30 @@ export const getCareerJobById = async (jobId: string) => {
   );
   return data;
 };
+
+/**
+ *
+ * @param {string} keyword - The related keyword to search blogs
+ * @returns related blogs based on the keyword
+ */
+export const findBlogsByKeyword = async (keyword: string) => {
+  const { data } = await axios.get(
+    `${baseUrl}blogs/find-related-key-word?related_key_word=${keyword}`,
+    headers
+  );
+  return data;
+};
+
+/**
+ *
+ * @param {string} title - The title keyword to search blogs
+ * @returns blogs that match the given title keyword
+ */
+export const searchBlogsByTitle = async (title: string) => {
+  const { data } = await axios.get(
+    `${baseUrl}blogs/search-by-title?keyword=${title}`,
+    headers
+  );
+  return data;
+};
+

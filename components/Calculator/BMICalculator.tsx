@@ -6,6 +6,7 @@ import CalculatorFAQ from "./Faqs";
 import { bmiData } from "@/utils/calculatorsFaqs";
 import BackButton from "../common/BackButton";
 import Image from "next/image";
+import RelatedKeyword from "./RelatedKeyword";
 
 const BMICalculator: React.FC = () => {
   const router = useRouter();
@@ -71,7 +72,6 @@ const BMICalculator: React.FC = () => {
     Overweight: "/calculator/Overweight_image.png",
     Obese: "/calculator/Obesity.png",
   };
-  
 
   return (
     <div className="p-10 md:px-40">
@@ -81,7 +81,6 @@ const BMICalculator: React.FC = () => {
         subHeader="Calculate your Body Mass Index and learn about your health category."
         imageURL="/vector/calculator_bmi.png"
       />
-
       <section className="mt-6 animate-slide-up">
         <p className="text-gray-600 text-center md:text-left">
           Body Mass Index (BMI) is a way to measure body fat using your height
@@ -169,18 +168,16 @@ const BMICalculator: React.FC = () => {
                 <p className="text-sm text-gray-700 mt-2">
                   Category: {category}
                 </p>
-              
-              
-                {category && bmiImages[category] && (
-  <Image
-    src={bmiImages[category]}
-    alt={category}
-    width={260}
-    height={260}
-    className="mx-auto mt-4"
-  />
-)}
 
+                {category && bmiImages[category] && (
+                  <Image
+                    src={bmiImages[category]}
+                    alt={category}
+                    width={260}
+                    height={260}
+                    className="mx-auto mt-4"
+                  />
+                )}
 
                 <button
                   onClick={resetForm}
@@ -197,7 +194,7 @@ const BMICalculator: React.FC = () => {
           </div>
         </div>
       </section>
-
+      <RelatedKeyword keyword="bmi" />
       <CalculatorFAQ faqs={bmiData} />
     </div>
   );

@@ -6,6 +6,7 @@ import CalculatorFAQ from "./Faqs";
 import { bmrData } from "@/utils/calculatorsFaqs";
 import BackButton from "../common/BackButton";
 import Image from "next/image";
+import RelatedKeyword from "./RelatedKeyword";
 
 const BMRCalculator: React.FC = () => {
   const [weight, setWeight] = useState<string>("");
@@ -201,15 +202,13 @@ const BMRCalculator: React.FC = () => {
                   Your BMR: <span className="text-sky-700">{bmr} kcal/day</span>
                 </p>
 
-
                 <Image
-  src="/calculator/bmrcalculator_image.png"
-  alt="BMR Result"
-  width={328} // Adjust based on your needs
-  height={328} // Adjust based on your needs
-  className="mx-auto flex justify-center items-center"
-
-/>
+                  src="/calculator/bmrcalculator_image.png"
+                  alt="BMR Result"
+                  width={328} // Adjust based on your needs
+                  height={328} // Adjust based on your needs
+                  className="mx-auto flex justify-center items-center"
+                />
 
                 <button
                   onClick={resetForm}
@@ -226,7 +225,7 @@ const BMRCalculator: React.FC = () => {
           </div>
         </div>
       </section>
-
+      <RelatedKeyword keyword="bmr" />
       <CalculatorFAQ faqs={bmrData} />
     </div>
   );

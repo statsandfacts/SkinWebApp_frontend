@@ -52,8 +52,8 @@ const ManageComments: React.FC<ManageCommentsProps> = () => {
           </div>
         ) : comments.errorMessage ? (
           <p className="p-10 md:px-40 text-red-500">{comments.errorMessage}</p>
-        ) : comments.data.length > 0 ? (
-          comments.data.map((comment: any, index: number) => (
+        ) :(comments?.data && comments?.data.length > 0 )? (
+          comments?.data.map((comment: any, index: number) => (
             <div
               key={index}
               className="p-4 mb-2 border rounded-lg bg-gray-50 flex flex-col md:flex-row md:justify-between items-start"

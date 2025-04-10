@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import CustomHeader from "../Header/PublicLayoutHeader";
 import CalculatorFAQ from "./Faqs";
 import { faqPregnancyDueDate } from "@/utils/calculatorsFaqs";
+import RelatedKeyword from "./RelatedKeyword";
 import BackButton from "../common/BackButton";
 import Image from "next/image";
 
@@ -50,7 +51,6 @@ const PregnancyDueDateCalculator: React.FC = () => {
         subHeader="Estimate your baby's due date using your Last Menstrual Period (LMP)."
         imageURL="/vector/calculator_pregnancy_due_date.png"
       />
-
       <section className="mt-6 animate-slide-up">
         <p className="text-gray-600 text-center md:text-left">
           Your estimated due date is 40 weeks (280 days) from the first day of
@@ -103,17 +103,16 @@ const PregnancyDueDateCalculator: React.FC = () => {
                 </p>
 
                 {showImage && (
-  <div className="mt-1 flex justify-center">
-    <Image
-      src="/calculator/pregnancydue_date.png"
-      alt="Pregnancy Due Date Estimation"
-      width={300} // Adjust width as needed
-      height={300} // Adjust height as needed
-      //className="rounded-lg shadow-lg"
-    />
-  </div>
-)}
-
+                  <div className="mt-1 flex justify-center">
+                    <Image
+                      src="/calculator/pregnancydue_date.png"
+                      alt="Pregnancy Due Date Estimation"
+                      width={300} // Adjust width as needed
+                      height={300} // Adjust height as needed
+                      //className="rounded-lg shadow-lg"
+                    />
+                  </div>
+                )}
 
                 <button
                   onClick={resetForm}
@@ -122,7 +121,6 @@ const PregnancyDueDateCalculator: React.FC = () => {
                   Reset
                 </button>
               </div>
-              
             ) : (
               <p className="text-gray-600 text-center md:text-left">
                 Enter your Last Menstrual Period (LMP) to calculate your due
@@ -132,7 +130,7 @@ const PregnancyDueDateCalculator: React.FC = () => {
           </div>
         </div>
       </section>
-
+      <RelatedKeyword keyword="pregnancy_due_date" />
       <CalculatorFAQ faqs={faqPregnancyDueDate} />
     </div>
   );

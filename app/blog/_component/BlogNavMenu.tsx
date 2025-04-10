@@ -30,7 +30,7 @@ const BlogNavMenu = () => {
 
   return (
     <>
-      <section className="flex flex-wrap justify-start sm:justify-end gap-3 mb-10 animate-slide-up">
+      <section className="flex flex-wrap justify-start sm:justify-end gap-3 mb-5 animate-slide-up">
         {categories?.loading ? (
           <div className="w-full flex justify-center items-center font-light text-slate-400 text-xs">
             <LoaderIcon className="animate-spin mr-1 h-4 w-4" />
