@@ -293,10 +293,10 @@ export default function ViewGenerateReportModal() {
                       </h3>
                       <div className="flex justify-between gap-4">
                         <div>
-                          <p className="text-sm text-gray-600">
+                          {/* <p className="text-sm text-gray-600">
                             <strong>Chronic Disease:</strong>{" "}
                             {singlePrescriptionDetails?.ocr_op?.Chronic_Disease}
-                          </p>
+                          </p> */}
                           <p className="text-sm text-gray-600">
                             <strong>Drinking:</strong>{" "}
                             {singlePrescriptionDetails?.ocr_op?.Drinking}

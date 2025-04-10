@@ -61,7 +61,7 @@ export default function UpdateHcrModal() {
     bp_color_cat: "",
     spo2_color_cat: "",
     sugar_value: "",
-    Chronic_Disease: "",
+    // Chronic_Disease: "",
   };
 
   const formik = useFormik({
@@ -87,15 +87,15 @@ export default function UpdateHcrModal() {
       spo2: Yup.string().required("SPO2 value is required"),
       Drinking: Yup.string().required("Drinking status is required"),
       Smoking: Yup.string().required("Smoking status is required"),
-      fbs: Yup.string(),
-      ppbs: Yup.string(),
-      Chronic_Disease: Yup.string(),
+      fbs: Yup.string().nullable().optional(),
+      ppbs: Yup.string().nullable().optional(),
+      // Chronic_Disease: Yup.string(),
       Date: Yup.string(),
       weight_between: Yup.string(),
       result: Yup.string(),
       bp_color_cat: Yup.string(),
       spo2_color_cat: Yup.string(),
-      sugar_value: Yup.string(),
+      sugar_value: Yup.string().nullable().optional(),
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
@@ -151,7 +151,7 @@ export default function UpdateHcrModal() {
                             "Phone",
                             "spo2",
                             "sugar_value",
-                            "Chronic_Disease",
+                            // "Chronic_Disease",
                             "result",
                             "weight_between",
                             "bp_category",

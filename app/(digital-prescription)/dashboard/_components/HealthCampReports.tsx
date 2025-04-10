@@ -97,20 +97,6 @@ const HealthCampReports = () => {
                                     dispatch(
                                       setSinglePrescriptionDetails(report)
                                     );
-                                    dispatch(setViewUploadedReportModal(true));
-                                  }}
-                                  title="View Digital Generated Report"
-                                  key={1}
-                                  color="primary"
-                                >
-                                  <FileCheckIcon className="h-5 w-5" />
-                                </ToolTipBtn>
-
-                                <ToolTipBtn
-                                  onClick={() => {
-                                    dispatch(
-                                      setSinglePrescriptionDetails(report)
-                                    );
                                     dispatch(setViewOriginalImageModal(true));
                                   }}
                                   title="View Uploaded Report"
@@ -119,20 +105,39 @@ const HealthCampReports = () => {
                                 >
                                   <ImageIcon className="h-5 w-5" />
                                 </ToolTipBtn>
+                                {report?.ocr_op && (
+                                  <>
+                                    <ToolTipBtn
+                                      onClick={() => {
+                                        dispatch(
+                                          setSinglePrescriptionDetails(report)
+                                        );
+                                        dispatch(
+                                          setViewUploadedReportModal(true)
+                                        );
+                                      }}
+                                      title="View Digital Generated Report"
+                                      key={1}
+                                      color="primary"
+                                    >
+                                      <FileCheckIcon className="h-5 w-5" />
+                                    </ToolTipBtn>
 
-                                <ToolTipBtn
-                                  onClick={() => {
-                                    dispatch(
-                                      setSinglePrescriptionDetails(report)
-                                    );
-                                    dispatch(setIsUpdateHCRModal(true));
-                                  }}
-                                  title="Edit Uploaded Report"
-                                  key={2}
-                                  color="default"
-                                >
-                                  <PencilLineIcon className="h-5 w-5" />
-                                </ToolTipBtn>
+                                    <ToolTipBtn
+                                      onClick={() => {
+                                        dispatch(
+                                          setSinglePrescriptionDetails(report)
+                                        );
+                                        dispatch(setIsUpdateHCRModal(true));
+                                      }}
+                                      title="Edit Uploaded Report"
+                                      key={2}
+                                      color="default"
+                                    >
+                                      <PencilLineIcon className="h-5 w-5" />
+                                    </ToolTipBtn>
+                                  </>
+                                )}
                               </TableCell>
                             </TableRow>
                           )
