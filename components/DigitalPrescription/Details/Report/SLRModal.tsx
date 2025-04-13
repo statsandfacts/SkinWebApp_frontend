@@ -104,62 +104,6 @@ const SLRModal = () => {
             </div>
 
             <SLRParExp data={slrRes?.smartlab_data || []} />
-
-            <div>
-              <h3 className="font-semibold">📉 If the Value is Low</h3>
-              <div className="grid grid-cols-2 gap-4 text-sm mt-2">
-                <div>
-                  <p className="font-medium underline mb-3">Causes:</p>
-                  <ul className="list-disc ml-5">
-                    <li>Iron deficiency</li>
-                    <li>Chronic bleeding</li>
-                    <li>Malnutrition</li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="font-medium underline mb-3">Effects:</p>
-                  <ul className="list-disc ml-5">
-                    <li>Fatigue</li>
-                    <li>Weakness</li>
-                    <li>Shortness of breath</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="text-sm space-y-1 mt-4">
-              <p className="font-semibold ">✅ What You Can Do (Low Hb):</p>
-              <ul className="list-disc ml-6">
-                <li>Take iron-rich foods like spinach, red meat, beans</li>
-                <li>Use doctor-prescribed iron supplements</li>
-                <li>Avoid tea/coffee with meals (reduces iron absorption)</li>
-              </ul>
-            </div>
-
-            <div className="text-sm mt-4">
-              <p className="font-semibold ">🟢 Do’s in Diet (Low Hb):</p>
-              <ul className="list-disc ml-6">
-                <li>Green leafy vegetables</li>
-                <li>Dates, raisins</li>
-                <li>Vitamin C-rich fruits (for better iron absorption)</li>
-              </ul>
-            </div>
-
-            <div className="text-sm mt-6">
-              <p className="font-semibold ">🚫 Don’ts in Diet (Low Hb):</p>
-              <ul className="list-disc ml-6">
-                <li>Limit caffeine</li>
-                <li>Avoid calcium-rich food during iron intake</li>
-              </ul>
-            </div>
-
-            <div className="mt-6 text-sm">
-              <p className="font-semibold ">✅ If Value is Normal:</p>
-              <p className="ml-6 italic">
-                Your Hemoglobin level is within the normal range. Keep up your
-                balanced diet and stay active to maintain your health.
-              </p>
-            </div>
           </div>
           <div className="ml-6 mt-4">
             <Image

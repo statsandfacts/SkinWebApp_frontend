@@ -23,8 +23,11 @@ export default function SLREduIn({ data }: Props) {
       {data.map((item, index) => (
         <div
           key={index}
-          className="p-4 border rounded-md bg-white shadow-sm space-y-6"
+          className="p-4 rounded-md bg-white shadow-sm space-y-6"
         >
+          <h1 className="text-lg font-bold text-gray-900 bg-gray-100 inline-block px-3 py-1 rounded-md shadow-sm">
+            📂 {item.group_name}
+          </h1>
           {/* Group Name */}
           <div>
             <h3 className="text-xl font-semibold text-blue-800">
