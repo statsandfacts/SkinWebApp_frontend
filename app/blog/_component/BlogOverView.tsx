@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import BlogItem from "./BlogItem";
 import styles from "./BlogContent.module.css";
+import QuizClient from "./QuizClient";
 
 interface BlogOverviewProps {}
 
@@ -177,9 +178,14 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
               </h1>
 
               <div className={styles.content}>
-                <div
-                  dangerouslySetInnerHTML={{ __html: singleBlog?.content }}
-                />
+                {singleBlog?.title === "quiz" &&
+                singleBlog?.quiz_questions?.length > 0 ? (
+                  <QuizClient questions={singleBlog.quiz_questions} />
+                ) : (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: singleBlog?.content }}
+                  />
+                )}
               </div>
 
               <ManageComments />

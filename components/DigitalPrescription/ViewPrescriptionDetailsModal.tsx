@@ -24,10 +24,11 @@ import {
   setReminderDetails,
   // setReminderMedicineDtlsPresc,
 } from "@/redux/slices/digitalPrescription/drug.slice";
+
 import { Timer } from "lucide-react";
 
-// import AddReminderModalFromPrescription from "./Details/Reminder/AddReminderModelFromPrescription";
-
+//import AddReminderModalFromPrescription from "./Details/Reminder/AddReminderModelFromPrescription";
+import AddReminderModalFromPrescription from "./AddReminderModelFromPrescription";
 export default function ViewPrescriptionDetailsModal() {
   const router = useRouter();
   const [selectedMedicine, setSelectedMedicine] = React.useState("");
@@ -163,6 +164,29 @@ export default function ViewPrescriptionDetailsModal() {
                                   >
                                     <Timer />
                                   </button> */}
+                                  {/* 
+                                  <Button
+                                    
+                                    className="bg-transparent text-orange-400 "
+                                    onPress={() => {
+                                      dispatch(setReminderActionKey("create"));
+                                      dispatch(setIsReminderModal(true));
+                                    }}
+                                  >
+                                    <Timer size={28} />
+                                  </Button> */}
+                                  <Button
+                                    className="bg-transparent text-orange-400"
+                                    onPress={() => {
+                                      dispatch(
+                                        setReminderDetails(medicineDetail)
+                                      ); 
+                                      dispatch(setReminderActionKey("create"));
+                                      dispatch(setIsReminderModal(true)); 
+                                    }}
+                                  >
+                                    <Timer size={28} />
+                                  </Button>
                                 </TableCell>
 
                                 <TableCell className="uppercase">
@@ -269,6 +293,7 @@ export default function ViewPrescriptionDetailsModal() {
           )}
         </ModalContent>
       </Modal>
+      <AddReminderModalFromPrescription />
 
       {/* <AddReminderModalFromPrescription /> */}
     </>

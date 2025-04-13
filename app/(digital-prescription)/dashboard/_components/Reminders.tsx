@@ -3,6 +3,7 @@ import { useState } from "react";
 import BackButton from "@/components/common/BackButton";
 import { ToolTipBtn } from "@/components/common/ToolTipBtn";
 import AddReminderModal from "@/components/DigitalPrescription/Details/Reminder/AddReminderModal";
+import RefillReminderModal from "@/components/DigitalPrescription/Details/Reminder/RefillReminderModal";
 import Loader from "@/components/Loader";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import {
@@ -50,6 +51,7 @@ const Reminders = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [selectedReminder, setSelectedReminder] = useState<any>(null);
+  const [isRefillModalOpen, setIsRefillModalOpen] = useState(false);
 
   useEffect(() => {
     if (!dashboardData) {
@@ -148,6 +150,14 @@ const Reminders = () => {
               Set Reminder
               <PlusIcon className="h-5 w-5" />{" "}
             </Button>
+            <Button
+              color="primary"
+              className="rounded-lg ml-10"
+              onPress={() => setIsRefillModalOpen(true)}
+            >
+              Refill Reminder
+              <PlusIcon className="h-5 w-5" />
+            </Button>
           </div>
         </div>
 
@@ -245,6 +255,11 @@ const Reminders = () => {
       </div>
 
       <AddReminderModal />
+      <RefillReminderModal
+        isOpen={isRefillModalOpen}
+        onClose={() => setIsRefillModalOpen(false)}
+      />
+
       <DeleteConfirmationModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
