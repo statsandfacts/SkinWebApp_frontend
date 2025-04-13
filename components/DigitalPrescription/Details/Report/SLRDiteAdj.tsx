@@ -18,7 +18,7 @@ type Props = {
 export default function SLRDiteAdj({ data }: Props) {
   return (
     <div className="ml-6 mt-6 ">
-      <h2 className="text-3xl font-bold text-gray-900 mb-6">
+      <h2 className="text-3xl font-bold text-sky-900 mb-6">
         🥑 Health Plan & Adjustments
       </h2>
       {data.map((group, index) => (

@@ -12,9 +12,14 @@ import {
   SLRNotDetected,
   SLRParExp,
 } from "./index";
+import { useAuthInfo } from "@/hooks/useAuthInfo";
+import Link from "next/link";
+import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
+import FontAwesomeXIcon from "@/components/SvgIcon/FontAwesomeXIcon";
 
 const SLRModal = () => {
   const dispatch = useDispatch();
+  const { userDetails } = useAuthInfo();
   const isOpen = useSelector(
     (state: RootState) => state.digitalPrescription.viewSmartLabReportModal
   );
@@ -22,7 +27,8 @@ const SLRModal = () => {
     (state: any) => state.digitalPrescription
   );
 
-  console.log("singlePrescriptionDetails", singlePrescriptionDetails);
+  console.log("userDetails=========", userDetails);
+
   const slrRes = singlePrescriptionDetails?.slr_res;
 
   return (
@@ -44,17 +50,25 @@ const SLRModal = () => {
             </p>
 
             <hr className="my-4 border-gray-300" />
-
             <div>
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 👤 Patient Information
               </h3>
               <ul className="list-disc ml-6 text-sm mt-2 space-y-1">
-                <li>Name: xxxxxxxxxx</li>
-                <li>Age: x years</li>
-                <li>Gender: xxxxxxxxxx</li>
-                <li>Lab ID: xxxxxxxxxxxxxxx</li>
-                <li>Test Date: xxxxxxxxxxxxxxxxx</li>
+                <li>
+                  Name:{" "}
+                  <span className="capitalize font-bold">
+                    {userDetails?.name}
+                  </span>
+                </li>
+                <li>
+                  Gender:{" "}
+                  <span className="capitalize font-bold">
+                    {userDetails?.gender}
+                  </span>
+                </li>
+                {/* <li>Lab ID: xxxxxxxxxxxxxxx</li>
+                <li>Test Date: xxxxxxxxxxxxxxxxx</li> */}
               </ul>
             </div>
 
@@ -69,7 +83,7 @@ const SLRModal = () => {
               </p>
             </div>
 
-            <div className="text-base pl-4 mt-2 italic">
+            <div className="text-xs text-slate-500 pl-4 mt-2 pb-3 italic">
               *This summary is based only on your blood and urine test results.
               It does not include findings from X-ray, MRI, CT scan, Stool test,
               ECG, or EEG. (Warnings)
@@ -77,44 +91,18 @@ const SLRModal = () => {
 
             <SLRGrpExp data={slrRes?.grouped_results || []} />
 
-            <div className="mt-6 border-t pt-4 text-sm text-gray-700 space-y-3  max-h-60">
-              <div className="mt-4">
-                <ul className="list-disc ml-6 space-y-1">
-                  <li>
-                    <span className="font-semibold">🟢 Normal:</span> Value is
-                    within the healthy reference range.
-                  </li>
-                  <li>
-                    <span className="font-semibold">🟡 Borderline (±10%):</span>{" "}
-                    Slightly outside the normal range, may need monitoring.
-                  </li>
-                  <li>
-                    <span className="font-semibold">🔴 Abnormal (10–20%):</span>{" "}
-                    Outside the healthy range and may indicate a developing
-                    issue.
-                  </li>
-                  <li>
-                    <span className="font-semibold">
-                      🟥 Very Abnormal (&gt;20%):
-                    </span>{" "}
-                    Significantly outside the range; potential health risk.
-                  </li>
-                </ul>
-              </div>
-            </div>
-
             <SLRParExp data={slrRes?.smartlab_data || []} />
           </div>
-          <div className="ml-6 mt-4">
+          {/* <div className="ml-6 mt-4">
             <Image
               id="hemoglobin-chart"
-              src="/smartlabreport/image.png"
+              src="/smartlabreports/chat_img.jpeg"
               alt="Hemoglobin Chart"
               width={600}
               height={400}
               className="rounded-md shadow-md"
             />
-          </div>
+          </div> */}
 
           <SLRDiteAdj data={slrRes?.groupwise_data || []} />
 
@@ -133,33 +121,52 @@ const SLRModal = () => {
               us a note on our social media pages. Every word goes a long way in
               motivating our team and delivering better.
             </p>
-            <p className="text-blue-600 font-medium mb-4">
+            {/* <p className="text-blue-600 font-medium mb-4">
               Feedback: 👉{" "}
               <a href="#" className="underline">
                 Click Here
               </a>
-            </p>
+            </p> */}
             <p className="text-gray-700 mb-2">Social Links:</p>
-            <div className="flex flex-wrap gap-4 text-blue-600 font-medium">
-              <a href="https://nextcare.life/" className="hover:underline">
-                🔗 Facebook
-              </a>
-              <a href="#" className="hover:underline">
-                Instagram
-              </a>
-              <a href="#" className="hover:underline">
-                LinkedIn
-              </a>
-              <a href="#" className="hover:underline">
-                Twitter
-              </a>
+            <div className="flex items-center gap-4 py-2 mt-4">
+              <Link
+                href="https://www.linkedin.com/company/nextcare-life/"
+                className="p-2 rounded-full bg-sky-600 text-white hover:bg-sky-700 transition"
+              >
+                <Linkedin className="h-4 w-4" />
+              </Link>
+              <Link
+                href="https://twitter.com/NextcareLife"
+                className="p-2 rounded-full bg-sky-600 text-white hover:bg-sky-700 transition"
+              >
+                <FontAwesomeXIcon color="#ffffff" height={16} width={16} />
+              </Link>
+              <Link
+                href="https://www.instagram.com/nextcare.life?igsh=MTdkMjg5M2s2NmRobA%3D%3D&utm_source=qr"
+                className="p-2 rounded-full bg-sky-600 text-white hover:bg-sky-700 transition"
+              >
+                <Instagram className="h-4 w-4" />
+              </Link>
+              <Link
+                href="https://www.facebook.com/share/19dqeCuNou/?mibextid=wwXIfr"
+                className="p-2 rounded-full bg-sky-600 text-white hover:bg-sky-700 transition"
+              >
+                <Facebook className="h-4 w-4" />
+              </Link>
+              <Link
+                href="https://www.youtube.com/@NCL24283"
+                className="p-2 rounded-full bg-sky-600 text-white hover:bg-sky-700 transition"
+              >
+                <Youtube className="h-4 w-4" />
+              </Link>
             </div>
+
             <div className="mt-6 text-gray-800 italic">
               Your health deserves more than numbers — it deserves insight.
               <br />
               Thank you for trusting us with your care.
               <br />
-              <span className="text-orange-600 font-semibold">
+              <span className="text-sky-800 font-semibold">
                 🧡 Nextcare.Life — Future of Care
               </span>
             </div>

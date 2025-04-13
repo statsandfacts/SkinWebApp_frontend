@@ -24,22 +24,33 @@ type Props = {
 
 export default function SLRGrpExp({ data }: Props) {
   const groupIcons: { [key: string]: string } = {
-    hemogram: "/smartlabreport/haematology.png",
-    "lipid profile": "/smartlabreport/lipidprofile.png",
-    "liver function": "/smartlabreport/liverfunction.png",
-    "metabolic panel": "/smartlabreport/metabolicpanel.png",
-    "iron studies": "/smartlabreport/ironstudies.png",
-    "hormonal profile test": "/smartlabreport/hormonalprofiletest.png",
-    "renal function test": "/smartlabreport/kidneyfunction.png",
+    "vitamin profile": "/smartlabreports/vitaminsprofile.png",
+    "antenatal/prenatal screen":
+      "/smartlabreports/antenatalprenatalscreennew.png",
+    "lipid profile": "/smartlabreports/lipidprofilenew.png",
+    "liver function test(lft)": "/smartlabreports/liverfunctionnew.png",
+    "metabolic panel": "/smartlabreports/metabolicpanelnew.png",
+    "tumor markers": "/smartlabreports/tumormarkersnew.png",
+    "iron studies": "/smartlabreports/ironstudiesnew.png",
+    "hormonal profile tests": "/smartlabreports/hormonalprofiletestnew.png",
+    "renal function test(rft)": "/smartlabreports/kidneyfunctionnew.png",
     "arterial and venous blood gas analysis":
-      "/smartlabreport/arterialandvenousbloodgasanalysis.png",
-    "urin analysis": "/smartlabreport/urineanalysis.png",
+      "/smartlabreports/arterialandvenousbloodgasanalysisnew.png",
+    "urine analysis": "/smartlabreports/urineanalysisnew.png",
+    "hemogram(cbc)": "/smartlabreports/haematology.png",
   };
-
-  console.log("data==============", data);
 
   return (
     <div className="space-y-10 mt-6">
+      <div className="mb-6">
+        <h2 className="text-xl font-bold text-primary">
+          📊 Your Smart Lab Report Summary
+        </h2>
+        <p className="text-slate-500 text-xs">
+          Here&apos;s a breakdown of your lab test results categorized by test
+          groups.
+        </p>
+      </div>
       {data.map((group, idx) => {
         const groupName = group.group_name.trim().toLowerCase();
         const iconSrc = groupIcons[groupName];
@@ -47,41 +58,49 @@ export default function SLRGrpExp({ data }: Props) {
         return (
           <div
             key={idx}
-            className="grid grid-cols-12 gap-6 items-start border-b border-gray-300 pb-6"
+            className="grid grid-cols-12 gap-6 items-start border-b border-gray-300 pb-3"
           >
             {/* Left Side - Group Icon + Name */}
-            <div className="col-span-3 flex flex-col items-center border-r border-dashed border-gray-400 pr-4">
-              <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center shadow-md overflow-hidden relative">
+            <div className="col-span-3 flex flex-col justify-center items-center border-r border-dashed border-gray-400 pr-4">
+              <div className="w-16 h-16 p-2 rounded-full bg-blue-100 flex items-center justify-center shadow-md overflow-hidden relative">
                 {iconSrc && (
-                  <Image
-                    src={iconSrc}
-                    alt={groupName}
-                    fill
-                    className="object-cover w-full h-full"
-                  />
+                  <Image src={iconSrc} alt={groupName} height={60} width={60} />
                 )}
               </div>
-              <p className="mt-2 text-md font-semibold text-orange-600 uppercase text-center">
+              <p className="mt-2 text-md font-semibold text-primary uppercase text-center">
                 {groupName}
               </p>
             </div>
 
             {/* Right Side - Parameters */}
-            <div className="col-span-9 space-y-4">
-              <h3 className="text-lg font-semibold text-gray-800">
+            <div className="col-span-9 space-y-2">
+              <h3 className="text-base font-semibold text-gray-800">
                 Parameters in {groupName}
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {group.dtls.map((param, i) => {
                   let borderColor = "border-gray-300";
-                  if (param.classification.includes("very_abnormal")) {
-                    borderColor = "border-red-600";
-                  } else if (param.classification.includes("abnormal")) {
+                  if (
+                    ["high_abnormal", "low_abnormal"].includes(
+                      param.classification
+                    )
+                  ) {
+                    borderColor = "border-red-400";
+                  } else if (
+                    ["high_borderline", "low_borderline"].includes(
+                      param.classification
+                    )
+                  ) {
                     borderColor = "border-yellow-400";
                   } else if (param.classification === "normal") {
                     borderColor = "border-green-500";
+                  } else if (
+                    ["high_very_abnormal", "low_very_abnormal"].includes(
+                      param.classification
+                    )
+                  ) {
+                    borderColor = "border-red-600";
                   }
-
                   return (
                     <div
                       key={i}
@@ -90,11 +109,13 @@ export default function SLRGrpExp({ data }: Props) {
                       <p className="text-sm font-semibold text-gray-700">
                         {param.name}
                       </p>
-                      <p className="text-sm text-gray-800">
+                      <p className="text-sm text-slate-800">
                         <span className="font-semibold">Value:</span>{" "}
-                        <span className="text-blue-600">{param.value}</span>
+                        <span className="text-primary font-bold">
+                          {param.value}
+                        </span>
                       </p>
-                      <p className="text-sm text-gray-700">
+                      <p className="text-sm font-normal text-slate-700">
                         Range: {param.range.low}–{param.range.high}
                       </p>
                     </div>
@@ -105,6 +126,26 @@ export default function SLRGrpExp({ data }: Props) {
           </div>
         );
       })}
+      <div className="text-sm text-slate-700 space-y-3  max-h-60">
+        <ul className="list-disc ml-6 space-y-1">
+          <li>
+            <span className="font-semibold">🟢 Normal:</span> Value is within
+            the healthy reference range.
+          </li>
+          <li>
+            <span className="font-semibold">🟡 Borderline (±10%):</span>{" "}
+            Slightly outside the normal range, may need monitoring.
+          </li>
+          <li>
+            <span className="font-semibold">🔴 Abnormal (10–20%):</span> Outside
+            the healthy range and may indicate a developing issue.
+          </li>
+          <li>
+            <span className="font-semibold">🟥 Very Abnormal (&gt;20%):</span>{" "}
+            Significantly outside the range; potential health risk.
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }
