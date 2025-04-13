@@ -21,6 +21,9 @@ const LeftImageComponent = ({
   action,
 }: LeftImageComponentProps) => {
   const router = useRouter();
+  const handleClick = () => {
+    router.push(`/upload-prescription`);
+  }
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -36,6 +39,7 @@ const LeftImageComponent = ({
         className="w-full sm:w-1/2"
         viewport={{ once: true }}
       >
+        
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -45,7 +49,7 @@ const LeftImageComponent = ({
           }}
           className="rounded-lg overflow-hidden"
         >
-          <Image src={imageSrc} alt={title} width={700} height={500} />
+          <Image src={imageSrc} alt={title} width={700} height={500} onClick={handleClick} />
         </motion.div>
 
         {action === "abdm" && (
