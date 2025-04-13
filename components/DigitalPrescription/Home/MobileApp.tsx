@@ -26,15 +26,15 @@ const MobileApp = () => {
     },
     {
       image: "/homepage/symptombotmocile.png",
-      title: "Ease of Use",
+      title: "Symptom Bot",
       subtitle:
-        "Nextcare.life offers a simple and intuitive interface for seamless navigation.",
+        "Identify potential health concerns and receive AI-powered guidance for timely care.",
     },
     {
       image: "/homepage/cinicalconsultantmobile.png",
-      title: "Ease of Use",
+      title: "5 Minutes Consult",
       subtitle:
-        "Nextcare.life offers a simple and intuitive interface for seamless navigation.",
+        "A quick, expert-driven telemedicine service designed to address your health concerns efficiently.",
     },
   ];
 
@@ -103,7 +103,7 @@ const MobileApp = () => {
         </ul>
         {/* New Heading */}
         <h2 className="text-2xl lg:text-3xl font-bold text-[#025687] text-center mt-10">
-          Download the App for Free
+          Download the App for Free <h5>(Coming Soon)</h5>
         </h2>
 
         {/* Image Row for App Download */}
