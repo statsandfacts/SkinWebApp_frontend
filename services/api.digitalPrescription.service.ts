@@ -107,7 +107,7 @@ export const getUser = async (userId: string) => {
  */
 export const uploadImageToAws = async (payload: any) => {
   const { data } = await axios.post(
-    `${baseUrl}document/upload-image`,
+    `${baseUrl}document/upload-image/`,
     payload,
     {
       headers: {
@@ -528,4 +528,3 @@ export const searchBlogsByTitle = async (title: string) => {
   );
   return data;
 };
-

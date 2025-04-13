@@ -59,12 +59,16 @@ const UploadMoreReportsPopover: React.FC = () => {
         formData.append(`doc_types`, item?.report_type);
       });
     } else {
+      const aws_f_name =
+        singleDocumentDetails?.selectedSubType === "Test Report"
+          ? "digital-report"
+          : "prescription-test-upload";
+      formData.append("f_name", aws_f_name);
       formData.append("files", uploadImageDetail[0].file);
       formData.append("doc_types", singleDocumentDetails?.selectedSubType);
     }
 
     formData.append("phone_no", userDetails?.phone_no);
-
     setLoading(true);
     uploadImageToAws(formData)
       .then((response) => {
@@ -101,6 +105,7 @@ const UploadMoreReportsPopover: React.FC = () => {
   return (
     <>
       <ShowPopover
+        fromActKey="Test Report"
         onConfirm={clickToYes}
         onClose={clickToNo}
         closeButtonLoading={loading}
