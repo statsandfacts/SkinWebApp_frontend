@@ -37,10 +37,12 @@ const Reports = () => {
   );
 
   useEffect(() => {
-    if (!dashboardData) {
+    // if (!dashboardData) {
+    if (userId) {
       dispatch(fetchPatientDashboard(userId));
     }
-  }, [dispatch, dashboardData]);
+    // }
+  }, [dispatch]);
 
   return (
     <>

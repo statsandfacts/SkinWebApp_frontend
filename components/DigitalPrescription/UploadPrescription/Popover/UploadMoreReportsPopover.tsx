@@ -19,8 +19,10 @@ import {
   digitizeSmartLabReport,
   uploadImageToAws,
 } from "@/services/api.digitalPrescription.service";
+import { useRouter } from "next/navigation";
 
 const UploadMoreReportsPopover: React.FC = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const {
@@ -84,6 +86,7 @@ const UploadMoreReportsPopover: React.FC = () => {
           toast.success(
             "Once your report is digitized, you will be notified via email."
           );
+          router.push("/dashboard");
           digitizeSmartLabReport({
             user_id: userId,
             url: response.uploaded_files[0]?.file_url,
