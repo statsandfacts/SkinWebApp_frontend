@@ -15,7 +15,10 @@ import ShowPopover from "@/components/common/Popover";
 import SubmitDocumentsPopover from "./SubmitDocumentsPopover";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { toast } from "react-toastify";
-import { uploadImageToAws } from "@/services/api.digitalPrescription.service";
+import {
+  digitizeSmartLabReport,
+  uploadImageToAws,
+} from "@/services/api.digitalPrescription.service";
 
 const UploadMoreReportsPopover: React.FC = () => {
   const dispatch = useDispatch();
@@ -26,7 +29,7 @@ const UploadMoreReportsPopover: React.FC = () => {
     singleDocumentDetails,
     multiUploadedDoc,
   } = useSelector((state: RootState) => state.stepManagement);
-  const { userDetails } = useAuthInfo();
+  const { userDetails, userId } = useAuthInfo();
   const [loading, setLoading] = useState<boolean>(false);
 
   const clickToNo = () => {
@@ -72,8 +75,34 @@ const UploadMoreReportsPopover: React.FC = () => {
     setLoading(true);
     uploadImageToAws(formData)
       .then((response) => {
-        toast.success("Prescription Image Uploaded Successfully.");
-        dispatch(setAfterUploadDocWithType(response.uploaded_files)); //update image details in redux
+        if (singleDocumentDetails?.selectedSubType === "Test Report") {
+          setLoading(false);
+          dispatch(setUploadMoreReportsPopoverOpen(false));
+          dispatch(setUploadedImageDetails([]));
+          dispatch(clearMultiUploadDoc());
+
+          toast.success(
+            "Once your report is digitized, you will be notified via email."
+          );
+          digitizeSmartLabReport({
+            user_id: userId,
+            url: response.uploaded_files[0]?.file_url,
+            report_type: singleDocumentDetails?.selectedSubType,
+          })
+            .then((res) => {
+              toast.success("Report digitized successfully");
+            })
+            .catch((ed) => {
+              toast.error(
+                ed.response?.data?.detail ||
+                  "Digitization failed. Please try again later."
+              );
+            });
+          return;
+        } else {
+          toast.success("Prescription Image Uploaded Successfully.");
+          dispatch(setAfterUploadDocWithType(response.uploaded_files)); //update image details in redux
+        }
         dispatch(setUploadMoreReportsPopoverOpen(false));
         dispatch(setSubmitDocumentsPopoverOpen(true));
         dispatch(setUploadedImageDetails([])); // empty image details

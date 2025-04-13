@@ -528,3 +528,17 @@ export const searchBlogsByTitle = async (title: string) => {
   );
   return data;
 };
+
+/**
+ *
+ * @param payload {user_id, url, report_type}
+ * @returns
+ */
+export const digitizeSmartLabReport = async (payload: any) => {
+  const { data } = await axios.post(
+    baseUrl + "report/slr/digitize-smart-lab-report",
+    payload,
+    headers
+  );
+  return data;
+};
