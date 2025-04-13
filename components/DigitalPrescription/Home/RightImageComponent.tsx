@@ -21,10 +21,15 @@ const RightImageComponent = ({
   features,
   action,
 }: RightImageComponentProps) => {
-
   const router = useRouter();
   const handleClick = () => {
-    router.push(`/${action}`);
+    if (action === "lab_report") {
+      router.push(`/smart-lab-report-dtls`);
+      return;
+    } else if (action === "clinical_consult") {
+      router.push(`/five-minute-cc-dtls`);
+      return;
+    }
   };
   return (
     <motion.div
@@ -119,7 +124,13 @@ const RightImageComponent = ({
           }}
           className="rounded-lg overflow-hidden"
         >
-          <Image src={imageSrc} alt={title} width={700} height={500} onClick={handleClick} />
+          <Image
+            src={imageSrc}
+            alt={title}
+            width={700}
+            height={500}
+            onClick={handleClick}
+          />
         </motion.div>
       </motion.div>
     </motion.div>
