@@ -12,4 +12,5 @@ export interface DigitalPrescriptionState {
   isViewPrescriptionDetailsModal: boolean;
   isViewReportModal: boolean;
   isReuploadModal: boolean;
+  viewSmartLabReportModal: boolean;
 }

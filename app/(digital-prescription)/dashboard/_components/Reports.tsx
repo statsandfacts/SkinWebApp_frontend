@@ -17,6 +17,7 @@ import { ToolTipBtn } from "@/components/common/ToolTipBtn";
 import {
   setSinglePrescriptionDetails,
   setViewOriginalImageModal,
+  setViewSmartLabReportModal,
   setViewUploadedReportModal,
 } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/outline";
@@ -25,6 +26,7 @@ import { fetchPatientDashboard } from "@/redux/slices/digitalPrescription/userDa
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import ViewOriginalPrescriptionImage from "@/components/DigitalPrescription/ViewOriginalPrescriptionImage";
 import ViewGenerateReportModal from "@/components/DigitalPrescription/Details/ViewGenerateReportModal";
+import SLRModal from "@/components/DigitalPrescription/Details/Report/SLRModal";
 
 const Reports = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -35,10 +37,13 @@ const Reports = () => {
   );
 
   useEffect(() => {
-    if (!dashboardData) {
+    // if (!dashboardData) {
+    if (userId) {
       dispatch(fetchPatientDashboard(userId));
     }
-  }, [dispatch, dashboardData]);
+    // }
+  }, [dispatch]);
+
   return (
     <>
       <div className="flex flex-col items-center bg-white mt-2">
@@ -83,18 +88,18 @@ const Reports = () => {
                               </TableCell>
                               <TableCell>{report?.ocr_op?.Date}</TableCell>
                               <TableCell className="flex gap-2">
-                                {/* <ToolTipBtn
+                                <ToolTipBtn
                                   onClick={() => {
                                     dispatch(
                                       setSinglePrescriptionDetails(report)
                                     );
-                                    dispatch(setViewUploadedReportModal(true));
+                                    dispatch(setViewSmartLabReportModal(true));
                                   }}
                                   title="View Digital Generated Report"
                                   key={1}
                                 >
                                   <DocumentMagnifyingGlassIcon className="h-5 w-5" />
-                                </ToolTipBtn> */}
+                                </ToolTipBtn>
 
                                 <ToolTipBtn
                                   onClick={() => {
@@ -128,6 +133,7 @@ const Reports = () => {
 
       <ViewOriginalPrescriptionImage />
       <ViewGenerateReportModal />
+      <SLRModal />
     </>
   );
 };

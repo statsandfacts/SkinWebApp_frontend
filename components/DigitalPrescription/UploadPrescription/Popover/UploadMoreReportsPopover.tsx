@@ -15,9 +15,14 @@ import ShowPopover from "@/components/common/Popover";
 import SubmitDocumentsPopover from "./SubmitDocumentsPopover";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { toast } from "react-toastify";
-import { uploadImageToAws } from "@/services/api.digitalPrescription.service";
+import {
+  digitizeSmartLabReport,
+  uploadImageToAws,
+} from "@/services/api.digitalPrescription.service";
+import { useRouter } from "next/navigation";
 
 const UploadMoreReportsPopover: React.FC = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const {
@@ -26,7 +31,7 @@ const UploadMoreReportsPopover: React.FC = () => {
     singleDocumentDetails,
     multiUploadedDoc,
   } = useSelector((state: RootState) => state.stepManagement);
-  const { userDetails } = useAuthInfo();
+  const { userDetails, userId } = useAuthInfo();
   const [loading, setLoading] = useState<boolean>(false);
 
   const clickToNo = () => {
@@ -59,17 +64,48 @@ const UploadMoreReportsPopover: React.FC = () => {
         formData.append(`doc_types`, item?.report_type);
       });
     } else {
+      const aws_f_name =
+        singleDocumentDetails?.selectedSubType === "Test Report"
+          ? "digital-report"
+          : "prescription-test-upload";
+      formData.append("f_name", aws_f_name);
       formData.append("files", uploadImageDetail[0].file);
       formData.append("doc_types", singleDocumentDetails?.selectedSubType);
     }
 
     formData.append("phone_no", userDetails?.phone_no);
-
     setLoading(true);
     uploadImageToAws(formData)
       .then((response) => {
-        toast.success("Prescription Image Uploaded Successfully.");
-        dispatch(setAfterUploadDocWithType(response.uploaded_files)); //update image details in redux
+        if (singleDocumentDetails?.selectedSubType === "Test Report") {
+          setLoading(false);
+          dispatch(setUploadMoreReportsPopoverOpen(false));
+          dispatch(setUploadedImageDetails([]));
+          dispatch(clearMultiUploadDoc());
+
+          toast.success(
+            "Once your report is digitized, you will be notified via email."
+          );
+          router.push("/dashboard");
+          digitizeSmartLabReport({
+            user_id: userId,
+            url: response.uploaded_files[0]?.file_url,
+            report_type: singleDocumentDetails?.selectedSubType,
+          })
+            .then((res) => {
+              toast.success("Report digitized successfully");
+            })
+            .catch((ed) => {
+              toast.error(
+                ed.response?.data?.detail ||
+                  "Digitization failed. Please try again later."
+              );
+            });
+          return;
+        } else {
+          toast.success("Prescription Image Uploaded Successfully.");
+          dispatch(setAfterUploadDocWithType(response.uploaded_files)); //update image details in redux
+        }
         dispatch(setUploadMoreReportsPopoverOpen(false));
         dispatch(setSubmitDocumentsPopoverOpen(true));
         dispatch(setUploadedImageDetails([])); // empty image details
@@ -101,6 +137,7 @@ const UploadMoreReportsPopover: React.FC = () => {
   return (
     <>
       <ShowPopover
+        fromActKey="Test Report"
         onConfirm={clickToYes}
         onClose={clickToNo}
         closeButtonLoading={loading}
