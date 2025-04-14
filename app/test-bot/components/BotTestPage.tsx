@@ -107,9 +107,9 @@ const BotTestPage: React.FC = () => {
     const {data} = await axios.post(`${baseUrl}symptom/chat/end_and_summarize`, {
       user_id: dpuserid
     })
-    console.log("Axios respones", data);
+    // console.log("Axios respones", data);
 
-    console.log("Response for Resume: ", data);
+    // console.log("Response for Resume: ", data);
     setloading(false);
     setShowRecap(false);
     setSummaryModal(true);
@@ -140,7 +140,7 @@ const BotTestPage: React.FC = () => {
     if (count1.current) {
       setloading(true);
       const {data} = await axios.post(`${baseUrl}symptom/answer`, symptomData)
-      console.log("Axios respones", data);
+      // console.log("Axios respones", data);
       setQuestion(data);
       setQuestionId(data.next_question_id as string);
       if (data.recap !== undefined) {
@@ -162,18 +162,18 @@ const BotTestPage: React.FC = () => {
     setloading(true);
     try{
       const {data} = await axios.get(`${baseUrl}symptom/start`);
-      console.log("Axios respones", data);
+      // console.log("Axios respones", data);
       setQuestion(data);
       setQuestionId(data.next_question_id as string);
       setloading(false); 
     }catch(error){
-      console.log(error);
+      // console.log(error);
       setloading(false);
     }
   };
 
   const handleYesNoClick = (answer: "yes" | "no") => {
-    console.log(answer);
+    // console.log(answer);
     if (answer === null) {
       setOnErrorEmptyValue(true);
     } else {
@@ -214,7 +214,7 @@ const BotTestPage: React.FC = () => {
   };
 
   const setMultipleFieldAnswers = (value: string[]) => {
-    console.log(value);
+    // console.log(value);
     setSymptomData({
       user_id: dpuserid || "",
       question_id: QuestionId,
@@ -439,7 +439,7 @@ const BotTestPage: React.FC = () => {
   };
 
   return (
-    <div className="h-screen pb-20 px-10 flex flex-col justify-center items-center">
+    <div className="h-auto min-h-screen pb-20 px-10 flex flex-col justify-center items-center">
       <>
         <div className="px-28 mx-20 py-6 rounded-lg flex justify-center items-center min-w-full">
           <p className="font-bold mt-1 text-lg text-center">

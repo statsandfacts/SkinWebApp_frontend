@@ -52,7 +52,7 @@ export default function SymptomBotRecapModal({
         </ModalContent>
       </Modal>
       {showRecap && <div className="w-full flex flex-col gap-1">
-        <div className="h-[700px] overflow-y-auto">
+        <div className="h-auto overflow-y-auto">
           {data?.map((item, index) => (
             <div key={index} className="flex flex-col gap-2 mb-4">
                 <div className="flex">
