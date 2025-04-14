@@ -1,7 +1,12 @@
 "use client";
+import { Button } from "@nextui-org/button";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const SymptomBotDtls = () => {
+
+  const router = useRouter();
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-16 text-center space-y-8">
       <h1 className="text-4xl md:text-5xl font-extrabold text-indigo-700">
@@ -18,23 +23,23 @@ const SymptomBotDtls = () => {
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8 text-left">
-        <div className="flex items-start space-x-3 bg-blue-50 p-4 rounded-xl shadow-sm">
+        <div className="flex items-center space-x-3 bg-blue-50 p-4 rounded-xl shadow-sm ">
           <span className="text-2xl">💬</span>
           <p className="font-semibold text-blue-900">
             Conversational Interface
           </p>
         </div>
-        <div className="flex items-start space-x-3 bg-green-50 p-4 rounded-xl shadow-sm">
+        <div className="flex items-center space-x-3 bg-green-50 p-4 rounded-xl shadow-sm">
           <span className="text-2xl">🧠</span>
           <p className="font-semibold text-green-900">Smart Symptom Checker</p>
         </div>
-        <div className="flex items-start space-x-3 bg-yellow-50 p-4 rounded-xl shadow-sm">
+        <div className="flex items-center space-x-3 bg-yellow-50 p-4 rounded-xl shadow-sm">
           <span className="text-2xl">📚</span>
           <p className="font-semibold text-yellow-700">
             Guided, User-Friendly Flow
           </p>
         </div>
-        <div className="flex items-start space-x-3 bg-purple-50 p-4 rounded-xl shadow-sm">
+        <div className="flex items-center space-x-3 bg-purple-50 p-4 rounded-xl shadow-sm">
           <span className="text-2xl">⚙</span>
           <p className="font-semibold text-purple-900">
             AI-Powered, Personalized Responses
@@ -43,9 +48,14 @@ const SymptomBotDtls = () => {
       </div>
 
       <div className="pt-8">
-        <p className="text-lg font-semibold text-red-600 animate-pulse">
-          🛠 In Progress – Launching Soon!
-        </p>
+        <div className="flex justify-center items-center">
+          <p className="text-lg font-semibold text-red-600 animate-pulse">
+            🛠 In Progress – Launching Soon!
+          </p>
+          <Button onClick={() => {router.push("/test-bot")}} className="my-2 bg-primary-lite font-bold ml-4 animate-pulse text-white">
+            Try Now
+          </Button>
+        </div>
         <p className="text-gray-600">
           We’re building something powerful — a smart, empathetic health
           companion that’s always ready to talk.
