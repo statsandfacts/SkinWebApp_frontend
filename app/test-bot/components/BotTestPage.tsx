@@ -78,6 +78,7 @@ const BotTestPage: React.FC = () => {
     height_ft: "",
     height_inches: "",
   });
+  const [exitModal, setExitModal] = useState<boolean>(false);
   const count = useRef(false);
   const count1 = useRef(false);
   const [bmiResponse, setBmiResponse] = useState<string>("");
@@ -172,14 +173,19 @@ const BotTestPage: React.FC = () => {
   };
 
   const handleYesNoClick = (answer: "yes" | "no") => {
+    console.log(answer);
     if (answer === null) {
       setOnErrorEmptyValue(true);
     } else {
-      setSymptomData({
-        user_id: dpuserid || "",
-        question_id: QuestionId,
-        answer: answer,
-      });
+      QuestionId === "Q1" && answer === "no" ? (setSummaryModal(true),
+       setSummaryData("Feel free to visit anytime !")
+      ) : (
+        setSymptomData({
+          user_id: dpuserid || "",
+          question_id: QuestionId,
+          answer: answer,
+        })
+      )
       setOnErrorEmptyValue(false);
     }
   };
@@ -218,6 +224,7 @@ const BotTestPage: React.FC = () => {
 
   const recapCloseModal = () => {
     setSummaryModal(false);
+    QuestionId === "Q1" && endChatApicall()
   };
 
   const handleEndChatClick = () => {
@@ -518,6 +525,7 @@ const BotTestPage: React.FC = () => {
           onEndChatOkay={handleOkayOnEndChatClick}
         />
       )}
+      
     </div>
   );
 };

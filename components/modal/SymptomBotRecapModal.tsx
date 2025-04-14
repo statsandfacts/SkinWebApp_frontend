@@ -34,13 +34,13 @@ export default function SymptomBotRecapModal({
 
   return (
     <>
-      <Modal isOpen={openModal} onOpenChange={onClosefunction} size="5xl">
+      <Modal isOpen={openModal} onOpenChange={onClosefunction} size={summary === "Feel free to visit anytime !" ? "md" : "5xl"}>
         <ModalContent className="mb-20 h-auto">
               <ModalHeader className="flex flex-col gap-1">
-                Your Summary
+              {summary === "Feel free to visit anytime !" ? "Info" : "Your Summary"}
               </ModalHeader>
               <ModalBody className="flex flex-col overflow-y-auto max-h-96">
-                <div className="h-72">
+                <div className="">
                   {summary}
                 </div>
               </ModalBody>
