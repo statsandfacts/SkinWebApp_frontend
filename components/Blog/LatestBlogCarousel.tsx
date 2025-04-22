@@ -53,7 +53,9 @@ const LatestBlogCarousel: React.FC<LatestBlogCarouselProps> = ({ data }) => {
             data.length > 0 &&
             data.slice(0, 7).map((item: any, index: number) => (
               <div className="embla__slide" key={index}>
-                <Link href={`/blog/${item?.slug}`}>
+                <Link
+                  href={`/health-feed/${item?.categories[0]?.slug}/${item?.sub_categories[0]?.slug}/${item.slug}`}
+                >
                   <div className="mb-4">
                     {item?.image ? (
                       <Image

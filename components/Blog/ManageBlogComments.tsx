@@ -15,7 +15,7 @@ import { CircularProgress } from "@nextui-org/react";
 
 interface ManageCommentsProps {}
 
-const ManageComments: React.FC<ManageCommentsProps> = () => {
+const ManageBlogComments: React.FC<ManageCommentsProps> = () => {
   const { blogId } = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const { userDetails } = useAuthInfo();
@@ -42,17 +42,16 @@ const ManageComments: React.FC<ManageCommentsProps> = () => {
   };
 
   return (
-    <div className="mt-4">
-      <h2 className="text-xl font-semibold mb-4">Comments</h2>
-
-      <div className="mb-4 min-h-[3rem]">
+    <div className="">
+      <h2 className="text-xl font-semibold">Comments</h2>
+      <div className="mb-4 max-h-[3rem]">
         {comments.loading ? (
           <div className="w-full flex justify-center items-center">
             <CircularProgress />
           </div>
         ) : comments.errorMessage ? (
           <p className="p-10 md:px-40 text-red-500">{comments.errorMessage}</p>
-        ) :(comments?.data && comments?.data.length > 0 )? (
+        ) : comments?.data && comments?.data.length > 0 ? (
           comments?.data.map((comment: any, index: number) => (
             <div
               key={index}
@@ -91,4 +90,4 @@ const ManageComments: React.FC<ManageCommentsProps> = () => {
   );
 };
 
-export default ManageComments;
+export default ManageBlogComments;

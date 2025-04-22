@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { searchBlogsByTitle } from "@/services/api.digitalPrescription.service";
 
-const SearchByTitle = () => {
+const SearchBlogByTitle = () => {
   const router = useRouter();
   const [blogs, setBlogs] = useState<any[]>([]);
   const [title, setTitle] = useState("");
@@ -58,7 +58,7 @@ const SearchByTitle = () => {
         />
 
         {showDropdown && blogs.length > 0 && (
-          <div className="absolute  left-0 w-full bg-gray-100 rounded-md shadow-lg mt-2 z-10 max-h-[300px] overflow-y-auto">
+          <div className="absolute z-50  left-0 w-full bg-gray-100 rounded-md shadow-lg mt-2 max-h-[300px] overflow-y-auto">
             <div className="grid grid-cols-1 sm:grid-cols-1">
               {blogs.map((blog) => (
                 <div
@@ -79,4 +79,4 @@ const SearchByTitle = () => {
   );
 };
 
-export default SearchByTitle;
+export default SearchBlogByTitle;
