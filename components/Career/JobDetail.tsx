@@ -9,7 +9,6 @@ import {
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "../../app/blog/_component/BlogContent.module.css";
 import { Button } from "@nextui-org/button";
 import moment from "moment";
 import { fetchJobDtls } from "@/redux/slices/digitalPrescription/career.slice";
@@ -88,7 +87,7 @@ const JobDetail = () => {
             Job Description
           </p>
           {singleJobDtls?.description && (
-            <div className={styles.content}>
+            <div className="blog_content">
               <div
                 dangerouslySetInnerHTML={{ __html: singleJobDtls?.description }}
               />
