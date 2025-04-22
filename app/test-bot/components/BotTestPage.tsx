@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Loader2, UserPen } from "lucide-react";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -14,7 +14,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { baseUrl } from "@/services/api.digitalPrescription.service";
 
 type QuestionType = {

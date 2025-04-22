@@ -13,7 +13,7 @@ import {
   Radio,
   Button,
   RadioGroup,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { updateUser } from "@/services/api.digitalPrescription.service";

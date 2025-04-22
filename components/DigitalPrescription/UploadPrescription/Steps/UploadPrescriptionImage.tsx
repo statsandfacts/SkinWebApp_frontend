@@ -12,7 +12,7 @@ import {
 } from "@/redux/slices/digitalPrescription/stepManagement.slice";
 import { motion } from "framer-motion";
 import UploadImageComponent from "../Common/UploadImageComponent";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import {
   FirstScreenNext,

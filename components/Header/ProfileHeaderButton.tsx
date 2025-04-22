@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import {
   Avatar,
   Dropdown,
@@ -8,7 +8,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
   User,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";

@@ -5,7 +5,7 @@ import useSWR from 'swr';
 import * as api from '@/services/app.service';
 import Image from 'next/image';
 import PDFGenerate from './PDFGenerate';
-import { Button } from '@nextui-org/button';
+import { Button } from "@heroui/button";
 import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import Loader from '../Loader';

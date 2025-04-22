@@ -2,7 +2,7 @@
 import { COMMON } from '@/config/const';
 import { useUser } from '@/context/UserContext';
 import { initializeRazorpay } from '@/utils/rozerpay';
-import { Button } from '@nextui-org/button';
+import { Button } from "@heroui/button";
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -18,7 +18,7 @@ import {
   ModalFooter,
   ModalHeader,
   Skeleton,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import { CheckCircleIcon, CheckIcon } from '@heroicons/react/24/solid';
 import {
   AtSymbolIcon,

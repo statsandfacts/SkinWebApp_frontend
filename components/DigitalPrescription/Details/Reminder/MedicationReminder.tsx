@@ -10,7 +10,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { ToolTipBtn } from "@/components/common/ToolTipBtn";
 import { CalendarDaysIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";

@@ -6,7 +6,7 @@ import {
   ModalBody,
   RadioGroup,
   Radio,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";

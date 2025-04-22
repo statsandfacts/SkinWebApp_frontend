@@ -7,7 +7,7 @@ import {
   ModalFooter,
   Button,
   Input,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchPatientDashboard,

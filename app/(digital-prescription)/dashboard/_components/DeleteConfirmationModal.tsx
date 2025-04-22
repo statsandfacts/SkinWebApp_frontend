@@ -1,5 +1,5 @@
-import { Button } from "@nextui-org/button";
-import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
+import { Button } from "@heroui/button";
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
 
 interface DeleteConfirmationModalProps {
   isOpen: boolean;

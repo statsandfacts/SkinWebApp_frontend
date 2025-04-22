@@ -1,7 +1,7 @@
 "use client";
 import CustomHeader from "@/components/Header/PublicLayoutHeader";
 import { COMMON } from "@/config/const";
-import { Accordion, AccordionItem } from "@nextui-org/react";
+import { Accordion, AccordionItem } from "@heroui/react";
 
 export const DigitalPrescriptionFAQ = () => {
   return (

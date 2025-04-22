@@ -16,7 +16,7 @@ import {
   deleteReminder,
   updateReminder,
 } from "@/services/api.digitalPrescription.service";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import {
   Table,
   TableBody,
@@ -24,7 +24,7 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import {
   Bell,
   EyeIcon,

@@ -8,7 +8,7 @@ import {
   Button,
   SelectItem,
   Select,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";

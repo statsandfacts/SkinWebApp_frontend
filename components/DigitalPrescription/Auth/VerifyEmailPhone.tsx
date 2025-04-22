@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Input, Button } from "@nextui-org/react";
+import { Input, Button } from "@heroui/react";
 import { toast } from "react-toastify";
 import { verifyExistingUser } from "@/services/api.digitalPrescription.service";
 import { setSecurityPhone } from "@/redux/slices/digitalPrescription/auth.slice";

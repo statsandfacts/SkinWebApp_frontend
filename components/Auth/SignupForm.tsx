@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import * as api from '@/services/app.service';
 import InputField from '../common/InputField';
-import { Button } from '@nextui-org/button';
+import { Button } from "@heroui/button";
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -17,7 +17,7 @@ import {
   ModalHeader,
   Select,
   SelectItem,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useUser } from '@/context/UserContext';
 import { useDispatch } from 'react-redux';
@@ -364,7 +364,7 @@ const SignupForm = () => {
         {renderStepContent()}
 
         {currentStep < 4 && ( // Show buttons only for steps before the last one
-          <div className='flex justify-end gap-2'>
+          (<div className='flex justify-end gap-2'>
             {currentStep !== 1 && (
               <Button
                 type='button'
@@ -376,7 +376,6 @@ const SignupForm = () => {
                 Back
               </Button>
             )}
-
             {currentStep == 2 && !verify ? (
               <Button
                 type='button'
@@ -397,7 +396,7 @@ const SignupForm = () => {
                 Next
               </Button>
             )}
-          </div>
+          </div>)
         )}
 
         {currentStep === 4 && (
@@ -429,7 +428,6 @@ const SignupForm = () => {
           </Link>
         )}
       </form>
-
       <OTPModal
         openModal={openModal}
         onClose={onClose}

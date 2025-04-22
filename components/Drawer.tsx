@@ -6,7 +6,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoginModal } from '@/redux/slices/loginModal.slice';
 import { XMarkIcon } from '@heroicons/react/24/solid';

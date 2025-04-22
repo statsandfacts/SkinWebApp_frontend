@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import InputField from "@/components/common/InputField";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +13,7 @@ import {
   setStep,
   setUser,
 } from "@/redux/slices/digitalPrescription/auth.slice";
-import { Select, SelectItem } from "@nextui-org/react";
+import { Select, SelectItem } from "@heroui/react";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import {
   createCase,

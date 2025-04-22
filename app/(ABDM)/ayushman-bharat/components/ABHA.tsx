@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import ABHAForm from "./ABHAForm";
-import { Card, CardBody, Tab, Tabs } from "@nextui-org/react";
+import { Card, CardBody, Tab, Tabs } from "@heroui/react";
 
 const ABHA = () => {
   return (

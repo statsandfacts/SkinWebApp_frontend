@@ -7,7 +7,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import { ErrorMessage, Field, Form, Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import * as api from '@/services/app.service';

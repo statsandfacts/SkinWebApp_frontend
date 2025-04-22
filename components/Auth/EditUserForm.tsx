@@ -4,12 +4,12 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import * as api from '@/services/app.service';
 import InputField from '../common/InputField';
-import { Button } from '@nextui-org/button';
+import { Button } from "@heroui/button";
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 import { useUser } from '@/context/UserContext';
-import { Select, SelectItem } from '@nextui-org/react';
+import { Select, SelectItem } from "@heroui/react";
 
 const gender = [
   { value: 'male', label: 'Male' },

@@ -6,7 +6,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
 import { useUser } from '@/context/UserContext';
 import Link from 'next/link';

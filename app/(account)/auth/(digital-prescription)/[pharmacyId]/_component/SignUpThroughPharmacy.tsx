@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Button } from "@nextui-org/button";
-import { Checkbox, Select, SelectItem } from "@nextui-org/react";
+import { Button } from "@heroui/button";
+import { Checkbox, Select, SelectItem } from "@heroui/react";
 import InputField from "@/components/common/InputField";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";

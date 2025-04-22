@@ -5,7 +5,7 @@ import {
   CardBody,
   CardFooter,
   Divider,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import clsx from "clsx";
 
 interface ChoosePrescriptionLayoutCardProps {

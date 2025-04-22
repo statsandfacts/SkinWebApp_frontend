@@ -4,7 +4,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import Link from 'next/link';
 
 function SuccessModal({ openModal }: { openModal: boolean }) {

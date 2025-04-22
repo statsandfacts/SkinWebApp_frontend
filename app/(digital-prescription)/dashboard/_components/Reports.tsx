@@ -12,7 +12,7 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { ToolTipBtn } from "@/components/common/ToolTipBtn";
 import {
   setSinglePrescriptionDetails,

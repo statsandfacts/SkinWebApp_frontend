@@ -1,5 +1,5 @@
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
-import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import { Card, CardBody, CardFooter, Image } from "@heroui/react";
 import Link from "next/link";
 import React from "react";
 

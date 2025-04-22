@@ -12,7 +12,7 @@ import {
 import { toast } from "react-toastify";
 import { BadgeCheck } from "lucide-react";
 import dayjs from "dayjs";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 
 const AccountDetailsUpdate = () => {
   const dispatch = useDispatch<AppDispatch>();
