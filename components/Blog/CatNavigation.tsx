@@ -31,7 +31,8 @@ export default function CatNavigation({ categories }: CatNavigationProps) {
                   {cat.sub_categories.map((sub) => (
                     <li key={sub.slug}>
                       <Link
-                        href={`/health-feed/category/${cat.slug}/${sub.slug}`}
+                        // href={`/health-feed/category/${cat.slug}/${sub.slug}`}
+                        href={"#"}
                         className="block hover:text-sky-600"
                       >
                         {sub.name}

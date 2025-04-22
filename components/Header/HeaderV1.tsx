@@ -36,7 +36,7 @@ export default function HeaderV1() {
       { name: "About", link: "/about-us" },
       { name: "FAQ", link: "/faq" },
       { name: "ABDM", link: "/ayushman-bharat" },
-      { name: "Health Feed", link: "/blog" },
+      { name: "Health Feed", link: "/health-feed" },
       { name: "Meds&Lab", link: "/med-lab" },
     ],
     []
