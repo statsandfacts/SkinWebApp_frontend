@@ -1,10 +1,8 @@
-/* @tailwind base;
+@tailwind base;
 @tailwind components;
-@tailwind utilities; */
-@import "tailwindcss";
-/* create css variable */
+@tailwind utilities;
 
-@theme {
+:root {
   --color-primary: #025687;
   --color-primary-lite: #75afd2;
   --color-primary-mute: #dcecf6;
