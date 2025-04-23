@@ -1,5 +1,4 @@
-// import { heroui } from "@heroui/theme";
-const { heroui, colors } = require("@heroui/theme");
+const { heroui } = require("@heroui/react");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -41,14 +40,15 @@ module.exports = {
     },
   },
   darkMode: "class",
-  plugins: [
-    heroui({
-      theme: {
-        prefix: "nextui", // prefix for themes variables
-        addCommonColors: false, // override common colors (e.g. "blue", "green", "pink").
-        defaultTheme: "light", // default theme from the themes object
-        defaultExtendTheme: "light",
-      },
-    }),
-  ],
+  plugins: [heroui()],
+  // plugins: [
+  //   heroui({
+  //     theme: {
+  //       prefix: "nextui", // prefix for themes variables
+  //       addCommonColors: true, // override common colors (e.g. "blue", "green", "pink").
+  //       defaultTheme: "light", // default theme from the themes object
+  //       defaultExtendTheme: "light",
+  //     },
+  //   }),
+  // ],
 };
