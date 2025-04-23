@@ -20,7 +20,7 @@ type PrescriptionType =
 
 type SubType =
   | "Prescription"
-  | "Test Report"
+  | "Test Report(Blood, Urine, Sputum, and Semen.)"
   | "Health Camp Report"
   | "X-ray"
   | "Ultrasound"
@@ -72,7 +72,7 @@ const ChoosePrescriptionType: React.FC = () => {
       label: "Test Report",
       color: "bg-blue-300",
       h_color: "bg-blue-600",
-      subtypes: ["Test Report", "Health Camp Report"],
+      subtypes: ["Test Report(Blood, Urine, Sputum, and Semen.)", "Health Camp Report"],
     },
     {
       label: "Scan Report",

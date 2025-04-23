@@ -17,24 +17,49 @@ import {
   sendOtp,
   verifyExistingUser,
 } from "@/services/api.digitalPrescription.service";
+
 import LoginModal from "../LoginModal";
 import LoginDrawer from "../LoginDrawer";
+
+const countryOptions = [
+  "India",
+  "United States",
+  "Canada",
+  "United Kingdom",
+  "Australia",
+  "Germany",
+  "France",
+  "Brazil",
+  "Japan",
+  "South Africa",
+];
 
 const CollectPhone = () => {
   const dispatch = useDispatch();
   const [otpSent, setOtpSent] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [responseOtp, setResponseOtp] = useState<string>("");
+  const [country, setCountry] = useState<string>("India");
 
   const formik = useFormik({
     initialValues: {
       phone_number: "",
+      email: "",
       otp: "",
     },
     validationSchema: Yup.object().shape({
-      phone_number: Yup.string()
-        .required("Phone number is required")
-        .matches(/^[0-9]{10}$/, "Phone number must be 10 digits"),
+      phone_number:
+        country === "India"
+          ? Yup.string()
+              .required("Phone number is required")
+              .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
+          : Yup.string(),
+      email:
+        country !== "India"
+          ? Yup.string()
+              .required("Email is required")
+              .email("Invalid email address")
+          : Yup.string(),
       otp: Yup.string().test(
         "required-otp",
         "OTP is required",
@@ -46,43 +71,62 @@ const CollectPhone = () => {
     onSubmit: async (values) => {
       setIsLoading(true);
       if (!otpSent) {
-        verifyExistingUser(values.phone_number)
-          .then((response) => {
-            sendOtp({
-              phone_number: values.phone_number,
-            })
-              .then((res) => {
-                setResponseOtp(res.verification_code);
-                setOtpSent(true);
-                toast.success("OTP sent successfully!");
-              })
-              .catch((err) => {
-                toast.error("Error sending OTP");
-              });
-          })
-          .catch((error) => {
-            if (error.response.data?.message === "User Exists.") {
-              toast.warning("Phone number already registered!");
-            } else {
-              toast.error("Error to check user already exist or not!");
-            }
-          })
-          .finally(() => setIsLoading(false));
-      } else {
         try {
-          if (responseOtp === values.otp) {
-            toast.success("OTP verified successfully!");
-            dispatch(setSignUpData({ phone_number: values.phone_number }));
-            dispatch(setStep(1));
-            dispatch(setSignUpProcess2Step(1));
+          if (country === "India") {
+            await verifyExistingUser(values.phone_number);
+            const res = await sendOtp({
+              phone_number: values.phone_number,
+              email: null,
+            });
+
+            if (res.status === 200) {
+              setResponseOtp(res.verification_code);
+              setOtpSent(true);
+              toast.success(res.message || "OTP sent successfully!");
+            } else {
+              toast.error("Something went wrong!");
+            }
           } else {
-            toast.error("Invalid OTP");
+            const res = await sendOtp({
+              phone_number: null,
+              email_id: values.email,
+            });
+
+            if (res.status === 200) {
+              setResponseOtp(res.verification_code);
+              setOtpSent(true);
+              toast.success(res.message || "OTP sent successfully!");
+            } else {
+              toast.error("Something went wrong!");
+            }
           }
-        } catch (error) {
-          toast.error("Error verifying OTP");
+        } catch (error: any) {
+          if (error?.response?.data?.message === "User Exists.") {
+            toast.warning("User already registered!");
+          } else {
+            toast.error(
+              error?.response?.data?.message || "Error sending OTP!"
+            );
+          }
         } finally {
           setIsLoading(false);
         }
+      } else {
+        if (values.otp === responseOtp) {
+          toast.success("OTP verified successfully!");
+          dispatch(
+            setSignUpData(
+              country === "India"
+                ? { phone_number: values.phone_number }
+                : { email: values.email }
+            )
+          );
+          dispatch(setStep(1));
+          dispatch(setSignUpProcess2Step(1));
+        } else {
+          toast.error("Invalid OTP");
+        }
+        setIsLoading(false);
       }
     },
   });
@@ -94,22 +138,62 @@ const CollectPhone = () => {
         className="flex flex-col justify-center gap-3 w-full px-5 mt-3"
         onSubmit={formik.handleSubmit}
       >
-        <InputField
-          onChange={formik.handleChange}
-          isLabel={true}
-          value={formik.values.phone_number}
-          type="text"
-          name="phone_number"
-          placeholder="Phone Number"
-          error={
-            formik.touched.phone_number && formik.errors.phone_number
-              ? formik.errors.phone_number
-              : ""
-          }
-          onBlur={formik.handleBlur}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
-          disabled={otpSent}
-        />
+        <label className="text-sm font-medium text-gray-700">
+          Select your country
+        </label>
+        <select
+          value={country}
+          onChange={(e) => {
+            setCountry(e.target.value);
+            setOtpSent(false);
+            formik.setFieldValue("otp", "");
+          }}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+        >
+          {countryOptions.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
+
+        {country === "India" && (
+          <InputField
+            onChange={formik.handleChange}
+            isLabel={true}
+            value={formik.values.phone_number}
+            type="text"
+            name="phone_number"
+            placeholder="Phone Number"
+            error={
+              formik.touched.phone_number && formik.errors.phone_number
+                ? formik.errors.phone_number
+                : ""
+            }
+            onBlur={formik.handleBlur}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-2 h-10 w-[350px]"
+            disabled={otpSent}
+          />
+        )}
+
+        {country !== "India" && (
+          <InputField
+            onChange={formik.handleChange}
+            isLabel={true}
+            value={formik.values.email}
+            type="email_id"
+            name="email"
+            placeholder="Email Address"
+            error={
+              formik.touched.email && formik.errors.email
+                ? formik.errors.email
+                : ""
+            }
+            onBlur={formik.handleBlur}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-2 h-10 w-[350px]"
+            disabled={otpSent}
+          />
+        )}
 
         {otpSent && (
           <InputField
@@ -123,7 +207,7 @@ const CollectPhone = () => {
               formik.touched.otp && formik.errors.otp ? formik.errors.otp : ""
             }
             onBlur={formik.handleBlur}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-2 h-10 w-[350px]"
           />
         )}
 
@@ -143,7 +227,6 @@ const CollectPhone = () => {
           </p>
         </div>
       </form>
-
       <LoginModal isCloseIcon={false} />
       <LoginDrawer />
     </>

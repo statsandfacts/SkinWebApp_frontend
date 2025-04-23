@@ -71,7 +71,8 @@ export default function UpdateHcrModal() {
       Phone: Yup.string()
         .matches(/^\d{10}$/, "Invalid phone number")
         .required("Phone is required"),
-      Email: Yup.string().email("Invalid email").required("Email is required"),
+      //Email: Yup.string().email("Invalid email").required("Email is required"),
+      Email: Yup.string().nullable().optional(),
       Gender: Yup.string().required("Gender is required"),
       Age: Yup.string().required("Age is required"),
       Height: Yup.string().required("Height is required"),

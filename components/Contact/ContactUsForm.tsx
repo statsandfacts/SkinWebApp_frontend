@@ -40,7 +40,7 @@ const ContactUsForm = () => {
       toast.error("Please enter a valid phone number.");
       return;
     }
-    return;
+    
     setLoading(true);
     contactUs(formData)
       .then((response) => {

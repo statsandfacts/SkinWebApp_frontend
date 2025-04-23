@@ -112,7 +112,7 @@ const UploadDocumentImage: React.FC = () => {
           <Button
             variant="flat"
             onClick={() => {
-              dispatch(setStep(0));
+              dispatch(setStep(1));
             }}
             startContent={<ArrowLeftIcon className="w-4 h-4" />}
           >
@@ -148,7 +148,7 @@ const UploadDocumentImage: React.FC = () => {
             endContent={<ArrowRightIcon className="w-4 h-4" />}
             isLoading={loading}
           >
-            Next
+            Upload
           </Button>
         </div>
       </div>
