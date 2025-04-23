@@ -1,7 +1,8 @@
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
-import { Card, CardBody, CardFooter, Image } from "@heroui/react";
 import Link from "next/link";
 import React from "react";
+import { Image } from "@heroui/image";
+import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
 
 interface BlogProps {
   blog: any;

@@ -8,20 +8,19 @@ import { Button } from "@heroui/button";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import {
-  Checkbox,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Select,
-  SelectItem,
-} from "@heroui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useUser } from "@/context/UserContext";
 import { useDispatch } from "react-redux";
 import { setLoginModal } from "@/redux/slices/loginModal.slice";
+import { Checkbox } from "@heroui/checkbox";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "@heroui/modal";
+import { Select, SelectSection, SelectItem } from "@heroui/select";
 
 const gender = [
   { value: "male", label: "Male" },

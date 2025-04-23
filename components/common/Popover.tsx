@@ -1,12 +1,12 @@
 import React, { ReactNode } from "react";
+import { Button } from "@heroui/button";
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-} from "@heroui/react";
+} from "@heroui/modal";
 
 interface ShowPopoverProps {
   fromActKey?: string;

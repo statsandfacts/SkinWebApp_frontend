@@ -1,4 +1,5 @@
-import { Button, Tooltip } from "@heroui/react";
+import { Button } from "@heroui/button";
+import { Tooltip } from "@heroui/tooltip";
 
 interface ToolTipBtnProps {
   onClick: () => void;
