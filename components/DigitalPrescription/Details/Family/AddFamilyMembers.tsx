@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Button, Card, CardBody, CardHeader } from "@heroui/react";
 import {
   Table,
   TableHeader,
@@ -7,7 +7,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import {
   FamilyMembersState,

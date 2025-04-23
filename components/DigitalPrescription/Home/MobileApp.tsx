@@ -4,7 +4,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 const MobileApp = () => {
-  // Feature data
   const features = [
     {
       image: "/homepage/easeofuse.png",
@@ -74,7 +73,7 @@ const MobileApp = () => {
         <h1 className="text-2xl lg:text-3xl font-bold text-primary text-center">
           Nextcare.life is available for everyone on Mobile
         </h1>
-        <ul className="space-y-4 mt-6">
+        <motion.ul className="space-y-4 mt-6">
           {features.map((feature, index) => (
             <motion.li
               key={index}
@@ -100,11 +99,16 @@ const MobileApp = () => {
               </div>
             </motion.li>
           ))}
-        </ul>
-        {/* New Heading */}
-        <h2 className="text-2xl lg:text-3xl font-bold text-[#025687] text-center mt-10">
-          Download the App for Free <h5>(Coming Soon)</h5>
-        </h2>
+        </motion.ul>
+
+        <div className="text-center mt-10">
+          <h2 className="text-2xl lg:text-3xl font-bold text-[#025687]">
+            Download the App for Free
+          </h2>
+          <h5 className="text-sm text-gray-500 font-medium mt-1">
+            (Coming Soon)
+          </h5>
+        </div>
 
         {/* Image Row for App Download */}
         <div className="flex justify-center gap-4 mt-6">

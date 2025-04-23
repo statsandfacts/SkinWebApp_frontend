@@ -11,7 +11,7 @@ import {
 import ShowPopover from "@/components/common/Popover";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import ViewImagesModal from "./ViewImagesModal";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { createCase } from "@/services/api.digitalPrescription.service";

@@ -1,12 +1,4 @@
 import {
-  HealthCalculatorSection,
-  HeroSection,
-  HowToUseSection,
-  PrescriptionComparisonSection,
-  ReviewsSection,
-  SupportSection,
-} from "@/components/DigitalPrescription";
-import {
   AyushmanBharat,
   CareerPage,
   EmpoweringHealthcare,
@@ -46,12 +38,6 @@ export default function Home() {
     <div>
       <div className="flex flex-col">
         <div className="flex flex-col items-center w-full max-md:max-w-full">
-          {/* <HeroSection />
-          <SupportSection />
-          <HowToUseSection />
-          <PrescriptionComparisonSection />
-          <HealthCalculatorSection />
-          <ReviewsSection /> */}
           <HomeHeroSection />
           <UploadPrescription />
           <EmpoweringHealthcare />

@@ -8,7 +8,7 @@ import {
   NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
-} from "@nextui-org/react";
+} from "@heroui/navbar";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -36,7 +36,7 @@ export default function HeaderV1() {
       { name: "About", link: "/about-us" },
       { name: "FAQ", link: "/faq" },
       { name: "ABDM", link: "/ayushman-bharat" },
-      { name: "Health Feed", link: "/blog" },
+      { name: "Health Feed", link: "/health-feed" },
       { name: "Meds&Lab", link: "/med-lab" },
     ],
     []
@@ -63,7 +63,7 @@ export default function HeaderV1() {
   return (
     <>
       <Navbar
-        className={`px-1 md:px-5 transition-shadow bg-primary-lite ${
+        className={`px-1 md:px-5 transition-shadow h-16 bg-primary-lite ${
           isScrolled ? "shadow-xl" : ""
         }`}
         maxWidth="full"

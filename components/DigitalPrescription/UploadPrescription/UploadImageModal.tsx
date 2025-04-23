@@ -8,7 +8,7 @@ import {
   Button,
   RadioGroup,
   Radio,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { motion } from "framer-motion";
 import { Upload } from "antd";
 import type { GetProp, UploadFile, UploadProps } from "antd";

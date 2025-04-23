@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Select, SelectItem } from "@nextui-org/react";
+import { Select, SelectItem } from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   updatePatientDetail,
@@ -27,18 +27,16 @@ const ChooseFamily: React.FC<ChooseFamilyProps> = ({ setStep, step }) => {
     dispatch(updatePatientFor({ prescriptionFor: e.target.value }));
   };
 
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    dispatch(updatePatientDetail({ patientName: value }));
+  const handleChange = (key: any) => {
+    // const { name, value } = e.target;
+    dispatch(updatePatientDetail({ patientName: key }));
   };
 
   return (
     <div className="flex justify-center items-center h-[90vh]">
       <ChoosePrescriptionLayoutCard
         header={<p className="font-semibold text-slate-800">Choose</p>}
-        footer={
-          <></>
-        }
+        footer={<></>}
       >
         <motion.div
           initial={{ opacity: 0, y: -50 }}
@@ -105,12 +103,13 @@ const ChooseFamily: React.FC<ChooseFamilyProps> = ({ setStep, step }) => {
               className="overflow-hidden"
             >
               <Select
-                items={familyMembersData}
+                // items={familyMembersData}
                 label="Select Family Member"
                 className="max-w-xs"
                 value={patientName}
                 name="patientName"
-                onChange={handleChange}
+                // onChange={handleChange}
+                onSelectionChange={handleChange}
               >
                 {familyMembersData.map((name) => (
                   <SelectItem key={name}>{name}</SelectItem>

@@ -13,7 +13,7 @@ import {
   TableRow,
   TableCell,
   Button,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setViewPrescriptionDetailsModal } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import { useRouter } from "next/navigation";

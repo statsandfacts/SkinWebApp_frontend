@@ -3,13 +3,14 @@ import BotTestPage from "./components/BotTestPage";
 import HealthBot from "./components/HealthBot";
 
 export const metadata: Metadata = {
-  title: "Test Bot",
+  title: "Symptom Bot",
 };
 
 const BotTest = () => {
   return (
     <>
-      <HealthBot />
+      {/* <HealthBot /> */}
+      <BotTestPage />
     </>
   );
 };

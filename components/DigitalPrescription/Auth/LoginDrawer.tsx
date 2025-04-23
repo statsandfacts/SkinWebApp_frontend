@@ -7,7 +7,7 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import {

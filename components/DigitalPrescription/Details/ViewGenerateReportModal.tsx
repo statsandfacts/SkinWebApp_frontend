@@ -6,7 +6,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setViewUploadedReportModal } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import Image from "next/image";
@@ -323,7 +323,7 @@ export default function ViewGenerateReportModal() {
                     </div>
                   </div>
                 ) : (
-                  <DigitalLabReport />
+                  (<DigitalLabReport />)
                   // <p className="w-full text-center text-slate-500">
                   //   This Feature Loading... Almost There! Please have patience.
                   // </p>

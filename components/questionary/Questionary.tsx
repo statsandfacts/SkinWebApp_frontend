@@ -4,7 +4,7 @@ import * as api from '@/services/app.service';
 import md5 from 'md5';
 import { useEffect, useState } from 'react';
 import MultiSelectForm from './MultiSelectForm';
-import { Button, Radio, RadioGroup, cn } from '@nextui-org/react';
+import { Button, Radio, RadioGroup, cn } from "@heroui/react";
 import { toast } from 'react-toastify';
 import Loader from '../Loader';
 import { useDispatch } from 'react-redux';

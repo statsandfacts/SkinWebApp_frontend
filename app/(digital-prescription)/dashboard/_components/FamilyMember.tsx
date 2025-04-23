@@ -10,15 +10,15 @@ import {
   setSingleMember,
 } from "@/redux/slices/digitalPrescription/familyMembers.slice";
 import { AppDispatch } from "@/redux/store";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import {
   Table,
-  TableBody,
-  TableCell,
-  TableColumn,
   TableHeader,
+  TableBody,
+  TableColumn,
   TableRow,
-} from "@nextui-org/react";
+  TableCell,
+} from "@heroui/table";
 import { Eye, PencilLine, PlusIcon, UserPlusIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

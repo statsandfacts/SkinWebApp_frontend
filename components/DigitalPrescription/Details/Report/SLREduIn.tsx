@@ -18,7 +18,9 @@ type Props = {
 export default function SLREduIn({ data }: Props) {
   return (
     <div className="ml-6 mt-6 space-y-10">
-      <h2 className="text-2xl font-bold">🧠 Educational Insights</h2>
+      <h2 className="text-2xl text-sky-800 font-bold">
+        🧠 Educational Insights
+      </h2>
 
       {data.map((item, index) => (
         <div

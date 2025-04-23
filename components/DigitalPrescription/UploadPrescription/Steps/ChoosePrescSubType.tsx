@@ -7,7 +7,7 @@ import {
   setStep,
 } from "@/redux/slices/digitalPrescription/stepManagement.slice";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import { setStep as setSignUpStep } from "@/redux/slices/digitalPrescription/auth.slice";
 
 const ChoosePrescSubType: React.FC = () => {

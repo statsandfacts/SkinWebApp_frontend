@@ -1,5 +1,5 @@
 "use client";
-import { Accordion, AccordionItem } from "@nextui-org/react";
+import { Accordion, AccordionItem } from "@heroui/accordion";
 import React from "react";
 
 interface FAQ {
@@ -24,7 +24,11 @@ const FAQ: React.FC<FAQProps> = ({ faqs }) => {
               <AccordionItem
                 key={index}
                 aria-label={faq?.Value_1}
-                title={<p className="text-base font-semibold text-sky-900" >{faq?.Value_1}</p>}
+                title={
+                  <p className="text-base font-semibold text-sky-900">
+                    {faq?.Value_1}
+                  </p>
+                }
               >
                 <p className="text-sm text-slate-600 font-normal">
                   {faq?.Value_2}

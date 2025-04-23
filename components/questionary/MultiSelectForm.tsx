@@ -7,7 +7,7 @@ import {
   Radio,
   RadioGroup,
   cn,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/UserContext';

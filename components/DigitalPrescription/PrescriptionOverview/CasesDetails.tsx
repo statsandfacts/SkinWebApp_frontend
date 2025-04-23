@@ -26,7 +26,7 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { EyeIcon, ShieldAlertIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useEffect } from "react";
@@ -248,7 +248,7 @@ const CasesDetails = () => {
                       //   ))}
                       // </Accordion>
 
-                      <Table
+                      (<Table
                         removeWrapper
                         aria-label="Example static collection table"
                       >
@@ -379,7 +379,7 @@ const CasesDetails = () => {
                             </TableRow>
                           ))}
                         </TableBody>
-                      </Table>
+                      </Table>)
                     ) : (
                       <p className="text-slate-600 text-center text-xs">
                         No Prescription Uploaded Yet.
@@ -392,7 +392,6 @@ const CasesDetails = () => {
           )}
         </div>
       </div>
-
       <ViewPrescriptionDetailsModal />
       <ViewOriginalPrescriptionImage />
       <ReUploadImageModal />

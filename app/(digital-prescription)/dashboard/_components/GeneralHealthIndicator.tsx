@@ -10,12 +10,12 @@ import {
 import { AppDispatch, RootState } from "@/redux/store";
 import {
   Table,
-  TableBody,
-  TableCell,
-  TableColumn,
   TableHeader,
+  TableBody,
+  TableColumn,
   TableRow,
-} from "@nextui-org/react";
+  TableCell,
+} from "@heroui/table";
 import { HeartHandshake, PencilLine, Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

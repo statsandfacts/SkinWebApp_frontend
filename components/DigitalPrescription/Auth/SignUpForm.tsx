@@ -3,11 +3,11 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Checkbox, Select, SelectItem } from "@nextui-org/react";
+import { Checkbox, Select, SelectItem } from "@heroui/react";
 import { useDispatch } from "react-redux";
 import InputField from "@/components/common/InputField";
 import { setLoginModal } from "@/redux/slices/loginModal.slice";

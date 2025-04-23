@@ -17,7 +17,7 @@ export default function SLRNotDetected({ data }: Props) {
 
   return (
     <div className="ml-6 mt-6 space-y-6">
-      <h2 className="text-xl font-bold text-gray-800">
+      <h2 className="text-xl font-bold text-sky-800">
         🚫 Not Detected Parameters
       </h2>
 
@@ -30,7 +30,7 @@ export default function SLRNotDetected({ data }: Props) {
             <p className="text-sm font-semibold text-gray-700">
               {item?.parameter_name}
             </p>
-            <p className="text-sm text-blue-600 font-medium">{item?.value}</p>
+            <p className="text-sm text-sky-700 font-medium">{item?.value}</p>
           </div>
         ))}
       </div>

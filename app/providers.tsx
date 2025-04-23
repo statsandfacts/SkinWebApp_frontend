@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { NextUIProvider } from "@nextui-org/system";
+import { HeroUIProvider } from "@heroui/system";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
 import { Slide, ToastContainer, toast } from "react-toastify";
@@ -25,7 +25,8 @@ export function Providers({ children, themeProps }: ProvidersProps) {
 
   return (
     // <UserProvider>
-    <NextUIProvider>
+    // </UserProvider>
+    <HeroUIProvider>
       <SWRConfig value={options}>
         <StoreProvider store={store}>
           {/* <AuthProviderNC> */}
@@ -45,7 +46,6 @@ export function Providers({ children, themeProps }: ProvidersProps) {
           theme="colored"
         />
       </SWRConfig>
-    </NextUIProvider>
-    // </UserProvider>
+    </HeroUIProvider>
   );
 }
