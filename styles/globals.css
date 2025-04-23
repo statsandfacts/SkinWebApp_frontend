@@ -4,6 +4,14 @@
 @import "tailwindcss";
 /* create css variable */
 
+@theme {
+  --color-primary: #025687;
+  --color-primary-lite: #75afd2;
+  --color-primary-mute: #dcecf6;
+  --color-secondary: #000000;
+  --color-secondary-lite: #817f7f;
+}
+
 body,
 main {
   background-color: white;

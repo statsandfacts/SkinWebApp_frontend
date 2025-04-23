@@ -63,7 +63,7 @@ export default function HeaderV1() {
   return (
     <>
       <Navbar
-        className={`px-1 md:px-5 transition-shadow bg-primary-lite ${
+        className={`px-1 md:px-5 transition-shadow h-16 bg-primary-lite ${
           isScrolled ? "shadow-xl" : ""
         }`}
         maxWidth="full"

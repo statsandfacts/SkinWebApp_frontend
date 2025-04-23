@@ -1,5 +1,5 @@
 // import { heroui } from "@heroui/theme";
-const { heroui } = require("@heroui/theme");
+const { heroui, colors } = require("@heroui/theme");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -32,11 +32,11 @@ module.exports = {
           "linear-gradient(38deg, rgba(246,251,255,1) 0%, rgba(235,246,255,1) 47%, rgba(247,252,255,1) 100%)",
       },
       colors: {
-        primary: "#025687",
-        "primary-lite": "#75AFD2",
-        "primary-mute": "#DCECF6",
-        secondary: "#000000",
-        "secondary-lite": "#817F7F",
+        primary: "var(--color-primary)",
+        "primary-lite": "var(--color-primary-lite)",
+        "primary-mute": "var(--color-primary-mute)",
+        secondary: "var(--color-secondary)",
+        "secondary-lite": "var(--color-secondary-lite)",
       },
     },
   },

@@ -73,7 +73,7 @@ const ProfileHeaderButton = () => {
                 profileCompletionData?.profileCompletionPercentage
               )}
               name={userDetails?.name}
-              size="sm"
+              size="md"
               src={userDetails?.user_profile_image_path}
             />
             {profileCompletionData?.profileCompletionPercentage &&
