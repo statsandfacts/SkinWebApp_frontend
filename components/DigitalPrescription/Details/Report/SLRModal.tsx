@@ -3,7 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { setViewSmartLabReportModal } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
-import { Modal, ModalContent, ModalHeader, ModalBody } from "@heroui/react";
+import { Modal, ModalContent, ModalHeader, ModalBody } from "@heroui/modal";
 import Image from "next/image";
 import {
   SLRDiteAdj,

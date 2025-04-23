@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Button } from "@heroui/button";
+import {Button} from "@heroui/button";
 import UploadedImages from "./UploadedImages";
 import UploadReportsImages from "./UploadReportsImages";
 import { createCase } from "@/services/api.digitalPrescription.service";

@@ -1,4 +1,4 @@
-import { Button } from "@heroui/react";
+import { Button } from "@heroui/button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";

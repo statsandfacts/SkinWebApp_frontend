@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Select, SelectItem } from "@heroui/react";
+import { Select, SelectItem } from "@heroui/select";
 import { useDispatch, useSelector } from "react-redux";
 import {
   updatePatientDetail,

@@ -104,9 +104,7 @@ const CollectPhone = () => {
           if (error?.response?.data?.message === "User Exists.") {
             toast.warning("User already registered!");
           } else {
-            toast.error(
-              error?.response?.data?.message || "Error sending OTP!"
-            );
+            toast.error(error?.response?.data?.message || "Error sending OTP!");
           }
         } finally {
           setIsLoading(false);

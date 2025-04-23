@@ -1,30 +1,26 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  Checkbox,
-  CheckboxGroup,
-  Radio,
-  RadioGroup,
-  cn,
-} from "@heroui/react";
-import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/navigation';
-import { useUser } from '@/context/UserContext';
+"use client";
+import React, { useEffect, useState } from "react";
+import { cn } from "@heroui/react";
+import { Button } from "@heroui/button";
+import { CheckboxGroup, Checkbox } from "@heroui/checkbox";
+import { RadioGroup, Radio } from "@heroui/radio";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 import {
   setAnswers,
   increaseStep,
   decreaseStep,
   setDisableNext,
   setPhotoUploadEnable,
-} from '@/redux/slices/questionary.slice';
-import { setLoginModal } from '@/redux/slices/loginModal.slice';
-import PhotoUpload from './PhotoUpload';
-import { toast } from 'react-toastify';
-import { COMMON } from '@/config/const';
-import * as api from '@/services/app.service';
-import { removeLocalStorage } from '@/utils/localStore';
-import SuccessModal from '../payment/PaymentSucessModal';
+} from "@/redux/slices/questionary.slice";
+import { setLoginModal } from "@/redux/slices/loginModal.slice";
+import PhotoUpload from "./PhotoUpload";
+import { toast } from "react-toastify";
+import { COMMON } from "@/config/const";
+import * as api from "@/services/app.service";
+import { removeLocalStorage } from "@/utils/localStore";
+import SuccessModal from "../payment/PaymentSucessModal";
 
 // CustomRadio Component
 const CustomRadio = React.memo(({ children, ...otherProps }: any) => (
@@ -32,16 +28,17 @@ const CustomRadio = React.memo(({ children, ...otherProps }: any) => (
     {...otherProps}
     classNames={{
       base: cn(
-        'inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between',
-        'flex-row-reverse max-w-full cursor-pointer rounded-lg gap-4 p-4 border-2 border-transparent',
-        'data-[selected=true]:border-primary'
+        "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
+        "flex-row-reverse max-w-full cursor-pointer rounded-lg gap-4 p-4 border-2 border-transparent",
+        "data-[selected=true]:border-primary"
       ),
-    }}>
+    }}
+  >
     {children}
   </Radio>
 ));
 
-CustomRadio.displayName = 'CustomRadio';
+CustomRadio.displayName = "CustomRadio";
 
 // CustomCheckbox Component
 const CustomCheckbox = React.memo(({ children, ...otherProps }: any) => (
@@ -49,23 +46,24 @@ const CustomCheckbox = React.memo(({ children, ...otherProps }: any) => (
     {...otherProps}
     classNames={{
       base: cn(
-        'inline-flex max-w-md w-full bg-content1 m-0',
-        'hover:bg-content2 items-center justify-start',
-        'cursor-pointer rounded-lg gap-2 p-4 border-2 border-transparent',
-        'data-[selected=true]:border-primary'
+        "inline-flex max-w-md w-full bg-content1 m-0",
+        "hover:bg-content2 items-center justify-start",
+        "cursor-pointer rounded-lg gap-2 p-4 border-2 border-transparent",
+        "data-[selected=true]:border-primary"
       ),
-      label: 'w-full',
-    }}>
+      label: "w-full",
+    }}
+  >
     {children}
   </Checkbox>
 ));
 
-CustomCheckbox.displayName = 'CustomCheckbox';
+CustomCheckbox.displayName = "CustomCheckbox";
 
 // InputBox Component
 const InputBox = React.memo(({ question }: any) => {
   const dispatch = useDispatch();
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -88,13 +86,13 @@ const InputBox = React.memo(({ question }: any) => {
       onChange={handleInputChange}
       name={question.question_id}
       value={input}
-      placeholder='Please describe your issue'
-      className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+      placeholder="Please describe your issue"
+      className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
     />
   );
 });
 
-InputBox.displayName = 'InputBox';
+InputBox.displayName = "InputBox";
 
 // Main Component
 const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
@@ -105,7 +103,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
     useSelector((state: any) => state.questionary);
 
   const [isTextboxForQuestion, setIsTextboxForQuestion] = useState(false);
-  const [textboxForQuestion, setTextboxForQuestion] = useState('');
+  const [textboxForQuestion, setTextboxForQuestion] = useState("");
   const [nextLoading, setNextLoading] = useState(false);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [preventNext, setPreventNext] = useState(false);
@@ -120,7 +118,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
     }
 
     if (window) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     setIsTextboxForQuestion(false);
@@ -128,7 +126,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
 
   const handleNextStep = () => {
     if (preventNext) {
-      toast.error('Please login to continue');
+      toast.error("Please login to continue");
       return;
     }
 
@@ -165,7 +163,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
 
   const handleQuestionSelect = (value: any, question: any) => {
     if (preventNext) {
-      toast.error('Please login to continue');
+      toast.error("Please login to continue");
       return;
     }
 
@@ -200,7 +198,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
   const handleCheckboxChange = (value: any, id: string) => {
     setSelectedValues(value);
     dispatch(setDisableNext(value.length === 0));
-    dispatch(setAnswers({ id, value: value.join(',') }));
+    dispatch(setAnswers({ id, value: value.join(",") }));
   };
 
   const handlePayment = () => {
@@ -231,10 +229,10 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
     try {
       const res = await api.saveQuestionnaire(payload);
       if (res) {
-        removeLocalStorage('keyCriteria');
+        removeLocalStorage("keyCriteria");
         setPaymentSuccess(true);
       } else {
-        toast.error('Failed to save questionnaire');
+        toast.error("Failed to save questionnaire");
       }
       setLoading(false);
     } catch (error: any) {
@@ -247,13 +245,13 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
     try {
       const crtCase = await createCase();
       if (!crtCase && crtCase?.status !== 200) {
-        toast.error('Something went wrong while creating case');
+        toast.error("Something went wrong while creating case");
         return;
       }
 
       const payload = {
         case_id: crtCase.case_id,
-        currency: 'INR',
+        currency: "INR",
         amount: 0,
         created_by: userId,
       };
@@ -263,7 +261,7 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
       setLoading(false);
       toast.error(
         error?.response?.data.detail ||
-          'Something went wrong while creating case'
+          "Something went wrong while creating case"
       );
       console.log(error);
       return;
@@ -273,11 +271,11 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
   const createCase = async () => {
     try {
       const imageArray =
-        uploadImages?.map((file: File) => COMMON.IMAGE_URL + '/' + file) || [];
+        uploadImages?.map((file: File) => COMMON.IMAGE_URL + "/" + file) || [];
 
-      let images = '';
+      let images = "";
       if (imageArray) {
-        images = imageArray.join(',');
+        images = imageArray.join(",");
       }
 
       const createCasePayload = {
@@ -294,33 +292,36 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
   };
 
   return (
-    <div className='w-full flex flex-col items-center justify-center'>
+    <div className="w-full flex flex-col items-center justify-center">
       <>
         {!photoUploadEnable &&
           questionary?.map((question: any, index: number) => (
-            <div key={index} className='w-full'>
+            <div key={index} className="w-full">
               {index === currentStep && (
                 <div
                   key={question.question_id}
-                  className='flex flex-col w-full'>
-                  <p className='pb-2 pl-1'>
-                    <span className='text-xl font-semibold text-start'>
+                  className="flex flex-col w-full"
+                >
+                  <p className="pb-2 pl-1">
+                    <span className="text-xl font-semibold text-start">
                       {question?.question_name}
                     </span>
                   </p>
-                  {question?.question_type === 'multiple choice' ? (
+                  {question?.question_type === "multiple choice" ? (
                     question?.multiple_val_allowed ? (
                       <CheckboxGroup
-                        classNames={{ base: 'w-full' }}
+                        classNames={{ base: "w-full" }}
                         value={selectedValues}
                         onValueChange={(value) =>
                           handleCheckboxChange(value, question?.question_id)
-                        }>
+                        }
+                      >
                         {question.allowed_values.map((option: any) => (
                           <CustomCheckbox
                             key={option.value}
                             value={option.value}
-                            name={question.question_id}>
+                            name={question.question_id}
+                          >
                             {option.value}
                           </CustomCheckbox>
                         ))}
@@ -332,30 +333,32 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
                             handleQuestionSelect(value, question)
                           }
                           value={
-                            answers[question.question_id]?.split('&&')[0] || ''
+                            answers[question.question_id]?.split("&&")[0] || ""
                           }
                           name={question.question_id}
-                          className='w-full text-black'>
+                          className="w-full text-black"
+                        >
                           {question.allowed_values.map((option: any) => (
                             <CustomRadio
                               key={option.value}
                               name={option.value}
-                              value={option.value}>
+                              value={option.value}
+                            >
                               {option.value}
                             </CustomRadio>
                           ))}
                         </RadioGroup>
 
                         {isTextboxForQuestion && (
-                          <div className='mt-4'>
+                          <div className="mt-4">
                             <textarea
                               onChange={handleIsTextboxChange}
                               onBlur={() =>
                                 handleIsTextboxBlur(question.question_id)
                               }
                               name={question.question_id}
-                              placeholder='Enter your answer here'
-                              className='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                              placeholder="Enter your answer here"
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             />
                           </div>
                         )}
@@ -370,20 +373,21 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
           ))}
 
         {photoUploadEnable && (
-          <div className='mb-3'>
+          <div className="mb-3">
             <PhotoUpload />
           </div>
         )}
 
         {/* All button config */}
-        <div className='flex justify-center gap-3 mt-3'>
+        <div className="flex justify-center gap-3 mt-3">
           <Button
             onClick={
               currentStep === 0
                 ? () => backToKeyCriteria(false)
                 : handlePrevStep
             }
-            className='grow justify-center px-5 py-2.5 text-white border-2 border-black border-solid rounded-full bg-black'>
+            className="grow justify-center px-5 py-2.5 text-white border-2 border-black border-solid rounded-full bg-black"
+          >
             Previous
           </Button>
 
@@ -396,7 +400,8 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
                   : handleNextStep
               }
               isLoading={nextLoading}
-              className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
+              className="grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]"
+            >
               Next
             </Button>
           ) : null}
@@ -406,7 +411,8 @@ const MultiStepForm = ({ questionary, backToKeyCriteria }: any) => {
               onClick={handlePayment}
               isLoading={loading}
               isDisabled={uploadImages.length === 0}
-              className='grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]'>
+              className="grow justify-center px-5 py-2.5 text-white bg-violet-600 rounded-[96.709px]"
+            >
               Create Case
             </Button>
           )}

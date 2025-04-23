@@ -1,12 +1,6 @@
 import React, { useState, useCallback } from "react";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  RadioGroup,
-  Radio,
-} from "@heroui/react";
+import { Modal, ModalContent, ModalHeader, ModalBody } from "@heroui/modal";
+import { RadioGroup, Radio } from "@heroui/radio";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from "react-dropzone";
@@ -131,7 +125,11 @@ const UploadReportsImages: React.FC<UploadImageModalProps> = ({
                       <p>
                         Drag & drop some files here, or click to select files
                       </p>
-                      {loading && <p className="text-xs text-slate-500 font-light " >Uploading ....</p>}
+                      {loading && (
+                        <p className="text-xs text-slate-500 font-light ">
+                          Uploading ....
+                        </p>
+                      )}
                     </div>
                   )}
                 </div>

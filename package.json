@@ -33,6 +33,7 @@
     "@heroui/table": "^2.2.16",
     "@heroui/theme": "2.4.13",
     "@heroui/tooltip": "^2.2.14",
+    "@heroui/user": "^2.2.13",
     "@next/third-parties": "^14.2.5",
     "@react-aria/ssr": "^3.8.0",
     "@react-aria/visually-hidden": "^3.8.6",

@@ -1,21 +1,23 @@
-'use client';
-import useSWR from 'swr';
-import * as api from '@/services/app.service';
-import md5 from 'md5';
-import { useEffect, useState } from 'react';
-import MultiSelectForm from './MultiSelectForm';
-import { Button, Radio, RadioGroup, cn } from "@heroui/react";
-import { toast } from 'react-toastify';
-import Loader from '../Loader';
-import { useDispatch } from 'react-redux';
-import { resetQuestions } from '@/redux/slices/questionary.slice';
-import { useUser } from '@/context/UserContext';
+"use client";
+import useSWR from "swr";
+import * as api from "@/services/app.service";
+import md5 from "md5";
+import { useEffect, useState } from "react";
+import MultiSelectForm from "./MultiSelectForm";
+import { cn } from "@heroui/react";
+import { Radio } from "@heroui/radio";
+import { Button } from "@heroui/button";
+import { toast } from "react-toastify";
+import Loader from "../Loader";
+import { useDispatch } from "react-redux";
+import { resetQuestions } from "@/redux/slices/questionary.slice";
+import { useUser } from "@/context/UserContext";
 import {
   getLocalStorage,
   removeLocalStorage,
   setLocalStorage,
-} from '@/utils/localStore';
-import KeyCriteriaQuestion from './KeyCriteriaQuestion';
+} from "@/utils/localStore";
+import KeyCriteriaQuestion from "./KeyCriteriaQuestion";
 
 export const CustomRadio = (props: any) => {
   const { children, value, ...otherProps } = props;
@@ -26,11 +28,12 @@ export const CustomRadio = (props: any) => {
       {...otherProps}
       classNames={{
         base: cn(
-          'inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between',
-          'flex-row-reverse max-w-full cursor-pointer rounded-lg gap-4 p-4 border-2 border-transparent',
-          'data-[selected=true]:border-primary'
+          "inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between",
+          "flex-row-reverse max-w-full cursor-pointer rounded-lg gap-4 p-4 border-2 border-transparent",
+          "data-[selected=true]:border-primary"
         ),
-      }}>
+      }}
+    >
       {children}
     </Radio>
   );
@@ -43,7 +46,7 @@ const Questionary = () => {
     data: kc,
     isLoading,
     error,
-  } = useSWR('/view_key_criteria', () => api.getKeyCriteria(), {
+  } = useSWR("/view_key_criteria", () => api.getKeyCriteria(), {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
     revalidateIfStale: false,
@@ -62,7 +65,7 @@ const Questionary = () => {
 
   useEffect(() => {
     if (kc && kc?.key_criteria) {
-      const storedCriteria = getLocalStorage('keyCriteria');
+      const storedCriteria = getLocalStorage("keyCriteria");
       if (storedCriteria) {
         setKeyCriteria(() => {
           return storedCriteria;
@@ -74,31 +77,31 @@ const Questionary = () => {
   const handleSelect = (e: Event, question: any) => {
     setKeyCriteria((prev) => ({
       ...prev,
-      [question]: (e?.target as HTMLInputElement)?.value || '',
+      [question]: (e?.target as HTMLInputElement)?.value || "",
     }));
   };
   const submitKc = async (e: any, kc: any) => {
     try {
-      console.log('Called');
+      console.log("Called");
 
       e.preventDefault();
 
       // check if this KC selected or not
       if (!keyCriteria.hasOwnProperty(kc)) {
-        toast.error('Please select any option');
+        toast.error("Please select any option");
         return;
       }
 
       setLoading(true);
-      let selectedKc = '';
+      let selectedKc = "";
 
       // clear previos data from local store
-      const localData = getLocalStorage('keyCriteria');
+      const localData = getLocalStorage("keyCriteria");
       if (localData) {
-        removeLocalStorage('keyCriteria');
+        removeLocalStorage("keyCriteria");
       }
 
-      setLocalStorage('keyCriteria', keyCriteria);
+      setLocalStorage("keyCriteria", keyCriteria);
       if (keyCriteria) {
         Object.values(keyCriteria).forEach((kc: any) => {
           if (kc) {
@@ -128,7 +131,7 @@ const Questionary = () => {
             ids.push(i);
           });
         } else {
-          toast.error('No records found');
+          toast.error("No records found");
         }
 
         // after get ids call get questionary api
@@ -139,7 +142,7 @@ const Questionary = () => {
             setMovetoQuestionary(true);
             dispatch(resetQuestions());
           } else {
-            toast.error('No question found');
+            toast.error("No question found");
             setLoading(false);
           }
         }
@@ -158,7 +161,7 @@ const Questionary = () => {
   const handleNextKc = (e: any, kc: any) => {
     e.preventDefault();
     if (!keyCriteria.hasOwnProperty(kc)) {
-      toast.error('Please select any option');
+      toast.error("Please select any option");
       return;
     }
     setStep(step + 1);
@@ -169,46 +172,49 @@ const Questionary = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className='w-full'>
+        <div className="w-full">
           {/* key criteria */}
           {key_criteria &&
             !movetoQuestionary &&
             key_criteria.map((kc: any, i: number) => (
-              <div key={kc[0] + '_' + i} className='w-full'>
+              <div key={kc[0] + "_" + i} className="w-full">
                 {step === i && (
                   <>
                     <KeyCriteriaQuestion
-                      key={kc[0] + '_' + i}
+                      key={kc[0] + "_" + i}
                       question={kc[1]}
                       options={kc[2]}
                       defaultSelected={keyCriteria}
                       onSelect={(e: Event) => handleSelect(e, kc[1])}
                     />
-                    <div className='w-full flex justify-center gap-4'>
+                    <div className="w-full flex justify-center gap-4">
                       <Button
                         onClick={(e) => setStep(step - 1)}
-                        color='primary'
-                        className='grow justify-center px-5 py-2.5 text-white bg-black
-                      rounded-[96.709px] disabled:bg-gray-600'
-                        disabled={step === 0}>
+                        color="primary"
+                        className="grow justify-center px-5 py-2.5 text-white bg-black
+                      rounded-[96.709px] disabled:bg-gray-600"
+                        disabled={step === 0}
+                      >
                         Prev
                       </Button>
 
                       {key_criteria.length - 1 === step ? (
                         <Button
                           onClick={(e) => submitKc(e, kc[1])}
-                          color='primary'
+                          color="primary"
                           isLoading={loading}
-                          className='grow justify-center px-5 py-2.5 text-white bg-violet-600
-                        rounded-[96.709px]'>
+                          className="grow justify-center px-5 py-2.5 text-white bg-violet-600
+                        rounded-[96.709px]"
+                        >
                           Submit
                         </Button>
                       ) : (
                         <Button
                           onClick={(e) => handleNextKc(e, kc[1])}
-                          color='primary'
-                          className='grow justify-center px-5 py-2.5 text-white bg-violet-600
-                      rounded-[96.709px]'>
+                          color="primary"
+                          className="grow justify-center px-5 py-2.5 text-white bg-violet-600
+                      rounded-[96.709px]"
+                        >
                           Next
                         </Button>
                       )}

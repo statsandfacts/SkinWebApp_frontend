@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@heroui/react";
+import {Button} from "@heroui/button";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
