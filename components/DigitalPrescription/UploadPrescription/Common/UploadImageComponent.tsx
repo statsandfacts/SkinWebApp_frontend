@@ -102,46 +102,46 @@ const UploadImageComponent: React.FC<UploadImageComponentProps> = ({
         />
       </div>
 
-      <AnimatePresence>
-        {uploadImageDetail.length > 0 && (
-          <div className="relative mt-4 w-full max-w-md grid grid-cols-1 gap-4 min-h-[10rem] max-h-96 overflow-y-auto">
-            {uploadImageDetail.map((detail: any, index: number) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.5 }}
-                className="relative"
+      {/* <AnimatePresence> */}
+      {uploadImageDetail.length > 0 && (
+        <div className="relative mt-4 w-full max-w-md grid grid-cols-1 gap-4 min-h-[10rem] max-h-96 overflow-y-auto">
+          {uploadImageDetail.map((detail: any, index: number) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.5 }}
+              className="relative"
+            >
+              <motion.button
+                onClick={() => handleRemoveImage(detail.imageUrl)}
+                className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md transition-transform transform hover:scale-110 hover:bg-gray-200 hover:shadow-lg focus:outline-none"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
               >
-                <motion.button
-                  onClick={() => handleRemoveImage(detail.imageUrl)}
-                  className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md transition-transform transform hover:scale-110 hover:bg-gray-200 hover:shadow-lg focus:outline-none"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <XMarkIcon className="h-6 w-6 text-gray-700" />
-                </motion.button>
-                {detail.file?.type === "application/pdf" ? (
-                  <p className="text-gray-500 text-sm">
-                    {detail.file?.name} (PDF)
-                  </p>
-                ) : (
-                  <Image
-                    src={detail.imageUrl}
-                    alt={`Preview ${index}`}
-                    width={600}
-                    height={400}
-                    className="border rounded-md"
-                  />
-                )}
-              </motion.div>
-            ))}
-          </div>
-        )}
-      </AnimatePresence>
+                <XMarkIcon className="h-6 w-6 text-gray-700" />
+              </motion.button>
+              {detail.file?.type === "application/pdf" ? (
+                <p className="text-gray-500 text-sm">
+                  {detail.file?.name} (PDF)
+                </p>
+              ) : (
+                <Image
+                  src={detail.imageUrl}
+                  alt={`Preview ${index}`}
+                  width={600}
+                  height={400}
+                  className="border rounded-md"
+                />
+              )}
+            </motion.div>
+          ))}
+        </div>
+      )}
+      {/* </AnimatePresence> */}
     </div>
   );
 };

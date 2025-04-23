@@ -25,12 +25,21 @@ export const revalidate = 3600;
 
 // ✅ Pre-render dynamic routes
 export async function generateStaticParams() {
-  const res = await getAllBlogsByCategory();
-  const blogs = res?.recent_blogs;
+  try {
+    const res = await getAllBlogsByCategory();
+    const blogs = res?.recent_blogs;
+    if (!blogs || blogs.length === 0) {
+      console.error("No blogs found.");
+      return [];
+    }
 
-  return blogs.map((blog: any) => ({
-    slug: blog.slug,
-  }));
+    return blogs.map((blog: any) => ({
+      slug: blog.slug,
+    }));
+  } catch (error) {
+    console.error("Error fetching blogs by category:", error);
+    return []; // Return an empty array in case of an error
+  }
 }
 
 // ✅ SEO-friendly metadata
@@ -60,6 +69,10 @@ export async function generateMetadata({ params }: BlogPageProps) {
 export default async function BlogDetailPage({ params }: BlogPageProps) {
   try {
     const blog = await getBlogDtlsBySlug(params.slug);
+
+    if (!blog) {
+      throw new Error("Blog not found");
+    }
 
     const categorySlug = blog?.categories?.[0]?.slug || "category";
     const subCategorySlug = blog?.sub_categories?.[0]?.slug || "subcategory";
