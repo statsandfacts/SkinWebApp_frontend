@@ -1,34 +1,27 @@
-'use client';
-import { COMMON } from '@/config/const';
-import { useUser } from '@/context/UserContext';
-import { initializeRazorpay } from '@/utils/rozerpay';
+"use client";
+import { COMMON } from "@/config/const";
+import { useUser } from "@/context/UserContext";
+import { initializeRazorpay } from "@/utils/rozerpay";
 import { Button } from "@heroui/button";
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import useSWR from 'swr';
-import * as api from '@/services/app.service';
-import { removeLocalStorage } from '@/utils/localStore';
-import { useRouter } from 'next/navigation';
-import {
-  Chip,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Skeleton,
-} from "@heroui/react";
-import { CheckCircleIcon, CheckIcon } from '@heroicons/react/24/solid';
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import useSWR from "swr";
+import * as api from "@/services/app.service";
+import { removeLocalStorage } from "@/utils/localStore";
+import { useRouter } from "next/navigation";
+import { Chip } from "@heroui/chip";
+import { Skeleton } from "@heroui/skeleton";
+import { CheckCircleIcon, CheckIcon } from "@heroicons/react/24/solid";
 import {
   AtSymbolIcon,
   IdentificationIcon,
   PhoneIcon,
-} from '@heroicons/react/24/outline';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import Link from 'next/link';
-import SuccessModal from './PaymentSucessModal';
+} from "@heroicons/react/24/outline";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import Link from "next/link";
+import SuccessModal from "./PaymentSucessModal";
 
 const Checkout = () => {
   const router = useRouter();
@@ -37,8 +30,8 @@ const Checkout = () => {
   // const [total, setTotal] = useState(0);
   // const [offerAmount, setOfferAmount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [coupon, setCoupon] = useState('BETA100');
-  const [couponCode, setCouponCode] = useState('BETA100');
+  const [coupon, setCoupon] = useState("BETA100");
+  const [couponCode, setCouponCode] = useState("BETA100");
   const [isCouponApplied, setIsCouponApplied] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
@@ -48,7 +41,7 @@ const Checkout = () => {
     error,
     mutate,
   } = useSWR(
-    ['/get-invoice', couponCode],
+    ["/get-invoice", couponCode],
     () => api.getInvoice({ couponCode }),
     {
       revalidateOnMount: true,
@@ -60,8 +53,8 @@ const Checkout = () => {
       if (invoice?.discount_amount > 0) {
         setIsCouponApplied(true);
       } else {
-        setCoupon('');
-        toast.error('Invalid Coupon');
+        setCoupon("");
+        toast.error("Invalid Coupon");
       }
     };
 
@@ -76,23 +69,23 @@ const Checkout = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      email: '',
-      phone: '',
+      name: "",
+      email: "",
+      phone: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required('Name is required'),
+      name: Yup.string().required("Name is required"),
       email: Yup.string()
-        .email('Invalid email address')
-        .required('Email is required'),
+        .email("Invalid email address")
+        .required("Email is required"),
       phone: Yup.string()
-        .required('Phone is required')
-        .matches(/^[6-9]\d{9}$/, 'Phone number must be 10 digits'),
+        .required("Phone is required")
+        .matches(/^[6-9]\d{9}$/, "Phone number must be 10 digits"),
     }),
 
     onSubmit: async (values) => {
       if (!userId) {
-        toast.error('Please login first');
+        toast.error("Please login first");
         return;
       }
       if (invoice.total_amount === 0) {
@@ -111,7 +104,7 @@ const Checkout = () => {
     const orderDetails = await createPaymentAndOrder();
     if (!orderDetails) {
       setLoading(false);
-      toast.error('Failed to create payment and order.');
+      toast.error("Failed to create payment and order.");
       return;
     }
 
@@ -123,10 +116,10 @@ const Checkout = () => {
     try {
       const res = await api.saveQuestionnaire(payload);
       if (res) {
-        removeLocalStorage('keyCriteria');
+        removeLocalStorage("keyCriteria");
         setPaymentSuccess(true);
       } else {
-        toast.error('Failed to save questionnaire');
+        toast.error("Failed to save questionnaire");
       }
       setLoading(false);
     } catch (error: any) {
@@ -149,24 +142,24 @@ const Checkout = () => {
 
       const orderDetails = await createPaymentAndOrder();
       if (!orderDetails) {
-        throw new Error('Failed to create payment and order.');
+        throw new Error("Failed to create payment and order.");
       }
       const res = await initializeRazorpay();
       if (!res) {
-        throw new Error('Failed to initialize Razorpay.');
+        throw new Error("Failed to initialize Razorpay.");
       }
 
       const options = {
-        key: 'rzp_test_EYyf1YAwk7kO7r', // Enter the Key ID generated from the Dashboard
+        key: "rzp_test_EYyf1YAwk7kO7r", // Enter the Key ID generated from the Dashboard
         name: COMMON.PAYMENT_DETAILS.name,
         currency: COMMON.PAYMENT_DETAILS.currency,
         amount: orderDetails.amount,
         order_id: orderDetails.id,
-        description: 'Thank you for shopping with us',
+        description: "Thank you for shopping with us",
         handler: async (response: any) => {
           try {
             if (!response || !response.razorpay_payment_id) {
-              throw new Error('Payment response is empty.');
+              throw new Error("Payment response is empty.");
             }
 
             const verifyPayload = {
@@ -176,10 +169,10 @@ const Checkout = () => {
             };
             const verify = await api.verifyPayment(verifyPayload);
 
-            if (verify && verify?.status === '200') {
-              toast.success('Payment Successful');
+            if (verify && verify?.status === "200") {
+              toast.success("Payment Successful");
             } else {
-              toast.error('Payment Failed');
+              toast.error("Payment Failed");
             }
 
             const payload = {
@@ -190,10 +183,10 @@ const Checkout = () => {
             try {
               const res = await api.saveQuestionnaire(payload);
               if (res) {
-                removeLocalStorage('keyCriteria');
+                removeLocalStorage("keyCriteria");
                 setPaymentSuccess(true);
               } else {
-                toast.error('Failed to save questionnaire');
+                toast.error("Failed to save questionnaire");
               }
             } catch (error: any) {
               toast.error(error.message);
@@ -213,7 +206,7 @@ const Checkout = () => {
         },
         modal: {
           ondismiss: () => {
-            toast.info('Payment process was cancelled by the user');
+            toast.info("Payment process was cancelled by the user");
             setLoading(false);
           },
         },
@@ -232,13 +225,13 @@ const Checkout = () => {
     try {
       const crtCase = await createCase();
       if (!crtCase && crtCase?.status !== 200) {
-        toast.error('Something went wrong while creating case');
+        toast.error("Something went wrong while creating case");
         return false;
       }
 
       const payload = {
         case_id: crtCase.case_id,
-        currency: 'INR',
+        currency: "INR",
         amount: Number(invoice?.total_amount) || 0,
         created_by: userId,
       };
@@ -247,7 +240,7 @@ const Checkout = () => {
         return data;
       }
 
-      if (data && data.status === '200' && data.order_id) {
+      if (data && data.status === "200" && data.order_id) {
         const createOrder = await api.createOrder({
           amount: String(payload.amount),
           order_id: data.order_id,
@@ -255,10 +248,10 @@ const Checkout = () => {
         if (createOrder) {
           return createOrder;
         } else {
-          toast.error('Order creation failed');
+          toast.error("Order creation failed");
         }
       } else {
-        toast.error('Payment transaction already created');
+        toast.error("Payment transaction already created");
       }
     } catch (error) {
       console.log(error);
@@ -268,11 +261,11 @@ const Checkout = () => {
   const createCase = async () => {
     try {
       const imageArray =
-        uploadImages?.map((file: File) => COMMON.IMAGE_URL + '/' + file) || [];
+        uploadImages?.map((file: File) => COMMON.IMAGE_URL + "/" + file) || [];
 
-      let images = '';
+      let images = "";
       if (imageArray) {
-        images = imageArray.join(',');
+        images = imageArray.join(",");
       }
 
       const createCasePayload = {
@@ -290,219 +283,226 @@ const Checkout = () => {
 
   const handleApplyCoupon = () => {
     if (!coupon) {
-      toast.error('Please enter a coupon code');
+      toast.error("Please enter a coupon code");
       return;
     }
     setCouponCode(coupon);
   };
 
   const removeCoupon = () => {
-    setCoupon('');
-    setCouponCode(' ');
+    setCoupon("");
+    setCouponCode(" ");
     setIsCouponApplied(false);
   };
 
   return (
     <>
-      <div className='rounded-md'>
+      <div className="rounded-md">
         <section>
-          <div className=' bg-gray-50 px-4 pt-8 lg:mt-0'>
-            <p className='text-xl font-medium'>Payment Details</p>
-            <p className='text-gray-400'>
+          <div className=" bg-gray-50 px-4 pt-8 lg:mt-0">
+            <p className="text-xl font-medium">Payment Details</p>
+            <p className="text-gray-400">
               Complete your order by providing your payment details.
             </p>
-            <form className='' onSubmit={formik.handleSubmit}>
+            <form className="" onSubmit={formik.handleSubmit}>
               <div>
                 <label
-                  htmlFor='name'
-                  className='mt-4 mb-2 block text-sm font-medium'>
+                  htmlFor="name"
+                  className="mt-4 mb-2 block text-sm font-medium"
+                >
                   Name
                 </label>
-                <div className='relative'>
+                <div className="relative">
                   <input
-                    type='text'
-                    id='name'
-                    name='name'
+                    type="text"
+                    id="name"
+                    name="name"
                     value={formik.values.name}
                     onChange={formik.handleChange}
-                    className='w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500'
-                    placeholder='your Name'
+                    className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                    placeholder="your Name"
                   />
-                  <div className='pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3'>
-                    <IdentificationIcon className='w-5 h-5 text-gray-400' />
+                  <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
+                    <IdentificationIcon className="w-5 h-5 text-gray-400" />
                   </div>
                 </div>
                 {formik.errors.name && (
-                  <small className='text-red-500'>{formik.errors.name}</small>
+                  <small className="text-red-500">{formik.errors.name}</small>
                 )}
               </div>
 
               <div>
                 <label
-                  htmlFor='email'
-                  className='mt-4 mb-2 block text-sm font-medium'>
+                  htmlFor="email"
+                  className="mt-4 mb-2 block text-sm font-medium"
+                >
                   Email
                 </label>
-                <div className='relative'>
+                <div className="relative">
                   <input
-                    type='text'
-                    id='email'
-                    name='email'
+                    type="text"
+                    id="email"
+                    name="email"
                     value={formik.values.email}
                     onChange={formik.handleChange}
-                    className='w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500'
-                    placeholder='your.email@gmail.com'
+                    className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                    placeholder="your.email@gmail.com"
                   />
-                  <div className='pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3'>
-                    <AtSymbolIcon className='w-5 h-5 text-gray-400' />
+                  <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
+                    <AtSymbolIcon className="w-5 h-5 text-gray-400" />
                   </div>
                 </div>
                 {formik.errors.email && (
-                  <small className='text-red-500'>{formik.errors.email}</small>
+                  <small className="text-red-500">{formik.errors.email}</small>
                 )}
               </div>
 
               <div>
                 <label
-                  htmlFor='phone'
-                  className='mt-4 mb-2 block text-sm font-medium'>
+                  htmlFor="phone"
+                  className="mt-4 mb-2 block text-sm font-medium"
+                >
                   Phone
                 </label>
-                <div className='relative'>
+                <div className="relative">
                   <input
-                    type='text'
-                    id='phone'
-                    name='phone'
+                    type="text"
+                    id="phone"
+                    name="phone"
                     value={formik.values.phone}
                     onChange={formik.handleChange}
-                    className='w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500'
-                    placeholder='Phone'
+                    className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                    placeholder="Phone"
                   />
-                  <div className='pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3'>
-                    <PhoneIcon className='w-5 h-5 text-gray-400' />
+                  <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
+                    <PhoneIcon className="w-5 h-5 text-gray-400" />
                   </div>
                 </div>
                 {formik.errors.phone && (
-                  <small className='text-red-500'>{formik.errors.phone}</small>
+                  <small className="text-red-500">{formik.errors.phone}</small>
                 )}
               </div>
               {isLoading ? (
-                <div className='flex gap-3 mt-4 flex-col'>
-                  <div className='w-full flex gap-2'>
-                    <Skeleton className='h-3 w-3/5 rounded-lg' />
-                    <Skeleton className='h-3 w-4/5 rounded-lg' />
+                <div className="flex gap-3 mt-4 flex-col">
+                  <div className="w-full flex gap-2">
+                    <Skeleton className="h-3 w-3/5 rounded-lg" />
+                    <Skeleton className="h-3 w-4/5 rounded-lg" />
                   </div>
-                  <div className='w-full flex gap-2'>
-                    <Skeleton className='h-3 w-3/5 rounded-lg' />
-                    <Skeleton className='h-3 w-4/5 rounded-lg' />
+                  <div className="w-full flex gap-2">
+                    <Skeleton className="h-3 w-3/5 rounded-lg" />
+                    <Skeleton className="h-3 w-4/5 rounded-lg" />
                   </div>
-                  <div className='w-full flex gap-2'>
-                    <Skeleton className='h-3 w-3/5 rounded-lg' />
-                    <Skeleton className='h-3 w-4/5 rounded-lg' />
+                  <div className="w-full flex gap-2">
+                    <Skeleton className="h-3 w-3/5 rounded-lg" />
+                    <Skeleton className="h-3 w-4/5 rounded-lg" />
                   </div>
-                  <div className='w-full flex gap-2 mt-4'>
-                    <Skeleton className='h-3 w-3/5 rounded-lg' />
-                    <Skeleton className='h-3 w-4/5 rounded-lg' />
+                  <div className="w-full flex gap-2 mt-4">
+                    <Skeleton className="h-3 w-3/5 rounded-lg" />
+                    <Skeleton className="h-3 w-4/5 rounded-lg" />
                   </div>
-                  <div className='w-full flex gap-2 mt-4'>
-                    <Skeleton className='h-10 w-full rounded-lg' />
+                  <div className="w-full flex gap-2 mt-4">
+                    <Skeleton className="h-10 w-full rounded-lg" />
                   </div>
                 </div>
               ) : (
                 <>
-                  <div className='mt-6 border-t border-b py-2'>
-                    <div className='flex items-center justify-between'>
-                      <p className='text-sm font-medium text-gray-900'>
+                  <div className="mt-6 border-t border-b py-2">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium text-gray-900">
                         Subtotal
                       </p>
-                      <p className='font-semibold text-gray-900'>
-                        {COMMON.RUPEE + ' ' + invoice?.original_amount}
+                      <p className="font-semibold text-gray-900">
+                        {COMMON.RUPEE + " " + invoice?.original_amount}
                       </p>
                     </div>
-                    <div className='flex items-center justify-between mt-2'>
-                      <p className='text-sm font-medium text-gray-900'>GST</p>
-                      <p className='font-semibold text-gray-900'>
-                        {COMMON.RUPEE + ' ' + invoice?.gst_amount}
+                    <div className="flex items-center justify-between mt-2">
+                      <p className="text-sm font-medium text-gray-900">GST</p>
+                      <p className="font-semibold text-gray-900">
+                        {COMMON.RUPEE + " " + invoice?.gst_amount}
                       </p>
                     </div>
-                    <div className='flex items-center justify-between mt-2'>
-                      <p className='text-sm font-medium text-gray-900'>SGST</p>
-                      <p className='font-semibold text-gray-900'>
-                        {COMMON.RUPEE + ' ' + invoice?.sgst_amount}
+                    <div className="flex items-center justify-between mt-2">
+                      <p className="text-sm font-medium text-gray-900">SGST</p>
+                      <p className="font-semibold text-gray-900">
+                        {COMMON.RUPEE + " " + invoice?.sgst_amount}
                       </p>
                     </div>
                     {coupon.length > 0 && isCouponApplied ? (
-                      <div className='flex items-center justify-between mt-2'>
-                        <p className='text-sm font-medium text-gray-900'>
+                      <div className="flex items-center justify-between mt-2">
+                        <p className="text-sm font-medium text-gray-900">
                           Saving
                         </p>
-                        <p className='font-semibold text-green-500'>
-                          -{COMMON.RUPEE + ' ' + invoice?.discount_amount}
+                        <p className="font-semibold text-green-500">
+                          -{COMMON.RUPEE + " " + invoice?.discount_amount}
                         </p>
                       </div>
                     ) : (
-                      ''
+                      ""
                     )}
                   </div>
 
-                  <div className='mt-6 flex items-center justify-between'>
-                    <p className='text-sm font-medium text-gray-900'>Total</p>
-                    <p className='text-2xl font-semibold text-gray-900'>
-                      {COMMON.RUPEE + ' ' + invoice?.total_amount}
+                  <div className="mt-6 flex items-center justify-between">
+                    <p className="text-sm font-medium text-gray-900">Total</p>
+                    <p className="text-2xl font-semibold text-gray-900">
+                      {COMMON.RUPEE + " " + invoice?.total_amount}
                     </p>
                   </div>
                   <Button
                     isLoading={loading}
-                    type='submit'
-                    className='mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white'>
+                    type="submit"
+                    className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white"
+                  >
                     Pay {COMMON.RUPEE + invoice?.total_amount}
                   </Button>
                 </>
               )}
             </form>
           </div>
-          <div className=' bg-gray-50 px-4 mt-8 p-5'>
+          <div className=" bg-gray-50 px-4 mt-8 p-5">
             {isCouponApplied ? (
-              <div className='mt-0'>
+              <div className="mt-0">
                 <Chip
                   startContent={
-                    <CheckCircleIcon className='h-4 w-4 text-green-500' />
+                    <CheckCircleIcon className="h-4 w-4 text-green-500" />
                   }
-                  variant='faded'
-                  onClose={removeCoupon}>
-                  <span className='text-green-500'>{couponCode}</span>
+                  variant="faded"
+                  onClose={removeCoupon}
+                >
+                  <span className="text-green-500">{couponCode}</span>
                 </Chip>
               </div>
             ) : (
               <>
-                <div className=''>
+                <div className="">
                   <label
-                    htmlFor='coupon'
-                    className='mb-2 block text-sm font-medium'>
+                    htmlFor="coupon"
+                    className="mb-2 block text-sm font-medium"
+                  >
                     Do you have coupon or a voucher or gift card?
                   </label>
-                  <div className='flex gap-5 w-full'>
-                    <div className='relative w-full'>
+                  <div className="flex gap-5 w-full">
+                    <div className="relative w-full">
                       <input
-                        type='text'
-                        id='coupon'
-                        name='coupon'
+                        type="text"
+                        id="coupon"
+                        name="coupon"
                         onChange={(e) => setCoupon(e.target.value)}
                         value={coupon}
-                        className='w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500'
-                        placeholder='Coupon code'
+                        className="w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                        placeholder="Coupon code"
                       />
-                      <div className='pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3'>
-                        <IdentificationIcon className='w-5 h-5 text-gray-400' />
+                      <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
+                        <IdentificationIcon className="w-5 h-5 text-gray-400" />
                       </div>
                     </div>
 
                     <Button
-                      type='button'
-                      color='primary'
-                      variant='bordered'
+                      type="button"
+                      color="primary"
+                      variant="bordered"
                       isLoading={loading}
-                      onClick={handleApplyCoupon}>
+                      onClick={handleApplyCoupon}
+                    >
                       Apply
                     </Button>
                   </div>

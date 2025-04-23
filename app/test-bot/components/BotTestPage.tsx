@@ -10,11 +10,11 @@ import SymptomBotRecapModal from "@/components/modal/SymptomBotRecapModal";
 import ScrollingOptions from "@/components/SymptomBot/ScrollingOptions";
 import {
   Modal,
-  ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
-} from "@heroui/react";
+  ModalBody,
+  ModalFooter,
+} from "@heroui/modal";
 import { baseUrl } from "@/services/api.digitalPrescription.service";
 
 type QuestionType = {
@@ -104,9 +104,12 @@ const BotTestPage: React.FC = () => {
 
   const endChatApicall = async () => {
     setloading(true);
-    const {data} = await axios.post(`${baseUrl}symptom/chat/end_and_summarize`, {
-      user_id: dpuserid
-    })
+    const { data } = await axios.post(
+      `${baseUrl}symptom/chat/end_and_summarize`,
+      {
+        user_id: dpuserid,
+      }
+    );
     // console.log("Axios respones", data);
 
     // console.log("Response for Resume: ", data);
@@ -125,10 +128,9 @@ const BotTestPage: React.FC = () => {
 
   useEffect(() => {
     getFirstQuestions();
-  },[])
+  }, []);
 
   useEffect(() => {
-
     if (count.current) {
       getQuestions();
     } else {
@@ -139,7 +141,10 @@ const BotTestPage: React.FC = () => {
   const getQuestions = async () => {
     if (count1.current) {
       setloading(true);
-      const {data} = await axios.post(`${baseUrl}symptom/answer`, symptomData)
+      const { data } = await axios.post(
+        `${baseUrl}symptom/answer`,
+        symptomData
+      );
       // console.log("Axios respones", data);
       setQuestion(data);
       setQuestionId(data.next_question_id as string);
@@ -160,13 +165,13 @@ const BotTestPage: React.FC = () => {
 
   const getFirstQuestions = async () => {
     setloading(true);
-    try{
-      const {data} = await axios.get(`${baseUrl}symptom/start`);
+    try {
+      const { data } = await axios.get(`${baseUrl}symptom/start`);
       // console.log("Axios respones", data);
       setQuestion(data);
       setQuestionId(data.next_question_id as string);
-      setloading(false); 
-    }catch(error){
+      setloading(false);
+    } catch (error) {
       // console.log(error);
       setloading(false);
     }
@@ -177,15 +182,14 @@ const BotTestPage: React.FC = () => {
     if (answer === null) {
       setOnErrorEmptyValue(true);
     } else {
-      QuestionId === "Q1" && answer === "no" ? (setSummaryModal(true),
-       setSummaryData("Feel free to visit anytime !")
-      ) : (
-        setSymptomData({
-          user_id: dpuserid || "",
-          question_id: QuestionId,
-          answer: answer,
-        })
-      )
+      QuestionId === "Q1" && answer === "no"
+        ? (setSummaryModal(true),
+          setSummaryData("Feel free to visit anytime !"))
+        : setSymptomData({
+            user_id: dpuserid || "",
+            question_id: QuestionId,
+            answer: answer,
+          });
       setOnErrorEmptyValue(false);
     }
   };
@@ -193,7 +197,6 @@ const BotTestPage: React.FC = () => {
   const handleInputSubmit = (value: string | number) => {
     if (value === null || value === "") {
       setOnErrorEmptyValue(true);
-      
     } else {
       setSymptomData({
         user_id: dpuserid || "",
@@ -224,7 +227,7 @@ const BotTestPage: React.FC = () => {
 
   const recapCloseModal = () => {
     setSummaryModal(false);
-    QuestionId === "Q1" && endChatApicall()
+    QuestionId === "Q1" && endChatApicall();
   };
 
   const handleEndChatClick = () => {
@@ -444,7 +447,6 @@ const BotTestPage: React.FC = () => {
         <div className="px-28 mx-20 py-6 rounded-lg flex justify-center items-center min-w-full">
           <p className="font-bold mt-1 text-lg text-center">
             {Question?.question}
-
           </p>
         </div>
         {(setImageUrl() as string) !== "0" && (
@@ -457,9 +459,13 @@ const BotTestPage: React.FC = () => {
             />
           </div>
         )}
-        {loading ? <Loader2 className="animate-spin"/> : <div className="px-48 w-2/3">
-          <div className="py-3 ">{renderQuestion()}</div>
-        </div>}
+        {loading ? (
+          <Loader2 className="animate-spin" />
+        ) : (
+          <div className="px-48 w-2/3">
+            <div className="py-3 ">{renderQuestion()}</div>
+          </div>
+        )}
       </>
       {bmiResponse !== null && (
         <Modal
@@ -525,7 +531,6 @@ const BotTestPage: React.FC = () => {
           onEndChatOkay={handleOkayOnEndChatClick}
         />
       )}
-      
     </div>
   );
 };

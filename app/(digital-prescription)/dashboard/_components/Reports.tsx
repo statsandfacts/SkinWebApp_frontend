@@ -7,12 +7,12 @@ import { AppDispatch, RootState } from "@/redux/store";
 import Loader from "@/components/Loader";
 import {
   Table,
-  TableBody,
-  TableCell,
-  TableColumn,
   TableHeader,
+  TableBody,
+  TableColumn,
   TableRow,
-} from "@heroui/react";
+  TableCell,
+} from "@heroui/table";
 import { ToolTipBtn } from "@/components/common/ToolTipBtn";
 import {
   setSinglePrescriptionDetails,

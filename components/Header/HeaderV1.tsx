@@ -8,7 +8,7 @@ import {
   NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
-} from "@heroui/react";
+} from "@heroui/navbar";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";

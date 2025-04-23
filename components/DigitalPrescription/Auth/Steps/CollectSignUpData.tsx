@@ -13,7 +13,7 @@ import {
   setStep,
   setUser,
 } from "@/redux/slices/digitalPrescription/auth.slice";
-import { Select, SelectItem } from "@heroui/react";
+import { Select, SelectItem } from "@heroui/select";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import {
   createCase,

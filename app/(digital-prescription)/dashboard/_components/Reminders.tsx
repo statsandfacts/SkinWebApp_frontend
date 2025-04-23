@@ -19,12 +19,12 @@ import {
 import { Button } from "@heroui/button";
 import {
   Table,
-  TableBody,
-  TableCell,
-  TableColumn,
   TableHeader,
+  TableBody,
+  TableColumn,
   TableRow,
-} from "@heroui/react";
+  TableCell,
+} from "@heroui/table";
 import {
   Bell,
   EyeIcon,

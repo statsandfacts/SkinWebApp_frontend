@@ -21,7 +21,8 @@ import {
 import dayjs from "dayjs";
 import { RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
-import { Checkbox, Link } from "@heroui/react";
+import { Checkbox } from "@heroui/checkbox";
+import { Link } from "@heroui/link";
 import TermsAndConditionsModal from "../TermsAndConditionsModal";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 

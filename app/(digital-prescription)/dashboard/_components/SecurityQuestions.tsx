@@ -120,7 +120,16 @@ const SecurityQuestion = () => {
                     <Input
                       type="text"
                       disabled={question?.is_answer}
-                      value={question?.answer_hash || ""}
+                      value={
+                        question?.is_answer
+                          ? "*".repeat(
+                              Math.min(
+                                10,
+                                Math.max(5, question?.answer_hash?.length || 0)
+                              )
+                            )
+                          : question?.answer_hash || ""
+                      }
                       onChange={(e) =>
                         handleAnswerChange(index, e.target.value)
                       }

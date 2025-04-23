@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import dayjs from "dayjs";
 import Loader from "@/components/Loader";
 import { fetchComments } from "@/redux/slices/digitalPrescription/blog.slice";
-import { CircularProgress } from "@heroui/react";
+import { CircularProgress } from "@heroui/progress";
 
 interface ManageCommentsProps {}
 

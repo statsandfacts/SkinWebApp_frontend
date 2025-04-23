@@ -147,7 +147,7 @@ const UploadDocumentsSamePrescription: React.FC = () => {
             }}
             endContent={<ArrowRightIcon className="w-4 h-4" />}
           >
-            Next
+            Upload
           </Button>
         </div>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import ABHAForm from "./ABHAForm";
-import { Card, CardBody, Tab, Tabs } from "@heroui/react";
+import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
 
 const ABHA = () => {
   return (

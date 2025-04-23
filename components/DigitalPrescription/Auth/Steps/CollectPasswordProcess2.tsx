@@ -19,7 +19,8 @@ import dayjs from "dayjs";
 import { RootState } from "@/redux/store";
 import { setLoginModal } from "@/redux/slices/loginModal.slice";
 import { useRouter } from "next/navigation";
-import { Checkbox, Link } from "@heroui/react";
+import { Link } from "@heroui/link";
+import { Checkbox } from "@heroui/checkbox";
 import TermsAndConditionsModal from "../TermsAndConditionsModal";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 

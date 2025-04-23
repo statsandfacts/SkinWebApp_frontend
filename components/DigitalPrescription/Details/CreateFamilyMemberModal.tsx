@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
+
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-  SelectItem,
-  Select,
-} from "@heroui/react";
+} from "@heroui/modal";
+import { Select, SelectItem } from "@heroui/select";
+import { Button } from "@heroui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";

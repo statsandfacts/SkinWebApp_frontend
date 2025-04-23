@@ -1,7 +1,7 @@
 "use client";
 import { setSubGroupDetail } from "@/redux/slices/digitalPrescription/drug.slice";
 import { AppDispatch } from "@/redux/store";
-import { Accordion, AccordionItem } from "@heroui/react";
+import { Accordion, AccordionItem } from "@heroui/accordion";
 import Link from "next/link";
 import React from "react";
 import { useDispatch } from "react-redux";

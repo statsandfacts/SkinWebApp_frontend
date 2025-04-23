@@ -6,8 +6,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-} from "@heroui/react";
+} from "@heroui/modal";
+import { Button } from "@heroui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import {

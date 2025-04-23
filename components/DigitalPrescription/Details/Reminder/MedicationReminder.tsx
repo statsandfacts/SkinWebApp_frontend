@@ -1,16 +1,14 @@
 import React from "react";
+import { Card, CardHeader, CardBody } from "@heroui/card";
+import { Button } from "@heroui/button";
 import {
-  Card,
-  CardBody,
-  CardHeader,
-  Button,
   Table,
   TableHeader,
-  TableColumn,
   TableBody,
+  TableColumn,
   TableRow,
   TableCell,
-} from "@heroui/react";
+} from "@heroui/table";
 import { ToolTipBtn } from "@/components/common/ToolTipBtn";
 import { CalendarDaysIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";
