@@ -11,7 +11,10 @@ import {
 } from "@/redux/slices/digitalPrescription/auth.slice";
 import { uploadImageToAws } from "@/services/api.digitalPrescription.service";
 import { toast } from "react-toastify";
-import { setStep, setUploadedImageDetails } from "@/redux/slices/digitalPrescription/stepManagement.slice";
+import {
+  setStep,
+  setUploadedImageDetails,
+} from "@/redux/slices/digitalPrescription/stepManagement.slice";
 
 const CollectPrescriptionImage: React.FC = () => {
   const dispatch = useDispatch();
@@ -46,9 +49,7 @@ const CollectPrescriptionImage: React.FC = () => {
         toast.success("Prescription Image Uploaded Successfully.");
         dispatch(setSignUpStep(4));
         dispatch(setStep(0)); //for upload image steps empty
-        dispatch(
-          setUploadedImageDetails([])
-        );
+        dispatch(setUploadedImageDetails([]));
       })
       .catch((error) => {
         toast.error(

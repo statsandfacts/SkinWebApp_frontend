@@ -1,12 +1,13 @@
 import React, { useState } from "react";
+
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-} from "@heroui/react";
+} from "@heroui/modal";
+import { Button } from "@heroui/button";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setReuploadModal,

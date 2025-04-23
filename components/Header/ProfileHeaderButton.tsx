@@ -8,7 +8,7 @@ import {
   DropdownSection,
   DropdownItem,
 } from "@heroui/dropdown";
-import { Avatar, AvatarGroup, AvatarIcon } from "@heroui/avatar";
+import { Avatar } from "@heroui/avatar";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";

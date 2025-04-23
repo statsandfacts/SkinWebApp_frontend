@@ -16,17 +16,15 @@ import {
   ArrowUpTrayIcon,
   DocumentMagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
+import { Chip } from "@heroui/chip";
 import {
-  Accordion,
-  AccordionItem,
-  Chip,
   Table,
-  TableBody,
-  TableCell,
-  TableColumn,
   TableHeader,
+  TableBody,
+  TableColumn,
   TableRow,
-} from "@heroui/react";
+  TableCell,
+} from "@heroui/table";
 import { EyeIcon, ShieldAlertIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useEffect } from "react";
@@ -248,7 +246,7 @@ const CasesDetails = () => {
                       //   ))}
                       // </Accordion>
 
-                      (<Table
+                      <Table
                         removeWrapper
                         aria-label="Example static collection table"
                       >
@@ -379,7 +377,7 @@ const CasesDetails = () => {
                             </TableRow>
                           ))}
                         </TableBody>
-                      </Table>)
+                      </Table>
                     ) : (
                       <p className="text-slate-600 text-center text-xs">
                         No Prescription Uploaded Yet.

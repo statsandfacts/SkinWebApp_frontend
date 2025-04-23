@@ -5,10 +5,9 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-  RadioGroup,
-  Radio,
-} from "@heroui/react";
+} from "@heroui/modal";
+import { RadioGroup, Radio } from "@heroui/radio";
+import { Button } from "@heroui/button";
 import { motion } from "framer-motion";
 import { Upload } from "antd";
 import type { GetProp, UploadFile, UploadProps } from "antd";
@@ -18,7 +17,10 @@ import { sanitizeFileName } from "@/utils/sanitizeFileName";
 import { s3ClientDP } from "@/utils/s3Upload";
 import { DeleteObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteImage, uploadImage } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
+import {
+  deleteImage,
+  uploadImage,
+} from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import { useUser } from "@/context/UserContext";
 import { setLoginModal } from "@/redux/slices/loginModal.slice";
 

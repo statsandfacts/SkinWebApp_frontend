@@ -3,17 +3,16 @@ import {
   setUpdateHealthIndicatorModal,
 } from "@/redux/slices/digitalPrescription/userDashboard.slice";
 import { AppDispatch, RootState } from "@/redux/store";
+import { Button } from "@heroui/button";
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input,
-  Radio,
-  Button,
-  RadioGroup,
-} from "@heroui/react";
+} from "@heroui/modal";
+import { Input } from "@heroui/input";
+import { RadioGroup, Radio } from "@heroui/radio";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { updateUser } from "@/services/api.digitalPrescription.service";

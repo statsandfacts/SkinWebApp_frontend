@@ -1,13 +1,14 @@
 import { FC, useEffect, useState } from "react";
-import { Button, Card, CardBody, CardHeader } from "@heroui/react";
+import { Button } from "@heroui/button";
+import { Card, CardHeader, CardBody } from "@heroui/card";
 import {
   Table,
   TableHeader,
-  TableColumn,
   TableBody,
+  TableColumn,
   TableRow,
   TableCell,
-} from "@heroui/react";
+} from "@heroui/table";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import {
   FamilyMembersState,
