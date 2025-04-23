@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { useUser } from "@/context/UserContext";
-import { Select, SelectItem } from "@heroui/react";
+import { Select, SelectSection, SelectItem } from "@heroui/select";
 
 const gender = [
   { value: "male", label: "Male" },

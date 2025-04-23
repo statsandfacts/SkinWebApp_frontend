@@ -1,13 +1,13 @@
 import React, { useState } from "react";
+import { Button, ButtonGroup } from "@heroui/button";
+import { Input } from "@heroui/input";
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-  Input,
-} from "@heroui/react";
+} from "@heroui/modal";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchPatientDashboard,

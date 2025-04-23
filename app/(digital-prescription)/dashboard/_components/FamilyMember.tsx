@@ -13,12 +13,12 @@ import { AppDispatch } from "@/redux/store";
 import { Button } from "@heroui/button";
 import {
   Table,
-  TableBody,
-  TableCell,
-  TableColumn,
   TableHeader,
+  TableBody,
+  TableColumn,
   TableRow,
-} from "@heroui/react";
+  TableCell,
+} from "@heroui/table";
 import { Eye, PencilLine, PlusIcon, UserPlusIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

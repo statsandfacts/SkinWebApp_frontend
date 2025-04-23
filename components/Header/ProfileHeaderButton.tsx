@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@heroui/button";
 import {
-  Avatar,
   Dropdown,
-  DropdownItem,
-  DropdownMenu,
   DropdownTrigger,
-  User,
-} from "@heroui/react";
+  DropdownMenu,
+  DropdownSection,
+  DropdownItem,
+} from "@heroui/dropdown";
+import { Avatar, AvatarGroup, AvatarIcon } from "@heroui/avatar";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
