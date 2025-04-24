@@ -1,0 +1,10 @@
+.content {
+  all: unset;
+  font-family: Arial, sans-serif;
+  color: black;
+}
+
+.content a {
+  text-decoration: underline;
+  color: blue;
+}
