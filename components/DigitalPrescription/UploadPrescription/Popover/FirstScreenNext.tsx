@@ -144,6 +144,7 @@ const FirstScreenNext: React.FC = () => {
   return (
     <>
       <ShowPopover
+        fromActKey={singleDocumentDetails?.selectedSubType}
         onConfirm={clickToYes}
         onClose={clockToNo}
         closeButtonLoading={loading}

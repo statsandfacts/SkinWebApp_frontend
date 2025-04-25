@@ -9,7 +9,7 @@ import {
 } from "@heroui/modal";
 
 interface ShowPopoverProps {
-  fromActKey?: string;
+  fromActKey?: string | null;
   modalTitle?: string;
   onConfirm?: () => void;
   onClose?: () => void;
@@ -39,6 +39,8 @@ const ShowPopover: React.FC<ShowPopoverProps> = ({
   isOpen,
   onOpenChange,
 }) => {
+  const safeFromActKey = fromActKey || "";
+
   return (
     <Modal
       isOpen={isOpen}
@@ -57,7 +59,7 @@ const ShowPopover: React.FC<ShowPopoverProps> = ({
 
             <ModalBody>{children}</ModalBody>
             <ModalFooter className="flex justify-end">
-              {fromActKey === "Test Report" ? (
+              {["Prescription", "Test Report"].includes(safeFromActKey) ? (
                 <>
                   <Button
                     color="danger"
