@@ -36,7 +36,7 @@ const WhyChooseNextcare = () => {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-        className="text-5xl font-bold text-[#025687]"
+        className="text-3xl sm:text-5xl font-bold text-[#025687]"
       >
         WHY CHOOSE NEXTCARE.LIFE
       </motion.h1>

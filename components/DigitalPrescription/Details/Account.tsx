@@ -3,7 +3,8 @@ import { logOutUser } from "@/redux/slices/digitalPrescription/auth.slice";
 import { resetPrescription } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import { resetFamilyMember } from "@/redux/slices/digitalPrescription/familyMembers.slice";
 import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
-import { Button, Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Card, CardHeader, CardBody } from "@heroui/card";
+import { Button } from "@heroui/button";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 
@@ -14,7 +15,7 @@ const Account = () => {
   const handleLogout = () => {
     dispatch(logOutUser());
     dispatch(resetPrescription());
-    dispatch(resetFamilyMember())
+    dispatch(resetFamilyMember());
     router.push("/");
   };
 

@@ -1,4 +1,4 @@
-import { nextui } from "@nextui-org/theme";
+const { heroui } = require("@heroui/react");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -6,7 +6,7 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -31,23 +31,24 @@ module.exports = {
           "linear-gradient(38deg, rgba(246,251,255,1) 0%, rgba(235,246,255,1) 47%, rgba(247,252,255,1) 100%)",
       },
       colors: {
-        primary: "#025687",
-        "primary-lite": "#75AFD2",
-        "primary-mute": "#DCECF6",
-        secondary: "#000000",
-        "secondary-lite": "#817F7F",
+        primary: "var(--color-primary)",
+        "primary-lite": "var(--color-primary-lite)",
+        "primary-mute": "var(--color-primary-mute)",
+        secondary: "var(--color-secondary)",
+        "secondary-lite": "var(--color-secondary-lite)",
       },
     },
   },
   darkMode: "class",
-  plugins: [
-    nextui({
-      theme: {
-        prefix: "nextui", // prefix for themes variables
-        addCommonColors: false, // override common colors (e.g. "blue", "green", "pink").
-        defaultTheme: "light", // default theme from the themes object
-        defaultExtendTheme: "light",
-      },
-    }),
-  ],
+  plugins: [heroui()],
+  // plugins: [
+  //   heroui({
+  //     theme: {
+  //       prefix: "nextui", // prefix for themes variables
+  //       addCommonColors: true, // override common colors (e.g. "blue", "green", "pink").
+  //       defaultTheme: "light", // default theme from the themes object
+  //       defaultExtendTheme: "light",
+  //     },
+  //   }),
+  // ],
 };

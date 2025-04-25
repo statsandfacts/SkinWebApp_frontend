@@ -107,7 +107,7 @@ export const getUser = async (userId: string) => {
  */
 export const uploadImageToAws = async (payload: any) => {
   const { data } = await axios.post(
-    `${baseUrl}document/upload-image`,
+    `${baseUrl}document/upload-image/`,
     payload,
     {
       headers: {
@@ -487,7 +487,10 @@ export const verifySecurityAnswer = async (payload: {
  * @returns all career jobs list
  */
 export const getAllCareerJobs = async () => {
-  const { data } = await axios.get(`${baseUrl}career/get-all-jobs`, headers);
+  const { data } = await axios.get(
+    `${baseUrl}career/get-all-jobs?status=Open`,
+    headers
+  );
   return data;
 };
 
@@ -524,6 +527,33 @@ export const findBlogsByKeyword = async (keyword: string) => {
 export const searchBlogsByTitle = async (title: string) => {
   const { data } = await axios.get(
     `${baseUrl}blogs/search-by-title?keyword=${title}`,
+    headers
+  );
+  return data;
+};
+
+/**
+ *
+ * @param payload {user_id, url, report_type}
+ * @returns
+ */
+export const digitizeSmartLabReport = async (payload: any) => {
+  const { data } = await axios.post(
+    baseUrl + "report/slr/digitize-smart-lab-report",
+    payload,
+    headers
+  );
+  return data;
+};
+
+
+/**
+ * Fetch country data from the server
+ * @returns List of countries
+ */
+export const getCountryData = async () => {
+  const { data } = await axios.get(
+    `${baseUrl}users/countries`,
     headers
   );
   return data;

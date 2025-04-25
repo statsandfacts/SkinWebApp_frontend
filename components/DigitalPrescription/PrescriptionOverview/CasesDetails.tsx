@@ -16,17 +16,15 @@ import {
   ArrowUpTrayIcon,
   DocumentMagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
+import { Chip } from "@heroui/chip";
 import {
-  Accordion,
-  AccordionItem,
-  Chip,
   Table,
-  TableBody,
-  TableCell,
-  TableColumn,
   TableHeader,
+  TableBody,
+  TableColumn,
   TableRow,
-} from "@nextui-org/react";
+  TableCell,
+} from "@heroui/table";
 import { EyeIcon, ShieldAlertIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useEffect } from "react";
@@ -392,7 +390,6 @@ const CasesDetails = () => {
           )}
         </div>
       </div>
-
       <ViewPrescriptionDetailsModal />
       <ViewOriginalPrescriptionImage />
       <ReUploadImageModal />

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import InputField from "@/components/common/InputField";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +21,8 @@ import {
 import dayjs from "dayjs";
 import { RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
-import { Checkbox, Link } from "@nextui-org/react";
+import { Checkbox } from "@heroui/checkbox";
+import { Link } from "@heroui/link";
 import TermsAndConditionsModal from "../TermsAndConditionsModal";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 

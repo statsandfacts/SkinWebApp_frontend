@@ -1,26 +1,25 @@
-'use client';
+"use client";
 import {
-  Button,
-  Checkbox,
   Modal,
-  ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
-} from '@nextui-org/react';
-import { ErrorMessage, Field, Form, Formik, useFormik } from 'formik';
-import * as Yup from 'yup';
-import * as api from '@/services/app.service';
-import InputField from '../common/InputField';
-import { toast } from 'react-toastify';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useUser } from '@/context/UserContext';
-import Link from 'next/link';
-import { useDispatch } from 'react-redux';
-import { setLoginModal } from '@/redux/slices/loginModal.slice';
-import Drawer from '../Drawer';
-import { XMarkIcon } from '@heroicons/react/24/outline';
+  ModalBody,
+  ModalFooter,
+} from "@heroui/modal";
+import { Button, ButtonGroup } from "@heroui/button";
+import { ErrorMessage, Field, Form, Formik, useFormik } from "formik";
+import * as Yup from "yup";
+import * as api from "@/services/app.service";
+import InputField from "../common/InputField";
+import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
+import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { setLoginModal } from "@/redux/slices/loginModal.slice";
+import Drawer from "../Drawer";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const LoginForm = () => {
   const { setLogin, setSession } = useUser();
@@ -31,14 +30,14 @@ const LoginForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      phone_no: '',
+      phone_no: "",
     },
     validationSchema: Yup.object({
       phone_no: Yup.string()
-        .required('Phone Number Required')
-        .min(10, 'Phone number must be 10 digit')
-        .max(10, 'Phone number must be 10 digit')
-        .matches(/^\d{10}$/, 'Invalid phone number format'),
+        .required("Phone Number Required")
+        .min(10, "Phone number must be 10 digit")
+        .max(10, "Phone number must be 10 digit")
+        .matches(/^\d{10}$/, "Invalid phone number format"),
     }),
     onSubmit: async (values) => {
       setOpenModal(true);
@@ -57,28 +56,30 @@ const LoginForm = () => {
   return (
     <>
       <form
-        autoComplete='off'
-        className='flex flex-col gap-5 w-full max-w-md px-5'
-        onSubmit={formik.handleSubmit}>
+        autoComplete="off"
+        className="flex flex-col gap-5 w-full max-w-md px-5"
+        onSubmit={formik.handleSubmit}
+      >
         <InputField
           onChange={formik.handleChange}
           value={formik.values.phone_no}
-          type='text'
-          name='phone_no'
-          placeholder='Email or Phone Number'
+          type="text"
+          name="phone_no"
+          placeholder="Email or Phone Number"
           onBlur={formik.handleBlur}
           error={
             formik.errors.phone_no && formik.touched.phone_no
               ? formik.errors.phone_no
-              : ''
+              : ""
           }
-          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         />
 
         <Button
           isLoading={isLoading}
-          type='submit'
-          className='p-6 w-full text-white bg-violet-600 rounded-[96.709px]'>
+          type="submit"
+          className="p-6 w-full text-white bg-violet-600 rounded-[96.709px]"
+        >
           Reset
         </Button>
       </form>
@@ -102,7 +103,7 @@ const LoginForm = () => {
 const OTPModal = ({ openModal, onClose, phone, successVerifyOtp }: any) => {
   const [isSendOtp, setIsSetOtp] = useState(false);
   const [isOtpLoading, setIsOtpLoading] = useState(false);
-  const [otp, setOtp] = useState('');
+  const [otp, setOtp] = useState("");
   const [isVerify, setIsVerify] = useState(false);
   useEffect(() => {
     const sendOtp = async () => {
@@ -113,11 +114,11 @@ const OTPModal = ({ openModal, onClose, phone, successVerifyOtp }: any) => {
       });
 
       if (response && response.status === 200) {
-        toast.success('OTP Send Successfully');
+        toast.success("OTP Send Successfully");
         setOtp(response.verification_code);
         setIsOtpLoading(false);
       } else {
-        toast.error('Some error occurred');
+        toast.error("Some error occurred");
         setIsOtpLoading(false);
       }
     };
@@ -139,41 +140,43 @@ const OTPModal = ({ openModal, onClose, phone, successVerifyOtp }: any) => {
    */
   const otpSchema = Yup.object().shape({
     otp: Yup.string()
-      .required('Enter Valid OTP')
-      .length(6, 'Must be exactly 6 digits')
-      .matches(/^[0-9]{6}$/, 'Must be exactly 6 digits'),
+      .required("Enter Valid OTP")
+      .length(6, "Must be exactly 6 digits")
+      .matches(/^[0-9]{6}$/, "Must be exactly 6 digits"),
   });
   const OTPForm = () => (
     <Formik
-      initialValues={{ otp: '' }}
+      initialValues={{ otp: "" }}
       validationSchema={otpSchema}
       onSubmit={(values) => {
         if (values.otp) {
           setIsVerify(true);
-          toast.success('OTP Verified Successfully');
+          toast.success("OTP Verified Successfully");
         } else {
-          toast.error('Invalid OTP');
+          toast.error("Invalid OTP");
         }
-      }}>
+      }}
+    >
       {() => (
         <Form>
-          <div className='mb-3'>
+          <div className="mb-3">
             <Field
-              name='otp'
-              type='text'
-              placeholder='Enter otp'
-              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              name="otp"
+              type="text"
+              placeholder="Enter otp"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
             <ErrorMessage
-              className='text-sm text-red-500'
-              name='otp'
-              component='div'
+              className="text-sm text-red-500"
+              name="otp"
+              component="div"
             />
           </div>
           <Button
             isLoading={isOtpLoading}
-            type='submit'
-            className='p-6 w-full text-white bg-violet-600 rounded-[96.709px]'>
+            type="submit"
+            className="p-6 w-full text-white bg-violet-600 rounded-[96.709px]"
+          >
             Verify
           </Button>
         </Form>
@@ -185,54 +188,56 @@ const OTPModal = ({ openModal, onClose, phone, successVerifyOtp }: any) => {
    * Password Form
    */
   const passwordSchema = Yup.object().shape({
-    password: Yup.string().required('Password Required'),
+    password: Yup.string().required("Password Required"),
     confirmPassword: Yup.string()
-      .required('Confirm Password Required')
-      .oneOf([Yup.ref('password'), ''], 'Passwords must match'),
+      .required("Confirm Password Required")
+      .oneOf([Yup.ref("password"), ""], "Passwords must match"),
   });
 
   const PasswordForm = () => (
     <Formik
-      initialValues={{ password: '', confirmPassword: '' }}
+      initialValues={{ password: "", confirmPassword: "" }}
       validationSchema={passwordSchema}
       onSubmit={(values) => {
         // handle form submission
-        console.log('Password Form Values:', values);
-      }}>
+        console.log("Password Form Values:", values);
+      }}
+    >
       {() => (
-        <Form className='flex flex-col gap-3'>
+        <Form className="flex flex-col gap-3">
           <div>
             <label>Password</label>
             <Field
-              name='password'
-              type='text'
-              placeholder='Enter password'
-              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              name="password"
+              type="text"
+              placeholder="Enter password"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
             <ErrorMessage
-              className='text-sm text-red-500'
-              name='password'
-              component='div'
+              className="text-sm text-red-500"
+              name="password"
+              component="div"
             />
           </div>
           <div>
             <label>Confirm Password</label>
             <Field
-              name='confirmPassword'
-              type='password'
-              placeholder='Confirm password'
-              className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              name="confirmPassword"
+              type="password"
+              placeholder="Confirm password"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-4  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
             <ErrorMessage
-              className='text-sm text-red-500'
-              name='confirmPassword'
-              component='div'
+              className="text-sm text-red-500"
+              name="confirmPassword"
+              component="div"
             />
           </div>
           <Button
             isLoading={isOtpLoading}
-            type='submit'
-            className='p-6 w-full text-white bg-violet-600 rounded-[96.709px]'>
+            type="submit"
+            className="p-6 w-full text-white bg-violet-600 rounded-[96.709px]"
+          >
             Submit
           </Button>
         </Form>
@@ -245,8 +250,8 @@ const OTPModal = ({ openModal, onClose, phone, successVerifyOtp }: any) => {
       <Modal isOpen={openModal} hideCloseButton={true}>
         <ModalContent>
           <>
-            <ModalHeader className='flex flex-col gap-1'>
-              <div className='flex w-full'>
+            <ModalHeader className="flex flex-col gap-1">
+              <div className="flex w-full">
                 {!isVerify ? (
                   <div>Verify Your OTP</div>
                 ) : (
@@ -254,9 +259,10 @@ const OTPModal = ({ openModal, onClose, phone, successVerifyOtp }: any) => {
                 )}
               </div>
               <button
-                className='absolute right-4 top-4 w-7 h-7 rounded-full flex justify-center items-center hover:bg-gray-100'
-                onClick={handleClose}>
-                <XMarkIcon className='w-5 h-5 text-gray-500' />
+                className="absolute right-4 top-4 w-7 h-7 rounded-full flex justify-center items-center hover:bg-gray-100"
+                onClick={handleClose}
+              >
+                <XMarkIcon className="w-5 h-5 text-gray-500" />
               </button>
             </ModalHeader>
             <ModalBody>{isVerify ? PasswordForm() : OTPForm()}</ModalBody>

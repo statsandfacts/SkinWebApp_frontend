@@ -12,7 +12,7 @@ import {
 } from "@/redux/slices/digitalPrescription/stepManagement.slice";
 import { motion } from "framer-motion";
 import UploadImageComponent from "../Common/UploadImageComponent";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import {
   FirstScreenNext,
@@ -112,7 +112,7 @@ const UploadDocumentImage: React.FC = () => {
           <Button
             variant="flat"
             onClick={() => {
-              dispatch(setStep(0));
+              dispatch(setStep(1));
             }}
             startContent={<ArrowLeftIcon className="w-4 h-4" />}
           >
@@ -148,7 +148,7 @@ const UploadDocumentImage: React.FC = () => {
             endContent={<ArrowRightIcon className="w-4 h-4" />}
             isLoading={loading}
           >
-            Next
+            Upload
           </Button>
         </div>
       </div>

@@ -6,8 +6,8 @@ import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { Save, Pencil } from "lucide-react";
 import { securityAnswer } from "@/services/api.digitalPrescription.service";
 import { toast } from "react-toastify";
-import { Button } from "@nextui-org/button";
-import { Input } from "@nextui-org/input";
+import { Button } from "@heroui/button";
+import { Input } from "@heroui/input";
 
 const SecurityQuestion = () => {
   const { userId } = useAuthInfo();
@@ -120,7 +120,16 @@ const SecurityQuestion = () => {
                     <Input
                       type="text"
                       disabled={question?.is_answer}
-                      value={question?.answer_hash || ""}
+                      value={
+                        question?.is_answer
+                          ? "*".repeat(
+                              Math.min(
+                                10,
+                                Math.max(5, question?.answer_hash?.length || 0)
+                              )
+                            )
+                          : question?.answer_hash || ""
+                      }
                       onChange={(e) =>
                         handleAnswerChange(index, e.target.value)
                       }

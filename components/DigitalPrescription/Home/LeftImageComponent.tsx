@@ -21,6 +21,15 @@ const LeftImageComponent = ({
   action,
 }: LeftImageComponentProps) => {
   const router = useRouter();
+  const handleClick = () => {
+    if (action === "digital_prescription") {
+      router.push(`/upload-prescription`);
+      return;
+    } else if (action === "symptom_bot") {
+      router.push(`/symptom-bot-dtls`);
+      return;
+    }
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -45,7 +54,13 @@ const LeftImageComponent = ({
           }}
           className="rounded-lg overflow-hidden"
         >
-          <Image src={imageSrc} alt={title} width={700} height={500} />
+          <Image
+            src={imageSrc}
+            alt={title}
+            width={700}
+            height={500}
+            onClick={handleClick}
+          />
         </motion.div>
 
         {action === "abdm" && (

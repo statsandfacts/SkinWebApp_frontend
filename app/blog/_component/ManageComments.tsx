@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { Button } from "@nextui-org/button";
-import { Textarea } from "@nextui-org/input";
+import { Button } from "@heroui/button";
+import { Textarea } from "@heroui/input";
 import { createComment } from "@/services/api.digitalPrescription.service";
 import { toast } from "react-toastify";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import dayjs from "dayjs";
 import Loader from "@/components/Loader";
 import { fetchComments } from "@/redux/slices/digitalPrescription/blog.slice";
-import { CircularProgress } from "@nextui-org/react";
+import { CircularProgress } from "@heroui/react";
 
 interface ManageCommentsProps {}
 
@@ -52,7 +52,7 @@ const ManageComments: React.FC<ManageCommentsProps> = () => {
           </div>
         ) : comments.errorMessage ? (
           <p className="p-10 md:px-40 text-red-500">{comments.errorMessage}</p>
-        ) :(comments?.data && comments?.data.length > 0 )? (
+        ) : comments?.data && comments?.data.length > 0 ? (
           comments?.data.map((comment: any, index: number) => (
             <div
               key={index}

@@ -1,14 +1,15 @@
 import React, { ReactNode } from "react";
+import { Button } from "@heroui/button";
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-} from "@nextui-org/react";
+} from "@heroui/modal";
 
 interface ShowPopoverProps {
+  fromActKey?: string;
   modalTitle?: string;
   onConfirm?: () => void;
   onClose?: () => void;
@@ -24,6 +25,7 @@ interface ShowPopoverProps {
 }
 
 const ShowPopover: React.FC<ShowPopoverProps> = ({
+  fromActKey,
   modalTitle,
   onConfirm,
   onClose,
@@ -55,25 +57,47 @@ const ShowPopover: React.FC<ShowPopoverProps> = ({
 
             <ModalBody>{children}</ModalBody>
             <ModalFooter className="flex justify-end">
-              {isCloseButton && (
-                <Button
-                  color="danger"
-                  isLoading={closeButtonLoading}
-                  variant="light"
-                  onPress={onClose}
-                >
-                  {closeButtonLabel}
-                </Button>
-              )}
+              {fromActKey === "Test Report" ? (
+                <>
+                  <Button
+                    color="danger"
+                    variant="light"
+                    isLoading={confirmButtonLoading}
+                    onPress={onConfirm}
+                  >
+                    {confirmButtonLabel}
+                  </Button>
+                  <Button
+                    color="primary"
+                    isLoading={closeButtonLoading}
+                    onPress={onClose}
+                  >
+                    {closeButtonLabel}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  {isCloseButton && (
+                    <Button
+                      color="danger"
+                      isLoading={closeButtonLoading}
+                      variant="light"
+                      onPress={onClose}
+                    >
+                      {closeButtonLabel}
+                    </Button>
+                  )}
 
-              {isConfirmButton && (
-                <Button
-                  color="primary"
-                  isLoading={confirmButtonLoading}
-                  onPress={onConfirm}
-                >
-                  {confirmButtonLabel}
-                </Button>
+                  {isConfirmButton && (
+                    <Button
+                      color="primary"
+                      isLoading={confirmButtonLoading}
+                      onPress={onConfirm}
+                    >
+                      {confirmButtonLabel}
+                    </Button>
+                  )}
+                </>
               )}
             </ModalFooter>
           </>

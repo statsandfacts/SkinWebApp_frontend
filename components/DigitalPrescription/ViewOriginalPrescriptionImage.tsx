@@ -1,7 +1,13 @@
 import React from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "@heroui/modal";
 import { useDispatch, useSelector } from "react-redux";
-import { Image } from "@nextui-org/react";
+import { Image } from "@heroui/image";
 import { setViewOriginalImageModal } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import { getFileType } from "@/helper/objectHelper";
 import {

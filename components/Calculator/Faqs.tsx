@@ -1,5 +1,5 @@
 "use client";
-import { Accordion, AccordionItem } from "@nextui-org/react";
+import { Accordion, AccordionItem } from "@heroui/accordion";
 import React from "react";
 
 interface FAQ {
@@ -13,7 +13,7 @@ interface FAQProps {
 
 const CalculatorFAQ: React.FC<FAQProps> = ({ faqs }) => {
   return (
-    <div className="mt-8"> 
+    <div className="mt-8">
       <h1 className="text-xl font-bold text-sky-700 mb-2 border-b pb-2 border-sky-500">
         Frequently Asked Questions
       </h1>

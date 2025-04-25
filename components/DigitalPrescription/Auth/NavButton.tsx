@@ -1,14 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
+import { Avatar } from "@heroui/avatar";
 import {
-  Avatar,
   Dropdown,
-  DropdownItem,
-  DropdownMenu,
   DropdownTrigger,
-  User,
-} from "@nextui-org/react";
+  DropdownMenu,
+  DropdownSection,
+  DropdownItem,
+} from "@heroui/dropdown";
+import { User } from "@heroui/user";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { toast } from "react-toastify";
@@ -91,17 +92,13 @@ const NavButtonDP = () => {
           </DropdownItem>
           <DropdownItem key="prescriptions">
             {/* <Link href="/upload-prescription/prescriptions">View Case</Link> */}
-            <button
-              onClick={() => router.push("/dashboard/my-account")}
-            >
+            <button onClick={() => router.push("/dashboard/my-account")}>
               My Account
             </button>
           </DropdownItem>
           <DropdownItem key="prescriptions">
             {/* <Link href="/upload-prescription/prescriptions">View Case</Link> */}
-            <button
-              onClick={() => router.push("/dashboard/prescriptions")}
-            >
+            <button onClick={() => router.push("/dashboard/prescriptions")}>
               View Documents
             </button>
           </DropdownItem>

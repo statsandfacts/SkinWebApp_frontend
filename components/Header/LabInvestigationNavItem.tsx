@@ -1,5 +1,5 @@
 import { setIsTestSearchModal } from "@/redux/slices/digitalPrescription/drug.slice";
-import { NavbarItem } from "@nextui-org/navbar";
+import { NavbarItem } from "@heroui/navbar";
 import React from "react";
 import { useDispatch } from "react-redux";
 import InvestigationSearchModal from "../modal/InvestigationSearchModal";

@@ -7,7 +7,7 @@ import * as api from '@/services/app.service';
 import useSWR from 'swr';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
-import { Button } from '@nextui-org/button';
+import { Button } from "@heroui/button";
 import InputField from '../common/InputField';
 
 const ChangePasswordForm = () => {

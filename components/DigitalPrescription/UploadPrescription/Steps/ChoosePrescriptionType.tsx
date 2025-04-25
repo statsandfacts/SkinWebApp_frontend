@@ -7,7 +7,7 @@ import {
   setStep,
 } from "@/redux/slices/digitalPrescription/stepManagement.slice";
 import { setStep as setSignUpStep } from "@/redux/slices/digitalPrescription/auth.slice";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { useRouter } from "next/navigation";
@@ -20,7 +20,7 @@ type PrescriptionType =
 
 type SubType =
   | "Prescription"
-  | "Test Report"
+  | "Test Report(Blood, Urine, Sputum, and Semen.)"
   | "Health Camp Report"
   | "X-ray"
   | "Ultrasound"
@@ -72,7 +72,7 @@ const ChoosePrescriptionType: React.FC = () => {
       label: "Test Report",
       color: "bg-blue-300",
       h_color: "bg-blue-600",
-      subtypes: ["Test Report", "Health Camp Report"],
+      subtypes: ["Test Report(Blood, Urine, Sputum, and Semen.)", "Health Camp Report"],
     },
     {
       label: "Scan Report",

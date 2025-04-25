@@ -10,12 +10,12 @@ import {
 import { AppDispatch, RootState } from "@/redux/store";
 import {
   Table,
-  TableBody,
-  TableCell,
-  TableColumn,
   TableHeader,
+  TableBody,
+  TableColumn,
   TableRow,
-} from "@nextui-org/react";
+  TableCell,
+} from "@heroui/table";
 import { HeartHandshake, PencilLine, Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -220,7 +220,7 @@ const GeneralHealthIndicator = () => {
 
               <div className="mt-4">
                 <div className="flex justify-between">
-                  <h1>Pulse Oximetry</h1>
+                  <h1> Oxygen Saturation</h1>
                   <button
                     className="flex items-center gap-1 text-slate-400"
                     onClick={() => AddBP("add_spo2")}

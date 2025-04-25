@@ -1,19 +1,21 @@
 "use client";
 import React from "react";
+import { Button } from "@heroui/button";
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
+} from "@heroui/modal";
+import {
   Table,
   TableHeader,
-  TableColumn,
   TableBody,
+  TableColumn,
   TableRow,
   TableCell,
-  Button,
-} from "@nextui-org/react";
+} from "@heroui/table";
 import { useDispatch, useSelector } from "react-redux";
 import { setViewPrescriptionDetailsModal } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import { useRouter } from "next/navigation";

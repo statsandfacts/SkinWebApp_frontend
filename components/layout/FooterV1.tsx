@@ -173,7 +173,6 @@ const FooterV1 = (props: Props) => {
               href="https://twitter.com/NextcareLife"
               className="p-2 rounded-full bg-sky-600 text-white hover:bg-sky-700 transition"
             >
-              {/* <Twitter className="h-4 w-4" /> */}
               <FontAwesomeXIcon color="#ffffff" height={16} width={16} />
             </Link>
             <Link

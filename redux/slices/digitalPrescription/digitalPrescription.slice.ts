@@ -11,6 +11,7 @@ const initialState: DigitalPrescriptionState = {
   isViewReportModal: false,
   isReuploadModal: false,
   isViewPrescriptionDetailsModal: false,
+  viewSmartLabReportModal: false,
 };
 
 const digitalPrescriptionSlice = createSlice({
@@ -44,7 +45,6 @@ const digitalPrescriptionSlice = createSlice({
       // const testTypeObject = state.uploadImages.find(
       //   (item) => item.docType === docType
       // );
-
       // if (testTypeObject) {
       //   testTypeObject.images = testTypeObject.images.filter(
       //     (img: any) => img.name !== imageName
@@ -84,6 +84,10 @@ const digitalPrescriptionSlice = createSlice({
       state.singlePrescriptionDetails = action.payload;
     },
 
+    setViewSmartLabReportModal: (state, action) => {
+      state.viewSmartLabReportModal = action.payload;
+    },
+
     resetPrescription: (state) => {
       state.uploadImages = initialState.uploadImages;
       state.prescriptionFor = initialState.prescriptionFor;
@@ -105,6 +109,7 @@ export const {
   setViewUploadedReportModal,
   setReuploadModal,
   setSingleCaseDetails,
+  setViewSmartLabReportModal,
 } = digitalPrescriptionSlice.actions;
 
 export default digitalPrescriptionSlice.reducer;
