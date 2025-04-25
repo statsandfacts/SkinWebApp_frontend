@@ -19,19 +19,48 @@ import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import InputField from "@/components/common/InputField";
-import { login, sendOtp } from "@/services/api.digitalPrescription.service";
+import {
+  login,
+  sendOtp,
+  getCountryData,
+} from "@/services/api.digitalPrescription.service";
 
 export default function LoginDrawer() {
+  type Country = {
+    id: number;
+    sortname: string;
+    name: string;
+    phonecode: number;
+  };
+
   const { isModalOpen } = useSelector((state: any) => state.auth);
   const dispatch = useDispatch();
   const router = useRouter();
-  const inputRef = useRef<HTMLInputElement | null>(null!);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isOTPSent, setIsOTPSent] = useState<boolean>(false);
-  const [responseOtp, setResponseOtp] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOTPSent, setIsOTPSent] = useState(false);
+  const [responseOtp, setResponseOtp] = useState("");
   const [timer, setTimer] = useState(30);
   const [canResend, setCanResend] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState("IN");
+  const [countries, setCountries] = useState<Country[]>([]);
+
+  const isIndia = selectedCountry === "IN";
+
+  useEffect(() => {
+    // Fetch countries data when component mounts
+    const fetchCountries = async () => {
+      try {
+        const data = await getCountryData(); // Fetch countries from API
+        setCountries(data); // Store the fetched data in state
+      } catch (error) {
+        console.error("Error fetching country data:", error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
 
   useEffect(() => {
     if (isOTPSent) {
@@ -56,70 +85,73 @@ export default function LoginDrawer() {
     }
   }, [isModalOpen]);
 
+  const validationSchema = Yup.object().shape({
+    phone: Yup.string().when([], {
+      is: () => isIndia,
+      then: () =>
+        Yup.string()
+          .required("Phone number is required")
+          .matches(/^[0-9]{10}$/, "Phone number must be 10 digits"),
+      otherwise: () => Yup.string().notRequired(),
+    }),
+    email: Yup.string()
+      .email("Invalid email address")
+      .when([], {
+        is: () => !isIndia,
+        then: () => Yup.string().required("Email is required"),
+        otherwise: () => Yup.string().notRequired(),
+      }),
+    otp: Yup.string().when([], {
+      is: () => isOTPSent,
+      then: () => Yup.string().required("OTP is required"),
+      otherwise: () => Yup.string().notRequired(),
+    }),
+  });
+
   const formik = useFormik({
     initialValues: {
       phone: "",
+      email: "",
       otp: "",
     },
-    validationSchema: Yup.object({
-      phone: Yup.string()
-        .required("Phone number is required")
-        .matches(/^[0-9]{10}$/, "Phone number must be 10 digits"),
-      otp: Yup.string().test("required", "OTP is required", function (value) {
-        if (isOTPSent) {
-          return !!value; // OTP is required only if isOTPSent is true
-        }
-        return true; // No OTP required if isOTPSent is false
-      }),
-    }),
-    onSubmit: async (values, { resetForm }) => {
+    validationSchema,
+    onSubmit: async (values) => {
       try {
         setIsLoading(true);
+        const identifier = isIndia ? values.phone : values.email;
+
         if (!isOTPSent) {
-          sendOtp({
-            phone_number: values.phone,
-          })
-            .then((res) => {
-              setResponseOtp(res.verification_code);
-              toast.success("OTP sent successfully!");
-              setIsOTPSent(true);
-            })
-            .catch((err) => {
-              toast.error(err.response?.data?.detail || "Error sending OTP");
-            })
-            .finally(() => setIsLoading(false));
-        } else {
-          if (responseOtp === values.otp) {
+          const payload = isIndia
+            ? { phone_number: values.phone }
+            : { email_id: values.email };
+
+          const res = await sendOtp(payload);
+          setResponseOtp(res.verification_code);
+          toast.success("OTP sent successfully!");
+          setIsOTPSent(true);
+          return;
+        }
+
+        if (isOTPSent) {
+          if (values.otp === responseOtp) {
             const session_id = new Date().getTime().toString();
-            login({
+            const data = await login({
               user_role: "1",
-              email_or_phone_no: values.phone,
+              email_or_phone_no: identifier,
               session_id,
-            })
-              .then((data) => {
-                toast.success("OTP verified successfully!");
-                const userId = data.user_id;
-                dispatch(setUser({ userId, sessionId: session_id }));
-                // resetForm();
-                router.push("/dashboard");
-                // dispatch(setLoginModal(false));
-                onClose();
-              })
-              .catch((error) => {
-                toast.error(error.response?.data?.detail || "Login failed.");
-              })
-              .finally(() => setIsLoading(false));
+            });
+            dispatch(setUser({ userId: data.user_id, sessionId: session_id }));
+            toast.success("Logged in successfully!");
+            onClose();
+            router.push("/dashboard");
           } else {
             toast.error("Invalid OTP");
-            setIsLoading(false);
           }
         }
-      } catch (error: any) {
+      } catch (err: any) {
+        toast.error(err.response?.data?.detail || "Login failed");
+      } finally {
         setIsLoading(false);
-        const status = error.response?.status;
-        toast.error(
-          status === 409 ? "Invalid credentials" : "Something went wrong"
-        );
       }
     },
   });
@@ -133,18 +165,22 @@ export default function LoginDrawer() {
     setTimer(30);
   };
 
-  const handleSendOtp = async (phone: string) => {
+  const handleSendOtp = async () => {
     try {
-      formik.resetForm({
-        values: { phone, otp: "" },
-      });
-      const res = await sendOtp({ phone_number: phone });
+      const value = isIndia ? formik.values.phone : formik.values.email;
+      const payload = isIndia ? { phone_number: value } : { email_id: value };
+
+      const res = await sendOtp(payload);
       setResponseOtp(res.verification_code);
       toast.success("OTP sent successfully!");
-      setIsOTPSent(true);
+
+      // Restart the timer
+      setIsOTPSent(false); // Reset it first
+      setTimeout(() => {
+        setIsOTPSent(true); // This will trigger useEffect again
+      }, 100); // Small delay ensures useEffect catches the change
     } catch (err: any) {
       toast.error(err.response?.data?.detail || "Error sending OTP");
-    } finally {
     }
   };
 
@@ -153,46 +189,91 @@ export default function LoginDrawer() {
       <Modal
         isOpen={isModalOpen}
         placement="bottom-center"
-        hideCloseButton={true}
-        backdrop={"blur"}
+        hideCloseButton
+        backdrop="blur"
       >
         <ModalContent className="mb-16">
           <>
             <ModalHeader className="flex flex-col gap-1 relative bg-sky-100">
-              <div className="flex w-full">
+              <div className="flex w-full justify-between">
                 <p>Sign-in to nextcare.life</p>
+                <div />
+                <button
+                  className="w-7 h-7 rounded-full flex justify-center items-center hover:bg-gray-100"
+                  onClick={onClose}
+                >
+                  <XMarkIcon className="w-5 h-5 text-gray-500" />
+                </button>
               </div>
-              <button
-                className="absolute right-4 top-4 w-7 h-7 rounded-full flex justify-center items-center hover:bg-gray-100"
-                onClick={onClose}
-              >
-                <XMarkIcon className="w-5 h-5 text-gray-500" />
-              </button>
             </ModalHeader>
             <ModalBody>
               <div>
                 <form
                   onSubmit={formik.handleSubmit}
-                  className="flex flex-col gap-3 mt-5 w-full mb-5 md:mb-0"
+                  className="flex flex-col gap-3 mt-5 w-full mb-5"
                 >
-                  <input
-                    onChange={formik.handleChange}
-                    value={formik.values.phone}
-                    type="number"
-                    name="phone"
-                    placeholder="Phone Number"
-                    onBlur={formik.handleBlur}
-                    className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
-                      formik.touched.phone && formik.errors.phone
-                        ? "border-red-500"
-                        : ""
-                    }`}
-                    ref={inputRef}
-                  />
-                  {formik.touched.phone && formik.errors.phone && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {formik.errors.phone}
-                    </p>
+                  <label htmlFor="country">Select Your Country</label>
+                  <select
+                    id="country"
+                    name="country"
+                    value={selectedCountry}
+                    onChange={(e) => setSelectedCountry(e.target.value)}
+                    className="bg-gray-50 border border-gray-300 text-sm rounded-lg p-4"
+                  >
+                    {countries.length > 0 ? (
+                      countries.map((country) => (
+                        <option key={country.id} value={country.sortname}>
+                          {country.name} (+{country.phonecode})
+                        </option>
+                      ))
+                    ) : (
+                      <option>Loading countries...</option>
+                    )}
+                  </select>
+
+                  {isIndia ? (
+                    <>
+                      <input
+                        onChange={formik.handleChange}
+                        value={formik.values.phone}
+                        type="tel"
+                        name="phone"
+                        placeholder="Phone Number"
+                        onBlur={formik.handleBlur}
+                        className={`bg-gray-50 border border-gray-300 text-sm rounded-lg p-4 ${
+                          formik.touched.phone && formik.errors.phone
+                            ? "border-red-500"
+                            : ""
+                        }`}
+                        ref={inputRef}
+                      />
+                      {formik.touched.phone && formik.errors.phone && (
+                        <p className="text-red-500 text-sm">
+                          {formik.errors.phone}
+                        </p>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <input
+                        name="email"
+                        type="email"
+                        placeholder="Email Address"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        className={`bg-gray-50 border border-gray-300 text-sm rounded-lg p-4 ${
+                          formik.touched.email && formik.errors.email
+                            ? "border-red-500"
+                            : ""
+                        }`}
+                      />
+                      {formik.touched.email && formik.errors.email && (
+                        <p className="text-red-500 text-sm">
+                          {formik.errors.email}
+                        </p>
+                      )}
+                    </>
                   )}
 
                   {isOTPSent && (
@@ -216,7 +297,7 @@ export default function LoginDrawer() {
                     <div className="text-end mr-2 text-sm text-gray-500">
                       {canResend ? (
                         <button
-                          onClick={() => handleSendOtp(formik.values.phone)}
+                          onClick={handleSendOtp}
                           className="text-sky-700 font-semibold"
                         >
                           Resend OTP
@@ -246,22 +327,21 @@ export default function LoginDrawer() {
                       dispatch(setLoginModal(false));
                     }}
                   >
-                    Reset Phone Number ?
+                    Reset Phone or Email?
                   </button>
                 </div>
-
                 <div>
                   <div className="flex justify-center items-center w-full mt-6">
                     <div className="border-t-2 flex-grow"></div>
                     <p className="whitespace-nowrap mx-2 font-semibold text-sm text-sky-700">
-                      New to Nextcare.life ?
+                      New to Nextcare.life?
                     </p>
                     <div className="border-t-2 flex-grow"></div>
                   </div>
 
                   <Button
                     variant="bordered"
-                    className="p-4 w-full border font-semibold text-sky-900 text-sm rounded-md shadow-md mt-2 transform transition-transform duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-lg"
+                    className="p-4 w-full border font-semibold text-sky-900 text-sm rounded-md shadow-md mt-2 hover:shadow-lg"
                     onClick={() => {
                       router.push("/auth/signup-user");
                       dispatch(setLoginModal(false));
@@ -272,7 +352,7 @@ export default function LoginDrawer() {
                 </div>
               </div>
             </ModalBody>
-            <ModalFooter></ModalFooter>
+            <ModalFooter />
           </>
         </ModalContent>
       </Modal>
