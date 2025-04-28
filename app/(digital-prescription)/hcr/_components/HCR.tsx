@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import UploadImageComponent from "@/components/DigitalPrescription/UploadPrescription/Common/UploadImageComponent";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";

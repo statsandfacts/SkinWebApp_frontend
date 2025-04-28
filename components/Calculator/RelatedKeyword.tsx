@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { findBlogsByKeyword } from "@/services/api.digitalPrescription.service";
 import { AxiosError } from "axios";
-import BlogItem from "@/app/blog/_component/BlogItem";
+import BlogItem from "../Blog/BlogItem";
 
 const RelatedKeyword = ({ keyword }: { keyword: string }) => {
   const [blogs, setBlogs] = useState([]);
@@ -28,7 +28,7 @@ const RelatedKeyword = ({ keyword }: { keyword: string }) => {
       const err = error as AxiosError<{ detail?: string }>;
       const message =
         err?.response?.data?.detail ||
-        "Something went wrong while fetching related blogs."
+        "Something went wrong while fetching related blogs.";
       setErrorMessage(message);
     }
   };

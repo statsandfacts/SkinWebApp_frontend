@@ -7,7 +7,7 @@ import {
   setStep,
 } from "@/redux/slices/digitalPrescription/stepManagement.slice";
 import { setStep as setSignUpStep } from "@/redux/slices/digitalPrescription/auth.slice";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { useRouter } from "next/navigation";

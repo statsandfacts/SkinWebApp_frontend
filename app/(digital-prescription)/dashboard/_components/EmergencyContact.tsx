@@ -4,7 +4,7 @@ import { AlertCircle, Phone, Plus } from "lucide-react";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { updateUser } from "@/services/api.digitalPrescription.service";
 import { toast } from "react-toastify";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import BackButton from "@/components/common/BackButton";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";

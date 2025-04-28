@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
+
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-  SelectItem,
-  Select,
-} from "@nextui-org/react";
+} from "@heroui/modal";
+import { Select, SelectItem } from "@heroui/select";
+import { Button } from "@heroui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -254,7 +254,10 @@ export default function CreateFamilyMemberModal({
                   isDisabled={actionKey === "view"}
                   name="relation"
                   label="Relation"
-                  onChange={formik.handleChange}
+                  // onChange={formik.handleChange}
+                  onSelectionChange={(key) =>
+                    formik.setFieldValue("relation", key)
+                  }
                   value={formik.values.relation}
                   selectedKeys={[formik.values.relation]}
                   errorMessage={
@@ -263,18 +266,10 @@ export default function CreateFamilyMemberModal({
                       : ""
                   }
                 >
-                  <SelectItem value={"parent"} key={"parent"}>
-                    Parent
-                  </SelectItem>
-                  <SelectItem value={"child"} key={"child"}>
-                    Child
-                  </SelectItem>
-                  <SelectItem value={"inlaws"} key={"inlaws"}>
-                    Inlaws
-                  </SelectItem>
-                  <SelectItem value={"spouse"} key={"spouse"}>
-                    Spouse
-                  </SelectItem>
+                  <SelectItem key={"parent"}>Parent</SelectItem>
+                  <SelectItem key={"child"}>Child</SelectItem>
+                  <SelectItem key={"inlaws"}>Inlaws</SelectItem>
+                  <SelectItem key={"spouse"}>Spouse</SelectItem>
                 </Select>
               </div>
 
@@ -283,7 +278,10 @@ export default function CreateFamilyMemberModal({
                   isDisabled={actionKey === "view"}
                   name="gender"
                   label="Gender"
-                  onChange={formik.handleChange}
+                  // onChange={formik.handleChange}
+                  onSelectionChange={(key) =>
+                    formik.setFieldValue("gender", key)
+                  }
                   value={formik.values.gender}
                   selectedKeys={[formik.values.gender]}
                   errorMessage={
@@ -292,15 +290,9 @@ export default function CreateFamilyMemberModal({
                       : ""
                   }
                 >
-                  <SelectItem value={"male"} key={"male"}>
-                    Male
-                  </SelectItem>
-                  <SelectItem value={"female"} key={"female"}>
-                    Female
-                  </SelectItem>
-                  <SelectItem value={"other"} key={"other"}>
-                    Other
-                  </SelectItem>
+                  <SelectItem key={"male"}>Male</SelectItem>
+                  <SelectItem key={"female"}>Female</SelectItem>
+                  <SelectItem key={"other"}>Other</SelectItem>
                 </Select>
               </div>
             </div>

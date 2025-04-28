@@ -487,7 +487,10 @@ export const verifySecurityAnswer = async (payload: {
  * @returns all career jobs list
  */
 export const getAllCareerJobs = async () => {
-  const { data } = await axios.get(`${baseUrl}career/get-all-jobs`, headers);
+  const { data } = await axios.get(
+    `${baseUrl}career/get-all-jobs?status=Open`,
+    headers
+  );
   return data;
 };
 
@@ -542,3 +545,17 @@ export const digitizeSmartLabReport = async (payload: any) => {
   );
   return data;
 };
+
+
+/**
+ * Fetch country data from the server
+ * @returns List of countries
+ */
+export const getCountryData = async () => {
+  const { data } = await axios.get(
+    `${baseUrl}users/countries`,
+    headers
+  );
+  return data;
+};
+

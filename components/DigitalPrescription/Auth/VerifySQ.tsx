@@ -4,8 +4,8 @@ import {
   getSecurityQuestions,
   verifySecurityAnswer,
 } from "@/services/api.digitalPrescription.service";
-import { Button } from "@nextui-org/button";
-import { Input } from "@nextui-org/input";
+import { Button } from "@heroui/button";
+import { Input } from "@heroui/input";
 import { ShieldCheck, ShieldX } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";

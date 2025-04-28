@@ -1,4 +1,3 @@
-import { Card, CardBody, CardFooter } from '@nextui-org/react';
 import Image from 'next/image';
 import React from 'react';
 

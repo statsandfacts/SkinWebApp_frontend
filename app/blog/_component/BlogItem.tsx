@@ -1,7 +1,7 @@
 "use client";
 import { setABlog } from "@/redux/slices/digitalPrescription/blog.slice";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
-import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import { Card, CardBody, CardFooter, Image } from "@heroui/react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import React from "react";

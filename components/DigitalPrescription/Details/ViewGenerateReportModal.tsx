@@ -6,7 +6,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from "@nextui-org/react";
+} from "@heroui/modal";
 import { useDispatch, useSelector } from "react-redux";
 import { setViewUploadedReportModal } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import Image from "next/image";

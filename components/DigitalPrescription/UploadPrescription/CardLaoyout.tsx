@@ -1,20 +1,14 @@
 import React, { ReactNode } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Divider,
-} from "@nextui-org/react";
+import { Divider } from "@heroui/divider";
+import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
 import clsx from "clsx";
 
 interface ChoosePrescriptionLayoutCardProps {
-  header?: ReactNode; 
+  header?: ReactNode;
   footer?: ReactNode;
   className?: string;
   children: ReactNode;
 }
-
 
 const ChoosePrescriptionLayoutCard: React.FC<
   ChoosePrescriptionLayoutCardProps

@@ -1,6 +1,6 @@
 'use client';
 import { useUser } from '@/context/UserContext';
-import { Button } from '@nextui-org/button';
+import { Button } from "@heroui/button";
 import {
   Avatar,
   Dropdown,
@@ -11,7 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   User,
-} from '@nextui-org/react';
+} from "@heroui/react";
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { UserTwitterCard } from './UserCard';

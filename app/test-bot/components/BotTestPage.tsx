@@ -1,18 +1,19 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { UserPen } from "lucide-react";
-import { Button } from "@nextui-org/button";
+import { Loader2, UserPen } from "lucide-react";
+import { Button } from "@heroui/button";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import SymptomBotRecapModal from "@/app/test-bot/components/SymptomBotRecapModal";
 import {
   Modal,
-  ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
-} from "@nextui-org/react";
+  ModalFooter,
+  ModalBody
+} from "@heroui/modal";
 import {
   endChat,
   getFirstQuestion,
@@ -20,6 +21,19 @@ import {
 } from "@/services/api.symptombot.service";
 import QuestionRenderer from "./QuestionRenderer";
 import { toast } from "react-toastify";
+import { baseUrl } from "@/services/api.digitalPrescription.service";
+
+type QuestionType = {
+  question: string;
+  type:
+    | "yesno"
+    | "input_number"
+    | "multiple_choice"
+    | "input_text"
+    | "numeric_input";
+  options?: string[];
+  next: string | { yes: string; no: string | null };
+};
 
 type ResponseQuestionType = {
   question: string;
@@ -96,7 +110,6 @@ const BotTestPage: React.FC = () => {
       const storedUserId = localStorage.getItem("dpUserId");
       setDpuserid(storedUserId ? JSON.parse(storedUserId) : "");
     }
-
     if (count.current) {
       getQuestions();
     } else {

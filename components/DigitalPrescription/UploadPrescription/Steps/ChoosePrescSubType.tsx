@@ -7,7 +7,7 @@ import {
   setStep,
 } from "@/redux/slices/digitalPrescription/stepManagement.slice";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import { setStep as setSignUpStep } from "@/redux/slices/digitalPrescription/auth.slice";
 
 const ChoosePrescSubType: React.FC = () => {
@@ -34,7 +34,12 @@ const ChoosePrescSubType: React.FC = () => {
         className="mt-4 text-lg font-semibold"
       >
         {singleDocumentDetails.selectedSubType
-          ? `Selected Sub-Type: ${singleDocumentDetails.selectedSubType}`
+          ? `Selected Sub-Type: ${
+              singleDocumentDetails.selectedSubType === "Test Report"
+                ? singleDocumentDetails.selectedSubType +
+                  " (Blood, Urine, Sputum, and Semen.)"
+                : singleDocumentDetails.selectedSubType
+            }`
           : "Please select a sub-type"}
       </motion.div>
 
@@ -58,7 +63,7 @@ const ChoosePrescSubType: React.FC = () => {
             key={subType}
             className={`p-4 rounded-lg cursor-pointer text-white text-center transition-transform duration-300 ease-in-out ${
               singleDocumentDetails.selectedSubType === subType
-                ? "bg-blue-600"
+                ? "bg-sky-700"
                 : "bg-gray-300"
             }`}
             onClick={() => handleSelectSubType(subType)}
@@ -68,7 +73,9 @@ const ChoosePrescSubType: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {subType}
+            {subType === "Test Report"
+              ? subType + " (Blood, Urine, Sputum, and Semen.)"
+              : subType}
           </motion.div>
         ))}
       </motion.div>

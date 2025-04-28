@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import ScrollingOptions from "@/app/test-bot/components/ScrollingOptions";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";

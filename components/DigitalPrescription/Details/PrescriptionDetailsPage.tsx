@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Tabs, Tab, Button } from "@nextui-org/react";
+import {Tabs, Tab} from "@heroui/tabs";
+import {Button} from "@heroui/button";
 import PrescriptionDetails from "./PrescriptionDetails";
 import AddFamilyMembers from "./Family/AddFamilyMembers";
 import MedicationReminder from "./Reminder/MedicationReminder";

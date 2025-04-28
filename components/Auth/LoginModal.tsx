@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import * as api from '@/services/app.service';
 import Link from 'next/link';
-import { Button } from '@nextui-org/button';
+import { Button } from "@heroui/button";
 import { useUser } from '@/context/UserContext';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';

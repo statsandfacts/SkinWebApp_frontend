@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import InputField from "@/components/common/InputField";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +13,7 @@ import {
   setStep,
   setUser,
 } from "@/redux/slices/digitalPrescription/auth.slice";
-import { Select, SelectItem } from "@nextui-org/react";
+import { Select, SelectItem } from "@heroui/select";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import {
   createCase,
@@ -29,6 +29,18 @@ const CollectSignUpData = () => {
   const router = useRouter();
   const { signUpData } = useSelector((state: RootState) => state.auth);
   const [isLoading, setIsLoading] = useState(false);
+
+  const genderOptions = [
+    { id: "male", name: "Male" },
+    { id: "female", name: "Female" },
+    { id: "other", name: "Other" },
+  ];
+
+  const maritalStatusOptions = [
+    { id: "single", name: "Single" },
+    { id: "married", name: "Married" },
+    { id: "separated", name: "Separated" },
+  ];
 
   const formik = useFormik({
     initialValues: {
@@ -127,7 +139,7 @@ const CollectSignUpData = () => {
   const cleanUp = () => {
     dispatch(setStep(0));
     dispatch(setSignUpProcess2Step(2));
-  }
+  };
 
   return (
     <form
@@ -197,15 +209,16 @@ const CollectSignUpData = () => {
         <Select
           name="gender"
           label="Gender"
-          onChange={formik.handleChange}
+          // onChange={formik.handleChange}
           value={formik.values.gender}
           errorMessage={
             formik.touched.gender && formik.errors.gender
               ? formik.errors.gender
               : ""
           }
+          onSelectionChange={(key) => formik.setFieldValue("gender", key)}
         >
-          <SelectItem value={"male"} key={"male"}>
+          {/* <SelectItem value={"male"} key={"male"}>
             Male
           </SelectItem>
           <SelectItem value={"female"} key={"female"}>
@@ -213,13 +226,19 @@ const CollectSignUpData = () => {
           </SelectItem>
           <SelectItem value={"other"} key={"other"}>
             Other
-          </SelectItem>
+          </SelectItem> */}
+          {genderOptions.map((option) => (
+            <SelectItem key={option.id}>{option.name}</SelectItem>
+          ))}
         </Select>
 
         <Select
           name="marital_status"
           label="Marital Status"
-          onChange={formik.handleChange}
+          // onChange={formik.handleChange}
+          onSelectionChange={(key) =>
+            formik.setFieldValue("marital_status", key)
+          }
           value={formik.values.marital_status}
           errorMessage={
             formik.touched.marital_status && formik.errors.marital_status
@@ -227,7 +246,7 @@ const CollectSignUpData = () => {
               : ""
           }
         >
-          <SelectItem value={"single"} key={"single"}>
+          {/* <SelectItem value={"single"} key={"single"}>
             Single
           </SelectItem>
           <SelectItem value={"married"} key={"married"}>
@@ -235,7 +254,10 @@ const CollectSignUpData = () => {
           </SelectItem>
           <SelectItem value={"separated"} key={"separated"}>
             Separated
-          </SelectItem>
+          </SelectItem> */}
+          {maritalStatusOptions.map((option) => (
+            <SelectItem key={option.id}>{option.name}</SelectItem>
+          ))}
         </Select>
       </div>
 

@@ -14,7 +14,7 @@ import {
   Navbar,
   NavbarContent,
   NavbarItem,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useRouter } from "next/navigation";
 
 const BlogNavMenu = () => {

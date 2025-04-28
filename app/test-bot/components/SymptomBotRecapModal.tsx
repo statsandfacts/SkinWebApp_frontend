@@ -5,8 +5,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-} from "@nextui-org/react";
+} from "@heroui/modal";
+import { Button } from "@heroui/button"
 
 type SymptomBotRecapModalProps = {
   openModal: boolean;

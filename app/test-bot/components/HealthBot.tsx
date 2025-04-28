@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Card, Button } from "@nextui-org/react";
+import { Button, ButtonGroup } from "@heroui/button";
+import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
 
 interface Question {
   id: number;

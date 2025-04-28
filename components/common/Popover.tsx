@@ -1,15 +1,15 @@
 import React, { ReactNode } from "react";
+import { Button } from "@heroui/button";
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
-} from "@nextui-org/react";
+} from "@heroui/modal";
 
 interface ShowPopoverProps {
-  fromActKey?: string;
+  fromActKey?: string | null;
   modalTitle?: string;
   onConfirm?: () => void;
   onClose?: () => void;
@@ -39,6 +39,8 @@ const ShowPopover: React.FC<ShowPopoverProps> = ({
   isOpen,
   onOpenChange,
 }) => {
+  const safeFromActKey = fromActKey || "";
+
   return (
     <Modal
       isOpen={isOpen}
@@ -57,7 +59,7 @@ const ShowPopover: React.FC<ShowPopoverProps> = ({
 
             <ModalBody>{children}</ModalBody>
             <ModalFooter className="flex justify-end">
-              {fromActKey === "Test Report" ? (
+              {["Prescription", "Test Report"].includes(safeFromActKey) ? (
                 <>
                   <Button
                     color="danger"

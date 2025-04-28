@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { motion } from "framer-motion";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import UploadImageComponent from "../../UploadPrescription/Common/UploadImageComponent";
 import {
@@ -11,7 +11,10 @@ import {
 } from "@/redux/slices/digitalPrescription/auth.slice";
 import { uploadImageToAws } from "@/services/api.digitalPrescription.service";
 import { toast } from "react-toastify";
-import { setStep, setUploadedImageDetails } from "@/redux/slices/digitalPrescription/stepManagement.slice";
+import {
+  setStep,
+  setUploadedImageDetails,
+} from "@/redux/slices/digitalPrescription/stepManagement.slice";
 
 const CollectPrescriptionImage: React.FC = () => {
   const dispatch = useDispatch();
@@ -46,9 +49,7 @@ const CollectPrescriptionImage: React.FC = () => {
         toast.success("Prescription Image Uploaded Successfully.");
         dispatch(setSignUpStep(4));
         dispatch(setStep(0)); //for upload image steps empty
-        dispatch(
-          setUploadedImageDetails([])
-        );
+        dispatch(setUploadedImageDetails([]));
       })
       .catch((error) => {
         toast.error(

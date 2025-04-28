@@ -1,16 +1,17 @@
 "use client";
 import React, { useEffect } from "react";
+
+import { Accordion, AccordionItem } from "@heroui/accordion";
+import { Button } from "@heroui/button";
 import {
-  Accordion,
-  AccordionItem,
-  Button,
   Table,
-  TableBody,
-  TableCell,
-  TableColumn,
   TableHeader,
+  TableBody,
+  TableColumn,
   TableRow,
-} from "@nextui-org/react";
+  TableCell,
+} from "@heroui/table";
+
 import {
   EyeIcon,
   DocumentMagnifyingGlassIcon,

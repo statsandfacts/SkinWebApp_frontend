@@ -1,14 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import {
-  Avatar,
   Dropdown,
-  DropdownItem,
-  DropdownMenu,
   DropdownTrigger,
-  User,
-} from "@nextui-org/react";
+  DropdownMenu,
+  DropdownSection,
+  DropdownItem,
+} from "@heroui/dropdown";
+import { Avatar } from "@heroui/avatar";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -73,7 +73,7 @@ const ProfileHeaderButton = () => {
                 profileCompletionData?.profileCompletionPercentage
               )}
               name={userDetails?.name}
-              size="sm"
+              size="md"
               src={userDetails?.user_profile_image_path}
             />
             {profileCompletionData?.profileCompletionPercentage &&
