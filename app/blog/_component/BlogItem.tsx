@@ -25,7 +25,7 @@ const BlogItem: React.FC<BlogProps> = ({ blog, isReadMore = true }) => {
           src={blog?.image}
           onClick={(e) => {
             dispatch(setABlog(blog));
-            router.push(`/blog/${blog?.slug}`);
+            router.push(`/blog/${blog?.categories[0].slug}/${blog?.sub_categories[0].slug}/${blog?.slug}`);
           }}
         />
       </CardBody>
@@ -34,7 +34,7 @@ const BlogItem: React.FC<BlogProps> = ({ blog, isReadMore = true }) => {
           onClick={(e) => {
             e.stopPropagation();
             dispatch(setABlog(blog));
-            router.push(`/blog/${blog?.categories[0].slug + '/' + blog?.slug}`);
+            router.push(`/blog/${blog?.categories[0].slug}/${blog?.sub_categories[0].slug}/${blog?.slug}`);
           }}
           className="text-lg text-gray-700 text-left font-bold"
         >
@@ -51,7 +51,7 @@ const BlogItem: React.FC<BlogProps> = ({ blog, isReadMore = true }) => {
               onClick={(e) => {
                 e.stopPropagation();
                 dispatch(setABlog(blog));
-                router.push(`/blog/${blog?.slug}`);
+                router.push(`/blog/${blog?.categories[0].slug}/${blog?.sub_categories[0].slug}/${blog?.slug}`);
               }}
             >
               READ MORE <ChevronRightIcon className="h-4 w-4 ml-1" />

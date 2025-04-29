@@ -1,7 +1,8 @@
 import { baseUrl } from "@/services/api.digitalPrescription.service";
 import axios from "axios";
 import type { Metadata } from "next";
-import BlogOverview from "../_component/BlogOverView";
+// import BlogOverview from "../_component/BlogOverView";
+import BlogOverview from "../../../_component/BlogOverView";
 import { siteConfig } from "@/config/site";
 
 const instance = axios.create({
@@ -53,7 +54,7 @@ export async function generateMetadata({
 
 const BlogByIdPage = ({ params }: { params: { blogId: string } }) => {
   const { blogId } = params;
-
+  // console.log(blogId);
   return (
     <>
       <BlogOverview />
