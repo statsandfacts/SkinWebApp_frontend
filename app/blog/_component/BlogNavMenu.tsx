@@ -23,6 +23,8 @@ const BlogNavMenu = () => {
   const { categories } = useSelector((state: RootState) => state.blogs);
 
   useEffect(() => {
+    // console.log(categories);
+
     if (!categories.data || categories.data.length <= 0) {
       dispatch(fetchAllCategories());
     }
@@ -49,6 +51,7 @@ const BlogNavMenu = () => {
                     category: {
                       category_id: string;
                       name: string;
+                      slug: string;
                       sub_categories: [];
                     },
                     index: number
@@ -81,6 +84,7 @@ const BlogNavMenu = () => {
                             item: {
                               sub_category_id: string;
                               name: string;
+                              slug: string;
                             },
                             index: number
                           ) => (
@@ -88,7 +92,7 @@ const BlogNavMenu = () => {
                               key={index}
                               onClick={() => {
                                 router.push(
-                                  `/blog/sub-category/${item.sub_category_id}`
+                                  `/blog/${category.slug}/${item.slug}`
                                 );
                               }}
                             >

@@ -27,7 +27,7 @@ const BlogSubCategoryData = () => {
 
   const subCategoryData = allBlogsByCategories?.data?.categories
     ?.flatMap((category: any) => category.sub_categories || [])
-    .find((subCat: any) => subCat.sub_category_id === subCategoryId);
+    .find((subCat: any) => subCat.slug === subCategoryId);
 
   return (
     <>

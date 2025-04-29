@@ -2,7 +2,9 @@ import { baseUrl } from "@/services/api.digitalPrescription.service";
 import axios from "axios";
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
-import BlogCategoryData from "../../_component/BlogCategoryData";
+// import BlogCategoryData from "../../_component/BlogCategoryData";
+import BlogCategoryData from "../_component/BlogCategoryData";
+
 
 // const instance = axios.create({
 //   baseURL: baseUrl,
