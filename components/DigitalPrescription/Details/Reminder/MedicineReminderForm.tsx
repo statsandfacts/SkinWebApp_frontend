@@ -69,11 +69,7 @@ const MedicineReminderForm = ({ onClose }: MedicineReminderFormProps) => {
           const formattedDate = dayjs(values.tillWhen).format("MMMM D, YYYY");
           const formattedTime = dayjs(values.time).format("h:mm:ss A");
           toast.success(
-            `Reminder set successfully! You'll receive reminders for "${
-              values.medicineName
-            }" every ${
-              values.reminderDays || "day"
-            } starting from ${formattedDate} at ${formattedTime}.`
+            `Reminder set successfully!`
           );
         } else if (reminderActionKey === "edit") {
           await updateReminder({
