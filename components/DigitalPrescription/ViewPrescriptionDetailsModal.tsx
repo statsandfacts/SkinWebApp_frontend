@@ -177,23 +177,38 @@ export default function ViewPrescriptionDetailsModal() {
                                   >
                                     <Timer size={28} />
                                   </Button> */}
-                                  <Button
+                                  <button
                                     className="bg-transparent text-orange-400"
-                                    onPress={() => {
+                                    onClick={() => {
                                       dispatch(
                                         setReminderDetails(medicineDetail)
-                                      ); 
+                                      );
                                       dispatch(setReminderActionKey("create"));
-                                      dispatch(setIsReminderModal(true)); 
+                                      dispatch(setIsReminderModal(true));
                                     }}
                                   >
                                     <Timer size={28} />
-                                  </Button>
+                                  </button>
                                 </TableCell>
 
                                 <TableCell className="uppercase">
-                                  {medicineDetail?.composition}
-                                </TableCell>
+  {medicineDetail?.composition ? (
+    <button
+      className="border-b-2 border-sky-600 cursor-pointer text-sky-800 uppercase"
+      onClick={() => {
+        const compSlug = encodeURIComponent(medicineDetail?.composition); // Encoding the composition
+        router.push(`/prescription/composition/${compSlug}`); // Navigating to the correct URL
+      }}
+    > 
+      {medicineDetail?.composition}
+    </button>
+  ) : (
+    "-"
+  )}
+</TableCell>
+
+
+
                                 <TableCell className="uppercase">
                                   {medicineDetail?.usage_instructions}
                                 </TableCell>

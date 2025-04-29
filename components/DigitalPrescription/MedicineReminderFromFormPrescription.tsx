@@ -1,4 +1,4 @@
-import { Button } from "@nextui-org/react";
+import {Button} from "@heroui/button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
@@ -12,6 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {
   setReminder,
   updateReminder,
+  updateMedicineDetails ,
 } from "@/services/api.digitalPrescription.service";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { setIsReminderModal } from "@/redux/slices/digitalPrescription/drug.slice";
@@ -73,11 +74,7 @@ const MedicineReminderFormFormPrescription = ({
           const formattedDate = dayjs(values.tillWhen).format("MMMM D, YYYY");
           const formattedTime = dayjs(values.time).format("h:mm:ss A");
           toast.success(
-            `Reminder set successfully! You'll receive reminders for "${
-              values.medicineName
-            }" every ${
-              values.reminderDays || "day"
-            } starting from ${formattedDate} at ${formattedTime}.`
+            `Reminder set successfully!`
           );
         } else if (reminderActionKey === "edit") {
           await updateReminder({
@@ -123,10 +120,12 @@ const MedicineReminderFormFormPrescription = ({
     }
   }, [reminderActionKey, reminderMedicineDtls]);
 
-  const handleMedicineChange = (medicine: any) => {
+  const handleMedicineChange = async (medicine: any) => {
     formik.setFieldValue("medicineName", medicine.name);
+  
+    
   };
-
+  
   return (
     <>
       <form
