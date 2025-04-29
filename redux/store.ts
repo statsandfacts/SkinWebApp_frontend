@@ -10,12 +10,13 @@ import drugReducer from "./slices/digitalPrescription/drug.slice";
 import blogReducer from "./slices/digitalPrescription/blog.slice";
 import abdmReducer from "./slices/abdm.slics";
 import careerReducer from "./slices/digitalPrescription/career.slice";
+import saltCompositionReducer from './slices/digitalPrescription/saltComposition.slice';
 
 export const store = configureStore({
   reducer: {
     questionary: counterReducer,
     loginModal: loginModalSlice,
-
+    saltComposition: saltCompositionReducer,
     //for digital prescription
     digitalPrescription: digitalPrescriptionReducer,
     familyMember: familyMemberReducer,

@@ -5,6 +5,7 @@ import CustomHeader from "@/components/Header/PublicLayoutHeader";
 import type { Metadata } from "next";
 import ContactUsForm from "@/components/Contact/ContactUsForm";
 
+
 export const metadata: Metadata = {
   title: "Contact Us",
 };
@@ -84,6 +85,7 @@ const ContactUs = () => {
             </div>
           </div>
           <ContactUsForm />
+         
         </div>
       </div>
     </div>

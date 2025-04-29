@@ -1,16 +1,18 @@
-import { Button } from "@heroui/button";
+import {Button} from "@heroui/button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import InputField from "@/components/common/InputField";
-import SearchMedicinePortal from "./SearchMedicinePortal";
+
+import SearchMedicinePortal from "./Details/Reminder/SearchMedicinePortal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   setReminder,
   updateReminder,
+  updateMedicineDetails ,
 } from "@/services/api.digitalPrescription.service";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { setIsReminderModal } from "@/redux/slices/digitalPrescription/drug.slice";
@@ -29,7 +31,9 @@ interface MedicineReminderFormProps {
   onClose?: any;
 }
 
-const MedicineReminderForm = ({ onClose }: MedicineReminderFormProps) => {
+const MedicineReminderFormFormPrescription = ({
+  onClose,
+}: MedicineReminderFormProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const { userId } = useAuthInfo();
   const [isLoading, setIsLoading] = useState(false);
@@ -46,9 +50,10 @@ const MedicineReminderForm = ({ onClose }: MedicineReminderFormProps) => {
       reminderDays: "",
     },
     validationSchema: Yup.object({
-      medicineName: Yup.string()
-        .required("Medicine name is required")
-        .min(2, "Medicine name must be at least 2 characters"),
+      medicineName: Yup.string().min(
+        2,
+        "Medicine name must be at least 2 characters"
+      ),
       tillWhen: Yup.date().required("Please provide a valid date"),
       time: Yup.string().required("Time is required"),
       reminderDays: Yup.string()
@@ -115,10 +120,12 @@ const MedicineReminderForm = ({ onClose }: MedicineReminderFormProps) => {
     }
   }, [reminderActionKey, reminderMedicineDtls]);
 
-  const handleMedicineChange = (medicine: any) => {
+  const handleMedicineChange = async (medicine: any) => {
     formik.setFieldValue("medicineName", medicine.name);
+  
+    
   };
-
+  
   return (
     <>
       <form
@@ -126,17 +133,32 @@ const MedicineReminderForm = ({ onClose }: MedicineReminderFormProps) => {
         className="flex flex-col gap-4 w-full max-w-md px-5"
         onSubmit={formik.handleSubmit}
       >
-        <div className="w-full">
+        <div className="w-full relative">
           <label
             htmlFor="medicineName"
             className="text-sm font-medium text-gray-900"
           >
             Medicine Name
           </label>
-          <SearchMedicinePortal
-            selectedName={formik.values.medicineName}
-            handleOnChange={handleMedicineChange}
-          />
+
+          {/* Disable interaction if Redux already has medicine_name */}
+          <div
+            className={
+              reminderMedicineDtls?.medicine_name
+                ? "pointer-events-none opacity-50"
+                : ""
+            }
+          >
+            <SearchMedicinePortal
+              selectedName={
+                reminderMedicineDtls?.medicine_name
+                  ? reminderMedicineDtls.medicine_name
+                  : formik.values.medicineName
+              }
+              handleOnChange={handleMedicineChange}
+            />
+          </div>
+
           {formik.errors.medicineName && formik.touched.medicineName && (
             <div className="text-red-500 text-sm">
               {formik.errors.medicineName}
@@ -234,4 +256,4 @@ const MedicineReminderForm = ({ onClose }: MedicineReminderFormProps) => {
   );
 };
 
-export default MedicineReminderForm;
+export default MedicineReminderFormFormPrescription;

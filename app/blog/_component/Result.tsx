@@ -21,7 +21,7 @@ export default function QuizResult() {
           <span className="font-bold text-red-600">{incorrect}</span>
         </p>
         <Link
-          href="/quize"
+          href="/blog/quiz"
           className="mt-4 inline-block bg-primary text-white px-4 py-2 rounded"
         >
           Try Again

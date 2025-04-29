@@ -60,18 +60,40 @@ export const userLogout = async () => {
   return data;
 };
 
+// /**
+//  *
+//  * @param phone_number
+//  * @returns
+//  */
+// export const verifyExistingUser = async (phone_number: string) => {
+//   const { data } = await axios.get(
+//     `${baseUrl}users/verify-existing-user?phone_number=${phone_number}`,
+//     headers
+//   );
+//   return data;
+// };
+
 /**
  *
  * @param phone_number
+ * @param email
  * @returns
  */
-export const verifyExistingUser = async (phone_number: string) => {
+export const verifyExistingUser = async (
+  phone_number?: string,
+  email?: string
+) => {
+  const queryParams = new URLSearchParams();
+  if (phone_number) queryParams.append("phone_number", phone_number);
+  if (email) queryParams.append("email", email);
+
   const { data } = await axios.get(
-    `${baseUrl}users/verify-existing-user?phone_number=${phone_number}`,
+    `${baseUrl}users/verify-existing-user?${queryParams.toString()}`,
     headers
   );
   return data;
 };
+
 
 /**
  *
@@ -554,6 +576,107 @@ export const digitizeSmartLabReport = async (payload: any) => {
 export const getCountryData = async () => {
   const { data } = await axios.get(
     `${baseUrl}users/countries`,
+    headers
+  );
+  return data;
+};
+
+/**
+ * Fetch salt composition data by drug ID
+ * @param {string} Id - The ID of the drug (e.g., D1)
+ * @returns {Promise<any>} - Salt composition data
+ */
+export const fetchSaltComposition = async (Id: string) => {
+    const { data } = await axios.get(
+      `${baseUrl}drug/salt-composition?id=${Id}`,
+      headers
+    );
+    return data;
+  } ;
+    
+  
+
+/**
+ *
+ * @param payload { medicine_id: string, is_reminder_set: boolean }
+ * @returns
+ */
+export const updateMedicineDetails = async (payload: {
+  medicine_id: string;
+  is_reminder_set: boolean;
+}) => {
+  const { data } = await axios.put(
+    `${baseUrl}prescription/update-medicine-details`,
+    payload,
+    headers
+  );
+  return data;
+};
+
+
+/**
+ *
+ * @param payload { user_id, medicine_name, medicine_o_id, dosage, start_date, days, is_active }
+ * @returns
+ */
+export const setRefillReminder = async (payload: any) => {
+  const { data } = await axios.post(
+    baseUrl + "refill-reminders/",
+    payload,
+    headers
+  );
+  return data;
+};
+
+// in api.digitalPrescription.service.ts
+
+export const fetchRefillReminders = async (userId: string) => {
+  const { data } = await axios.get(
+    baseUrl + `refill-reminders/?user_id=${userId}`,
+    headers
+  );
+  return data;
+};
+
+
+
+/**
+ *
+ * @param payload { reminder_id, user_id, medicine_name, medicine_o_id, dosage, start_date, days, is_active }
+ * @returns
+ */
+export const updateRefillReminder = async (payload: any) => {
+  const { data } = await axios.put(
+    baseUrl + "refill-reminders/",
+    payload,
+    headers
+  );
+  return data;
+};
+
+
+/**
+ *
+ * @param user_id string
+ * @returns
+ */
+export const getRefillReminders = async (user_id: string) => {
+  const { data } = await axios.get(
+    baseUrl + `refill-reminders/?user_id=${user_id}`,
+    headers
+  );
+  return data;
+};
+
+
+/**
+ *
+ * @param reminder_id string | number
+ * @returns
+ */
+export const deleteRefillReminder = async (reminder_id: string | number) => {
+  const { data } = await axios.delete(
+    baseUrl + `refill-reminders/?reminder_id=${reminder_id}`,
     headers
   );
   return data;

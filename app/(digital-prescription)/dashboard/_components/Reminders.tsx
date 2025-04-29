@@ -3,6 +3,7 @@ import { useState } from "react";
 import BackButton from "@/components/common/BackButton";
 import { ToolTipBtn } from "@/components/common/ToolTipBtn";
 import AddReminderModal from "@/components/DigitalPrescription/Details/Reminder/AddReminderModal";
+import RefillReminderModal from "@/components/DigitalPrescription/Details/Reminder/RefillReminderModal";
 import Loader from "@/components/Loader";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import {
@@ -15,6 +16,10 @@ import { AppDispatch, RootState } from "@/redux/store";
 import {
   deleteReminder,
   updateReminder,
+  updateRefillReminder,
+  deleteRefillReminder,
+  setRefillReminder,
+  fetchRefillReminders
 } from "@/services/api.digitalPrescription.service";
 import { Button } from "@heroui/button";
 import {
@@ -50,6 +55,20 @@ const Reminders = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [selectedReminder, setSelectedReminder] = useState<any>(null);
+  const [isRefillModalOpen, setIsRefillModalOpen] = useState(false);
+  const reminderData = dashboardData?.reminder_dtls || [];
+  const [refillReminders, setRefillReminders] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (userId) {
+      fetchRefillReminders(userId!).then((response) => {
+        setRefillReminders(response || []);
+        })
+        .catch((error) => {
+          console.error("Failed to fetch refill reminders", error);
+        });
+    }
+  }, [userId]);
 
   useEffect(() => {
     if (!dashboardData) {
@@ -57,6 +76,10 @@ const Reminders = () => {
     }
   }, [dispatch, dashboardData]);
 
+  useEffect(() => {
+    console.log("Dashboard Data --->", dashboardData);
+  }, [dashboardData]);
+  
   const DeleteReminder = (reminder: any) => {
     if (reminder?.status === "") {
       toast.error("Reminder status missing.");
@@ -83,6 +106,8 @@ const Reminders = () => {
       }
     );
   };
+
+
 
   const EditViewReminder = (reminder: any, isActionKey: string) => {
     dispatch(setReminderActionKey(isActionKey));
@@ -119,6 +144,8 @@ const Reminders = () => {
     );
   };
 
+  
+
   return (
     <>
       <div className="flex flex-col items-center bg-white mt-2">
@@ -148,17 +175,25 @@ const Reminders = () => {
               Set Reminder
               <PlusIcon className="h-5 w-5" />{" "}
             </Button>
+            <Button
+              color="primary"
+              className="rounded-lg ml-10"
+              onPress={() => setIsRefillModalOpen(true)}
+            >
+              Refill Reminder
+              <PlusIcon className="h-5 w-5" />
+            </Button>
           </div>
         </div>
 
-        <div className="w-full max-w-sm sm:max-w-5xl overflow-auto">
+        <div className="w-full max-w-sm sm:max-w-5xl">
           {loading ? (
             <Loader />
           ) : error ? (
             <p className="text-red-500 ml-3"> Error: {error} </p>
           ) : (
             <>
-              <section className="reports-section">
+              <section className="reports-section max-h-[200px] overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-sky-400 scrollbar-track-gray-200">
                 <h2 className="text-lg font-bold mb-4">Reminders Data</h2>
                 <div>
                   {dashboardData &&
@@ -239,12 +274,139 @@ const Reminders = () => {
                   )}
                 </div>
               </section>
+             
+             
+<section className="reports-section max-h-[200px] overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-sky-400 scrollbar-track-gray-200">
+  <h2 className="text-lg font-bold mb-4">Refill Reminders Data</h2>
+  <div>
+    {refillReminders.length > 0 ? (
+      <Table removeWrapper aria-label="Refill Reminder Table">
+        <TableHeader>
+          <TableColumn>Medicine Name</TableColumn>
+          <TableColumn>Dosage</TableColumn>
+          <TableColumn>Start Date</TableColumn>
+          <TableColumn>Days</TableColumn>
+          <TableColumn>Action</TableColumn>
+        </TableHeader>
+        <TableBody>
+          {refillReminders.map((item: any, index: number) => (
+            <TableRow key={index}>
+              <TableCell>{item?.medicine_name || "-"}</TableCell>
+              <TableCell>{item?.dosage || "-"}</TableCell>
+              <TableCell>
+                {item?.start_date
+                  ? moment(item.start_date).format("DD-MM-YYYY")
+                  : "-"}
+              </TableCell>
+              <TableCell>{item?.days || "-"}</TableCell>
+              <TableCell className="flex gap-2">
+               <ToolTipBtn
+                  onClick={() => {
+                    dispatch(setReminderDetails(item));
+                    dispatch(setReminderActionKey("view"));
+                    setIsRefillModalOpen(true);
+                  }}
+                  title="View"
+                  key="view"
+                  color="primary"
+                >
+                  <EyeIcon className="h-5 w-5" />
+                </ToolTipBtn>
+
+                <ToolTipBtn
+                  onClick={() => {
+                    dispatch(setReminderDetails(item));
+                    dispatch(setReminderActionKey("edit"));
+                    setIsRefillModalOpen(true);
+                  }}
+                  title="Edit"
+                  key="edit"
+                >
+                  <PencilLine className="h-5 w-5" />
+                </ToolTipBtn>
+
+                <ToolTipBtn
+                onClick={() => {
+                  if (!userId) return; // prevent calling if userId is null
+                  toast.promise(
+                    updateRefillReminder({
+                      id: item?.id,
+                      status: !item?.status,
+                    }).then(() => {
+                      return fetchRefillReminders(userId).then((response) => {
+                        setRefillReminders(response || []);
+                      });
+                    }),
+                    {
+                      pending: `${item?.status ? "Inactivating" : "Activating"} refill reminder...`,
+                      success: `Refill reminder ${item?.status ? "inactivated" : "activated"} successfully!`,
+                      error: `Failed to ${item?.status ? "inactivate" : "activate"} refill reminder.`,
+                    }
+                  );
+                }}
+                
+                
+                  title={!item?.status ? "Inactive" : "Active"}
+                  key="status-toggle"
+                  color={!item?.status ? "danger" : "success"}
+                >
+                  {!item?.status ? (
+                    <ShieldXIcon className="h-5 w-5" />
+                  ) : (
+                    <ShieldCheckIcon className="h-5 w-5" />
+                  )}
+                </ToolTipBtn>
+
+                <ToolTipBtn
+               onClick={() => {
+                if (!userId) return; // prevent calling if userId is null
+                toast.promise(
+                  deleteRefillReminder(item?.id).then(() => {
+                    return fetchRefillReminders(userId).then((response) => {
+                      setRefillReminders(response || []);
+                    });
+                  }),
+                  {
+                    pending: "Deleting refill reminder...",
+                    success: "Refill reminder deleted successfully!",
+                    error: "Failed to delete refill reminder.",
+                  }
+                );
+              }}
+              
+                
+                
+                  title="Delete"
+                  key="delete"
+                  color="danger"
+                >
+                  <Trash2 className="h-5 w-5" />
+                </ToolTipBtn>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    ) : (
+      <p className="text-slate-600 text-center text-xs">
+        No Refill Reminders Found. Please Add Refill Reminder.
+      </p>
+    )}
+  </div>
+</section>
+
+
             </>
           )}
         </div>
       </div>
 
       <AddReminderModal />
+      <RefillReminderModal
+        isOpen={isRefillModalOpen}
+        onClose={() => setIsRefillModalOpen(false)}
+      />
+
       <DeleteConfirmationModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
