@@ -54,7 +54,7 @@ function ScrollingOptions({ Question, handleMultipleChoiceClick }: ScrollingOpti
           >
             <button
               key={option + index}
-              className="border-primary-lite border-2 text-slate-800 font-semibold px-4 py-5 rounded-full"
+              className="border-primary-lite border-2 text-slate-800 font-semibold px-4 py-3 rounded-full"
               onClick={() => handleMultipleChoiceClick(option)}
             >
               {option}
