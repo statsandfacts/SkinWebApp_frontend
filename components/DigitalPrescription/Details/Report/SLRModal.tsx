@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { setViewSmartLabReportModal } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import { Modal, ModalContent, ModalHeader, ModalBody } from "@heroui/modal";
-import Image from "next/image";
 import {
   SLRDiteAdj,
   SLREduIn,
@@ -14,7 +13,19 @@ import {
 } from "./index";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import Link from "next/link";
-import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
+import {
+  BookTextIcon,
+  Facebook,
+  Instagram,
+  Linkedin,
+  UserIcon,
+  Youtube,
+  ArrowRight,
+  ArrowDownRight,
+  ArrowDownLeft,
+  ArrowLeft,
+  ArrowUpRight,
+} from "lucide-react";
 import FontAwesomeXIcon from "@/components/SvgIcon/FontAwesomeXIcon";
 
 const SLRModal = () => {
@@ -40,69 +51,101 @@ const SLRModal = () => {
       scrollBehavior="inside"
     >
       <ModalContent>
-        <ModalHeader className="text-2xl font-bold text-gray-800">
-          🧾 Nextcare.Life Smart Lab Report
+        <ModalHeader className="flex flex-col">
+          <p className="text-2xl font-bold text-gray-800 text-primary">
+            🧾 Nextcare.Life Smart Lab Report
+          </p>
+          <p className="text-2xl font-bold text-gray-800 text-primary ml-7">
+            Smart Lab Report{" "}
+          </p>
+          <small className="text-xs font-light ml-7">
+            Empowering Health Desicion with clarity and insight
+          </small>
         </ModalHeader>
         <ModalBody>
-          <div className=" space-y-2">
-            <p className="text-sm italic">
-              Empowering Health Decisions with Clarity and Insight
-            </p>
+          <div className="space-y-2">
+            <div className="flex flex-col justify-center items-center w-full gap-4">
+              <div className="flex justify-between items-center w-3/5 shadow-primary-50 shadow-lg p-5 rounded-lg">
+                <div className="flex gap-2 items-center">
+                  <UserIcon className="h-6 w-6 text-primary" />
+                  <p className="text-primary">{userDetails?.name}</p>
+                </div>
+                <p className="text-primary">Gender: {userDetails?.gender}</p>
+              </div>
 
-            <hr className="my-4 border-gray-300" />
-            <div>
-              <h3 className="text-lg font-semibold flex items-center gap-2">
-                👤 Patient Information
-              </h3>
-              <ul className="list-disc ml-6 text-sm mt-2 space-y-1">
-                <li>
-                  Name:{" "}
-                  <span className="capitalize font-bold">
-                    {userDetails?.name}
-                  </span>
-                </li>
-                <li>
-                  Gender:{" "}
-                  <span className="capitalize font-bold">
-                    {userDetails?.gender}
-                  </span>
-                </li>
-                {/* <li>Lab ID: xxxxxxxxxxxxxxx</li>
-                <li>Test Date: xxxxxxxxxxxxxxxxx</li> */}
-              </ul>
+              <div className=" w-3/5 space-y-2 shadow-primary-50 shadow-lg p-5 rounded-lg">
+                <div className="flex justify-between items-center">
+                  <div className="flex gap-2 items-center">
+                    <BookTextIcon className="h-6 w-6 text-primary" />
+                    <p className="text-primary font-medium text-sm">
+                      Your Health Summary
+                    </p>
+                  </div>
+                  <p className="text-primary font-medium text-sm">
+                    Health Score
+                  </p>
+                </div>
+                <div className="flex justify-between items-center">
+                  <div className="flex gap-2 items-center w-4/5 font-light text-sm text-primary ml-6">
+                    *This summary is based only on your blood and urine test
+                    results. It does not include findings from X-ray, MRI, CT
+                    scan, Stool test, ECG, or EEG. (Warnings)
+                  </div>
+                  <p></p>
+                </div>
+              </div>
             </div>
 
-            <div>
-              <h3 className="text-lg font-semibold flex items-center gap-2 mt-4">
-                🧬 Your Health Summary Report
-              </h3>
-              <p className="text-sm mt-2">
-                Wishing you strength, good health, and wellness as you take this
-                important step toward understanding your body better. Stay
-                proactive, stay positive — your health is your wealth!
+            <div className="flex flex-col items-center mt-6 mb-6">
+              <p className="text-primary font-medium text-xl mb-4">
+                Step-by-Step Lab Report Guide
               </p>
-            </div>
 
-            <div className="text-xs text-slate-500 pl-4 mt-2 pb-3 italic">
-              *This summary is based only on your blood and urine test results.
-              It does not include findings from X-ray, MRI, CT scan, Stool test,
-              ECG, or EEG. (Warnings)
-            </div>
+              <div className="relative bg-[#F0F2EE] p-6 rounded-lg w-full max-w-3xl">
+                <div className="grid grid-cols-3 gap-6 relative z-10">
+                  {/* Row 1 */}
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="rounded-full border-2 border-primary p-2 bg-white">
+                      <span
+                        role="img"
+                        aria-label="pointer"
+                        className="text-3xl"
+                      >
+                        ☞
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-center bg-white rounded-md px-4 py-2 shadow-md text-center font-medium text-sm">
+                    Your Health Summary
+                  </div>
+                  <div className="flex items-center justify-center bg-white rounded-md px-4 py-2 shadow-md text-center font-medium text-sm">
+                    Parameters at a glance
+                  </div>
 
+                  {/* Row 2 */}
+                  <div className="flex items-center justify-center bg-white rounded-md px-4 py-2 shadow-md text-center font-medium text-sm">
+                    Educational Insights
+                  </div>
+                  <div className="flex items-center justify-center bg-white rounded-md px-4 py-2 shadow-md text-center font-medium text-sm">
+                    Health Plan & Adjustments
+                  </div>
+                  <div className="flex items-center justify-center bg-white rounded-md px-4 py-2 shadow-md text-center font-medium text-sm">
+                    Detailed Parameter Insights
+                  </div>
+
+                  {/* Row 3 */}
+                  <div className="flex items-center justify-center bg-white rounded-md px-4 py-2 shadow-md text-center font-medium text-sm">
+                    Not detected Parameters
+                  </div>
+                  <div className="col-span-2 flex items-center justify-center bg-white rounded-md px-4 py-2 shadow-md text-center font-medium text-sm">
+                    Your opinion
+                  </div>
+                </div>
+              </div>
+            </div>
             <SLRGrpExp data={slrRes?.grouped_results || []} />
-
             <SLRParExp data={slrRes?.smartlab_data || []} />
           </div>
-          {/* <div className="ml-6 mt-4">
-            <Image
-              id="hemoglobin-chart"
-              src="/smartlabreports/chat_img.jpeg"
-              alt="Hemoglobin Chart"
-              width={600}
-              height={400}
-              className="rounded-md shadow-md"
-            />
-          </div> */}
 
           <SLRDiteAdj data={slrRes?.groupwise_data || []} />
 

@@ -42,15 +42,9 @@ export default function SLRGrpExp({ data }: Props) {
 
   return (
     <div className="space-y-10 mt-6">
-      <div className="mb-6">
-        <h2 className="text-xl font-bold text-primary">
-          📊 Your Smart Lab Report Summary
-        </h2>
-        <p className="text-slate-500 text-xs">
-          Here&apos;s a breakdown of your lab test results categorized by test
-          groups.
-        </p>
-      </div>
+      <h2 className="text-xl w-full flex justify-center items-center font-bold text-primary">
+        📊 Your important parameters at a glance
+      </h2>
       {data.map((group, idx) => {
         const groupName = group.group_name.trim().toLowerCase();
         const iconSrc = groupIcons[groupName];

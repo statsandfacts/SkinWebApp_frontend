@@ -15,77 +15,72 @@ type Props = {
   data: EducationalInsight[];
 };
 
+const InsightSection = ({
+  title,
+  content,
+  className,
+}: {
+  title: string;
+  content?: string;
+  className: string;
+}) =>
+  content ? (
+    <div>
+      <h3 className={`text-lg font-semibold ${className}`}>{title}</h3>
+      <p className="mt-2 whitespace-pre-line text-sm font-light">{content}</p>
+    </div>
+  ) : null;
+
 export default function SLREduIn({ data }: Props) {
   return (
     <div className="ml-6 mt-6 space-y-10">
-      <h2 className="text-2xl text-sky-800 font-bold">
+      <h2 className="text-xl w-full flex justify-center items-center font-bold text-primary">
         🧠 Educational Insights
       </h2>
 
       {data.map((item, index) => (
         <div
           key={index}
-          className="p-4 rounded-md bg-white shadow-sm space-y-6"
+          className="p-4 rounded-md bg-white shadow-sm space-y-4"
         >
           <h1 className="text-lg font-bold text-gray-900 bg-gray-100 inline-block px-3 py-1 rounded-md shadow-sm">
             📂 {item.group_name}
           </h1>
-          {/* Group Name */}
-          <div>
-            <h3 className="text-xl font-semibold text-blue-800">
-              🧪 What Is a {item.group_name}?
-            </h3>
-            {item.what_is && (
-              <p className="mt-2 whitespace-pre-line">{item.what_is}</p>
-            )}
-          </div>
 
-          {/* Why It Matters */}
-          <div>
-            <h3 className="text-xl font-semibold text-green-700">
-              ❤️ Why It Matters
-            </h3>
-            {item.why_it_matters && (
-              <p className="mt-2 whitespace-pre-line">{item.why_it_matters}</p>
-            )}
-          </div>
+          <InsightSection
+            title={`🧪 What Is a ${item.group_name}?`}
+            content={item.what_is}
+            className="text-blue-800"
+          />
+          <InsightSection
+            title="❤️ Why It Matters"
+            content={item.why_it_matters}
+            className="text-green-700"
+          />
+          <InsightSection
+            title="🧯 Myth Buster"
+            content={item.myth_buster}
+            className="text-purple-700"
+          />
 
-          {/* Myth Buster */}
-          <div>
-            <h3 className="text-xl font-semibold text-purple-700">
-              🧯 Myth Buster
-            </h3>
-            {item.myth_buster && (
-              <p className="mt-2 whitespace-pre-line">{item.myth_buster}</p>
-            )}
-          </div>
+          {(item.critical_alert || item.reminder) && (
+            <div>
+              <h3 className="text-xl font-semibold text-red-700">
+                🚨 Alerts & Notifications
+              </h3>
 
-          {/* Alerts & Notifications */}
-          <div>
-            <h3 className="text-xl font-semibold text-red-700">
-              🚨 Alerts & Notifications
-            </h3>
-
-            {/* Critical Alert */}
-            <div className="mt-3">
-              <h4 className="text-lg font-semibold">
-                🩺 Critical Alert – Seek Medical Attention If:
-              </h4>
-              {item.critical_alert && (
-                <p className="mt-1 whitespace-pre-line">
-                  {item.critical_alert}
-                </p>
-              )}
+              <InsightSection
+                title="🩺 Critical Alert – Seek Medical Attention If:"
+                content={item.critical_alert}
+                className="text-red-600 text-lg"
+              />
+              <InsightSection
+                title="🔔 Reminders"
+                content={item.reminder}
+                className="text-red-600 text-lg mt-4"
+              />
             </div>
-
-            {/* Reminder */}
-            <div className="mt-4">
-              <h4 className="text-lg font-semibold">🔔 Reminders</h4>
-              {item.reminder && (
-                <p className="mt-1 whitespace-pre-line">{item.reminder}</p>
-              )}
-            </div>
-          </div>
+          )}
 
           <hr className="border-gray-300 mt-6" />
         </div>
