@@ -40,7 +40,7 @@ const StepIntoHealthcare = () => {
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="text-3xl md:text-5xl font-semibold mb-6"
+        className="text-3xl md:text-5xl font-semibold mb-6 text-primary"
       >
         Step into the future of healthcare today!
       </motion.h1>
