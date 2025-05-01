@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 // Interface for educational insights
 interface EducationalInsight {
@@ -32,8 +32,14 @@ const InsightSection = ({
   ) : null;
 
 export default function SLREduIn({ data }: Props) {
+  const [expanded, setExpanded] = useState<Record<number, boolean>>({});
+
+  const toggleExpanded = (index: number) => {
+    setExpanded((prev) => ({ ...prev, [index]: !prev[index] }));
+  };
+
   return (
-    <div className="ml-6 mt-6 space-y-10">
+    <div className="ml-6 mt-6">
       <h2 className="text-xl w-full flex justify-center items-center font-bold text-primary">
         🧠 Educational Insights
       </h2>
@@ -41,7 +47,7 @@ export default function SLREduIn({ data }: Props) {
       {data.map((item, index) => (
         <div
           key={index}
-          className="p-4 rounded-md bg-white shadow-sm space-y-4"
+          className="p-4 rounded-md bg-white shadow-sm space-y-2"
         >
           <h1 className="text-lg font-bold text-gray-900 bg-gray-100 inline-block px-3 py-1 rounded-md shadow-sm">
             📂 {item.group_name}
@@ -52,35 +58,45 @@ export default function SLREduIn({ data }: Props) {
             content={item.what_is}
             className="text-blue-800"
           />
+
           <InsightSection
             title="❤️ Why It Matters"
             content={item.why_it_matters}
             className="text-green-700"
           />
-          <InsightSection
-            title="🧯 Myth Buster"
-            content={item.myth_buster}
-            className="text-purple-700"
-          />
 
-          {(item.critical_alert || item.reminder) && (
-            <div>
-              <h3 className="text-xl font-semibold text-red-700">
-                🚨 Alerts & Notifications
-              </h3>
+          <div className="relative">
+            {/* Show extra content if expanded */}
+            {expanded[index] && (
+              <>
+                <InsightSection
+                  title="🧯 Myth Buster"
+                  content={item.myth_buster}
+                  className="text-purple-700"
+                />
+                <InsightSection
+                  title="🩺 Critical Alert – Seek Medical Attention If:"
+                  content={item.critical_alert}
+                  className="text-red-600 text-lg"
+                />
+                <InsightSection
+                  title="🔔 Reminders"
+                  content={item.reminder}
+                  className="text-red-600 text-lg mt-4"
+                />
+              </>
+            )}
 
-              <InsightSection
-                title="🩺 Critical Alert – Seek Medical Attention If:"
-                content={item.critical_alert}
-                className="text-red-600 text-lg"
-              />
-              <InsightSection
-                title="🔔 Reminders"
-                content={item.reminder}
-                className="text-red-600 text-lg mt-4"
-              />
-            </div>
-          )}
+            {/* Toggle for more content */}
+            {(item.critical_alert || item.reminder) && (
+              <button
+                onClick={() => toggleExpanded(index)}
+                className="text-sky-700 hover:text-sky-800 "
+              >
+                {expanded[index] ? "Show Less" : "Show More"}
+              </button>
+            )}
+          </div>
 
           <hr className="border-gray-300 mt-6" />
         </div>
