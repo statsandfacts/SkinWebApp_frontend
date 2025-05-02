@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 type NotDetectedItem = {
   parameter_id: number;
@@ -13,27 +13,42 @@ type Props = {
 };
 
 export default function SLRNotDetected({ data }: Props) {
+  const [showAll, setShowAll] = useState(false);
+
   if (!data || data.length === 0) return null;
 
+  const displayedData = showAll ? data : data.slice(0, 6);
+
   return (
-    <div className="ml-6 mt-6 space-y-6">
+    <div className="ml-6 mt-6 space-y-4">
       <h2 className="text-xl font-bold text-sky-800">
         🚫 Not Detected Parameters
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {data.map((item, index) => (
+        {displayedData.map((item, index) => (
           <div
-            key={index}
+            key={item.parameter_id}
             className="bg-gray-100 p-4 rounded-lg shadow-sm border border-gray-300"
           >
             <p className="text-sm font-semibold text-gray-700">
-              {item?.parameter_name}
+              {item.parameter_name}
             </p>
-            <p className="text-sm text-sky-700 font-medium">{item?.value}</p>
+            <p className="text-sm text-sky-700 font-medium">{item.value}</p>
           </div>
         ))}
       </div>
+
+      {data.length > 6 && (
+        <div className="w-full flex justify-end">
+          <button
+            onClick={() => setShowAll(!showAll)}
+            className="text-sm text-sky-700 font-medium hover:underline"
+          >
+            {showAll ? "View Less" : "View All"}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

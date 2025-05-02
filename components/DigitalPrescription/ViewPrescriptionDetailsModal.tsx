@@ -26,10 +26,11 @@ import {
   setReminderDetails,
   // setReminderMedicineDtlsPresc,
 } from "@/redux/slices/digitalPrescription/drug.slice";
+
 import { Timer } from "lucide-react";
 
-// import AddReminderModalFromPrescription from "./Details/Reminder/AddReminderModelFromPrescription";
-
+//import AddReminderModalFromPrescription from "./Details/Reminder/AddReminderModelFromPrescription";
+import AddReminderModalFromPrescription from "./AddReminderModelFromPrescription";
 export default function ViewPrescriptionDetailsModal() {
   const router = useRouter();
   const [selectedMedicine, setSelectedMedicine] = React.useState("");
@@ -165,11 +166,49 @@ export default function ViewPrescriptionDetailsModal() {
                                   >
                                     <Timer />
                                   </button> */}
+                                  {/* 
+                                  <Button
+                                    
+                                    className="bg-transparent text-orange-400 "
+                                    onPress={() => {
+                                      dispatch(setReminderActionKey("create"));
+                                      dispatch(setIsReminderModal(true));
+                                    }}
+                                  >
+                                    <Timer size={28} />
+                                  </Button> */}
+                                  <button
+                                    className="bg-transparent text-orange-400"
+                                    onClick={() => {
+                                      dispatch(
+                                        setReminderDetails(medicineDetail)
+                                      );
+                                      dispatch(setReminderActionKey("create"));
+                                      dispatch(setIsReminderModal(true));
+                                    }}
+                                  >
+                                    <Timer size={28} />
+                                  </button>
                                 </TableCell>
 
                                 <TableCell className="uppercase">
-                                  {medicineDetail?.composition}
-                                </TableCell>
+  {medicineDetail?.composition ? (
+    <button
+      className="border-b-2 border-sky-600 cursor-pointer text-sky-800 uppercase"
+      onClick={() => {
+        const compSlug = encodeURIComponent(medicineDetail?.composition); // Encoding the composition
+        router.push(`/prescription/composition/${compSlug}`); // Navigating to the correct URL
+      }}
+    > 
+      {medicineDetail?.composition}
+    </button>
+  ) : (
+    "-"
+  )}
+</TableCell>
+
+
+
                                 <TableCell className="uppercase">
                                   {medicineDetail?.usage_instructions}
                                 </TableCell>
@@ -271,6 +310,7 @@ export default function ViewPrescriptionDetailsModal() {
           )}
         </ModalContent>
       </Modal>
+      <AddReminderModalFromPrescription />
 
       {/* <AddReminderModalFromPrescription /> */}
     </>

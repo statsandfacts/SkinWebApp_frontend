@@ -5,6 +5,7 @@ import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface Medicine {
   Id?: string;
@@ -16,6 +17,7 @@ interface Medicine {
   manufacturers?: string;
   Dosage?: string;
   mrp?: string;
+  image_url?: string;
 }
 
 const SearchMedicinePortal: React.FC<{
@@ -94,6 +96,15 @@ const SearchMedicinePortal: React.FC<{
                 className="border p-4 rounded-md shadow-md hover:shadow-lg text-left transition-all cursor-pointer"
                 onClick={() => handleArrowClick(item)}
               >
+                {/*
+  <Image
+    src="https://onemg.gumlet.io/l_watermark_346,w_690,h_700/a_ignore,w_690,h_700,c_pad,q_auto,f_auto/cropped/mu5bahqxfrp28cut6que.jpg"
+    alt="Medicine Image"
+    width={400}
+    height={260}
+    className="w-100 h-40 object-contain rounded-lg"
+  />
+  */}
                 <h3 className="text-xl font-semibold">{item.name}</h3>
                 {name === "medicine" ? (
                   <>
@@ -114,11 +125,6 @@ const SearchMedicinePortal: React.FC<{
                     <p className="text-sm text-gray-500">{item.description}</p>
                   </>
                 )}
-
-                {/* <div
-                  className="text-right text-gray-500 mt-2 cursor-pointer"
-                  onClick={() => handleArrowClick(item)}
-                ></div> */}
               </button>
             ))
           ) : (

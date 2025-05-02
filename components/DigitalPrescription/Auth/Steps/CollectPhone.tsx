@@ -16,23 +16,18 @@ import {
 import {
   sendOtp,
   verifyExistingUser,
+  getCountryData,
 } from "@/services/api.digitalPrescription.service";
 
 import LoginModal from "../LoginModal";
 import LoginDrawer from "../LoginDrawer";
 
-const countryOptions = [
-  "India",
-  "United States",
-  "Canada",
-  "United Kingdom",
-  "Australia",
-  "Germany",
-  "France",
-  "Brazil",
-  "Japan",
-  "South Africa",
-];
+type Country = {
+  id: number;
+  name: string;
+  sortname: string;
+  phonecode: string;
+};
 
 const CollectPhone = () => {
   const dispatch = useDispatch();
@@ -40,6 +35,65 @@ const CollectPhone = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [responseOtp, setResponseOtp] = useState<string>("");
   const [country, setCountry] = useState<string>("India");
+  const [resendTimer, setResendTimer] = useState<number>(0);
+  const [countryList, setCountryList] = useState<Country[]>([]);
+  const [originalPhone, setOriginalPhone] = useState<string>("");
+  const [originalEmail, setOriginalEmail] = useState<string>("");
+  // Handle phone number change and reset OTP if it changes after OTP is sent
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newPhone = e.target.value;
+    formik.handleChange(e); // Handle formik change
+    if (otpSent && newPhone !== originalPhone) {
+      // If OTP is sent and phone number is changed, reset OTP-related states
+      setOtpSent(false);
+      setResponseOtp("");
+      setResendTimer(0);
+      formik.setFieldValue("otp", "");
+    }
+    setOriginalPhone(newPhone);
+  };
+
+  // Handle email change and reset OTP if it changes after OTP is sent
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newEmail = e.target.value;
+    formik.handleChange(e); // Handle formik change
+    if (otpSent && newEmail !== originalEmail) {
+      // If OTP is sent and email is changed, reset OTP-related states
+      setOtpSent(false);
+      setResponseOtp("");
+      setResendTimer(0);
+      formik.setFieldValue("otp", "");
+    }
+    setOriginalEmail(newEmail);
+  };
+  React.useEffect(() => {
+    let timerInterval: NodeJS.Timeout;
+
+    // Fetch dynamic country list
+    const fetchCountries = async () => {
+      try {
+        const res = await getCountryData();
+        if (Array.isArray(res)) {
+          setCountryList(res);
+        } else {
+          toast.error("Failed to fetch countries.");
+        }
+      } catch (error) {
+        toast.error("Error fetching country data");
+      }
+    };
+
+    fetchCountries();
+
+    // Resend timer logic
+    if (resendTimer > 0) {
+      timerInterval = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+    }
+
+    return () => clearInterval(timerInterval);
+  }, [resendTimer]);
 
   const formik = useFormik({
     initialValues: {
@@ -72,33 +126,21 @@ const CollectPhone = () => {
       setIsLoading(true);
       if (!otpSent) {
         try {
-          if (country === "India") {
-            await verifyExistingUser(values.phone_number);
-            const res = await sendOtp({
-              phone_number: values.phone_number,
-              email: null,
-            });
+          await verifyExistingUser(
+            country === "India" ? values.phone_number : values.email
+          );
+          const res = await sendOtp({
+            phone_number: country === "India" ? values.phone_number : null,
+            email_id: country !== "India" ? values.email : null,
+          });
 
-            if (res.status === 200) {
-              setResponseOtp(res.verification_code);
-              setOtpSent(true);
-              toast.success(res.message || "OTP sent successfully!");
-            } else {
-              toast.error("Something went wrong!");
-            }
+          if (res.status === 200) {
+            setResponseOtp(res.verification_code);
+            setOtpSent(true);
+            setResendTimer(30);
+            toast.success(res.message || "OTP sent successfully!");
           } else {
-            const res = await sendOtp({
-              phone_number: null,
-              email_id: values.email,
-            });
-
-            if (res.status === 200) {
-              setResponseOtp(res.verification_code);
-              setOtpSent(true);
-              toast.success(res.message || "OTP sent successfully!");
-            } else {
-              toast.error("Something went wrong!");
-            }
+            toast.error("Something went wrong!");
           }
         } catch (error: any) {
           if (error?.response?.data?.message === "User Exists.") {
@@ -128,6 +170,24 @@ const CollectPhone = () => {
       }
     },
   });
+  const resendOtp = async () => {
+    try {
+      const res = await sendOtp({
+        phone_number: country === "India" ? formik.values.phone_number : null,
+        email_id: country !== "India" ? formik.values.email : null,
+      });
+
+      if (res.status === 200) {
+        setResponseOtp(res.verification_code);
+        toast.success(res.message || "OTP resent successfully!");
+        setResendTimer(30); // Start 30 seconds countdown
+      } else {
+        toast.error("Failed to resend OTP");
+      }
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || "Error resending OTP");
+    }
+  };
 
   return (
     <>
@@ -145,19 +205,20 @@ const CollectPhone = () => {
             setCountry(e.target.value);
             setOtpSent(false);
             formik.setFieldValue("otp", "");
+            setResendTimer(0);
           }}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
         >
-          {countryOptions.map((c) => (
-            <option key={c} value={c}>
-              {c}
+          {countryList.map((c) => (
+            <option key={c.id} value={c.name}>
+              {c.name}(+{c.phonecode})
             </option>
           ))}
         </select>
 
         {country === "India" && (
           <InputField
-            onChange={formik.handleChange}
+            onChange={handlePhoneChange}
             isLabel={true}
             value={formik.values.phone_number}
             type="text"
@@ -170,13 +231,12 @@ const CollectPhone = () => {
             }
             onBlur={formik.handleBlur}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-2 h-10 w-[350px]"
-            disabled={otpSent}
           />
         )}
 
         {country !== "India" && (
           <InputField
-            onChange={formik.handleChange}
+            onChange={handleEmailChange}
             isLabel={true}
             value={formik.values.email}
             type="email_id"
@@ -189,24 +249,40 @@ const CollectPhone = () => {
             }
             onBlur={formik.handleBlur}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-2 h-10 w-[350px]"
-            disabled={otpSent}
           />
         )}
 
         {otpSent && (
-          <InputField
-            onChange={formik.handleChange}
-            isLabel={true}
-            value={formik.values.otp}
-            type="text"
-            name="otp"
-            placeholder="Enter OTP"
-            error={
-              formik.touched.otp && formik.errors.otp ? formik.errors.otp : ""
-            }
-            onBlur={formik.handleBlur}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-2 h-10 w-[350px]"
-          />
+          <>
+            <InputField
+              onChange={formik.handleChange}
+              isLabel={true}
+              value={formik.values.otp}
+              type="text"
+              name="otp"
+              placeholder="Enter OTP"
+              error={
+                formik.touched.otp && formik.errors.otp ? formik.errors.otp : ""
+              }
+              onBlur={formik.handleBlur}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl p-2 h-10 w-[350px]"
+            />
+            <div className="text-right text-sm mt-1">
+              {resendTimer > 0 ? (
+                <span className="text-gray-500">
+                  Resend OTP in {resendTimer}s
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  onClick={resendOtp}
+                  className="text-blue-600 hover:underline"
+                >
+                  Resend OTP
+                </button>
+              )}
+            </div>
+          </>
         )}
 
         <Button type="submit" color="primary" isLoading={isLoading}>

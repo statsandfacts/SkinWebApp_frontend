@@ -18,7 +18,7 @@ const UniqueAboutNextCare = () => {
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="text-4xl sm:text-5xl font-semibold text-center"
+        className="text-4xl sm:text-5xl font-semibold text-center text-primary"
       >
         What’s so unique about Nextcare?
       </motion.h1>
