@@ -57,7 +57,7 @@ const ExploreOurHealthCare = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         viewport={{ once: true }}
-        className="text-4xl font-bold mb-10"
+        className="text-4xl font-bold mb-10 text-primary"
       >
         Explore Our Health Calculators
       </motion.h1>
