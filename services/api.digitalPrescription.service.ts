@@ -73,16 +73,13 @@ export const userLogout = async () => {
 //   return data;
 // };
 
-/**
- *
- * @param phone_number
- * @param email
- * @returns
- */
-export const verifyExistingUser = async (
-  phone_number?: string,
-  email?: string
-) => {
+export const verifyExistingUser = async ({
+  phone_number,
+  email,
+}: {
+  phone_number?: string;
+  email?: string;
+}) => {
   const queryParams = new URLSearchParams();
   if (phone_number) queryParams.append("phone_number", phone_number);
   if (email) queryParams.append("email", email);
@@ -93,6 +90,7 @@ export const verifyExistingUser = async (
   );
   return data;
 };
+
 
 
 /**
