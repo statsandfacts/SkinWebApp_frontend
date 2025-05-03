@@ -35,7 +35,6 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
     useSelector((state: RootState) => state.blogs);
 
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
-
   useEffect(() => {
     // if (!singleBlog) {
     dispatch(fetchBlogDtls(blogId));
@@ -174,11 +173,11 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
               )}
 
               <h1 className="text-lg sm:text-xl md:text-4xl font-bold mb-8">
-                {singleBlog?.title}
+               {singleBlog?.title}
               </h1>
 
               <div className={styles.content}>
-                {singleBlog?.title === "quiz" &&
+                {singleBlog?.content === "quiz" &&
                 singleBlog?.quiz_questions?.length > 0 ? (
                   <QuizClient questions={singleBlog.quiz_questions} />
                 ) : (
