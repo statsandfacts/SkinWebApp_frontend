@@ -11,21 +11,29 @@ interface Option {
 
 interface Question {
   question: string;
-  correctAnswer?: string; // optional fallback
+  correctAnswer?: string;
   options: Option[];
 }
 
 const QuizClient = ({ questions }: { questions: Question[] }) => {
   const [answers, setAnswers] = useState(Array(questions.length).fill(""));
+  const [error, setError] = useState(""); // 🆕 error state
   const router = useRouter();
 
   const handleOptionChange = (index: number, option: string) => {
     const updated = [...answers];
     updated[index] = option;
     setAnswers(updated);
+    setError(""); // clear error when any question is answered
   };
 
   const handleSubmit = () => {
+    const hasUnanswered = answers.some((ans) => ans === "");
+    if (hasUnanswered) {
+      setError("❗ Please answer all questions before submitting.");
+      return;
+    }
+
     let correct = 0;
 
     questions.forEach((q, i) => {
@@ -64,12 +72,19 @@ const QuizClient = ({ questions }: { questions: Question[] }) => {
                   onChange={() => handleOptionChange(index, option.value)}
                   className="form-radio text-blue-600"
                 />
-                <span>{option.label}: {option.value}</span>
+                <span>
+                  {option.label}: {option.value}
+                </span>
               </label>
             ))}
           </div>
         </div>
       ))}
+
+      {error && (
+        <div className="text-red-600 font-medium text-center mb-4">{error}</div>
+      )}
+
       <div className="text-right">
         <button
           onClick={handleSubmit}
