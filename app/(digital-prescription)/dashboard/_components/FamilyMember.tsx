@@ -34,6 +34,7 @@ const FamilyMember = () => {
 
   useEffect(() => {
     if (!familyMembers.data || familyMembers.data.length <= 0) {
+      console.log('data1' ,familyMembers)
       dispatch(fetchFamilyMembers(userId));
     }
   }, [dispatch]);
