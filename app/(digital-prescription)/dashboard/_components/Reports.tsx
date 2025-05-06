@@ -93,7 +93,7 @@ const Reports = () => {
                                 <ToolTipBtn
                                   onClick={() => {
                                     router.push(
-                                      `/dashboard/reports/${report?.ocr_op?.report_id}`
+                                      `/dashboard/reports/${report?.report_id}`
                                     );
                                   }}
                                   title="View Digital Generated Report"
