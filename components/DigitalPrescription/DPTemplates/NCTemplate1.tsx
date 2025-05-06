@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableHeader,
@@ -17,33 +17,84 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { useRouter } from "next/navigation";
 
-const NCTemplate1 = () => {
+interface NCtemplateProps {
+  prescriptionDetails: any;
+}
+
+const NCTemplate1 = ({prescriptionDetails}: NCtemplateProps) => {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const { singlePrescriptionDetails, singleCaseDetails } = useSelector(
-    (state: any) => state.digitalPrescription
-  );
+  // const { singlePrescriptionDetails, singleCaseDetails } = useSelector(
+  //   (state: any) => state.digitalPrescription
+  // );
+
+  // const [dpData, setDpData] = useState<any>({
+  //   target_lang: "or",
+  //   dp_keys: {
+  //     doctor_name: "Doctor Name",
+  //     doctor_redg_number: "Doctor Redg. No.",
+  //     provider_heading: "Hospital/Clinic Details",
+  //     provider_name: "Name",
+  //     provider_dtls: "Address",
+  //     pharmacist_name: "Pharmacist Name",
+  //     pharmacist_certificate_no: "Pharmacist License",
+  //     prescription_date: "Date",
+  //     prescription_id: "Prescription Id",
+  //     remarks: "Remarks",
+  //     medicine_heading: "MEDICINE",
+  //     medicine_sl_no: "Sl No",
+  //     medicine_name: "Medicine Name",
+  //     medicine_composition: "Compisition",
+  //     medicine_method: "How to use",
+  //     medicine_days: "Days",
+  //     medicine_dosage: "Dosage",
+  //     medicine_comments: "Comments",
+  //     investagition_heading: "INVESTIGATION",
+  //     investigation_name: "Name",
+  //     investigation_description: "Description",
+  //     investigation_comments: "Comments",
+  //     diagnosis_heading: "DIAGNOSIS",
+  //     symptoms_heading: "SYMPTOMS"
+  //   },
+  //   dp_details: {
+  //     dr_name: singlePrescriptionDetails?.doctor_name,
+  //     dr_redg_no: singlePrescriptionDetails?.doctor_redg_number,
+  //     prv_name: singlePrescriptionDetails?.provider_name,
+  //     prv_dtls: singlePrescriptionDetails?.provider_dtls,
+  //     ph_name: singleCaseDetails?.pharmacist_name,
+  //     ph_lis_no: singleCaseDetails?.pharmacist_certificate_no,
+  //     prsc_date: singlePrescriptionDetails?.prescription_date,
+  //     prsc_id: singlePrescriptionDetails?.prescription_id,
+  //     remarks: singlePrescriptionDetails?.remarks,
+  //     medicine_dtls: singlePrescriptionDetails?.medicine_dtls,
+  //     reports: singlePrescriptionDetails?.reports,
+  //     diagnosis: singlePrescriptionDetails?.diagnosis,
+  //     symptoms: singlePrescriptionDetails?.symptoms
+  //   }
+
+  // });
+
   return (
     <>
       <div className="overflow-y-auto max-h-[35rem]">
         <div className="flex justify-between">
           <div className="flex flex-col">
             <p className="text-sm font-semibold capitalize text-slate-600">
-              Doctor Name: {singlePrescriptionDetails?.doctor_name}
+              {prescriptionDetails.dp_keys.doctor_name}: {prescriptionDetails.dp_details.dr_name}
             </p>
             <p className="text-xs font-normal text-slate-400">
-              Doctor Redg. No.: {singlePrescriptionDetails?.doctor_redg_number}
+            {prescriptionDetails.dp_keys.doctor_redg_number}: {prescriptionDetails?.dr_redg_no}
             </p>
           </div>
           <div className="flex flex-col">
             <p className="text-xs font-semibold text-slate-600">
-              Hospital/Clinic Details
+            {prescriptionDetails.dp_keys.provider_heading}
             </p>
             <p className="text-xs font-normal text-slate-400 capitalize">
-              Name: {singlePrescriptionDetails?.provider_name}
+              {prescriptionDetails.provider_name}: {prescriptionDetails?.prv_name}
             </p>
             <p className="text-xs font-normal text-slate-400 capitalize">
-              Address: {singlePrescriptionDetails?.provider_dtls}
+              {prescriptionDetails.provider_dtls}: {prescriptionDetails?.prv_dtls}
             </p>
           </div>
         </div>
@@ -51,44 +102,44 @@ const NCTemplate1 = () => {
         <div className="flex justify-between items-center mt-2">
           <div>
             <p className="text-xs font-normal text-slate-400 capitalize">
-              Pharmacist Name: {singleCaseDetails?.pharmacist_name}
+              {prescriptionDetails.pharmacist_name}: {prescriptionDetails?.ph_name}
             </p>
             <p className="text-xs font-normal text-slate-400">
-              Pharmacist License: {singleCaseDetails?.pharmacist_certificate_no}
+            {prescriptionDetails.pharmacist_certificate_no}: {prescriptionDetails?.ph_lis_no}
             </p>
           </div>
           <div>
             <p className="text-xs font-normal text-slate-400">
-              Date: {singlePrescriptionDetails?.prescription_date}
+            {prescriptionDetails.prescription_date}: {prescriptionDetails?.prsc_date}
             </p>
             <p className="text-xs font-normal text-slate-400">
-              Prescription Id: {singlePrescriptionDetails?.prescription_id}
+            {prescriptionDetails.dp_keys.prescription_id}: {prescriptionDetails?.dp_details.prsc_id}
             </p>
           </div>
         </div>
 
-        {singlePrescriptionDetails?.remarks && (
+        {prescriptionDetails?.remarks && (
           <p className="mt-2 text-orange-600 rounded-sm bg-orange-50 text-xs font-semibold w-fit py-1 px-2">
             {" "}
-            Remark: {singlePrescriptionDetails?.remarks}{" "}
+            {prescriptionDetails.dp_keys.remarks}: {prescriptionDetails?.dp_details.remarks}{" "}
           </p>
         )}
 
         <div className="mt-2">
-          <h1>MEDICINE</h1>
+          <h1>{prescriptionDetails.dp_keys.medicine_heading}</h1>
           <Table removeWrapper aria-label="Example static collection table">
             <TableHeader>
-              <TableColumn>Sl No</TableColumn>
-              <TableColumn>Medicine Name</TableColumn>
-              <TableColumn>Composition</TableColumn>
-              <TableColumn>How To Use</TableColumn>
-              <TableColumn>Days</TableColumn>
-              <TableColumn>Dosage</TableColumn>
-              <TableColumn>Comments</TableColumn>
+              <TableColumn>{prescriptionDetails.dp_keys.medicine_sl_no}</TableColumn>
+              <TableColumn>{prescriptionDetails.dp_keys.medicine_name}</TableColumn>
+              <TableColumn>{prescriptionDetails.dp_keys.medicine_composition}</TableColumn>
+              <TableColumn>{prescriptionDetails.dp_keys.medicine_method}</TableColumn>
+              <TableColumn>{prescriptionDetails.dp_keys.medicine_days}</TableColumn>
+              <TableColumn>{prescriptionDetails.dp_keys.medicine_dosage}</TableColumn>
+              <TableColumn>{prescriptionDetails.dp_keys.medicine_comments}</TableColumn>
             </TableHeader>
             <TableBody>
-              {singlePrescriptionDetails?.medicine_dtls.length > 0 &&
-                singlePrescriptionDetails?.medicine_dtls.map(
+              {prescriptionDetails?.dp_details.medicine_dtls.length > 0 &&
+                prescriptionDetails?.dp_details.medicine_dtls.map(
                   (medicineDetail: any, mx: number) => (
                     <TableRow key={mx}>
                       <TableCell className="text-center">{mx + 1}</TableCell>
@@ -168,8 +219,8 @@ const NCTemplate1 = () => {
               <TableColumn>COMMENTS</TableColumn>
             </TableHeader>
             <TableBody>
-              {singlePrescriptionDetails?.reports.length > 0 &&
-                singlePrescriptionDetails?.reports.map(
+              {prescriptionDetails?.dp_details.reports.length > 0 &&
+                prescriptionDetails?.dp_details.reports.map(
                   (report: any, mx: number) => (
                     <TableRow key={mx}>
                       <TableCell className="text-center">{mx + 1}</TableCell>
@@ -206,15 +257,15 @@ const NCTemplate1 = () => {
 
         <div className="mt-4">
           <div>
-            <h1>DIAGNOSIS</h1>
+            <h1>{prescriptionDetails?.dp_keys.diagnosis_heading}</h1>
             <p className="text-xs font-light text-slate-400 uppercase">
-              {singlePrescriptionDetails?.diagnosis}
+              {prescriptionDetails?.dp_details.diagnosis}
             </p>
           </div>
           <div>
-            <h1>SYMPTOMS</h1>
+            <h1>{prescriptionDetails?.dp_keys.symptoms_heading}</h1>
             <p className="text-xs font-light text-slate-400 uppercase">
-              {singlePrescriptionDetails?.symptoms}
+              {prescriptionDetails?.dp_details.symptoms}
             </p>
           </div>
         </div>

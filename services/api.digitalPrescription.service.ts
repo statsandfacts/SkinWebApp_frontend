@@ -166,6 +166,20 @@ export const updateCase = async (payload: any) => {
 
 /**
  *
+ * @param payload
+ * @returns
+ */
+export const translatelanguage = async (payload: any) => {
+  const { data } = await axios.put(
+    `${baseUrl}translate/prescription`,
+    payload,
+    headers
+  );
+  return data;
+};
+
+/**
+ *
  * @param case_id
  * @returns
  */
