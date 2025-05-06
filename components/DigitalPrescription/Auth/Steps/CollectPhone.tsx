@@ -126,9 +126,11 @@ const CollectPhone = () => {
       setIsLoading(true);
       if (!otpSent) {
         try {
-          await verifyExistingUser(
-            country === "India" ? values.phone_number : values.email
-          );
+          await verifyExistingUser({
+            phone_number: country === "India" ? values.phone_number : undefined,
+            email: country !== "India" ? values.email : undefined,
+          });
+          
           const res = await sendOtp({
             phone_number: country === "India" ? values.phone_number : null,
             email_id: country !== "India" ? values.email : null,

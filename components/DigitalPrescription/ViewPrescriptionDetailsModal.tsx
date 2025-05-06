@@ -1,6 +1,5 @@
 "use client";
-import React from "react";
-import { Button } from "@heroui/button";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -8,33 +7,44 @@ import {
   ModalBody,
   ModalFooter,
 } from "@heroui/modal";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableColumn,
-  TableRow,
-  TableCell,
-} from "@heroui/table";
 import { useDispatch, useSelector } from "react-redux";
 import { setViewPrescriptionDetailsModal } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
-import { useRouter } from "next/navigation";
-import {
-  setIsReminderModal,
-  // setIsReminderPrescModal,
-  setReminderActionKey,
-  setReminderDetails,
-  // setReminderMedicineDtlsPresc,
-} from "@/redux/slices/digitalPrescription/drug.slice";
 
-import { Timer } from "lucide-react";
-
-//import AddReminderModalFromPrescription from "./Details/Reminder/AddReminderModelFromPrescription";
 import AddReminderModalFromPrescription from "./AddReminderModelFromPrescription";
-export default function ViewPrescriptionDetailsModal() {
-  const router = useRouter();
-  const [selectedMedicine, setSelectedMedicine] = React.useState("");
+import NCTemplate1 from "./DPTemplates/NCTemplate1";
+import { Button } from "@heroui/button";
+import { Languages } from "lucide-react";
+import { translateLanguage } from "@/services/api.digitalPrescription.service";
+import { toast } from "react-toastify";
 
+const dpKeysInitial = {
+  doctor_name: "Doctor Name",
+  doctor_redg_number: "Doctor Redg. No.",
+  provider_heading: "Hospital/Clinic Details",
+  provider_name: "Name",
+  provider_dtls: "Address",
+  pharmacist_name: "Pharmacist Name",
+  pharmacist_certificate_no: "Pharmacist License",
+  prescription_date: "Date",
+  prescription_id: "Prescription Id",
+  remarks: "Remarks",
+  medicine_heading: "MEDICINE",
+  medicine_sl_no: "Sl No",
+  medicine_name: "Medicine Name",
+  medicine_composition: "Compisition",
+  medicine_method: "How to use",
+  medicine_days: "Days",
+  medicine_dosage: "Dosage",
+  medicine_comments: "Comments",
+  investagition_heading: "INVESTIGATION",
+  investigation_name: "Name",
+  investigation_description: "Description",
+  investigation_comments: "Comments",
+  diagnosis_heading: "DIAGNOSIS",
+  symptoms_heading: "SYMPTOMS",
+};
+
+export default function ViewPrescriptionDetailsModal() {
   const dispatch = useDispatch();
   const {
     isViewPrescriptionDetailsModal,
@@ -42,8 +52,77 @@ export default function ViewPrescriptionDetailsModal() {
     singleCaseDetails,
   } = useSelector((state: any) => state.digitalPrescription);
 
+  const [targetLang, setTargetLang] = useState<string>("en");
+  const [lTLoading, setLTLoading] = useState<boolean>(false);
+  const [DpKeys, setDpKeys] = useState<any>(dpKeysInitial);
+  const [dpData, setDpData] = useState<any>({
+    dr_name: "",
+    prv_name: "",
+    prv_dtls: "",
+    ph_name: "",
+    prsc_date: "",
+    remarks: "",
+    medicine_dtls: [],
+    reports: [],
+    diagnosis: "",
+    symptoms: "",
+  });
+
+  useEffect(() => {
+    if (singlePrescriptionDetails || singleCaseDetails) {
+      setDpData({
+        dr_name: singlePrescriptionDetails?.doctor_name || "",
+        prv_name: singlePrescriptionDetails?.provider_name || "",
+        prv_dtls: singlePrescriptionDetails?.provider_dtls || "",
+        ph_name: singleCaseDetails?.pharmacist_name || "",
+        prsc_date: singlePrescriptionDetails?.prescription_date || "",
+        remarks: singlePrescriptionDetails?.remarks || "",
+        medicine_dtls: singlePrescriptionDetails?.medicine_dtls || [],
+        reports: singlePrescriptionDetails?.reports || [],
+        diagnosis: singlePrescriptionDetails?.diagnosis || "",
+        symptoms: singlePrescriptionDetails?.symptoms || "",
+      });
+    }
+  }, [singlePrescriptionDetails, singleCaseDetails]);
+
   const onClose = () => {
     dispatch(setViewPrescriptionDetailsModal(false));
+  };
+
+  const handleTranslateLanguage = () => {
+    if (targetLang === "or") {
+      setDpKeys(dpKeysInitial);
+      setDpData({
+        dr_name: singlePrescriptionDetails?.doctor_name || "",
+        prv_name: singlePrescriptionDetails?.provider_name || "",
+        prv_dtls: singlePrescriptionDetails?.provider_dtls || "",
+        ph_name: singleCaseDetails?.pharmacist_name || "",
+        prsc_date: singlePrescriptionDetails?.prescription_date || "",
+        remarks: singlePrescriptionDetails?.remarks || "",
+        medicine_dtls: singlePrescriptionDetails?.medicine_dtls || [],
+        reports: singlePrescriptionDetails?.reports || [],
+        diagnosis: singlePrescriptionDetails?.diagnosis || "",
+        symptoms: singlePrescriptionDetails?.symptoms || "",
+      });
+      return;
+    }
+    setLTLoading(true);
+    translateLanguage({
+      target_lang: "or",
+      dp_details: dpData,
+      dp_keys: DpKeys,
+    })
+      .then((res: any) => {
+        setTargetLang(targetLang === "or" ? "en" : "or");
+        setDpKeys(res?.data?.dp_keys);
+        setDpData(res?.data?.dp_details);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message || "Something went wrong");
+      })
+      .finally(() => {
+        setLTLoading(false);
+      });
   };
 
   return (
@@ -58,247 +137,18 @@ export default function ViewPrescriptionDetailsModal() {
             <>
               <ModalHeader className="flex flex-row justify-between items-center gap-1">
                 <p>Prescription Details</p>
+                <Button
+                  variant="flat"
+                  className="mr-8"
+                  onPress={handleTranslateLanguage}
+                  isLoading={lTLoading}
+                >
+                  <Languages size={18} />{" "}
+                  {targetLang === "or" ? "English" : "Odia"}
+                </Button>
               </ModalHeader>
               <ModalBody>
-                <div className="overflow-y-auto max-h-[35rem]">
-                  <div className="flex justify-between">
-                    <div className="flex flex-col">
-                      <p className="text-sm font-semibold capitalize text-slate-600">
-                        Doctor Name: {singlePrescriptionDetails?.doctor_name}
-                      </p>
-                      <p className="text-xs font-normal text-slate-400">
-                        Doctor Redg. No.:{" "}
-                        {singlePrescriptionDetails?.doctor_redg_number}
-                      </p>
-                    </div>
-                    <div className="flex flex-col">
-                      <p className="text-xs font-semibold text-slate-600">
-                        Hospital/Clinic Details
-                      </p>
-                      <p className="text-xs font-normal text-slate-400 capitalize">
-                        Name: {singlePrescriptionDetails?.provider_name}
-                      </p>
-                      <p className="text-xs font-normal text-slate-400 capitalize">
-                        Address: {singlePrescriptionDetails?.provider_dtls}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center mt-2">
-                    <div>
-                      <p className="text-xs font-normal text-slate-400 capitalize">
-                        Pharmacist Name: {singleCaseDetails?.pharmacist_name}
-                      </p>
-                      <p className="text-xs font-normal text-slate-400">
-                        Pharmacist License:{" "}
-                        {singleCaseDetails?.pharmacist_certificate_no}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-normal text-slate-400">
-                        Date: {singlePrescriptionDetails?.prescription_date}
-                      </p>
-                      <p className="text-xs font-normal text-slate-400">
-                        Prescription Id:{" "}
-                        {singlePrescriptionDetails?.prescription_id}
-                      </p>
-                    </div>
-                  </div>
-
-                  {singlePrescriptionDetails?.remarks && (
-                    <p className="mt-2 text-orange-600 rounded-sm bg-orange-50 text-xs font-semibold w-fit py-1 px-2">
-                      {" "}
-                      Remark: {singlePrescriptionDetails?.remarks}{" "}
-                    </p>
-                  )}
-
-                  <div className="mt-2">
-                    <h1>MEDICINE</h1>
-                    <Table
-                      removeWrapper
-                      aria-label="Example static collection table"
-                    >
-                      <TableHeader>
-                        <TableColumn>Sl No</TableColumn>
-                        <TableColumn>Medicine Name</TableColumn>
-                        <TableColumn>Composition</TableColumn>
-                        <TableColumn>How To Use</TableColumn>
-                        <TableColumn>Days</TableColumn>
-                        <TableColumn>Dosage</TableColumn>
-                        {/* <TableColumn>Description</TableColumn> */}
-                        <TableColumn>Comments</TableColumn>
-                      </TableHeader>
-                      <TableBody>
-                        {singlePrescriptionDetails?.medicine_dtls.length > 0 &&
-                          singlePrescriptionDetails?.medicine_dtls.map(
-                            (medicineDetail: any, mx: number) => (
-                              <TableRow key={mx}>
-                                <TableCell className="text-center">
-                                  {mx + 1}
-                                </TableCell>
-                                <TableCell className="flex justify-between items-center">
-                                  <button
-                                    className={`${
-                                      medicineDetail?.o_id
-                                        ? "border-b-2 border-sky-600 cursor-pointer uppercase text-sky-800"
-                                        : ""
-                                    }`}
-                                    onClick={() => {
-                                      if (medicineDetail?.o_id) {
-                                        router.push(
-                                          `/prescription/${medicineDetail?.o_id}`
-                                        );
-                                      }
-                                    }}
-                                  >
-                                    <b>{medicineDetail?.medicine_name}</b>
-                                  </button>
-                                  {/* <button
-                                    className="text-orange-400"
-                                    onClick={(e) => {
-                                      dispatch(
-                                        setReminderMedicineDtlsPresc(
-                                          medicineDetail
-                                        )
-                                      );
-                                      dispatch(setIsReminderPrescModal(true));
-                                    }}
-                                  >
-                                    <Timer />
-                                  </button> */}
-                                  {/* 
-                                  <Button
-                                    
-                                    className="bg-transparent text-orange-400 "
-                                    onPress={() => {
-                                      dispatch(setReminderActionKey("create"));
-                                      dispatch(setIsReminderModal(true));
-                                    }}
-                                  >
-                                    <Timer size={28} />
-                                  </Button> */}
-                                  <button
-                                    className="bg-transparent text-orange-400"
-                                    onClick={() => {
-                                      dispatch(
-                                        setReminderDetails(medicineDetail)
-                                      );
-                                      dispatch(setReminderActionKey("create"));
-                                      dispatch(setIsReminderModal(true));
-                                    }}
-                                  >
-                                    <Timer size={28} />
-                                  </button>
-                                </TableCell>
-
-                                <TableCell className="uppercase">
-  {medicineDetail?.composition ? (
-    <button
-      className="border-b-2 border-sky-600 cursor-pointer text-sky-800 uppercase"
-      onClick={() => {
-        const compSlug = encodeURIComponent(medicineDetail?.composition); // Encoding the composition
-        router.push(`/prescription/composition/${compSlug}`); // Navigating to the correct URL
-      }}
-    > 
-      {medicineDetail?.composition}
-    </button>
-  ) : (
-    "-"
-  )}
-</TableCell>
-
-
-
-                                <TableCell className="uppercase">
-                                  {medicineDetail?.usage_instructions}
-                                </TableCell>
-                                <TableCell className="uppercase">
-                                  {medicineDetail?.days}
-                                </TableCell>
-                                <TableCell className="uppercase">
-                                  {medicineDetail?.dosage}
-                                </TableCell>
-                                {/* <TableCell className="uppercase">
-                                  {medicineDetail?.description}
-                                </TableCell> */}
-                                <TableCell>
-                                  {medicineDetail?.comments}
-                                </TableCell>
-                              </TableRow>
-                            )
-                          )}
-                      </TableBody>
-                    </Table>
-                  </div>
-
-                  <div className="mt-4">
-                    <h1>INVESTIGATION</h1>
-                    <Table
-                      removeWrapper
-                      aria-label="Example static collection table"
-                    >
-                      <TableHeader>
-                        <TableColumn className="w-12">Sl No</TableColumn>
-                        <TableColumn>NAME</TableColumn>
-                        <TableColumn>Description</TableColumn>
-                        <TableColumn>COMMENTS</TableColumn>
-                      </TableHeader>
-                      <TableBody>
-                        {singlePrescriptionDetails?.reports.length > 0 &&
-                          singlePrescriptionDetails?.reports.map(
-                            (report: any, mx: number) => (
-                              <TableRow key={mx}>
-                                <TableCell className="text-center">
-                                  {mx + 1}
-                                </TableCell>
-                                <TableCell
-                                  className="uppercase"
-                                  onClick={() => {
-                                    if (report?.o_id) {
-                                      router.push(
-                                        `/investigation/${report?.o_id}`
-                                      );
-                                    }
-                                  }}
-                                >
-                                  <span
-                                    className={`${
-                                      report?.o_id
-                                        ? "border-b-2 border-sky-600 cursor-pointer uppercase text-sky-800"
-                                        : ""
-                                    }`}
-                                  >
-                                    {report?.name}
-                                  </span>
-                                </TableCell>
-                                <TableCell className="uppercase">
-                                  {report?.desc}
-                                </TableCell>
-                                <TableCell className="uppercase">
-                                  {report?.comments}
-                                </TableCell>
-                              </TableRow>
-                            )
-                          )}
-                      </TableBody>
-                    </Table>
-                  </div>
-
-                  <div className="mt-4">
-                    <div>
-                      <h1>DIAGNOSIS</h1>
-                      <p className="text-xs font-light text-slate-400 uppercase">
-                        {singlePrescriptionDetails?.diagnosis}
-                      </p>
-                    </div>
-                    <div>
-                      <h1>SYMPTOMS</h1>
-                      <p className="text-xs font-light text-slate-400 uppercase">
-                        {singlePrescriptionDetails?.symptoms}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <NCTemplate1 DpKeys={DpKeys} dpData={dpData} />
               </ModalBody>
               <ModalFooter>
                 <p className="text-sky-800 font-bold text-sm">
@@ -311,8 +161,6 @@ export default function ViewPrescriptionDetailsModal() {
         </ModalContent>
       </Modal>
       <AddReminderModalFromPrescription />
-
-      {/* <AddReminderModalFromPrescription /> */}
     </>
   );
 }

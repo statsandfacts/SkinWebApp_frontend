@@ -73,16 +73,13 @@ export const userLogout = async () => {
 //   return data;
 // };
 
-/**
- *
- * @param phone_number
- * @param email
- * @returns
- */
-export const verifyExistingUser = async (
-  phone_number?: string,
-  email?: string
-) => {
+export const verifyExistingUser = async ({
+  phone_number,
+  email,
+}: {
+  phone_number?: string | undefined;
+  email?: string | undefined;
+}) => {
   const queryParams = new URLSearchParams();
   if (phone_number) queryParams.append("phone_number", phone_number);
   if (email) queryParams.append("email", email);
@@ -93,7 +90,6 @@ export const verifyExistingUser = async (
   );
   return data;
 };
-
 
 /**
  *
@@ -162,6 +158,20 @@ export const createCase = async (payload: any) => {
 export const updateCase = async (payload: any) => {
   const { data } = await axios.put(
     `${baseUrl}case/update-case`,
+    payload,
+    headers
+  );
+  return data;
+};
+
+/**
+ *
+ * @param payload
+ * @returns
+ */
+export const translateLanguage = async (payload: any) => {
+  const { data } = await axios.post(
+    `${baseUrl}translate/digital-prescription`,
     payload,
     headers
   );
@@ -568,16 +578,12 @@ export const digitizeSmartLabReport = async (payload: any) => {
   return data;
 };
 
-
 /**
  * Fetch country data from the server
  * @returns List of countries
  */
 export const getCountryData = async () => {
-  const { data } = await axios.get(
-    `${baseUrl}users/countries`,
-    headers
-  );
+  const { data } = await axios.get(`${baseUrl}users/countries`, headers);
   return data;
 };
 
@@ -587,14 +593,12 @@ export const getCountryData = async () => {
  * @returns {Promise<any>} - Salt composition data
  */
 export const fetchSaltComposition = async (Id: string) => {
-    const { data } = await axios.get(
-      `${baseUrl}drug/salt-composition?id=${Id}`,
-      headers
-    );
-    return data;
-  } ;
-    
-  
+  const { data } = await axios.get(
+    `${baseUrl}drug/salt-composition?id=${Id}`,
+    headers
+  );
+  return data;
+};
 
 /**
  *
@@ -612,7 +616,6 @@ export const updateMedicineDetails = async (payload: {
   );
   return data;
 };
-
 
 /**
  *
@@ -638,8 +641,6 @@ export const fetchRefillReminders = async (userId: string) => {
   return data;
 };
 
-
-
 /**
  *
  * @param payload { reminder_id, user_id, medicine_name, medicine_o_id, dosage, start_date, days, is_active }
@@ -654,7 +655,6 @@ export const updateRefillReminder = async (payload: any) => {
   return data;
 };
 
-
 /**
  *
  * @param user_id string
@@ -668,7 +668,6 @@ export const getRefillReminders = async (user_id: string) => {
   return data;
 };
 
-
 /**
  *
  * @param reminder_id string | number
@@ -681,4 +680,3 @@ export const deleteRefillReminder = async (reminder_id: string | number) => {
   );
   return data;
 };
-

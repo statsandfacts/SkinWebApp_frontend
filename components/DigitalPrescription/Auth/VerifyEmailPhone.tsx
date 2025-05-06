@@ -35,10 +35,14 @@ const VerifyEmailPhone = () => {
       return;
     }
 
+    if (!value) {
+      setError("");
+      return;
+    }
     setError("");
     setLoading(true);
     try {
-      const res = await verifyExistingUser(value);
+      const res = await verifyExistingUser({ phone_number: value });
       if (res.status === 200) {
         toast.error(res.message || "Something went wrong!");
       }
