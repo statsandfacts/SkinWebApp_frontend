@@ -31,7 +31,7 @@ export default function SLRParExp({ data }: Props) {
   };
 
   return (
-    <div className="mt-12 pt-8 px-4 md:px-10">
+    <div className="pt-4 px-4 md:px-10">
       <h2 className="text-2xl font-extrabold text-center text-primary mb-1">
         🧾 Detailed Parameter Insights
       </h2>
@@ -124,7 +124,6 @@ function Sections({ item }: { item: SmartLabItem }) {
       content: item.diet_donts,
     },
   ].filter(Boolean);
-  
 
   return (
     <div className="space-y-4 text-gray-700 text-sm leading-relaxed">
@@ -179,16 +178,7 @@ function Section({
       {content ? (
         <div className={`border-l-4 border-slate-200 pl-3 py-2 rounded-md`}>
           <div className="flex items-center mb-1 gap-2">
-            {icon && (
-             <Image
-             src={icon}
-             alt={title}
-             width={100}
-             height={20}
-             
-           />
-           
-            )}
+            {icon && <Image src={icon} alt={title} width={100} height={20} />}
             <h4 className="font-semibold text-sm text-slate-700">{title}</h4>
           </div>
           <p className="text-gray-700 text-sm">

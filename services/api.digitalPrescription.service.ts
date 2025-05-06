@@ -579,6 +579,19 @@ export const digitizeSmartLabReport = async (payload: any) => {
 };
 
 /**
+ * Fetch Report data By report ID
+ * @param reportId - The ID of the report
+ * @returns Report data
+ */
+export const getReportDataById = async (reportId: string | null) => {
+  const { data } = await axios.get(
+    `${baseUrl}report/report-by-id?report_id=${reportId}`,
+    headers
+  );
+  return data;
+};
+
+/**
  * Fetch country data from the server
  * @returns List of countries
  */

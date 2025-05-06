@@ -1,6 +1,7 @@
 import {
   getPatientDashboard,
   getProfileCompletionPercentage,
+  getReportDataById,
 } from "@/services/api.digitalPrescription.service";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
@@ -22,6 +23,11 @@ interface UserDashboardState {
     error: string | null;
     profileCompletionPercentage: number | null;
   };
+  singleReport: {
+    loading: boolean;
+    error: string | null;
+    data: any;
+  };
 }
 
 const initialState: UserDashboardState = {
@@ -41,6 +47,11 @@ const initialState: UserDashboardState = {
     loading: false,
     error: null,
     profileCompletionPercentage: null,
+  },
+  singleReport: {
+    loading: false,
+    error: null,
+    data: null,
   },
 };
 
@@ -79,6 +90,27 @@ export const fetchProfileCompletionPercentage = createAsyncThunk<
       if (error.response && error.response.data) {
         return rejectWithValue(
           error.response.data.message || "Failed to fetch percentage data"
+        );
+      }
+      return rejectWithValue(error.message || "Network Error");
+    }
+  }
+);
+
+export const fetchSingleReportData = createAsyncThunk<
+  any,
+  any,
+  { rejectValue: string }
+>(
+  "userDashboard/fetchSingleReportData",
+  async (report_id: string | null, { rejectWithValue }) => {
+    try {
+      const data = await getReportDataById(report_id);
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(
+          error.response.data.message || "Failed to fetch report data"
         );
       }
       return rejectWithValue(error.message || "Network Error");
@@ -165,6 +197,28 @@ const userDashboardSlice = createSlice({
           state.profileCompletionData.loading = false;
           state.profileCompletionData.error = null;
           state.profileCompletionData.profileCompletionPercentage = null;
+        }
+      )
+
+      .addCase(fetchSingleReportData.pending, (state) => {
+        state.singleReport.loading = true;
+        state.singleReport.error = null;
+        state.singleReport.data = null;
+      })
+      .addCase(
+        fetchSingleReportData.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.singleReport.loading = false;
+          state.singleReport.error = null;
+          state.singleReport.data = action.payload || null;
+        }
+      )
+      .addCase(
+        fetchSingleReportData.rejected,
+        (state, action: PayloadAction<string | undefined>) => {
+          state.singleReport.loading = false;
+          state.singleReport.error = null;
+          state.singleReport.data = null;
         }
       );
   },
