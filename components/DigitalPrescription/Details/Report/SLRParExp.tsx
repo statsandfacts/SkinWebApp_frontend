@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 
 type SmartLabItem = {
   parameter_subg_name: string;
@@ -82,33 +83,48 @@ function Sections({ item }: { item: SmartLabItem }) {
 
   const sections = [
     {
-      title: "🔬 What is the Test?",
+      icon: "/smartlabreports/whatisthetest.png",
+      title: "What is the Test?",
       content: item.what_is_the_test,
     },
-    { title: "🧫 How is it Performed?", content: item.how_is_it_performed },
+    {
+      icon: "/smartlabreports/howisitperformed.png",
+      title: "How is it Performed?",
+      content: item.how_is_it_performed,
+    },
     item.parameter_classification === "normal" &&
       item.normal_levels && {
-        title: "📈 Normal Levels",
+        icon: "/smartlabreports/normal.png",
+        title: "Normal Levels",
         content: item.normal_levels,
       },
     item.causes_count && {
-      title: "⚠️ Causes (Count)",
+      icon: "/smartlabreports/causes.png",
+      title: "Causes (Count)",
       content: item.causes_count,
     },
     item.causes_effect && {
-      title: "💥 Causes Effect",
+      icon: "/smartlabreports/effects.png",
+      title: "Causes Effect",
       content: item.causes_effect,
     },
     item.prevention && {
-      title: "🛡️ Prevention",
+      icon: "/smartlabreports/prevention.png",
+      title: "Prevention",
       content: item.prevention,
     },
-    { title: "✅ Diet - Dos", content: item.diet_dos },
     {
-      title: "🚫 Diet - Don'ts",
+      icon: "/smartlabreports/diet-dos.png",
+      title: "Diet - Dos",
+      content: item.diet_dos,
+    },
+    {
+      icon: "/smartlabreports/dont-dos.png",
+      title: "Diet - Don'ts",
       content: item.diet_donts,
     },
   ].filter(Boolean);
+  
 
   return (
     <div className="space-y-4 text-gray-700 text-sm leading-relaxed">
@@ -143,7 +159,15 @@ function Sections({ item }: { item: SmartLabItem }) {
 }
 
 // Reusable Section Component
-function Section({ title, content }: { title: string; content: string }) {
+function Section({
+  title,
+  content,
+  icon,
+}: {
+  title: string;
+  content: string;
+  icon?: string;
+}) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const truncateContent = content ? content.length > 80 : false;
@@ -154,9 +178,19 @@ function Section({ title, content }: { title: string; content: string }) {
     <>
       {content ? (
         <div className={`border-l-4 border-slate-200 pl-3 py-2 rounded-md`}>
-          <h4 className={`font-semibold text-sm mb-1 text-slate-700`}>
-            {title}
-          </h4>
+          <div className="flex items-center mb-1 gap-2">
+            {icon && (
+             <Image
+             src={icon}
+             alt={title}
+             width={100}
+             height={20}
+             
+           />
+           
+            )}
+            <h4 className="font-semibold text-sm text-slate-700">{title}</h4>
+          </div>
           <p className="text-gray-700 text-sm">
             <span
               className={`${isExpanded ? "cursor-default" : "cursor-pointer"}`}

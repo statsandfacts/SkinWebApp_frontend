@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 
 // Interface for educational insights
 interface EducationalInsight {
@@ -19,15 +20,31 @@ const InsightSection = ({
   title,
   content,
   className,
+  imagePath,
 }: {
   title: string;
   content?: string;
   className: string;
+  imagePath?: string;
 }) =>
   content ? (
-    <div>
-      <h3 className={`text-lg font-semibold ${className}`}>{title}</h3>
-      <p className="mt-2 whitespace-pre-line text-sm font-light">{content}</p>
+    <div className="flex items-start gap-2">
+      {/* Render image if imagePath is provided */}
+      {imagePath && (
+        <Image
+          src={imagePath}
+          alt={title}
+          width={24}
+          height={24}
+          className="mt-1"
+        />
+      )}
+      <div>
+        <h3 className={`text-lg font-semibold ${className}`}>{title}</h3>
+        <p className="mt-2 whitespace-pre-line text-sm font-light">
+          {content}
+        </p>
+      </div>
     </div>
   ) : null;
 
@@ -53,16 +70,19 @@ export default function SLREduIn({ data }: Props) {
             📂 {item.group_name}
           </h1>
 
+          {/* Use images in InsightSection */}
           <InsightSection
-            title={`🧪 What Is a ${item.group_name}?`}
+            title={`What Is a ${item.group_name}?`}
             content={item.what_is}
             className="text-blue-800"
+            imagePath="/smartlabreports/whatishaemogram.png" // Example image path
           />
 
           <InsightSection
-            title="❤️ Why It Matters"
+            title="Why It Matters"
             content={item.why_it_matters}
             className="text-green-700"
+            imagePath="/smartlabreports/whyItmatters.png" // Example image path
           />
 
           <div className="relative">
@@ -70,19 +90,22 @@ export default function SLREduIn({ data }: Props) {
             {expanded[index] && (
               <>
                 <InsightSection
-                  title="🧯 Myth Buster"
+                  title="Myth Buster"
                   content={item.myth_buster}
                   className="text-purple-700"
+                  imagePath="/smartlabreports/mythbuster.png" // Example image path
                 />
                 <InsightSection
-                  title="🩺 Critical Alert – Seek Medical Attention If:"
+                  title="Critical Alert – Seek Medical Attention If:"
                   content={item.critical_alert}
                   className="text-red-600 text-lg"
+                  imagePath="/smartlabreports/whatishaemogram.png" // Example image path
                 />
                 <InsightSection
-                  title="🔔 Reminders"
+                  title="Reminders"
                   content={item.reminder}
                   className="text-red-600 text-lg mt-4"
+                  imagePath="/smartlabreports/reminders.png" // Example image path
                 />
               </>
             )}
