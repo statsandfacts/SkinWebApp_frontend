@@ -1,16 +1,6 @@
 "use client";
-import {
-  Apple,
-  Activity,
-  Dumbbell,
-  Sunrise,
-  Sparkles,
-  HeartPulse,
-  SearchCheck,
-  ClipboardCheck,
-  Target,
-} from "lucide-react";
 import React from "react";
+import Image from "next/image";
 
 type GroupData = {
   group_name: string;
@@ -28,8 +18,8 @@ type Props = {
 
 export default function SLRDiteAdj({ data }: Props) {
   return (
-    <div className="ml-6 mt-6 ">
-      <h2 className="text-xl w-full flex justify-center items-center font-bold text-primary ">
+    <div className="ml-6 mt-6">
+      <h2 className="text-xl w-full flex justify-center items-center font-bold text-primary">
         🥑 Health Plan & Adjustments
       </h2>
       {data.map((group, index) => (
@@ -42,7 +32,7 @@ export default function SLRDiteAdj({ data }: Props) {
               <SLRInsightCard
                 title="Dietary Adjustments"
                 description={group.dietary_adjustments}
-                Icon={Apple}
+                imagePath="/smartlabreports/dietaryadjustments.png"
               />
             )}
 
@@ -50,7 +40,7 @@ export default function SLRDiteAdj({ data }: Props) {
               <SLRInsightCard
                 title="Exercise Suggestions"
                 description={group.exercise_suggestions}
-                Icon={Dumbbell}
+                imagePath="/smartlabreports/exercisesuggestions.png"
               />
             )}
 
@@ -58,24 +48,15 @@ export default function SLRDiteAdj({ data }: Props) {
               <SLRInsightCard
                 title="Lifestyle Changes"
                 description={group.lifestyle_changes}
-                Icon={HeartPulse}
+                imagePath="/smartlabreports/lifestylechanges.png"
               />
             )}
 
-            {/* Follow-Up */}
-            {/* {group.follow_up && (
-              <div>
-                <h3 className="text-lg font-semibold">
-                  🔍 When to Seek Follow-Up
-                </h3>
-                <p className="mt-2 text-gray-700">{group.follow_up}</p>
-              </div>
-            )} */}
             {group.follow_up && (
               <SLRInsightCard
                 title="When to Seek Follow-Up"
                 description={group.follow_up}
-                Icon={SearchCheck}
+                imagePath="/smartlabreports/whentoseekfollow-up.png"
               />
             )}
 
@@ -83,7 +64,7 @@ export default function SLRDiteAdj({ data }: Props) {
               <SLRInsightCard
                 title="Your Next Steps"
                 description={group.next_steps}
-                Icon={ClipboardCheck}
+                imagePath="/smartlabreports/yournextsteps.png"
               />
             )}
 
@@ -91,7 +72,7 @@ export default function SLRDiteAdj({ data }: Props) {
               <SLRInsightCard
                 title="Target Health Goals"
                 description={group.target_health_goals}
-                Icon={Target}
+                imagePath="/smartlabreports/targethealthgoals.png"
               />
             )}
           </div>
@@ -105,23 +86,33 @@ export default function SLRDiteAdj({ data }: Props) {
 type SLRInsightCardProps = {
   title: string;
   description: string;
-  Icon: React.ElementType;
+  Icon?: React.ElementType;
+  imagePath?: string;
 };
 
 const SLRInsightCard: React.FC<SLRInsightCardProps> = ({
   title,
   description,
   Icon,
+  imagePath,
 }) => {
   return (
     <div className="flex gap-1 flex-col items-center justify-center text-center max-w-xs shadow-md rounded-md p-1 shadow-primary-50">
       <div className="rounded-full bg-blue-100 p-2 w-16 h-16 flex items-center justify-center shadow-md overflow-hidden relative">
-        <Icon className="text-orange-400 h-6 w-6" />
+        {imagePath ? (
+          <Image
+            src={imagePath}
+            alt={title}
+            width={200}
+            height={200}
+            className="object-contain"
+          />
+        ) : (
+          Icon && <Icon className="text-orange-400 h-6 w-6" />
+        )}
       </div>
       <h3 className="text-lg font-semibold">{title}</h3>
-      <p className="font-light text-sm text-gray-700 text-left">
-        {description}
-      </p>
+      <p className="font-light text-sm text-gray-700 text-left">{description}</p>
     </div>
   );
 };
