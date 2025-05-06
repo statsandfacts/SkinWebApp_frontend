@@ -169,9 +169,9 @@ export const updateCase = async (payload: any) => {
  * @param payload
  * @returns
  */
-export const translatelanguage = async (payload: any) => {
-  const { data } = await axios.put(
-    `${baseUrl}translate/prescription`,
+export const translateLanguage = async (payload: any) => {
+  const { data } = await axios.post(
+    `${baseUrl}translate/digital-prescription`,
     payload,
     headers
   );

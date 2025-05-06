@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -14,67 +14,116 @@ import AddReminderModalFromPrescription from "./AddReminderModelFromPrescription
 import NCTemplate1 from "./DPTemplates/NCTemplate1";
 import { Button } from "@heroui/button";
 import { Languages } from "lucide-react";
+import { translateLanguage } from "@/services/api.digitalPrescription.service";
+import { toast } from "react-toastify";
+
+const dpKeysInitial = {
+  doctor_name: "Doctor Name",
+  doctor_redg_number: "Doctor Redg. No.",
+  provider_heading: "Hospital/Clinic Details",
+  provider_name: "Name",
+  provider_dtls: "Address",
+  pharmacist_name: "Pharmacist Name",
+  pharmacist_certificate_no: "Pharmacist License",
+  prescription_date: "Date",
+  prescription_id: "Prescription Id",
+  remarks: "Remarks",
+  medicine_heading: "MEDICINE",
+  medicine_sl_no: "Sl No",
+  medicine_name: "Medicine Name",
+  medicine_composition: "Compisition",
+  medicine_method: "How to use",
+  medicine_days: "Days",
+  medicine_dosage: "Dosage",
+  medicine_comments: "Comments",
+  investagition_heading: "INVESTIGATION",
+  investigation_name: "Name",
+  investigation_description: "Description",
+  investigation_comments: "Comments",
+  diagnosis_heading: "DIAGNOSIS",
+  symptoms_heading: "SYMPTOMS",
+};
+
 export default function ViewPrescriptionDetailsModal() {
   const dispatch = useDispatch();
-  
+  const {
+    isViewPrescriptionDetailsModal,
+    singlePrescriptionDetails,
+    singleCaseDetails,
+  } = useSelector((state: any) => state.digitalPrescription);
 
-  const { isViewPrescriptionDetailsModal, singlePrescriptionDetails, singleCaseDetails } = useSelector(
-    (state: any) => state.digitalPrescription
-  );
+  const [targetLang, setTargetLang] = useState<string>("en");
+  const [lTLoading, setLTLoading] = useState<boolean>(false);
+  const [DpKeys, setDpKeys] = useState<any>(dpKeysInitial);
+  const [dpData, setDpData] = useState<any>({
+    dr_name: "",
+    prv_name: "",
+    prv_dtls: "",
+    ph_name: "",
+    prsc_date: "",
+    remarks: "",
+    medicine_dtls: [],
+    reports: [],
+    diagnosis: "",
+    symptoms: "",
+  });
+
+  useEffect(() => {
+    if (singlePrescriptionDetails || singleCaseDetails) {
+      setDpData({
+        dr_name: singlePrescriptionDetails?.doctor_name || "",
+        prv_name: singlePrescriptionDetails?.provider_name || "",
+        prv_dtls: singlePrescriptionDetails?.provider_dtls || "",
+        ph_name: singleCaseDetails?.pharmacist_name || "",
+        prsc_date: singlePrescriptionDetails?.prescription_date || "",
+        remarks: singlePrescriptionDetails?.remarks || "",
+        medicine_dtls: singlePrescriptionDetails?.medicine_dtls || [],
+        reports: singlePrescriptionDetails?.reports || [],
+        diagnosis: singlePrescriptionDetails?.diagnosis || "",
+        symptoms: singlePrescriptionDetails?.symptoms || "",
+      });
+    }
+  }, [singlePrescriptionDetails, singleCaseDetails]);
 
   const onClose = () => {
     dispatch(setViewPrescriptionDetailsModal(false));
   };
 
-    const [dpData, setDpData] = useState<any>({
+  const handleTranslateLanguage = () => {
+    if (targetLang === "or") {
+      setDpKeys(dpKeysInitial);
+      setDpData({
+        dr_name: singlePrescriptionDetails?.doctor_name || "",
+        prv_name: singlePrescriptionDetails?.provider_name || "",
+        prv_dtls: singlePrescriptionDetails?.provider_dtls || "",
+        ph_name: singleCaseDetails?.pharmacist_name || "",
+        prsc_date: singlePrescriptionDetails?.prescription_date || "",
+        remarks: singlePrescriptionDetails?.remarks || "",
+        medicine_dtls: singlePrescriptionDetails?.medicine_dtls || [],
+        reports: singlePrescriptionDetails?.reports || [],
+        diagnosis: singlePrescriptionDetails?.diagnosis || "",
+        symptoms: singlePrescriptionDetails?.symptoms || "",
+      });
+      return;
+    }
+    setLTLoading(true);
+    translateLanguage({
       target_lang: "or",
-      dp_keys: {
-        doctor_name: "Doctor Name",
-        doctor_redg_number: "Doctor Redg. No.",
-        provider_heading: "Hospital/Clinic Details",
-        provider_name: "Name",
-        provider_dtls: "Address",
-        pharmacist_name: "Pharmacist Name",
-        pharmacist_certificate_no: "Pharmacist License",
-        prescription_date: "Date",
-        prescription_id: "Prescription Id",
-        remarks: "Remarks",
-        medicine_heading: "MEDICINE",
-        medicine_sl_no: "Serial Number",
-        medicine_name: "Medicine Name",
-        medicine_composition: "Compisition",
-        medicine_method: "How to use",
-        medicine_days: "Days",
-        medicine_dosage: "Dosage",
-        medicine_comments: "Comments",
-        investagition_heading: "INVESTIGATION",
-        investigation_name: "Name",
-        investigation_description: "Description",
-        investigation_comments: "Comments",
-        diagnosis_heading: "DIAGNOSIS",
-        symptoms_heading: "SYMPTOMS"
-      },
-      dp_details: {
-        dr_name: singlePrescriptionDetails?.doctor_name,
-        dr_redg_no: singlePrescriptionDetails?.doctor_redg_number,
-        prv_name: singlePrescriptionDetails?.provider_name,
-        prv_dtls: singlePrescriptionDetails?.provider_dtls,
-        ph_name: singleCaseDetails?.pharmacist_name,
-        ph_lis_no: singleCaseDetails?.pharmacist_certificate_no,
-        prsc_date: singlePrescriptionDetails?.prescription_date,
-        prsc_id: singlePrescriptionDetails?.prescription_id,
-        remarks: singlePrescriptionDetails?.remarks,
-        medicine_dtls: singlePrescriptionDetails?.medicine_dtls,
-        reports: singlePrescriptionDetails?.reports,
-        diagnosis: singlePrescriptionDetails?.diagnosis,
-        symptoms: singlePrescriptionDetails?.symptoms
-      }
-  
-    });
-
-  const handleTranslatelanguage = () => {
-
-  }
+      dp_details: dpData,
+      dp_keys: DpKeys,
+    })
+      .then((res: any) => {
+        setTargetLang(targetLang === "or" ? "en" : "or");
+        setDpKeys(res?.data?.dp_keys);
+        setDpData(res?.data?.dp_details);
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message || "Something went wrong");
+      })
+      .finally(() => {
+        setLTLoading(false);
+      });
+  };
 
   return (
     <>
@@ -88,12 +137,18 @@ export default function ViewPrescriptionDetailsModal() {
             <>
               <ModalHeader className="flex flex-row justify-between items-center gap-1">
                 <p>Prescription Details</p>
-                <Button variant="flat" className="mr-8" onPress={handleTranslatelanguage}>
-                <Languages size={18} />  Translate
+                <Button
+                  variant="flat"
+                  className="mr-8"
+                  onPress={handleTranslateLanguage}
+                  isLoading={lTLoading}
+                >
+                  <Languages size={18} />{" "}
+                  {targetLang === "or" ? "English" : "Odia"}
                 </Button>
               </ModalHeader>
               <ModalBody>
-                <NCTemplate1 prescriptionDetails={dpData}/>
+                <NCTemplate1 DpKeys={DpKeys} dpData={dpData} />
               </ModalBody>
               <ModalFooter>
                 <p className="text-sky-800 font-bold text-sm">
