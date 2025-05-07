@@ -86,20 +86,18 @@ export default function SLRDiteAdj({ data }: Props) {
 type SLRInsightCardProps = {
   title: string;
   description: string;
-  Icon?: React.ElementType;
   imagePath?: string;
 };
 
 const SLRInsightCard: React.FC<SLRInsightCardProps> = ({
   title,
   description,
-  Icon,
   imagePath,
 }) => {
   return (
-    <div className="flex gap-1 flex-col items-center justify-center text-center max-w-xs shadow-md rounded-md p-1 shadow-primary-50">
-      <div className="rounded-full bg-blue-100 p-2 w-16 h-16 flex items-center justify-center shadow-md overflow-hidden relative">
-        {imagePath ? (
+    <div className="flex gap-1 flex-col items-center justify-start text-center max-w-xs shadow-md rounded-md p-1 shadow-primary-50">
+      <div className="rounded-full bg-primary-lite p-2 w-16 h-16 flex items-center justify-center shadow-md shadow-primary-lite overflow-hidden relative">
+        {imagePath && (
           <Image
             src={imagePath}
             alt={title}
@@ -107,12 +105,12 @@ const SLRInsightCard: React.FC<SLRInsightCardProps> = ({
             height={200}
             className="object-contain"
           />
-        ) : (
-          Icon && <Icon className="text-orange-400 h-6 w-6" />
         )}
       </div>
-      <h3 className="text-lg font-semibold">{title}</h3>
-      <p className="font-light text-sm text-gray-700 text-left">{description}</p>
+      <h3 className="text-lg font-semibold text-primary">{title}</h3>
+      <p className="font-light text-sm text-gray-700 text-left">
+        {description}
+      </p>
     </div>
   );
 };
