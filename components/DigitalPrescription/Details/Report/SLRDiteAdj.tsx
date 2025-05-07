@@ -20,7 +20,7 @@ export default function SLRDiteAdj({ data }: Props) {
   return (
     <div className="ml-6 mt-6">
       <h2 className="text-xl w-full flex justify-center items-center font-bold text-primary">
-        🥑 Health Plan & Adjustments
+        Health Plan & Adjustments
       </h2>
       {data.map((group, index) => (
         <div key={index} className="space-y-6 mb-3">
@@ -108,7 +108,7 @@ const SLRInsightCard: React.FC<SLRInsightCardProps> = ({
         )}
       </div>
       <h3 className="text-lg font-semibold text-primary">{title}</h3>
-      <p className="font-light text-sm text-gray-700 text-left">
+      <p className="font-light text-sm text-gray-700 text-center">
         {description}
       </p>
     </div>

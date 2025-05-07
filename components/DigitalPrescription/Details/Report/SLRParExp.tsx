@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import { CheckCircle } from "lucide-react";
+
 
 type SmartLabItem = {
   parameter_subg_name: string;
@@ -32,10 +34,10 @@ export default function SLRParExp({ data }: Props) {
 
   return (
     <div className="pt-4 px-4 md:px-10">
-      <h2 className="text-2xl font-extrabold text-center text-primary mb-1">
-        🧾 Detailed Parameter Insights
+      <h2 className="text-3xl font-extrabold text-center text-primary mb-1">
+         Detailed Parameter Insights
       </h2>
-      <p className="text-sm text-center text-gray-500 mb-10">
+      <p className="text-xl text-center text-gray-500 mb-10">
         Understand what each test means, why it matters, and what to do next.
       </p>
 
@@ -53,8 +55,13 @@ export default function SLRParExp({ data }: Props) {
               key={index}
               className="border border-gray-200 p-6 rounded-xl shadow-md bg-white hover:shadow-lg transition-all duration-300"
             >
+
+              {/* Parameter Name */}
+              <h3 className="text-lg font-bold text-sky-800 mb-4">
+                {item.parameter_subg_name || "Unknown Parameter"}
+              </h3>
               {/* Status */}
-              <div className="flex items-center text-xs font-medium text-primary gap-2 mb-2">
+              <div className="flex items-center text-lg font-medium text-primary gap-2 mb-2">
                 <span>Status:</span>
                 <span className={`h-3 w-3 rounded-full ${styles.bg}`}></span>
                 <span className={`capitalize ${styles.text}`}>
@@ -63,10 +70,7 @@ export default function SLRParExp({ data }: Props) {
                 </span>
               </div>
 
-              {/* Parameter Name */}
-              <h3 className="text-lg font-bold text-sky-800 mb-4">
-                {item.parameter_subg_name || "Unknown Parameter"}
-              </h3>
+              
 
               {/* Section Blocks */}
               <Sections item={item} />
@@ -94,7 +98,7 @@ function Sections({ item }: { item: SmartLabItem }) {
     },
     item.parameter_classification === "normal" &&
       item.normal_levels && {
-        icon: "/smartlabreports/normal.png",
+        icon: <CheckCircle className="text-green-600 w-5 h-5 " />, 
         title: "Normal Levels",
         content: item.normal_levels,
       },
@@ -129,7 +133,7 @@ function Sections({ item }: { item: SmartLabItem }) {
     <div className="space-y-4 text-gray-700 text-sm leading-relaxed">
       {/* Render the first 3 sections by default */}
       {sections.slice(0, 2).map((section: any, index: number) => (
-        <Section key={index} content={section.content} title={section?.title} />
+        <Section key={index} content={section.content} title={section?.title} icon={section?.icon}/>
       ))}
 
       {/* Conditionally render remaining sections if "View More" is clicked */}
@@ -141,6 +145,7 @@ function Sections({ item }: { item: SmartLabItem }) {
               key={index + 2}
               content={section.content}
               title={section?.title}
+              icon={section?.icon}
             />
           ))}
 
@@ -165,7 +170,7 @@ function Section({
 }: {
   title: string;
   content: string;
-  icon?: string;
+  icon?: string | React.ReactNode;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -173,14 +178,22 @@ function Section({
   const displayedContent =
     isExpanded || !truncateContent ? content : content.slice(0, 80) + "...";
 
+  const hasDisplayContent = !!displayedContent?.trim();
+
   return (
     <>
-      {content ? (
-        <div className={`border-l-4 border-slate-200 pl-3 py-2 rounded-md`}>
+      {hasDisplayContent && (
+        <div className={`border-l-4 border-slate-200 pl-3 py-2 rounded-md bg-blue-50`}>
+          {/* Only render icon + title if content exists */}
           <div className="flex items-center mb-1 gap-2">
-            {icon && <Image src={icon} alt={title} width={100} height={20} />}
-            <h4 className="font-semibold text-sm text-slate-700">{title}</h4>
+            {typeof icon === "string" ? (
+              <Image src={icon} alt={title} width={30} height={30} />
+            ) : (
+              icon
+            )}
+            <h4 className="font-semibold text-lg text-slate-700">{title}</h4>
           </div>
+
           <p className="text-gray-700 text-sm">
             <span
               className={`${isExpanded ? "cursor-default" : "cursor-pointer"}`}
@@ -190,7 +203,7 @@ function Section({
             </span>
           </p>
         </div>
-      ) : null}
+      )}
     </>
   );
 }
