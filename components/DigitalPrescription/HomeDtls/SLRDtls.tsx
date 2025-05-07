@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React from "react";
 
 export const SLRDtls = () => {
@@ -52,7 +53,7 @@ export const SLRDtls = () => {
         decisions.
       </p>
 
-      <div className="pt-6">
+      {/* <div className="pt-6">
         <p className="text-lg font-semibold text-red-600 animate-pulse">
           🚀 Launching Soon!
         </p>
@@ -62,6 +63,16 @@ export const SLRDtls = () => {
           <span className="font-medium text-gray-800">
             Stay tuned — something smart is coming your way!
           </span>
+        </p>
+      </div> */}
+      <div className="pt-8">
+        <Link href="/upload-prescription" passHref>
+          <div className="inline-block bg-primary text-white text-lg font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-primary-dark transition duration-300 cursor-pointer">
+            🚀 Try Smart Lab Reports Now
+          </div>
+        </Link>
+        <p className="text-sm text-gray-500 mt-2">
+          Experience a smarter, clearer view of your health data today.
         </p>
       </div>
     </div>

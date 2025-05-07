@@ -21,6 +21,7 @@ const BlogSegregation = () => {
   const { allBlogsByCategories } = useSelector(
     (state: RootState) => state.blogs
   );
+  // console.log(allBlogsByCategories);
 
   useEffect(() => {
     if (
@@ -66,8 +67,9 @@ const BlogSegregation = () => {
                       allBlogsByCategories.data?.recent_blogs
                         .slice(0, 3)
                         .map((item: any, index: number) => (
+                          
                           <Link
-                            href={`/blog/${item?.slug}`}
+                            href={`/blog/${item?.categories[0].slug}/${item?.sub_categories[0].slug}/${item?.slug}`}
                             key={index}
                             className="hover:bg-sky-50 p-2 rounded-lg h-fit"
                           >
@@ -113,7 +115,7 @@ const BlogSegregation = () => {
                       ) || [];
 
                     const topBlogs = allBlogs.slice(0, 3);
-
+                    console.log(cat);
                     return (
                       <div key={index}>
                         <div className="flex justify-between mt-4">
@@ -122,8 +124,8 @@ const BlogSegregation = () => {
                           </p>
                           <button
                             onClick={() => {
-                              dispatch(setReduxCatData(cat));
-                              router.push(`/blog/category/${cat.category_id}`);
+                              dispatch(setReduxCatData(cat)); 
+                              router.push(`/blog/${cat.slug}`);
                             }}
                             className="text-sky-800 flex items-center text-sm md:text-xl transition ease-in-out duration-200 hover:translate-x-1 hover:text-sky-700"
                           >

@@ -29,6 +29,7 @@ interface BlogOverviewProps {}
 const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
   const router = useRouter();
   const { blogId } = useParams();
+  // console.log(blogId);
   const dispatch = useDispatch<AppDispatch>();
 
   const { singleBlog, sbErrorMessage, sbLoading, data, errorMessage, loading } =
@@ -36,6 +37,7 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
 
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
   useEffect(() => {
+    // console.log(singleBlog);
     // if (!singleBlog) {
     dispatch(fetchBlogDtls(blogId));
     // }
@@ -162,6 +164,14 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
               {singleBlog?.categories && (
                 <div className="flex flex-wrap mb-4">
                   {singleBlog?.categories.map((tag: any, index: number) => (
+                    <span
+                      key={index}
+                      className="bg-sky-200 text-sky-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full"
+                    >
+                      {tag?.name}
+                    </span>
+                  ))}
+                  {singleBlog?.sub_categories.map((tag: any, index: number) => (
                     <span
                       key={index}
                       className="bg-sky-200 text-sky-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full"

@@ -14,6 +14,7 @@ const BlogCategoryData = () => {
   );
 
   useEffect(() => {
+    // console.log(reduxCatData);
     if (!reduxCatData) {
       router.replace("/blog");
     }

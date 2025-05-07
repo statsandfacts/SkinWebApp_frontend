@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { setViewSmartLabReportModal } from "@/redux/slices/digitalPrescription/digitalPrescription.slice";
 import { Modal, ModalContent, ModalHeader, ModalBody } from "@heroui/modal";
-import Image from "next/image";
 import {
   SLRDiteAdj,
   SLREduIn,
@@ -13,9 +12,10 @@ import {
   SLRParExp,
 } from "./index";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
-import Link from "next/link";
-import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
-import FontAwesomeXIcon from "@/components/SvgIcon/FontAwesomeXIcon";
+import { BookTextIcon, UserIcon } from "lucide-react";
+import SLRFooter from "./SLRFooter";
+import Image from "next/image";
+import { ArrowRight } from 'lucide-react';
 
 const SLRModal = () => {
   const dispatch = useDispatch();
@@ -26,8 +26,6 @@ const SLRModal = () => {
   const { singlePrescriptionDetails } = useSelector(
     (state: any) => state.digitalPrescription
   );
-
-  console.log("userDetails=========", userDetails);
 
   const slrRes = singlePrescriptionDetails?.slr_res;
 
@@ -40,137 +38,146 @@ const SLRModal = () => {
       scrollBehavior="inside"
     >
       <ModalContent>
-        <ModalHeader className="text-2xl font-bold text-gray-800">
-          🧾 Nextcare.Life Smart Lab Report
-        </ModalHeader>
-        <ModalBody>
-          <div className=" space-y-2">
-            <p className="text-sm italic">
-              Empowering Health Decisions with Clarity and Insight
+        <ModalHeader className="flex flex-col">
+          <div className="flex flex-col items-start ml-2">
+            <Image
+              src="/logo_with_bg.svg"
+              alt="Logo"
+              width={100}
+              height={500}
+            />
+
+            <p className="text-3xl font-bold text-gray-800 text-primary">
+              Nextcare.Life
             </p>
+            <p className="text-4xl font-bold text-gray-800 text-primary">
+              Smart Lab Report
+            </p>
+            <small className="text-xl font-light text-gray-600">
+              Empowering Health Decision with clarity and insight
+            </small>
+          </div>
+        </ModalHeader>
 
-            <hr className="my-4 border-gray-300" />
-            <div>
-              <h3 className="text-lg font-semibold flex items-center gap-2">
-                👤 Patient Information
-              </h3>
-              <ul className="list-disc ml-6 text-sm mt-2 space-y-1">
-                <li>
-                  Name:{" "}
-                  <span className="capitalize font-bold">
-                    {userDetails?.name}
-                  </span>
-                </li>
-                <li>
-                  Gender:{" "}
-                  <span className="capitalize font-bold">
-                    {userDetails?.gender}
-                  </span>
-                </li>
-                {/* <li>Lab ID: xxxxxxxxxxxxxxx</li>
-                <li>Test Date: xxxxxxxxxxxxxxxxx</li> */}
-              </ul>
+        <ModalBody>
+          <div className="flex flex-col justify-center items-center w-full gap-4">
+            {/* Section: User Details & Lab Information */}
+            <div className="w-full bg-[#75AFD2] shadow-primary-50 shadow-lg p-6 rounded-xl">
+              <div className="flex justify-between items-start gap-x-10">
+                <div className="flex items-start gap-3">
+                <UserIcon className="h-6 w-6 text-primary" />
+                  <div className="flex flex-col text-white text-sm font-medium space-y-1">
+                    <p>{userDetails?.name}</p>
+                    <p>Age: {userDetails?.age}</p>
+                    <p>Gender: {userDetails?.gender}</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col text-white text-sm font-medium space-y-1 text-right">
+                  <p>
+                    Lab No: {singlePrescriptionDetails?.lab_number || "123456"}
+                  </p>
+                  <p>
+                    Test date:{" "}
+                    {singlePrescriptionDetails?.test_date || "03-05-2025"}
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div>
-              <h3 className="text-lg font-semibold flex items-center gap-2 mt-4">
-                🧬 Your Health Summary Report
-              </h3>
-              <p className="text-sm mt-2">
-                Wishing you strength, good health, and wellness as you take this
-                important step toward understanding your body better. Stay
-                proactive, stay positive — your health is your wealth!
+            {/* Section: Health Summary and Score */}
+            <div className="w-full bg-[#75AFD2] shadow-primary-50 shadow-lg p-6 rounded-xl">
+              <div className="flex justify-between items-center mb-2">
+                <div className="flex gap-2 items-center">
+                  <Image
+                    src="/smartlabreports/healthsummery.png"
+                    width={100}
+                    height={100}
+                    alt="Health Summary Icon"
+                    className="h-6 w-6 mt-1"
+                  />
+                  <p className="text-white font-medium text-sm">
+                    Your Health Summary
+                  </p>
+                </div>
+                <p className="text-white font-medium text-sm">Health Score</p>
+              </div>
+
+              <div className="flex justify-between items-start mt-2">
+                <div className="w-4/5 font-light text-sm text-white ml-6">
+                  *This summary is based only on your blood and urine test
+                  results. It does not include findings from X-ray, MRI, CT
+                  scan, Stool test, ECG, or EEG. (Warnings)
+                </div>
+
+                <div className="flex flex-col items-center gap-1 mr-4">
+                  <p className="text-white text-xs">Score</p>
+                  <div className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-white text-white font-semibold">
+                    {singlePrescriptionDetails?.health_score ?? "75"}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Section: Step-by-Step Lab Report Guide */}
+            <div className="flex flex-col items-center mt-6 mb-6">
+              <p className="text-primary font-medium text-xl mb-4">
+                Step-by-Step Lab Report Guide
               </p>
+
+              <div className=" p-6 rounded-lg w-full max-w-2xl">
+                <div className="grid grid-cols-3 gap-2 relative z-10">
+                  {/* Row 1 */}
+                  <div className="flex flex-col items-center justify-center">
+                    <Image
+                      src="/smartlabreports/hand.png"
+                      height={50}
+                      width={50}
+                      alt="Health Summary Icon"
+                    />
+                  </div>
+                  <div className="flex items-center justify-center bg-[#97D3F9] rounded-full px-4 py-2 shadow-md text-center font-medium text-sm">
+                    Your Health Summary
+                  </div>
+                  <ArrowRight className="h-6 w-6 text-primary" />
+                  <div className="flex items-center justify-center bg-[#97D3F9] rounded-full px-4 py-2 shadow-md text-center font-medium text-sm">
+                    Parameters at a glance
+                  </div>
+                  <ArrowRight className="h-6 w-6 text-primary" />
+                  {/* Row 2 */}
+                  <div className="flex items-center justify-center bg-[#97D3F9] rounded-full px-4 py-2 shadow-md text-center font-medium text-sm">
+                    Educational Insights
+                  </div>
+                  <ArrowRight className="h-6 w-6 text-primary" />
+                  <div className="flex items-center justify-center bg-[#97D3F9] rounded-full px-4 py-2 shadow-md text-center font-medium text-sm">
+                    Health Plan & Adjustments
+                  </div>
+                  <ArrowRight className="h-6 w-6 text-primary" />
+                  <div className="flex items-center justify-center bg-[#97D3F9] rounded-full px-4 py-2 shadow-md text-center font-medium text-sm">
+                    Detailed Parameter Insights
+                  </div>
+                  <ArrowRight className="h-6 w-6 text-primary" />
+                  {/* Row 3 */}
+                  <div className="flex items-center justify-center bg-[#97D3F9] rounded-full px-4 py-2 shadow-md text-center font-medium text-sm">
+                    Not detected Parameters
+                  </div>
+                  <ArrowRight className="h-6 w-6 text-primary" />
+                  <div className="col-span-2 flex items-center justify-center bg-[#97D3F9] rounded-full px-4 py-2 shadow-md text-center font-medium text-sm">
+                    Your opinion
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="text-xs text-slate-500 pl-4 mt-2 pb-3 italic">
-              *This summary is based only on your blood and urine test results.
-              It does not include findings from X-ray, MRI, CT scan, Stool test,
-              ECG, or EEG. (Warnings)
-            </div>
-
+            {/* Further Sections */}
             <SLRGrpExp data={slrRes?.grouped_results || []} />
-
             <SLRParExp data={slrRes?.smartlab_data || []} />
           </div>
-          {/* <div className="ml-6 mt-4">
-            <Image
-              id="hemoglobin-chart"
-              src="/smartlabreports/chat_img.jpeg"
-              alt="Hemoglobin Chart"
-              width={600}
-              height={400}
-              className="rounded-md shadow-md"
-            />
-          </div> */}
 
           <SLRDiteAdj data={slrRes?.groupwise_data || []} />
-
           <SLREduIn data={slrRes?.educational_insights || []} />
-
           <SLRNotDetected data={slrRes?.not_detected_results || []} />
-
-          <div className="mt-8  ">
-            <h2 className="text-xl font-semibold mb-2">
-              💬 Your Opinion Matters
-            </h2>
-            <p className="text-gray-700 mb-4">
-              We are the first of our kind in the industry, and we had love to
-              hear how we did to help you understand your health better. Do
-              share your thoughts using the feedback link below or simply drop
-              us a note on our social media pages. Every word goes a long way in
-              motivating our team and delivering better.
-            </p>
-            {/* <p className="text-blue-600 font-medium mb-4">
-              Feedback: 👉{" "}
-              <a href="#" className="underline">
-                Click Here
-              </a>
-            </p> */}
-            <p className="text-gray-700 mb-2">Social Links:</p>
-            <div className="flex items-center gap-4 py-2 mt-4">
-              <Link
-                href="https://www.linkedin.com/company/nextcare-life/"
-                className="p-2 rounded-full bg-sky-600 text-white hover:bg-sky-700 transition"
-              >
-                <Linkedin className="h-4 w-4" />
-              </Link>
-              <Link
-                href="https://twitter.com/NextcareLife"
-                className="p-2 rounded-full bg-sky-600 text-white hover:bg-sky-700 transition"
-              >
-                <FontAwesomeXIcon color="#ffffff" height={16} width={16} />
-              </Link>
-              <Link
-                href="https://www.instagram.com/nextcare.life?igsh=MTdkMjg5M2s2NmRobA%3D%3D&utm_source=qr"
-                className="p-2 rounded-full bg-sky-600 text-white hover:bg-sky-700 transition"
-              >
-                <Instagram className="h-4 w-4" />
-              </Link>
-              <Link
-                href="https://www.facebook.com/share/19dqeCuNou/?mibextid=wwXIfr"
-                className="p-2 rounded-full bg-sky-600 text-white hover:bg-sky-700 transition"
-              >
-                <Facebook className="h-4 w-4" />
-              </Link>
-              <Link
-                href="https://www.youtube.com/@NCL24283"
-                className="p-2 rounded-full bg-sky-600 text-white hover:bg-sky-700 transition"
-              >
-                <Youtube className="h-4 w-4" />
-              </Link>
-            </div>
-
-            <div className="mt-6 text-gray-800 italic">
-              Your health deserves more than numbers — it deserves insight.
-              <br />
-              Thank you for trusting us with your care.
-              <br />
-              <span className="text-sky-800 font-semibold">
-                🧡 Nextcare.Life — Future of Care
-              </span>
-            </div>
-          </div>
+          <SLRFooter />
         </ModalBody>
       </ModalContent>
     </Modal>
