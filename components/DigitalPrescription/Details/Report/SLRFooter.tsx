@@ -50,7 +50,7 @@ const SLRFooter = () => {
           <Youtube className="h-4 w-4" />
         </Link>
       </div>
-      <h5 className="text-sm text-sky-700 font-bold">@2025 Stats & Facts Technologies Pvt. Ltd.</h5>
+      <h5 className="text-sm text-sky-700 ">@2025 Stats & Facts Technologies Pvt. Ltd.</h5>
 
       <div className="mt-2 text-gray-800 italic">
         Your health deserves more than numbers — it deserves insight.

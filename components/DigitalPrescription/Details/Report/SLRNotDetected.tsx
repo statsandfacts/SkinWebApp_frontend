@@ -30,12 +30,12 @@ export default function SLRNotDetected({ data }: Props) {
       {displayedData.map((item, index) => (
         <div
           key={item.parameter_id}
-          className="bg-sky-100 p-4 rounded-3xl border border-gray-300 shadow-xl text-center"
+          className="bg-sky-100 p-4 rounded-3xl shadow-xl text-center"
         >
-          <p className="text-sm font-semibold text-gray-700">
+          <p className="text-sm font-bold text-sky-700  ">
             {item.parameter_name}
           </p>
-          <p className="text-sm text-sky-700 font-medium">{item.value}</p>
+          <p className="text-sm text-gray-700 font-medium">{item.value}</p>
         </div>
       ))}
     </div>
