@@ -128,12 +128,13 @@ const SLRModalContent = () => {
                 </div>
               </div>
 
-              {/* Guide Flow */}
-              <div className="flex flex-col items-center my-6 w-full">
+              {/* Guide Flow  */}
+               {/* <div className="flex flex-col items-center my-6 w-full">
                 <p className="text-primary font-medium text-xl mb-4">
                   Step-by-Step Lab Report Guide
                 </p>
-                <div className="flex flex-wrap justify-center items-center gap-4 max-w-5xl">
+                <div className="grid grid-cols-3 gap-4 max-w-5xl w-full">
+
                   {guideSteps.map((step, index) => (
                     <React.Fragment key={index}>
                       <div className="bg-primary-mute rounded-3xl px-4 py-2 sm:py-6 shadow-md text-center font-medium text-sm text-slate-500 whitespace-nowrap">
@@ -144,6 +145,29 @@ const SLRModalContent = () => {
                           <ArrowRight className="h-6 w-6 text-white" />
                         </div>
                       )}
+                    </React.Fragment>
+                  ))}
+                </div>
+              </div> */}
+              {/* Guide Flow */}
+              <div className="flex flex-col items-center my-6 w-full">
+                <p className="text-primary font-medium text-xl mb-4">
+                  Step-by-Step Lab Report Guide
+                </p>
+
+                <div className="grid grid-cols-3 gap-10 max-w-3xl w-full">
+                  {guideSteps.map((step, index) => (
+                    <React.Fragment key={index}>
+                      <div className="flex items-center justify-center">
+                        <div className="bg-primary-mute rounded-3xl px-4 py-2 sm:py-6 shadow-md text-center font-medium text-sm text-slate-500 whitespace-nowrap">
+                          {step}
+                        </div>
+                        {index < guideSteps.length - 1 && (
+                          <div className="flex items-center justify-center p-1 bg-primary rounded-md ml-5">
+                            <ArrowRight className="h-6 w-6 text-white"/>
+                          </div>
+                        )}
+                      </div>
                     </React.Fragment>
                   ))}
                 </div>
