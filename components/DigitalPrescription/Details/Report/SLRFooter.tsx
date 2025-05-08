@@ -56,11 +56,11 @@ const SLRFooter = () => {
           <Youtube className="h-4 w-4" />
         </Link>
       </div>
-      <h5 className="text-sm text-sky-700 font-bold">
+      <h5 className="text-xs italic text-sky-700 ">
         @2025 Stats & Facts Technologies Pvt. Ltd.
       </h5>
 
-      <div className="mt-2 text-gray-800 italic">
+      <div className="mt-2 text-sm text-gray-800 italic">
         Your health deserves more than numbers — it deserves insight.
         <br />
         Thank you for trusting us with your care.

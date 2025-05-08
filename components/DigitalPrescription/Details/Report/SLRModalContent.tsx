@@ -15,6 +15,7 @@ import SLRFooter from "./SLRFooter";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { fetchSingleReportData } from "@/redux/slices/digitalPrescription/userDashboard.slice";
+import HandIcon from "@/components/SvgIcon/HandIcon";
 
 const guideSteps = [
   "Your Health Summary",
@@ -80,8 +81,8 @@ const SLRModalContent = () => {
               <div className="w-full bg-primary-lite shadow-primary-50 shadow-lg p-6 rounded-xl">
                 <div className="flex justify-between items-start gap-x-10">
                   <div className="flex items-start gap-3">
-                    <UserIcon className="h-6 w-6 text-primary" />
-                    <div className="flex flex-col text-white text-sm font-medium space-y-1">
+                    <UserIcon className="h-8 w-8 text-primary" />
+                    <div className="flex flex-col text-white text-xl font-medium space-y-1">
                       <p>{userDetails?.name}</p>
                       {/* <p>Age: {userDetails?.age}</p> */}
                       <p>Gender: {userDetails?.gender}</p>
@@ -102,12 +103,12 @@ const SLRModalContent = () => {
                   <div className="flex gap-2 items-center">
                     <Image
                       src="/smartlabreports/healthsummery.png"
-                      width={24}
-                      height={24}
+                      width={35}
+                      height={35}
                       alt="Health Summary Icon"
                       className="mt-1"
                     />
-                    <p className="text-white font-medium text-sm">
+                    <p className="text-white font-medium text-xl">
                       Your Health Summary
                     </p>
                   </div>
@@ -115,9 +116,11 @@ const SLRModalContent = () => {
                 </div>
                 <div className="flex justify-between items-start mt-2">
                   <p className="w-4/5 font-light text-sm text-white ml-6">
-                    *This summary is based only on your blood and urine test
-                    results. It does not include findings from X-ray, MRI, CT
-                    scan, Stool test, ECG, or EEG.
+                    Unlock the story behind your numbers! Your health summary
+                    breaks down test results into easy-to-understand insights,
+                    spotlighting what matters most. No jargon—just clear,
+                    personalized guidance to help you stay on top of your
+                    well-being.
                   </p>
                   {/* <div className="flex flex-col items-center gap-1 mr-4">
                     <p className="text-white text-xs">Score</p>
@@ -129,7 +132,7 @@ const SLRModalContent = () => {
               </div>
 
               {/* Guide Flow  */}
-               {/* <div className="flex flex-col items-center my-6 w-full">
+              {/* <div className="flex flex-col items-center my-6 w-full">
                 <p className="text-primary font-medium text-xl mb-4">
                   Step-by-Step Lab Report Guide
                 </p>
@@ -152,19 +155,20 @@ const SLRModalContent = () => {
               {/* Guide Flow */}
               <div className="flex flex-col items-center my-6 w-full">
                 <p className="text-primary font-medium text-xl mb-4">
+                  <HandIcon color="#ffffff" height={16} width={16} />
                   Step-by-Step Lab Report Guide
                 </p>
 
-                <div className="grid grid-cols-3 gap-10 max-w-3xl w-full">
+                <div className="grid grid-cols-3 gap-10 max-w-3xl ">
                   {guideSteps.map((step, index) => (
                     <React.Fragment key={index}>
                       <div className="flex items-center justify-center">
-                        <div className="bg-primary-mute rounded-3xl px-4 py-2 sm:py-6 shadow-md text-center font-medium text-sm text-slate-500 whitespace-nowrap">
+                        <div className="w-36 h-20  bg-primary-mute rounded-3xl shadow-md text-center flex items-center justify-center text-sm font-medium text-slate-500">
                           {step}
                         </div>
                         {index < guideSteps.length - 1 && (
-                          <div className="flex items-center justify-center p-1 bg-primary rounded-md ml-5">
-                            <ArrowRight className="h-6 w-6 text-white"/>
+                          <div className="flex items-center justify-center p-1 bg-primary rounded-md ml-10">
+                            <ArrowRight className="h-6 w-6 text-white" />
                           </div>
                         )}
                       </div>
