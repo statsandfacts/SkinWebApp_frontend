@@ -76,12 +76,12 @@ const ProfileHeaderButton = () => {
               size="md"
               src={userDetails?.user_profile_image_path}
             />
-            {profileCompletionData?.profileCompletionPercentage &&
+            {/* {profileCompletionData?.profileCompletionPercentage &&
               profileCompletionData?.profileCompletionPercentage !== 100 && (
                 <p className="text-xs font-semibold text-primary p-1 bg-primary-mute rounded-2xl">
                   {profileCompletionData?.profileCompletionPercentage + "%"}
                 </p>
-              )}
+              )} */}
           </div>
         </DropdownTrigger>
         <DropdownMenu aria-label="Link Actions" variant="flat">
