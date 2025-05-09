@@ -51,6 +51,19 @@ const InsightSection = ({
 export default function SLREduIn({ data }: Props) {
   const [expanded, setExpanded] = useState<Record<number, boolean>>({});
 
+  const groupImages: { [key: string]: string } = {
+    Hemogram: "/smartlabreports/haemogram.png",
+    "Lipid Profile": "/smartlabreports/lipidprofilenew.png",
+    "Renal Function Test": "/smartlabreports/kidneyfunctionnew.png",
+    "Liver Function Test": "/smartlabreports/liverfunctionnew.png",
+    "Vitamins and Nutritional Profile": "/smartlabreports/vitaminsprofile.png",
+    "Urine Analysis Profile": "/smartlabreports/urineanalysisnew.png",
+    "Hormone Profile in a Male": "/smartlabreports/hermonalmale.png",
+    "Hormone Profile in a Female": "/smartlabreports/hermonalfemail.png",
+  };
+  
+
+
   const toggleExpanded = (index: number) => {
     setExpanded((prev) => ({ ...prev, [index]: !prev[index] }));
   };
@@ -66,9 +79,22 @@ export default function SLREduIn({ data }: Props) {
           key={index}
           className="p-4 rounded-md bg-white shadow-sm space-y-2"
         >
-          <h1 className="text-lg font-bold text-gray-900 bg-gray-100 inline-block px-3 py-1 rounded-md shadow-sm">
-            📂 {item.group_name}
-          </h1>
+          {/* <h1 className="text-lg font-bold text-gray-900 bg-gray-100 inline-block px-3 py-1 rounded-md shadow-sm">
+            {item.group_name}
+          </h1> */}
+          <div className="flex items-center gap-2 px-3 py-1 ">
+  <Image
+    src={groupImages[item.group_name] || "/smartlabreports/default-group.png"}
+    alt={item.group_name}
+    width={32}
+    height={32}
+    className="rounded-md"
+  />
+  <h1 className="text-lg font-bold text-gray-900">
+    {item.group_name}
+  </h1>
+</div>
+
 
           {/* Use images in InsightSection */}
           <InsightSection

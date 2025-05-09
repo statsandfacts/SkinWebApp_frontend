@@ -16,6 +16,17 @@ type Props = {
   data: GroupData[];
 };
 
+const groupImages: { [key: string]: string } = {
+  Hemogram: "/smartlabreports/haemogram.png",
+  "Lipid Profile": "/smartlabreports/lipidprofilenew.png",
+  "Renal Function Test": "/smartlabreports/kidneyfunctionnew.png",
+  "Liver Function Test": "/smartlabreports/liverfunctionnew.png",
+  "Vitamins and Nutritional Profile": "/smartlabreports/vitaminsprofile.png",
+  "Urine Analysis Profile": "/smartlabreports/urineanalysisnew.png",
+  "Hormone Profile in a Male": "/smartlabreports/hermonalmale.png",
+  "Hormone Profile in a Female": "/smartlabreports/hermonalfemail.png",
+};
+
 export default function SLRDiteAdj({ data }: Props) {
   return (
     <div className="ml-6 mt-6">
@@ -24,9 +35,22 @@ export default function SLRDiteAdj({ data }: Props) {
       </h2>
       {data.map((group, index) => (
         <div key={index} className="space-y-6 mb-3">
-          <h1 className="text-lg font-bold text-gray-900 bg-gray-100 inline-block px-3 py-1 rounded-md shadow-sm">
-            📂 {group.group_name}
-          </h1>
+          <div className="flex items-center gap-2">
+            <Image
+              src={
+                groupImages[group.group_name] ||
+                "/smartlabreports/default-group.png"
+              }
+              alt={group.group_name}
+              width={32}
+              height={32}
+              className="rounded-md"
+            />
+            <h1 className="text-lg font-bold text-gray-900  ">
+              {group.group_name}
+            </h1>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {group.dietary_adjustments && (
               <SLRInsightCard
@@ -96,18 +120,22 @@ const SLRInsightCard: React.FC<SLRInsightCardProps> = ({
 }) => {
   return (
     <div className="flex gap-1 flex-col items-center justify-start text-center max-w-xs shadow-md rounded-md p-1 shadow-primary-50">
-      <div className="rounded-full bg-primary-lite p-2 w-16 h-16 flex items-center justify-center shadow-md shadow-primary-lite overflow-hidden relative">
-        {imagePath && (
-          <Image
-            src={imagePath}
-            alt={title}
-            width={200}
-            height={200}
-            className="object-contain"
-          />
-        )}
-      </div>
-      <h3 className="text-lg font-semibold text-primary">{title}</h3>
+      {description && (
+        <>
+          <div className="rounded-full bg-primary-lite p-2 w-16 h-16 flex items-center justify-center shadow-md shadow-primary-lite overflow-hidden relative">
+            {imagePath && (
+              <Image
+                src={imagePath}
+                alt={title}
+                width={200}
+                height={200}
+                className="object-contain"
+              />
+            )}
+          </div>
+          <h3 className="text-lg font-semibold text-primary">{title}</h3>
+        </>
+      )}
       <p className="font-light text-sm text-gray-700 text-center">
         {description}
       </p>

@@ -135,7 +135,7 @@ export default function CreateFamilyMemberModal({
         email: memberDetail.email || "",
         phone_number: memberDetail.phone_no || "",
         dob: memberDetail.dob || "",
-        gender: memberDetail.gender || "",
+        gender: memberDetail.member_gender || "",
         relation: memberDetail.relation || "",
       });
     }
