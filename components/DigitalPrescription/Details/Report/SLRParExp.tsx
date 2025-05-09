@@ -104,7 +104,7 @@ function Sections({ item }: { item: SmartLabItem }) {
       },
     item.causes_count && {
       icon: "/smartlabreports/causes.png",
-      title: "Causes (Count)",
+      title: "Causes",
       content: item.causes_count,
     },
     item.causes_effect && {
