@@ -58,8 +58,8 @@ export default function SLREduIn({ data }: Props) {
     "Liver Function Test": "/smartlabreports/liverfunctionnew.png",
     "Vitamins and Nutritional Profile": "/smartlabreports/vitaminsprofile.png",
     "Urine Analysis Profile": "/smartlabreports/urineanalysisnew.png",
-    "Hormone Profile in a Male": "/smartlabreports/hormonalprofiletestnew.png",
-    "Hormone Profile in a Female": "/smartlabreports/hormonalprofiletestnew.png",
+    "Hormone Profile in a Male": "/smartlabreports/hermonalmale.png",
+    "Hormone Profile in a Female": "/smartlabreports/hermonalfemail.png",
   };
   
 
