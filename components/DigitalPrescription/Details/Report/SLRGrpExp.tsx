@@ -120,25 +120,23 @@ export default function SLRGrpExp({ data }: Props) {
           </div>
         );
       })}
-      <div className="text-sm text-slate-700 space-y-3  max-h-60">
-        <ul className="list-disc ml-6 space-y-1">
-          <li>
-            <span className="font-semibold">🟢 Normal:</span> Value is within
-            the healthy reference range.
-          </li>
-          <li>
-            <span className="font-semibold">🟡 Borderline (±10%):</span>{" "}
-            Slightly outside the normal range, may need monitoring.
-          </li>
-          <li>
-            <span className="font-semibold">🔴 Abnormal (10–20%):</span> Outside
-            the healthy range and may indicate a developing issue.
-          </li>
-          <li>
-            <span className="font-semibold">🟥 Very Abnormal (&gt;20%):</span>{" "}
-            Significantly outside the range; potential health risk.
-          </li>
-        </ul>
+      <div className="flex justify-center items-center gap-3">
+        <div className="font-semibold flex items-center text-green-500 gap-1">
+          <div className="h-4 w-4 shadow-sm shadow-green-500 rounded-full bg-green-500"></div>
+          Normal
+        </div>
+        <div className="font-semibold flex items-center text-yellow-500 gap-1">
+          <div className="h-4 w-4 shadow-sm shadow-yellow-500 rounded-full bg-yellow-500"></div>
+          Borderline (±10%)
+        </div>
+        <div className="font-semibold flex items-center text-red-500 gap-1">
+          <div className="h-4 w-4 shadow-sm shadow-red-500 rounded-full bg-red-500"></div>
+          Abnormal (10–20%)
+        </div>
+        <div className="font-semibold flex items-center text-red-800 gap-1">
+          <div className="h-4 w-4 shadow-sm shadow-red-800 rounded-full bg-red-800"></div>
+          Very Abnormal (&gt;20%)
+        </div>
       </div>
     </div>
   );

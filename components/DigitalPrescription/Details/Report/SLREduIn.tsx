@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 
 // Interface for educational insights
 interface EducationalInsight {
@@ -19,15 +20,31 @@ const InsightSection = ({
   title,
   content,
   className,
+  imagePath,
 }: {
   title: string;
   content?: string;
   className: string;
+  imagePath?: string;
 }) =>
   content ? (
-    <div>
-      <h3 className={`text-lg font-semibold ${className}`}>{title}</h3>
-      <p className="mt-2 whitespace-pre-line text-sm font-light">{content}</p>
+    <div className="flex items-start gap-2">
+      {/* Render image if imagePath is provided */}
+      {imagePath && (
+        <Image
+          src={imagePath}
+          alt={title}
+          width={40}
+          height={40}
+          className="mb-4"
+        />
+      )}
+      <div>
+        <h3 className={`text-lg font-semibold ${className}`}>{title}</h3>
+        <p className="mt-2 whitespace-pre-line text-xl font-light  ">
+          {content}
+        </p>
+      </div>
     </div>
   ) : null;
 
@@ -40,8 +57,8 @@ export default function SLREduIn({ data }: Props) {
 
   return (
     <div className="ml-6 mt-6">
-      <h2 className="text-xl w-full flex justify-center items-center font-bold text-primary">
-        🧠 Educational Insights
+      <h2 className="text-2xl w-full flex justify-center items-center font-bold text-primary">
+       Educational Insights
       </h2>
 
       {data.map((item, index) => (
@@ -53,16 +70,19 @@ export default function SLREduIn({ data }: Props) {
             📂 {item.group_name}
           </h1>
 
+          {/* Use images in InsightSection */}
           <InsightSection
-            title={`🧪 What Is a ${item.group_name}?`}
+            title={`What Is a ${item.group_name}?`}
             content={item.what_is}
-            className="text-blue-800"
+            className="text-blue-800 text-5xl font-bold"
+            imagePath="/smartlabreports/whatishaemogram.png" // Example image path
           />
 
           <InsightSection
-            title="❤️ Why It Matters"
+            title="Why It Matters"
             content={item.why_it_matters}
-            className="text-green-700"
+            className="text-green-700 text-xl"
+            imagePath="/smartlabreports/whyItmatters.png" // Example image path
           />
 
           <div className="relative">
@@ -70,19 +90,22 @@ export default function SLREduIn({ data }: Props) {
             {expanded[index] && (
               <>
                 <InsightSection
-                  title="🧯 Myth Buster"
+                  title="Myth Buster"
                   content={item.myth_buster}
-                  className="text-purple-700"
+                  className="text-purple-700 text-xl"
+                  imagePath="/smartlabreports/mythbuster.png" // Example image path
                 />
                 <InsightSection
-                  title="🩺 Critical Alert – Seek Medical Attention If:"
+                  title="Critical Alert – Seek Medical Attention If:"
                   content={item.critical_alert}
-                  className="text-red-600 text-lg"
+                  className="text-red-600 text-xl"
+                  imagePath="/smartlabreports/whatishaemogram.png" // Example image path
                 />
                 <InsightSection
-                  title="🔔 Reminders"
+                  title="Reminders"
                   content={item.reminder}
-                  className="text-red-600 text-lg mt-4"
+                  className="text-sky-700 text-xl mt-4 " 
+                  imagePath="/smartlabreports/reminders.png" // Example image path
                 />
               </>
             )}
@@ -91,7 +114,7 @@ export default function SLREduIn({ data }: Props) {
             {(item.critical_alert || item.reminder) && (
               <button
                 onClick={() => toggleExpanded(index)}
-                className="text-sky-700 hover:text-sky-800 "
+                className="text-sky-700 hover:text-sky-800"
               >
                 {expanded[index] ? "Show Less" : "Show More"}
               </button>

@@ -169,9 +169,9 @@ export const updateCase = async (payload: any) => {
  * @param payload
  * @returns
  */
-export const translatelanguage = async (payload: any) => {
-  const { data } = await axios.put(
-    `${baseUrl}translate/prescription`,
+export const translateLanguage = async (payload: any) => {
+  const { data } = await axios.post(
+    `${baseUrl}translate/digital-prescription`,
     payload,
     headers
   );
@@ -573,6 +573,19 @@ export const digitizeSmartLabReport = async (payload: any) => {
   const { data } = await axios.post(
     baseUrl + "report/slr/digitize-smart-lab-report",
     payload,
+    headers
+  );
+  return data;
+};
+
+/**
+ * Fetch Report data By report ID
+ * @param reportId - The ID of the report
+ * @returns Report data
+ */
+export const getReportDataById = async (reportId: string | null) => {
+  const { data } = await axios.get(
+    `${baseUrl}report/report-by-id?report_id=${reportId}`,
     headers
   );
   return data;

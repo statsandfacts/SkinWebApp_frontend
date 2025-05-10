@@ -5,6 +5,7 @@ import BackButton from "@/components/common/BackButton";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import Loader from "@/components/Loader";
+import { useRouter } from "next/navigation";
 import {
   Table,
   TableHeader,
@@ -31,6 +32,7 @@ import SLRModal from "@/components/DigitalPrescription/Details/Report/SLRModal";
 const Reports = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { userId } = useAuthInfo();
+  const router = useRouter();
 
   const { dashboardData, loading, error } = useSelector(
     (state: RootState) => state.userDashboard
@@ -90,13 +92,11 @@ const Reports = () => {
                               <TableCell className="flex gap-2">
                                 <ToolTipBtn
                                   onClick={() => {
-                                    dispatch(
-                                      setSinglePrescriptionDetails(report)
+                                    router.push(
+                                      `/dashboard/reports/${report?.report_id}`
                                     );
-                                    dispatch(setViewSmartLabReportModal(true));
                                   }}
                                   title="View Digital Generated Report"
-                                  key={1}
                                 >
                                   <DocumentMagnifyingGlassIcon className="h-5 w-5" />
                                 </ToolTipBtn>

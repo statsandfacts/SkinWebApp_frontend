@@ -16,6 +16,8 @@ interface DrugState {
 
   reminderMedicineDtls: any;
   reminderActionKey: null | string;
+  refillReminderDetails: any;
+  isRefillReminderModalOpen: boolean;
 }
 
 const initialState: DrugState = {
@@ -27,6 +29,8 @@ const initialState: DrugState = {
   isSearchReportModalOpen: false,
   reminderMedicineDtls: null,
   reminderActionKey: null,
+  refillReminderDetails: null,
+  isRefillReminderModalOpen: false,
 };
 
 export const getDrugDetails = createAsyncThunk<
@@ -97,6 +101,12 @@ const drugSlice = createSlice({
     setIsTestSearchModal: (state, action: PayloadAction<boolean>) => {
       state.isSearchReportModalOpen = action.payload;
     },
+    setRefillReminderDetails: (state, action: PayloadAction<any>) => {
+      state.refillReminderDetails = action.payload;
+    },
+    setIsRefillReminderModal: (state, action: PayloadAction<boolean>) => {
+      state.isRefillReminderModalOpen = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -141,6 +151,8 @@ export const {
   setIsTestSearchModal,
   setReminderDetails,
   setReminderActionKey,
+  setRefillReminderDetails, // ⬅️ new
+  setIsRefillReminderModal,
 } = drugSlice.actions;
 
 export default drugSlice.reducer;

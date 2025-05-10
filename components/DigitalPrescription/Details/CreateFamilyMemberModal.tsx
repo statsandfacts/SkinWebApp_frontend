@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
+
+
 
 import {
   Modal,
@@ -84,14 +87,14 @@ export default function CreateFamilyMemberModal({
           relation: values.relation,
           gender: values.gender,
           phone_no: values.phone_number,
-          dob: values.dob,
+          dob: dayjs(values.dob, "YYYY-MM-DD").format("DD-MM-YYYY"),
           email: values.email,
         };
 
-        if (dayjs().diff(dayjs(formik.values.dob), "year") > 18) {
-          toast.info("Working on progress(18+ user).");
-          return;
-        }
+        // if (dayjs().diff(dayjs(formik.values.dob), "year") > 18) {
+        //   toast.info("Working on progress(18+ user).");
+        //   return;
+        // }
 
         if (actionKey === "create") {
           const result = await createFamilyMember(payload);
@@ -205,7 +208,7 @@ export default function CreateFamilyMemberModal({
               name="dob"
               placeholder="Date of Birth"
               error={
-                formik.touched.dob && formik.errors.dob ? formik.errors.dob : ""
+                formik.touched.dob && formik.errors.dob ? formik.errors.dob :""
               }
               onBlur={formik.handleBlur}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -256,7 +259,7 @@ export default function CreateFamilyMemberModal({
                   label="Relation"
                   // onChange={formik.handleChange}
                   onSelectionChange={(key) =>
-                    formik.setFieldValue("relation", key)
+                    formik.setFieldValue("relation", key.currentKey)
                   }
                   value={formik.values.relation}
                   selectedKeys={[formik.values.relation]}
@@ -280,7 +283,7 @@ export default function CreateFamilyMemberModal({
                   label="Gender"
                   // onChange={formik.handleChange}
                   onSelectionChange={(key) =>
-                    formik.setFieldValue("gender", key)
+                    formik.setFieldValue("gender", key.currentKey)
                   }
                   value={formik.values.gender}
                   selectedKeys={[formik.values.gender]}
