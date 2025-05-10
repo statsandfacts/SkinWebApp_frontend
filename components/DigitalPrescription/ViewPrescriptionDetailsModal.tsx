@@ -104,6 +104,7 @@ export default function ViewPrescriptionDetailsModal() {
         diagnosis: singlePrescriptionDetails?.diagnosis || "",
         symptoms: singlePrescriptionDetails?.symptoms || "",
       });
+      setTargetLang("en");
       return;
     }
     setLTLoading(true);
