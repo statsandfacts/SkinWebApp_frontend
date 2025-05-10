@@ -12,7 +12,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalFooter,
-  ModalBody
+  ModalBody,
 } from "@heroui/modal";
 import {
   endChat,
@@ -22,6 +22,7 @@ import {
 import QuestionRenderer from "./QuestionRenderer";
 import { toast } from "react-toastify";
 import { baseUrl } from "@/services/api.digitalPrescription.service";
+import ExplanationModal from "./ExplanationModal";
 
 type QuestionType = {
   question: string;
@@ -55,14 +56,11 @@ type ResponseQuestionType = {
 };
 
 const BotTestPage: React.FC = () => {
-  const router = useRouter();
   const [Question, setQuestion] = useState<ResponseQuestionType>();
   const [dpuserid, setDpuserid] = useState<string | null>("");
   const [QuestionId, setQuestionId] = useState<string>("");
   const [SummaryModal, setSummaryModal] = useState(false);
-  const [summaryData, setSummaryData] = useState<string>("");
   const [responseBmiModal, setResponseBmiModal] = useState(false);
-  // const [loading, setloading] = useState<boolean>(false);
   const [symptomData, setSymptomData] = useState<{
     user_id: string;
     question_id: string;
@@ -76,34 +74,6 @@ const BotTestPage: React.FC = () => {
   const count = useRef(false);
   const count1 = useRef(false);
   const [bmiResponse, setBmiResponse] = useState<string>("");
-
-  // const onContinueWithSessionID = async() => {
-  //   const storedUserId = localStorage.getItem("dpUserId");
-  //   const response = await fetch(
-  // `${baseUrl}symptom/resume?user_id=${storedUserId}`,
-  //     {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     }
-  //   );
-  //   const data = await response.json();
-  //   // console.log("Response for Resume: ", data);
-
-  // }
-
-  // onContinueWithSessionID();
-
-  const endChatApicall = async () => {
-    // setloading(true);
-    const { data } = await endChat({
-      user_id: dpuserid,
-    });
-    // setloading(false);
-    setSummaryModal(true);
-    setSummaryData(data.summary as string);
-  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -150,33 +120,6 @@ const BotTestPage: React.FC = () => {
     }
   };
 
-  // const handleYesNoClick = (answer: "yes" | "no") => {
-  //   // console.log(answer);
-  //   if (answer === null) {
-  //     setOnErrorEmptyValue(true);
-  //   } else {
-  //     QuestionId === "Q1" && answer === "no" ? (setSummaryModal(true),
-  //      setSummaryData("Feel free to visit anytime !")
-  //     ) : (
-  //       setSymptomData({
-  //         user_id: dpuserid || "",
-  //         question_id: QuestionId,
-  //         answer: answer,
-  //       })
-  //     )
-  //     setOnErrorEmptyValue(false);
-  //   }
-  // };
-
-  const recapCloseModal = () => {
-    setSummaryModal(false);
-    QuestionId === "Q1" && endChatApicall();
-  };
-
-  // const handleEndChatClick = () => {
-  //   endChatApicall();
-  // };
-
   const setOkayAfterRecap = () => {
     setSymptomData({
       user_id: dpuserid || "",
@@ -185,15 +128,10 @@ const BotTestPage: React.FC = () => {
     });
   };
 
-  // const handleOkayOnEndChatClick = () => {
-  //   router.push("/");
-  //   setSummaryModal(false);
-  // };
-
   const setImageUrl = () => {
     if (Question?.next_question_id === "Q4") {
       return "/images/Img_for_symptom_bot_static/Question_3-removebg-preview.png";
-    } else if (Question?.next_question_id === "Q5") {
+    } else if (Question?.next_question_id === "") {
       return "/images/Img_for_symptom_bot_static/Question_4-removebg-preview.png";
     } else if (Question?.next_question_id === "Q28") {
       return "/images/Img_for_symptom_bot_static/Question_28-removebg-preview.png";
@@ -246,7 +184,38 @@ const BotTestPage: React.FC = () => {
             </ModalHeader>
             <ModalBody>
               <div className="px-2 py-6 rounded-lg flex justify-center items-center min-w-full">
-                <p className="font-bold text-lg text-center">{bmiResponse}</p>
+                <p className="font-bold text-lg text-center">
+                  {(() => {
+                    const match = bmiResponse.match(/^(.*)\((.*)\)\.?$/);
+                    if (!match) return bmiResponse;
+
+                    const [_, scoreText, category] = match;
+                    let colorClass = "";
+
+                    switch (category.toLowerCase()) {
+                      case "normal weight":
+                        colorClass = "text-green-600";
+                        break;
+                      case "overweight":
+                        colorClass = "text-red-600";
+                        break;
+                      case "obesity":
+                        colorClass = "text-orange-500";
+                        break;
+                      case "underweight":
+                          colorClass = "text-orange-500";
+                          break;
+                      default:
+                        colorClass = "text-gray-300";
+                    }
+
+                    return (
+                      <>
+                        {scoreText}(<span className={colorClass}> {category} </span>)
+                      </>
+                    );
+                  })()}
+                </p>
               </div>
             </ModalBody>
             <ModalFooter>
@@ -301,7 +270,10 @@ const BotTestPage: React.FC = () => {
           <div>
             <Button
               className="w-full mt-5 bg-primary-lite font-medium"
-              onClick={() => setOkayAfterRecap()}>Okay</Button>
+              onClick={() => setOkayAfterRecap()}
+            >
+              Okay
+            </Button>
           </div>
         </div>
       )}
@@ -313,6 +285,7 @@ const BotTestPage: React.FC = () => {
           onEndChatOkay={handleOkayOnEndChatClick}
         />
       )} */}
+      <ExplanationModal />
     </div>
   );
 };
