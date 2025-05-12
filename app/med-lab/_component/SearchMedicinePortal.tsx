@@ -79,7 +79,7 @@ const SearchMedicinePortal: React.FC<{
           value={searchQuery}
           onChange={handleSearch}
           placeholder={`Search for ${name}`}
-          className="p-2 border border-gray-300 text-sm font-light rounded-md w-full mb-4 max-w-4xl"
+          className="p-4 border border-gray-300 text-sm font-light rounded-full w-3/5 mb-4 max-w-2xl mt-3"
         />
       </div>
 
@@ -96,15 +96,15 @@ const SearchMedicinePortal: React.FC<{
                 className="border p-4 rounded-md shadow-md hover:shadow-lg text-left transition-all cursor-pointer"
                 onClick={() => handleArrowClick(item)}
               >
-                {/*
-  <Image
-    src="https://onemg.gumlet.io/l_watermark_346,w_690,h_700/a_ignore,w_690,h_700,c_pad,q_auto,f_auto/cropped/mu5bahqxfrp28cut6que.jpg"
+                
+  {/* <Image
+    src=""
     alt="Medicine Image"
     width={400}
     height={260}
     className="w-100 h-40 object-contain rounded-lg"
-  />
-  */}
+  /> */}
+  
                 <h3 className="text-xl font-semibold">{item.name}</h3>
                 {name === "medicine" ? (
                   <>
