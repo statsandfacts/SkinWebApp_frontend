@@ -52,14 +52,14 @@ export default function SLREduIn({ data }: Props) {
   const [expanded, setExpanded] = useState<Record<number, boolean>>({});
 
   const groupImages: { [key: string]: string } = {
-    Hemogram: "/smartlabreports/haemogram.png",
-    "Lipid Profile": "/smartlabreports/lipidprofilenew.png",
-    "Renal Function Test": "/smartlabreports/kidneyfunctionnew.png",
-    "Liver Function Test": "/smartlabreports/liverfunctionnew.png",
-    "Vitamins and Nutritional Profile": "/smartlabreports/vitaminsprofile.png",
-    "Urine Analysis Profile": "/smartlabreports/urineanalysisnew.png",
-    "Hormone Profile in a Male": "/smartlabreports/hermonalmale.png",
-    "Hormone Profile in a Female": "/smartlabreports/hermonalfemail.png",
+    Hemogram: "/smartlabreports/group_haemogram.png",
+    "Lipid Profile": "/smartlabreports/group_lipidprofile.png",
+    "Renal Function Test": "/smartlabreports/group_renalfunction.png",
+    "Liver Function Test": "/smartlabreports/group_liverfunction.png",
+    "Vitamins and Nutritional Profile": "/smartlabreports/group_vitaminsprofile.png",
+    "Urine Analysis Profile": "/smartlabreports/group_urineanalysis.png",
+    "Hormone Profile in a Male": "/smartlabreports/group_hermonalprofilemale.png",
+    "Hormone Profile in a Female": "/smartlabreports/group_hermonalprofilefemail.png",
   };
   
 

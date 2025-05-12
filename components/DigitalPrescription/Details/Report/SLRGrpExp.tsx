@@ -23,21 +23,22 @@ type Props = {
 };
 
 export default function SLRGrpExp({ data }: Props) {
+  
   const groupIcons: { [key: string]: string } = {
-    "vitamin profile": "/smartlabreports/vitaminsprofile.png",
+    "vitamin profile": "/smartlabreports/group_vitaminsprofile.png",
     "antenatal/prenatal screen":
-      "/smartlabreports/antenatalprenatalscreennew.png",
-    "lipid profile": "/smartlabreports/lipidprofilenew.png",
-    "liver function test(lft)": "/smartlabreports/liverfunctionnew.png",
-    "metabolic panel": "/smartlabreports/metabolicpanelnew.png",
-    "tumor markers": "/smartlabreports/tumormarkersnew.png",
-    "iron studies": "/smartlabreports/ironstudiesnew.png",
-    "hormonal profile tests": "/smartlabreports/hormonalprofiletestnew.png",
-    "renal function test(rft)": "/smartlabreports/kidneyfunctionnew.png",
+      "/smartlabreports/group_antenatalprenatalscreen.png",
+    "lipid profile": "/smartlabreports/group_lipidprofile.png",
+    "liver function test(lft)": "/smartlabreports/group_liverfunction.png",
+    "metabolic panel": "/smartlabreports/group_metabolicpanel.png",
+    "tumor markers": "/smartlabreports/group_tumormarkers.png",
+    "iron studies": "/smartlabreports/group_ironstudies.png",
+    "hormonal profile tests": "/smartlabreports/group_hormonalprofiletest.png",
+    "renal function test(rft)": "/smartlabreports/group_renalfunction.png",
     "arterial and venous blood gas analysis":
-      "/smartlabreports/arterialandvenousbloodgasanalysisnew.png",
-    "urine analysis": "/smartlabreports/urineanalysisnew.png",
-    "hemogram(cbc)": "/smartlabreports/haematology.png",
+      "/smartlabreports/group_arterialandvenousbloodgasanalysis.png",
+    "urine analysis": "/smartlabreports/group_urineanalysis.png",
+    "hemogram(cbc)": "/smartlabreports/group_haematology.png",
   };
 
   return (
