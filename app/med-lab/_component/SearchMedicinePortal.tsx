@@ -72,16 +72,14 @@ const SearchMedicinePortal: React.FC<{
   };
 
   return (
-    <div className="w-full">
-      <div className="w-full flex justify-center items-center">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={handleSearch}
-          placeholder={`Search for ${name}`}
-          className="p-4 border border-gray-300 text-sm font-light rounded-full w-3/5 mb-4 max-w-2xl mt-3"
-        />
-      </div>
+    <div className="w-full max-w-3xl">
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={handleSearch}
+        placeholder={`Search for ${name}`}
+        className="p-4 border border-gray-300 text-sm font-light rounded-full mb-4 mt-3 w-full bg-sky-100 focus:outline-none"
+      />
 
       {isLoading ? (
         <div className="flex justify-center items-center">
@@ -96,15 +94,14 @@ const SearchMedicinePortal: React.FC<{
                 className="border p-4 rounded-md shadow-md hover:shadow-lg text-left transition-all cursor-pointer"
                 onClick={() => handleArrowClick(item)}
               >
-                
-  {/* <Image
+                {/* <Image
     src=""
     alt="Medicine Image"
     width={400}
     height={260}
     className="w-100 h-40 object-contain rounded-lg"
   /> */}
-  
+
                 <h3 className="text-xl font-semibold">{item.name}</h3>
                 {name === "medicine" ? (
                   <>

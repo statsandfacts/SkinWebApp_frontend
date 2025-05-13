@@ -1,20 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import {
-  Calendar,
-  CheckCircle,
-  Droplet,
-  FileText,
-  FireExtinguisher,
-  Heart,
-  HeartPulse,
-  Pill,
-  Scale,
-  Search,
-  Smartphone,
-} from "lucide-react";
-import CustomHeader from "@/components/Header/PublicLayoutHeader";
-import Link from "next/link";
 import {
   MeetTheTeam,
   OurValuesSection,
@@ -23,8 +7,8 @@ import {
   GlimpsesofNextcare,
   StepIntoHealthCare,
   ExploreOueHealthCare,
-  AboutHeroSection,
 } from "@/components/About";
+import CommonHeroSection from "@/components/common/CommonHeroSection";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -35,7 +19,12 @@ const AboutUs = () => {
     <>
       <div className="flex flex-col">
         <div className="flex flex-col items-center w-full max-md:max-w-full">
-          <AboutHeroSection />
+          <CommonHeroSection
+            key={"about-us-hero"}
+            title="Revolutionizing digital healthcare in India using AI"
+            subtitle="Empowering healthcare with smarter solutions for improved health
+          outcomes"
+          />
           <OurValuesSection />
           <WhoWeAreSection />
           <UniqueAboutNextCare />
