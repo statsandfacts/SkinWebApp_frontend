@@ -103,7 +103,9 @@ const HealthFeed = () => {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => {
-                    router.push(`/blog/${item?.slug}`);
+                    router.push(
+                      `/blog/${item?.categories[0].slug}/${item?.sub_categories[0].slug}/${item?.slug}`
+                    );
                   }}
                 >
                   Read More <ArrowRight size={20} className="ml-1" />
