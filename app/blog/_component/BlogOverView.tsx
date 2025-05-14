@@ -23,6 +23,7 @@ import {
 import BlogItem from "./BlogItem";
 import styles from "./BlogContent.module.css";
 import QuizClient from "./QuizClient";
+import RelatedCalculator from "@/components/Blog/RelatedCalculator";
 
 interface BlogOverviewProps {}
 
@@ -183,7 +184,7 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
               )}
 
               <h1 className="text-lg sm:text-xl md:text-4xl font-bold mb-8">
-               {singleBlog?.title}
+                {singleBlog?.title}
               </h1>
 
               <div className={styles.content}>
@@ -224,6 +225,9 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
                   </div>
                 </div>
               ) : null}
+              {singleBlog?.related_key_word && (
+                <RelatedCalculator keywords={[singleBlog?.related_key_word]} />
+              )}
             </div>
           </article>
         </div>
