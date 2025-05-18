@@ -11,6 +11,7 @@ import blogReducer from "./slices/digitalPrescription/blog.slice";
 import abdmReducer from "./slices/abdm.slics";
 import careerReducer from "./slices/digitalPrescription/career.slice";
 import saltCompositionReducer from './slices/digitalPrescription/saltComposition.slice';
+import refillReminderReducer from "@/redux/slices/digitalPrescription/refillReminder.slice";
 
 export const store = configureStore({
   reducer: {
@@ -27,6 +28,7 @@ export const store = configureStore({
     blogs: blogReducer,
     abdm: abdmReducer,
     career: careerReducer,
+    refillReminder: refillReminderReducer,
   },
 });
 
