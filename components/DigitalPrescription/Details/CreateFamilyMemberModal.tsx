@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "react-datepicker/dist/react-datepicker.css";
-
-
-
+import "react-datepicker/dist/react-datepicker.css"
 import {
   Modal,
   ModalContent,
@@ -135,7 +132,7 @@ export default function CreateFamilyMemberModal({
         email: memberDetail.email || "",
         phone_number: memberDetail.phone_no || "",
         dob: memberDetail.dob || "",
-        gender: memberDetail.member_gender || "",
+        gender: memberDetail.gender || "",
         relation: memberDetail.relation || "",
       });
     }
