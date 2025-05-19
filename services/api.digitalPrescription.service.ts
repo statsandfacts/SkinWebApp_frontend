@@ -302,7 +302,7 @@ export const getBlogDtls = async (blog_id: string) => {
 
 export const getBlogDtlsBySlug = async (blog_id: string) => {
   const { data } = await axios.get(
-    `${baseUrl}blogs/blog-by-slug?slug=${blog_id}`,
+    `${baseUrl}blogs/blog-by-slug/?slug=${blog_id}`,
     headers
   );
   return data;
