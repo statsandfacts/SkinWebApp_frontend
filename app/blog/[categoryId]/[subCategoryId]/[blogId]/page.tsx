@@ -6,7 +6,7 @@ import BlogOverview from "../../../_component/BlogOverView";
 import { siteConfig } from "@/config/site";
 
 const instance = axios.create({
-  baseURL: baseUrl,
+  baseURL: `https://nextcare.life/api/api/stage1/`,
   httpsAgent: new (require("https").Agent)({
     rejectUnauthorized: false,
   }),
@@ -21,7 +21,7 @@ export async function generateMetadata({
 
   try {
     const response = await instance.get(
-      `${baseUrl}blogs/blog-by-slug/?slug=${blogId}`
+      `https://nextcare.life/api/api/stage1/blogs/blog-by-slug/?slug=${blogId}`
     );
     const data = response.data;
 
