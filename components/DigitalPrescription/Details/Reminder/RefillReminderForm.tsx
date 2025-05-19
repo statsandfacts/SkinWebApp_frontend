@@ -8,30 +8,19 @@ import SearchMedicinePortal from "./SearchMedicinePortal";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { RefillReminderType } from "@/types/digitalPrescription/refilreminder.types";
-import {
-  deleteReminder,
-  updateReminder,
-  updateRefillReminder,
-  deleteRefillReminder,
-  setRefillReminder,
-  fetchRefillReminders,
-} from "@/services/api.digitalPrescription.service";
-import {
-  setIsRefillReminderOpen,
-  setRefillReminderActionKey,
-  setRefillReminderData,
-  fetchRefillRemindersApi
-} from "@/redux/slices/digitalPrescription/refillReminder.slice"
+import { setRefillReminder } from "@/services/api.digitalPrescription.service";
+import { fetchRefillRemindersApi } from "@/redux/slices/digitalPrescription/refillReminder.slice";
 
 const RefillReminderForm = ({ onClose }: any) => {
-  const { refillReminderActionKey, refillReminderData } = useSelector((state: RootState) => state.refillReminder);
+  const { refillReminderActionKey, refillReminderData } = useSelector(
+    (state: RootState) => state.refillReminder
+  );
   const { userId } = useAuthInfo();
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const dispatch = useDispatch<AppDispatch>();
 
-const formik = useFormik({
+  const formik = useFormik({
     initialValues: {
       medicineName: "",
       user_id: userId,
@@ -40,7 +29,6 @@ const formik = useFormik({
       dosage: "",
       start_date: "",
       days: "",
-      
     },
     validationSchema: Yup.object({
       medicine_name: Yup.string().required("Medicine Name is required"),
@@ -49,62 +37,48 @@ const formik = useFormik({
       start_date: Yup.string().required("Start Date is required"),
       days: Yup.string().required("Number of days is required"),
     }),
-   onSubmit: async (values) => {
-  setLoading(true);
-  setSubmitError("");
+    onSubmit: async (values) => {
+      setLoading(true);
+      setSubmitError("");
 
-  try {
-    const response = await setRefillReminder(values);
-    toast.success(response.message);
+      try {
+        const response = await setRefillReminder(values);
+        toast.success(response.message);
 
-    // ✅ Refresh refill reminders in Redux
-    if (userId) {
-  await dispatch(fetchRefillRemindersApi(userId));
-  console.log("refresh",fetchRefillRemindersApi)
-}
+        if (userId) {
+          await dispatch(fetchRefillRemindersApi(userId));
+        }
 
-    onClose(); // ✅ Close modal
-    formik.resetForm(); // ✅ Reset form if needed
-  } catch (err) {
-    console.error("Failed to set reminder:", err);
-    setSubmitError("Failed to submit. Please try again.");
-  } finally {
-    setLoading(false);
-  }
-}
-
+        onClose();
+        formik.resetForm();
+      } catch (err) {
+        console.error("Failed to set reminder:", err);
+        setSubmitError("Failed to submit. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    },
   });
 
-  //   useEffect(() => {
-  //   if ((refillReminderActionKey === "edit" || refillReminderActionKey === "view") && refillReminderData) {
-  //     formik.setValues({
-  //       medicineName: refillReminderData?.medicine_name || "",
-  //       medicine_name: refillReminderData?.medicine_name || "",
-  //       medicine_o_id: refillReminderData?.medicine_o_id || "",
-  //       dosage: refillReminderData?.dosage || "",
-  //       start_date: refillReminderData?.start_date || "",
-  //       days: refillReminderData?.days || "",
-  //       user_id: userId,
-  //     });
-  //   }
-  // }, [refillReminderActionKey, refillReminderData]);
   useEffect(() => {
-  if ((refillReminderActionKey === "edit" || refillReminderActionKey === "view") && refillReminderData) {
-    formik.setValues({
-      medicineName: refillReminderData?.medicine_name || "",
-      medicine_name: refillReminderData?.medicine_name || "",
-      medicine_o_id: refillReminderData?.medicine_o_id || "",
-      dosage: refillReminderData?.dosage || "",
-      start_date: refillReminderData?.start_date || "",
-      days: refillReminderData?.days || "",
-      user_id: userId, // ✅ always set this
-    });
-  } else if (refillReminderActionKey === "create") {
-    formik.setFieldValue("user_id", userId); // ✅ ensure user_id exists for create
-  }
-}, [refillReminderActionKey, refillReminderData, userId]);
-
-    
+    if (
+      (refillReminderActionKey === "edit" ||
+        refillReminderActionKey === "view") &&
+      refillReminderData
+    ) {
+      formik.setValues({
+        medicineName: refillReminderData?.medicine_name || "",
+        medicine_name: refillReminderData?.medicine_name || "",
+        medicine_o_id: refillReminderData?.medicine_o_id || "",
+        dosage: refillReminderData?.dosage || "",
+        start_date: refillReminderData?.start_date || "",
+        days: refillReminderData?.days || "",
+        user_id: userId,
+      });
+    } else if (refillReminderActionKey === "create") {
+      formik.setFieldValue("user_id", userId);
+    }
+  }, [refillReminderActionKey, refillReminderData, userId]);
 
   const handleMedicineChange = (medicine: any) => {
     formik.setFieldValue("medicineName", medicine.name);

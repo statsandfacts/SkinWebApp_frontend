@@ -4,7 +4,6 @@ import BackButton from "@/components/common/BackButton";
 import { ToolTipBtn } from "@/components/common/ToolTipBtn";
 import AddReminderModal from "@/components/DigitalPrescription/Details/Reminder/AddReminderModal";
 import RefillReminderModal from "@/components/DigitalPrescription/Details/Reminder/RefillReminderModal";
-import Loader from "@/components/Loader";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import {
   setIsReminderModal,
@@ -12,11 +11,11 @@ import {
   setReminderDetails,
 } from "@/redux/slices/digitalPrescription/drug.slice";
 import {
+  fetchRefillRemindersApi,
   setIsRefillReminderOpen,
   setRefillReminderActionKey,
   setRefillReminderData,
-} from "@/redux/slices/digitalPrescription/refillReminder.slice"
-
+} from "@/redux/slices/digitalPrescription/refillReminder.slice";
 import { fetchPatientDashboard } from "@/redux/slices/digitalPrescription/userDashboard.slice";
 import { AppDispatch, RootState } from "@/redux/store";
 import {
@@ -24,7 +23,6 @@ import {
   updateReminder,
   updateRefillReminder,
   deleteRefillReminder,
-  setRefillReminder,
   fetchRefillReminders,
 } from "@/services/api.digitalPrescription.service";
 import { Button } from "@heroui/button";
@@ -39,6 +37,7 @@ import {
 import {
   Bell,
   EyeIcon,
+  LoaderIcon,
   PencilLine,
   PlusIcon,
   ShieldCheckIcon,
@@ -46,7 +45,7 @@ import {
   Trash2,
 } from "lucide-react";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux"; 
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import DeleteRefillReminderModal from "./DeleteRefillReminderModal";
@@ -59,11 +58,13 @@ const Reminders = () => {
   const { dashboardData, loading, error } = useSelector(
     (state: RootState) => state.userDashboard
   );
+  const { rr_data, rr_error, rr_loading } = useSelector(
+    (state: RootState) => state.refillReminder
+  );
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [selectedReminder, setSelectedReminder] = useState<any>(null);
-  const [refillReminders, setRefillReminders] = useState<any[]>([]);
-  console.log("refillReminders state -->", refillReminders);
+
   const [isRefillDeleteModalOpen, setIsRefillDeleteModalOpen] =
     useState<boolean>(false);
   const [selectedRefillReminder, setSelectedRefillReminder] =
@@ -79,9 +80,7 @@ const Reminders = () => {
         id: refillReminders?.id,
         is_active: !refillReminders?.is_active,
       }).then(() => {
-        fetchRefillReminders(userId!).then((response) => {
-          setRefillReminders(response ? [...response] : []);
-        });
+        dispatch(fetchRefillRemindersApi(userId));
       }),
       {
         pending: `${
@@ -97,40 +96,17 @@ const Reminders = () => {
     );
   };
 
-  // useEffect(() => {
-  //   if (userId) {
-  //     fetchRefillReminders(userId!)
-  //       .then((response) => {
-  //         setRefillReminders(response || []);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Failed to fetch refill reminders", error);
-  //       });
-  //   }
-  // }, [userId]);
   useEffect(() => {
-  if (userId) {
-    fetchRefillReminders(userId)
-      .then((response) => {
-        console.log("Refill data from API -->", response);
-        setRefillReminders(response || []);
-      })
-      .catch((error) => {
-        console.error("Failed to fetch refill reminders", error);
-      });
-  }
-}, [userId]);
-
+    if (!rr_data) {
+      dispatch(fetchRefillRemindersApi(userId));
+    }
+  }, [dispatch, rr_data]);
 
   useEffect(() => {
     if (!dashboardData) {
       dispatch(fetchPatientDashboard(userId));
     }
   }, [dispatch, dashboardData]);
-
-  useEffect(() => {
-    console.log("Dashboard Data --->", dashboardData);
-  }, [dashboardData]);
 
   const DeleteReminder = (reminder: any) => {
     if (reminder?.status === "") {
@@ -160,34 +136,19 @@ const Reminders = () => {
   };
 
   const EditViewReminder = (reminder: any, isActionKey: string) => {
-    console.log("reminders-->",reminder)
     dispatch(setReminderActionKey(isActionKey));
     dispatch(setReminderDetails(reminder));
     dispatch(setIsReminderModal(true));
   };
 
-  // const EditViewRefillReminder = (
-  //   refillReminders: any,
-  //   isActionKey: string
-  // ) => {
-  //   console.log("reminderData------>",refillReminders); // This logs the details of the refill reminder
-
-  //   dispatch(setRefillReminderActionKey(isActionKey)); // Set the action key (view/edit)
-  //   dispatch(setRefillReminderData(refillReminders)); // Set the refill reminder details
-  //   dispatch(setIsRefillReminderOpen(true)); // Open the modal
-  // };
-  
-// const EditViewRefillReminder = () => {
-//   dispatch(setRefillReminderActionKey("create")); // or "edit"/"view"
-//   dispatch(setRefillReminderData(null)); // or pass data if editing/viewing
-//   dispatch(setIsRefillReminderOpen(true));
-// };
-const EditViewRefillReminder = (actionKey: "create" | "edit" | "view", data: any = null) => {
-  dispatch(setRefillReminderActionKey(actionKey));
-  dispatch(setRefillReminderData(data));
-  console.log("refil data",setRefillReminderData)
-  dispatch(setIsRefillReminderOpen(true));
-};
+  const EditViewRefillReminder = (
+    actionKey: "create" | "edit" | "view",
+    data: any = null
+  ) => {
+    dispatch(setRefillReminderActionKey(actionKey));
+    dispatch(setRefillReminderData(data));
+    dispatch(setIsRefillReminderOpen(true));
+  };
 
   const openDeleteModal = (reminder: any) => {
     setSelectedReminder(reminder);
@@ -232,12 +193,12 @@ const EditViewRefillReminder = (actionKey: "create" | "edit" | "view", data: any
     toast.promise(
       deleteRefillReminder(selectedRefillReminder.id).then(() => {
         return fetchRefillReminders(userId).then((response) => {
-          setRefillReminders(response || []);
+          dispatch(fetchRefillRemindersApi(userId));
           setIsRefillDeleteModalOpen(false);
         });
       }),
       {
-        pending: "Deleting refill reminder...", 
+        pending: "Deleting refill reminder...",
         success: "Refill reminder deleted successfully!",
         error: "Failed to delete refill reminder.",
       }
@@ -276,13 +237,10 @@ const EditViewRefillReminder = (actionKey: "create" | "edit" | "view", data: any
             <Button
               color="primary"
               className="rounded-lg ml-10"
-              
               // onPress={() => {
               //   dispatch(setRefillReminderActionKey("create"));
               //   dispatch(setIsRefillReminderOpen(true));
               onPress={() => EditViewRefillReminder("create")}
-
-            
             >
               Refill Reminder
               <PlusIcon className="h-5 w-5" />
@@ -292,13 +250,15 @@ const EditViewRefillReminder = (actionKey: "create" | "edit" | "view", data: any
 
         <div className="w-full max-w-sm sm:max-w-5xl">
           {loading ? (
-            <Loader />
+            <LoaderIcon className="flex justify-center items-center w-full animate-spin " />
           ) : error ? (
             <p className="text-red-500 ml-3"> Error: {error} </p>
           ) : (
             <>
               <section className="reports-section max-h-[200px] overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-sky-400 scrollbar-track-gray-200">
-                <h2 className="text-lg font-bold mb-4">Medicine Reminders Data</h2>
+                <h2 className="text-lg font-bold mb-4">
+                  Medicine Reminders Data
+                </h2>
                 <div>
                   {dashboardData &&
                   dashboardData?.reminder_dtls &&
@@ -384,7 +344,11 @@ const EditViewRefillReminder = (actionKey: "create" | "edit" | "view", data: any
                   Refill Reminders Data
                 </h2>
                 <div>
-                  {refillReminders.length > 0 ? (
+                  {rr_loading ? (
+                    <LoaderIcon className="flex justify-center items-center w-full animate-spin " />
+                  ) : rr_error ? (
+                    <p className="text-red-500 ml-3"> Error: {error} </p>
+                  ) : rr_data && rr_data.length > 0 ? (
                     <Table removeWrapper aria-label="Refill Reminder Table">
                       <TableHeader>
                         <TableColumn>Medicine Name</TableColumn>
@@ -394,7 +358,7 @@ const EditViewRefillReminder = (actionKey: "create" | "edit" | "view", data: any
                         <TableColumn>Action</TableColumn>
                       </TableHeader>
                       <TableBody>
-                        {refillReminders.map((item: any) => (
+                        {rr_data.map((item: any) => (
                           <TableRow key={`${item.id}-${item.status}`}>
                             <TableCell>{item?.medicine_name || "-"}</TableCell>
                             <TableCell>{item?.dosage || "-"}</TableCell>
@@ -406,7 +370,9 @@ const EditViewRefillReminder = (actionKey: "create" | "edit" | "view", data: any
                             <TableCell>{item?.days || "-"}</TableCell>
                             <TableCell className="flex gap-2">
                               <ToolTipBtn
-                               onClick={() => EditViewRefillReminder("view", item)}
+                                onClick={() =>
+                                  EditViewRefillReminder("view", item)
+                                }
                                 title="View"
                                 color="primary"
                                 key={1}
@@ -414,7 +380,9 @@ const EditViewRefillReminder = (actionKey: "create" | "edit" | "view", data: any
                                 <EyeIcon className="h-5 w-5" />
                               </ToolTipBtn>
                               <ToolTipBtn
-                               onClick={() => EditViewRefillReminder("edit", item)}
+                                onClick={() =>
+                                  EditViewRefillReminder("edit", item)
+                                }
                                 title="Edit"
                                 key={2}
                               >
