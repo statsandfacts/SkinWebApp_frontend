@@ -1,4 +1,5 @@
 import PregnancyDueDateCalculator from "@/components/Calculator/PregnancyDueDateCalculator";
+import CommonHeroSection from "@/components/common/CommonHeroSection";
 import { siteConfig } from "@/config/site";
 import type { Metadata } from "next";
 
@@ -11,14 +12,14 @@ export const metadata: Metadata = {
     description: siteConfig.pddCalculator.description,
     url: "https://nextcare.life/calculator/pregnancy-due-date",
     siteName: siteConfig.name,
-    images: [
-      {
-        url: "/vector/calculator_pregnancy_due_date.png",
-        width: 1200,
-        height: 630,
-        alt: "Pregnancy Due Date Calculator",
-      },
-    ],
+    // images: [
+    //   {
+    //     url: "/vector/calculator_pregnancy_due_date.png",
+    //     width: 1200,
+    //     height: 630,
+    //     alt: "Pregnancy Due Date Calculator",
+    //   },
+    // ],
     type: "website",
   },
   twitter: {
@@ -26,15 +27,20 @@ export const metadata: Metadata = {
     title: "Pregnancy Due Date Calculator - Know Your Baby's Due Date",
     description:
       "Easily calculate your baby's due date with our free Pregnancy Due Date Calculator. Plan for the exciting journey ahead with accurate results.",
-    images: ["/vector/calculator_pregnancy_due_date.png"],
+    // images: ["/vector/calculator_pregnancy_due_date.png"],
   },
 };
 
 const PregnancyDueDateCalculatorPage = () => {
   return (
-    <div>
+    <>
+      <CommonHeroSection
+        key={"pdd-calc-hero"}
+        title="Pregnancy Due Date Calculator"
+        subtitle="Estimate your baby's due date using your Last Menstrual Period (LMP)."
+      />
       <PregnancyDueDateCalculator />
-    </div>
+    </>
   );
 };
 

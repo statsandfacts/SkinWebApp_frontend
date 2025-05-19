@@ -83,12 +83,6 @@ const BMRCalculator: React.FC = () => {
   return (
     <div className="p-10 md:px-40">
       <BackButton />
-      <CustomHeader
-        header="BMR Calculator"
-        subHeader="Calculate your Basal Metabolic Rate to understand your body's energy needs."
-        imageURL="/calculator/bmrcalculator_headerimage.png"
-      />
-
       <section className="mt-6 animate-slide-up">
         <p className="text-gray-600 text-center md:text-left">
           Basal Metabolic Rate (BMR) represents the number of calories your body

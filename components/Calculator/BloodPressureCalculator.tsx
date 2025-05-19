@@ -70,11 +70,7 @@ const BloodPressureCalculator: React.FC = () => {
   return (
     <div className="p-10 md:px-40">
       <BackButton />
-      <CustomHeader
-        header="Blood Pressure Risk Calculator"
-        subHeader="Understand your blood pressure levels and risk category."
-        imageURL="/calculator/bp_calculator_image.png"
-      />
+
       <section className="mt-6 animate-slide-up">
         <p className="text-gray-600 text-center md:text-left">
           Blood pressure is a vital indicator of your cardiovascular health. Use

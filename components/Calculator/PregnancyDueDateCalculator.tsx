@@ -46,11 +46,6 @@ const PregnancyDueDateCalculator: React.FC = () => {
   return (
     <div className="p-10 md:px-40">
       <BackButton />
-      <CustomHeader
-        header="Pregnancy Due Date Calculator"
-        subHeader="Estimate your baby's due date using your Last Menstrual Period (LMP)."
-        imageURL="/vector/calculator_pregnancy_due_date.png"
-      />
       <section className="mt-6 animate-slide-up">
         <p className="text-gray-600 text-center md:text-left">
           Your estimated due date is 40 weeks (280 days) from the first day of
