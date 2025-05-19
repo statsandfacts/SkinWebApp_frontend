@@ -255,82 +255,95 @@ const Reminders = () => {
             <p className="text-red-500 ml-3"> Error: {error} </p>
           ) : (
             <>
-              <section className="reports-section max-h-[200px] overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-sky-400 scrollbar-track-gray-200">
-                <h2 className="text-lg font-bold mb-4">
-                  Medicine Reminders Data
-                </h2>
+              <section className="reports-section">
+                <h2 className="text-lg font-bold">Medicine Reminders Data</h2>
                 <div>
                   {dashboardData &&
                   dashboardData?.reminder_dtls &&
                   dashboardData?.reminder_dtls.length > 0 ? (
-                    <Table
-                      removeWrapper
-                      aria-label="Example static collection table"
-                    >
-                      <TableHeader>
-                        <TableColumn>Medicine Name</TableColumn>
-                        <TableColumn>Start Date</TableColumn>
-                        <TableColumn>Reminder Time</TableColumn>
-                        <TableColumn>Days</TableColumn>
-                        <TableColumn>Action</TableColumn>
-                      </TableHeader>
-                      <TableBody>
-                        {dashboardData.reminder_dtls.map(
-                          (item: any, pi: number) => (
-                            <TableRow key={pi}>
-                              <TableCell className="capitalize">
-                                {item?.medicine_name}
-                              </TableCell>
-                              <TableCell>{item?.reminder_start_date}</TableCell>
-                              {/* <TableCell>{item?.reminder_time}</TableCell> */}
-                              <TableCell>
-                                {moment(item?.reminder_time, "HH:mm:ss").format(
-                                  "hh:mm A"
-                                )}
-                              </TableCell>
-                              <TableCell> {item?.reminder_days} </TableCell>
-                              <TableCell className="flex gap-2">
-                                <ToolTipBtn
-                                  onClick={() => EditViewReminder(item, "view")}
-                                  title="View"
-                                  key={1}
-                                  color="primary"
-                                >
-                                  <EyeIcon className="h-5 w-5" />
-                                </ToolTipBtn>
-                                <ToolTipBtn
-                                  onClick={() => EditViewReminder(item, "edit")}
-                                  title="Edit"
-                                  key={2}
-                                >
-                                  <PencilLine className="h-5 w-5" />
-                                </ToolTipBtn>
-                                <ToolTipBtn
-                                  onClick={() => DeleteReminder(item)}
-                                  title={!item?.status ? "Inactive" : "Active"}
-                                  key={3}
-                                  color={!item?.status ? "danger" : "success"}
-                                >
-                                  {!item?.status ? (
-                                    <ShieldXIcon className="h-5 w-5" />
-                                  ) : (
-                                    <ShieldCheckIcon className="h-5 w-5" />
-                                  )}
-                                </ToolTipBtn>
-                                <ToolTipBtn
-                                  onClick={() => openDeleteModal(item)}
-                                  title="Delete"
-                                  key={4}
-                                  color={"danger"}
-                                >
-                                  <Trash2 className="h-5 w-5" />
-                                </ToolTipBtn>
-                              </TableCell>
-                            </TableRow>
-                          )
-                        )}
-                      </TableBody>
-                    </Table>
+                    <div className="max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-sky-400 scrollbar-track-gray-200 rounded">
+                      <Table
+                        removeWrapper
+                        aria-label="Example static collection table"
+                        classNames={{
+                          table: "min-w-full",
+                          thead: "sticky top-0 bg-white z-10",
+                        }}
+                      >
+                        <TableHeader>
+                          <TableColumn>Medicine Name</TableColumn>
+                          <TableColumn>Start Date</TableColumn>
+                          <TableColumn>Reminder Time</TableColumn>
+                          <TableColumn>Days</TableColumn>
+                          <TableColumn>Action</TableColumn>
+                        </TableHeader>
+                        <TableBody>
+                          {dashboardData.reminder_dtls.map(
+                            (item: any, pi: number) => (
+                              <TableRow key={pi}>
+                                <TableCell className="capitalize">
+                                  {item?.medicine_name}
+                                </TableCell>
+                                <TableCell>
+                                  {item?.reminder_start_date}
+                                </TableCell>
+                                {/* <TableCell>{item?.reminder_time}</TableCell> */}
+                                <TableCell>
+                                  {moment(
+                                    item?.reminder_time,
+                                    "HH:mm:ss"
+                                  ).format("hh:mm A")}
+                                </TableCell>
+                                <TableCell> {item?.reminder_days} </TableCell>
+                                <TableCell className="flex gap-2">
+                                  <ToolTipBtn
+                                    onClick={() =>
+                                      EditViewReminder(item, "view")
+                                    }
+                                    title="View"
+                                    key={1}
+                                    color="primary"
+                                  >
+                                    <EyeIcon className="h-5 w-5" />
+                                  </ToolTipBtn>
+                                  <ToolTipBtn
+                                    onClick={() =>
+                                      EditViewReminder(item, "edit")
+                                    }
+                                    title="Edit"
+                                    key={2}
+                                  >
+                                    <PencilLine className="h-5 w-5" />
+                                  </ToolTipBtn>
+                                  <ToolTipBtn
+                                    onClick={() => DeleteReminder(item)}
+                                    title={
+                                      !item?.status ? "Inactive" : "Active"
+                                    }
+                                    key={3}
+                                    color={!item?.status ? "danger" : "success"}
+                                  >
+                                    {!item?.status ? (
+                                      <ShieldXIcon className="h-5 w-5" />
+                                    ) : (
+                                      <ShieldCheckIcon className="h-5 w-5" />
+                                    )}
+                                  </ToolTipBtn>
+                                  <ToolTipBtn
+                                    onClick={() => openDeleteModal(item)}
+                                    title="Delete"
+                                    key={4}
+                                    color={"danger"}
+                                  >
+                                    <Trash2 className="h-5 w-5" />
+                                  </ToolTipBtn>
+                                </TableCell>
+                              </TableRow>
+                            )
+                          )}
+                        </TableBody>
+                      </Table>
+                    </div>
                   ) : (
                     <p className="text-slate-600 text-center text-xs">
                       Please Add Reminder.
@@ -339,82 +352,95 @@ const Reminders = () => {
                 </div>
               </section>
 
-              <section className="reports-section max-h-[200px] overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-sky-400 scrollbar-track-gray-200">
-                <h2 className="text-lg font-bold mb-4">
-                  Refill Reminders Data
-                </h2>
+              <section className="reports-section mt-3">
+                <h2 className="text-lg font-bold ">Refill Reminders Data</h2>
                 <div>
                   {rr_loading ? (
                     <LoaderIcon className="flex justify-center items-center w-full animate-spin " />
                   ) : rr_error ? (
                     <p className="text-red-500 ml-3"> Error: {error} </p>
                   ) : rr_data && rr_data.length > 0 ? (
-                    <Table removeWrapper aria-label="Refill Reminder Table">
-                      <TableHeader>
-                        <TableColumn>Medicine Name</TableColumn>
-                        <TableColumn>Dosage</TableColumn>
-                        <TableColumn>Start Date</TableColumn>
-                        <TableColumn>Days</TableColumn>
-                        <TableColumn>Action</TableColumn>
-                      </TableHeader>
-                      <TableBody>
-                        {rr_data.map((item: any) => (
-                          <TableRow key={`${item.id}-${item.status}`}>
-                            <TableCell>{item?.medicine_name || "-"}</TableCell>
-                            <TableCell>{item?.dosage || "-"}</TableCell>
-                            <TableCell>
-                              {item?.start_date
-                                ? moment(item.start_date).format("DD-MM-YYYY")
-                                : "-"}
-                            </TableCell>
-                            <TableCell>{item?.days || "-"}</TableCell>
-                            <TableCell className="flex gap-2">
-                              <ToolTipBtn
-                                onClick={() =>
-                                  EditViewRefillReminder("view", item)
-                                }
-                                title="View"
-                                color="primary"
-                                key={1}
-                              >
-                                <EyeIcon className="h-5 w-5" />
-                              </ToolTipBtn>
-                              <ToolTipBtn
-                                onClick={() =>
-                                  EditViewRefillReminder("edit", item)
-                                }
-                                title="Edit"
-                                key={2}
-                              >
-                                <PencilLine className="h-5 w-5" />
-                              </ToolTipBtn>
+                    <div className="max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-sky-400 scrollbar-track-gray-200 rounded">
+                      <Table
+                        removeWrapper
+                        aria-label="Refill Reminder Table"
+                        classNames={{
+                          table: "min-w-full",
+                          thead: "sticky top-0 bg-white z-10",
+                        }}
+                      >
+                        <TableHeader>
+                          <TableColumn>Medicine Name</TableColumn>
+                          <TableColumn>Dosage</TableColumn>
+                          <TableColumn>Start Date</TableColumn>
+                          <TableColumn>Days</TableColumn>
+                          <TableColumn>Action</TableColumn>
+                        </TableHeader>
+                        <TableBody>
+                          {rr_data.map((item: any) => (
+                            <TableRow key={`${item.id}-${item.status}`}>
+                              <TableCell>
+                                {item?.medicine_name || "-"}
+                              </TableCell>
+                              <TableCell>{item?.dosage || "-"}</TableCell>
+                              <TableCell>
+                                {item?.start_date
+                                  ? moment(item.start_date).format("DD-MM-YYYY")
+                                  : "-"}
+                              </TableCell>
+                              <TableCell>{item?.days || "-"}</TableCell>
+                              <TableCell className="flex gap-2">
+                                <ToolTipBtn
+                                  onClick={() =>
+                                    EditViewRefillReminder("view", item)
+                                  }
+                                  title="View"
+                                  color="primary"
+                                  key={1}
+                                >
+                                  <EyeIcon className="h-5 w-5" />
+                                </ToolTipBtn>
+                                <ToolTipBtn
+                                  onClick={() =>
+                                    EditViewRefillReminder("edit", item)
+                                  }
+                                  title="Edit"
+                                  key={2}
+                                >
+                                  <PencilLine className="h-5 w-5" />
+                                </ToolTipBtn>
 
-                              <ToolTipBtn
-                                onClick={() => ToggleRefillReminder(item)}
-                                title={!item?.is_active ? "Inactive" : "Active"}
-                                key={3}
-                                color={!item?.is_active ? "danger" : "success"}
-                              >
-                                {!item?.is_active ? (
-                                  <ShieldXIcon className="h-5 w-5" />
-                                ) : (
-                                  <ShieldCheckIcon className="h-5 w-5" />
-                                )}
-                              </ToolTipBtn>
+                                <ToolTipBtn
+                                  onClick={() => ToggleRefillReminder(item)}
+                                  title={
+                                    !item?.is_active ? "Inactive" : "Active"
+                                  }
+                                  key={3}
+                                  color={
+                                    !item?.is_active ? "danger" : "success"
+                                  }
+                                >
+                                  {!item?.is_active ? (
+                                    <ShieldXIcon className="h-5 w-5" />
+                                  ) : (
+                                    <ShieldCheckIcon className="h-5 w-5" />
+                                  )}
+                                </ToolTipBtn>
 
-                              <ToolTipBtn
-                                onClick={() => openDeleteRefillModal(item)}
-                                title="Delete"
-                                key={4}
-                                color="danger"
-                              >
-                                <Trash2 className="h-5 w-5" />
-                              </ToolTipBtn>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                                <ToolTipBtn
+                                  onClick={() => openDeleteRefillModal(item)}
+                                  title="Delete"
+                                  key={4}
+                                  color="danger"
+                                >
+                                  <Trash2 className="h-5 w-5" />
+                                </ToolTipBtn>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
                   ) : (
                     <p className="text-slate-600 text-center text-xs">
                       No Refill Reminders Found. Please Add Refill Reminder.
