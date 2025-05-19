@@ -12,7 +12,7 @@ const SearchComponent = () => {
   return (
     <div className="flex flex-col items-center justify-center bg-gray-50 rounded-lg p-6">
       <WelcomeSection />
-      <div className="flex justify-center w-full gap-5 md:gap-10 max-w-3xl mb-4 mt-4">
+      <div className="flex justify-center w-1/2 gap-5 md:gap-10 max-w-3xl mb-4 mt-10">
         <div
           className={`flex-1 text-center p-3 h-fit md:p-6 cursor-pointer transition-all duration-300 shadow-lg rounded-full ${
             selectedSearch === "medicine"
@@ -27,7 +27,7 @@ const SearchComponent = () => {
         </div>
 
         <div
-          className={`flex-1 text-center w-full p-3 h-fit md:p-6 cursor-pointer transition-all duration-300 shadow-lg rounded-full ${
+          className={`flex-1 text-center 1/2 p-3 h-fit md:p-6 cursor-pointer transition-all duration-300 shadow-lg rounded-full ${
             selectedSearch === "investigation"
               ? "bg-sky-800 text-white"
               : "bg-white text-gray-700 hover:bg-gray-100"
