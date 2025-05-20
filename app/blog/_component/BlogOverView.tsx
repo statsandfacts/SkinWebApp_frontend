@@ -192,6 +192,7 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
                   <QuizClient questions={singleBlog.quiz_questions} />
                 ) : (
                   <div
+                    className="prose"
                     dangerouslySetInnerHTML={{ __html: singleBlog?.content }}
                   />
                 )}
