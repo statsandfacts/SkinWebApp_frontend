@@ -8,7 +8,10 @@ import SearchMedicinePortal from "./SearchMedicinePortal";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { setRefillReminder } from "@/services/api.digitalPrescription.service";
+import {
+  setRefillReminder,
+  updateRefillReminder,
+} from "@/services/api.digitalPrescription.service";
 import { fetchRefillRemindersApi } from "@/redux/slices/digitalPrescription/refillReminder.slice";
 
 const RefillReminderForm = ({ onClose }: any) => {
@@ -42,13 +45,21 @@ const RefillReminderForm = ({ onClose }: any) => {
       setSubmitError("");
 
       try {
-        const response = await setRefillReminder(values);
-        toast.success(response.message);
-
+        if (refillReminderActionKey === "create") {
+          const response = await setRefillReminder(values);
+          toast.success("Reminder set successfully!");
+        } else if (refillReminderActionKey === "edit") {
+          if (!refillReminderData?.id) {
+            return toast.error("Invalid reminder data");
+          }
+          const response = await updateRefillReminder({
+            ...values,
+            id: refillReminderData.id,
+          });
+        }
         if (userId) {
           await dispatch(fetchRefillRemindersApi(userId));
         }
-
         onClose();
         formik.resetForm();
       } catch (err) {
