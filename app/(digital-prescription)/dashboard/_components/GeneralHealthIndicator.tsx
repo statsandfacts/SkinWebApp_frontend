@@ -123,7 +123,8 @@ const GeneralHealthIndicator = () => {
           <>
             <div className="w-full overflow-auto max-w-sm sm:max-w-5xl mt-4">
               <div>
-                <div className="flex justify-end">
+                <div className="flex justify-between mb-2">
+                  <h1>Basic Health Information</h1>
                   <button
                     className="flex items-center gap-1 text-slate-400"
                     onClick={EditClick}

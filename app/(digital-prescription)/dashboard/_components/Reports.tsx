@@ -88,7 +88,7 @@ const Reports = () => {
                                   ? "Health Camp Report"
                                   : report?.report_type}
                               </TableCell>
-                              <TableCell>{report?.ocr_op?.Date}</TableCell>
+                              <TableCell>{report?.date}</TableCell>
                               <TableCell className="flex gap-2">
                                 <ToolTipBtn
                                   onClick={() => {

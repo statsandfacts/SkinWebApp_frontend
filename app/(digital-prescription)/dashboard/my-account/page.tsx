@@ -14,6 +14,7 @@ import DashboardHeader, {
   ShowDashboardPercentage,
 } from "../_components/DashboardHeader";
 import ItemCard from "../_components/ItemCard";
+import BackButton from "@/components/common/BackButton";
 export const metadata: Metadata = {
   title: "AccountDetails",
 };
@@ -44,6 +45,9 @@ const MyAccountPage = () => {
 
   return (
     <div className="flex flex-col items-center bg-white pb-8">
+      <div className="flex justify-start w-full max-w-sm sm:max-w-7xl mt-4">
+        <BackButton />
+      </div>
       <DashboardHeader />
 
       <ShowDashboardPercentage />
