@@ -255,7 +255,13 @@ export default function CreateFamilyMemberModal({
                       Just confirm your phone number to continue.&nbsp;
                       <span
                         className="text-primary font-medium cursor-pointer underline"
-                        onClick={() => setShowOTPModal(true)}
+                        onClick={() => {
+                          if (!formik.values.phone_number) {
+                            toast.warn("Please enter your phone number");
+                          } else {
+                            setShowOTPModal(true);
+                          }
+                        }}
                       >
                         Verify
                       </span>
