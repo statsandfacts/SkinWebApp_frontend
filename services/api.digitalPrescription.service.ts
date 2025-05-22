@@ -239,7 +239,10 @@ export const getProfileCompletionPercentage = async (
  * @returns
  */
 export const fetchDrugDetails = async (drug_id: string | null) => {
-  const { data } = await axios.get(`${baseUrl}drug?id=${drug_id}`, headers);
+  const { data } = await axios.get(
+    `https://nextcare.life/api/api/stage1/drug/drug-data?id=${drug_id}`,
+    headers
+  );
   return data;
 };
 

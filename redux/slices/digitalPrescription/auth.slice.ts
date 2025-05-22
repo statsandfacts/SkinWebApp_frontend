@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { getUser } from "@/services/api.digitalPrescription.service";
+import {
+  getCountryData,
+  getUser,
+} from "@/services/api.digitalPrescription.service";
 import { removeLocalStorage, setLocalStorage } from "@/utils/localStore";
 import {
   AuthState,
@@ -11,6 +14,14 @@ export const fetchUserDetails = createAsyncThunk(
   async (userId: any) => {
     const response = await getUser(userId);
     return response.detail;
+  }
+);
+
+export const fetchCountries = createAsyncThunk(
+  "auth/fetchCountries",
+  async () => {
+    const response = await getCountryData();
+    return response;
   }
 );
 
@@ -42,6 +53,7 @@ const initialState: AuthState = {
   securityQuestions: {
     phone_email: "",
   },
+  countries: [],
 };
 
 export const authSlice = createSlice({
@@ -95,9 +107,13 @@ export const authSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addCase(fetchUserDetails.fulfilled, (state, action) => {
-      state.userDetails = action.payload;
-    });
+    builder
+      .addCase(fetchUserDetails.fulfilled, (state, action) => {
+        state.userDetails = action.payload;
+      })
+      .addCase(fetchCountries.fulfilled, (state, action) => {
+        state.countries = action.payload;
+      });
   },
 });
 

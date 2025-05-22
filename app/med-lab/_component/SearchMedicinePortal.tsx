@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { baseUrl } from "@/services/api.digitalPrescription.service";
+import { drugUrl, investigationUrl } from "@/services/urls.service";
 
 interface Medicine {
   Id?: string;
@@ -39,9 +40,7 @@ const SearchMedicinePortal: React.FC<{
 
     try {
       let url =
-        name === "medicine"
-          ? `${baseUrl}/drug/search?name=${input}`
-          : `${baseUrl}/investigation/search?name=${input}`;
+        name === "medicine" ? drugUrl + input : investigationUrl + input;
 
       const response = await axios.get(url);
       if (name === "medicine") {

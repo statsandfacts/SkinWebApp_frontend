@@ -20,15 +20,12 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
     (state: RootState) => state.drugs
   );
 
-  const fetchDrugDetails = useCallback(() => {
+  useEffect(() => {
     if (medicineName) {
-      dispatch(getDrugDetails(medicineName));
+      const name = Array.isArray(medicineName) ? medicineName[0] : medicineName;
+      dispatch(getDrugDetails(name));
     }
   }, [dispatch, medicineName]);
-
-  useEffect(() => {
-    fetchDrugDetails();
-  }, [fetchDrugDetails]);
 
   return (
     <div className="flex min-h-screen bg-gray-50 p-6">

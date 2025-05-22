@@ -11,6 +11,7 @@ import { Button } from "@heroui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import {
+  fetchCountries,
   setLoginModal,
   setUser,
 } from "@/redux/slices/digitalPrescription/auth.slice";
@@ -19,22 +20,12 @@ import { useRouter } from "next/navigation";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import InputField from "@/components/common/InputField";
-import {
-  login,
-  sendOtp,
-  getCountryData,
-} from "@/services/api.digitalPrescription.service";
+import { login, sendOtp } from "@/services/api.digitalPrescription.service";
+import { AppDispatch } from "@/redux/store";
 
 export default function LoginDrawer() {
-  type Country = {
-    id: number;
-    sortname: string;
-    name: string;
-    phonecode: number;
-  };
-
-  const { isModalOpen } = useSelector((state: any) => state.auth);
-  const dispatch = useDispatch();
+  const { isModalOpen, countries } = useSelector((state: any) => state.auth);
+  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -44,35 +35,23 @@ export default function LoginDrawer() {
   const [timer, setTimer] = useState(30);
   const [canResend, setCanResend] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("IN");
-  const [countries, setCountries] = useState<Country[]>([]);
 
   const isIndia = selectedCountry === "IN";
 
-// Reset form fields and OTP state when country changes
-useEffect(() => {
-  formik.setFieldValue("phone", "");
-  formik.setFieldValue("email", "");
-  setIsOTPSent(false);
-  setResponseOtp("");
-  setTimer(30);
-  setCanResend(false);
-}, [selectedCountry]);
-
-
+  useEffect(() => {
+    if (countries.length === 0) {
+      dispatch(fetchCountries());
+    }
+  }, []);
 
   useEffect(() => {
-    // Fetch countries data when component mounts
-    const fetchCountries = async () => {
-      try {
-        const data = await getCountryData(); // Fetch countries from API
-        setCountries(data); // Store the fetched data in state
-      } catch (error) {
-        console.error("Error fetching country data:", error);
-      }
-    };
-
-    fetchCountries();
-  }, []);
+    formik.setFieldValue("phone", "");
+    formik.setFieldValue("email", "");
+    setIsOTPSent(false);
+    setResponseOtp("");
+    setTimer(30);
+    setCanResend(false);
+  }, [selectedCountry]);
 
   useEffect(() => {
     if (isOTPSent) {
@@ -90,7 +69,6 @@ useEffect(() => {
       return () => clearInterval(interval);
     }
   }, [isOTPSent]);
-  
 
   useEffect(() => {
     if (isModalOpen && inputRef.current) {
@@ -152,7 +130,6 @@ useEffect(() => {
               user_role: "1",
               email_or_phone_no: identifier,
               session_id,
-              
             });
             dispatch(setUser({ userId: data.user_id, sessionId: session_id }));
             toast.success("Logged in successfully!");
@@ -169,17 +146,15 @@ useEffect(() => {
       }
     },
   });
-  // Reset OTP if user edits phone/email manually
-useEffect(() => {
-  if (isOTPSent) {
-    setIsOTPSent(false);
-    setResponseOtp("");
-    setTimer(30);
-    setCanResend(false);
-  }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [formik.values.phone, formik.values.email]);
 
+  useEffect(() => {
+    if (isOTPSent) {
+      setIsOTPSent(false);
+      setResponseOtp("");
+      setTimer(30);
+      setCanResend(false);
+    }
+  }, [formik.values.phone, formik.values.email]);
 
   const onClose = () => {
     dispatch(setLoginModal(false));
@@ -188,31 +163,6 @@ useEffect(() => {
     setResponseOtp("");
     setCanResend(false);
     setTimer(30);
-  };
-
-  const handleSendOtp = async () => {
-    try {
-      const value = isIndia ? formik.values.phone : formik.values.email;
-      const payload = isIndia ? { phone_number: value } : { email_id: value };
-
-      const res = await sendOtp(payload);
-      setResponseOtp(res.verification_code);
-      toast.success("OTP sent successfully!");
-
-      // Restart the timer
-      setIsOTPSent(false); // Reset it first
-      setTimeout(() => {
-        setIsOTPSent(true); // This will trigger useEffect again
-      }, 100); // Small delay ensures useEffect catches the change
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.detail || "Error sending OTP";
-    
-      if (errorMessage.includes("not registered") || errorMessage.includes("not exist")) {
-        toast.error("User not found. Please register first.");
-      } else {
-        toast.error(errorMessage);
-      }
-    }
   };
 
   const startResendTimer = () => {
@@ -228,27 +178,22 @@ useEffect(() => {
       });
     }, 1000);
   };
-  
-
 
   const handleResendOtp = async () => {
     try {
       const value = isIndia ? formik.values.phone : formik.values.email;
       const payload = isIndia ? { phone_number: value } : { email_id: value };
-  
+
       const res = await sendOtp(payload);
       setResponseOtp(res.verification_code);
       toast.success("OTP resent successfully!");
-      
-      formik.setFieldTouched("otp", false); // Optional: prevent showing 'required'
-      startResendTimer(); // Restart timer manually
+
+      formik.setFieldTouched("otp", false);
+      startResendTimer();
     } catch (err: any) {
       toast.error(err.response?.data?.detail || "Error resending OTP");
     }
   };
-  
-
- 
 
   return (
     <>
@@ -287,8 +232,8 @@ useEffect(() => {
                     className="bg-gray-50 border border-gray-300 text-sm rounded-lg p-4"
                   >
                     {countries.length > 0 ? (
-                      countries.map((country) => (
-                        <option key={country.id} value={country.sortname}>
+                      countries.map((country: any, index: number) => (
+                        <option key={index} value={country.sortname}>
                           {country.name} (+{country.phonecode})
                         </option>
                       ))
@@ -362,14 +307,13 @@ useEffect(() => {
                   {isOTPSent && (
                     <div className="text-end mr-2 text-sm text-gray-500">
                       {canResend ? (
-                       <button
-                       type="button"
-                       onClick={handleResendOtp}
-                       className="text-sky-700 font-semibold"
-                     >
-                       Resend OTP
-                     </button>
-                     
+                        <button
+                          type="button"
+                          onClick={handleResendOtp}
+                          className="text-sky-700 font-semibold"
+                        >
+                          Resend OTP
+                        </button>
                       ) : (
                         `Resend OTP in ${timer}s`
                       )}
