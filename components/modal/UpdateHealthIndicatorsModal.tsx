@@ -164,7 +164,9 @@ export default function UpdateHealthIndicatorsModal({
     } else if (actionKey === "add_sugar") {
       const inpData = {
         date: dayjs(updateData?.date).format("DD/MM/YYYY"),
-        time: moment(updateData?.time, "HH:mm").format("HH:mm A"),
+        time: updateData?.time
+          ? moment(updateData?.time, "HH:mm").format("HH:mm A")
+          : "", // fallback to empty string if time is not set
         fbs: updateData?.fbs ? updateData?.fbs : "",
         ppbs: updateData?.ppbs ? updateData?.ppbs : "",
       };
