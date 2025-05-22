@@ -42,6 +42,13 @@ const dpKeysInitial = {
   investigation_comments: "Comments",
   diagnosis_heading: "DIAGNOSIS",
   symptoms_heading: "SYMPTOMS",
+  general_vitals_heading: "GENERAL VITALS",
+  gv_blood_pressure: "Blood Pressure",
+  gv_heart_rate: "Heart Rate",
+  gv_resp_rate: "Respiratory Rate",
+  gv_oxg_lvl: "Oxygen Level",
+  gv_temp: "Temprature",
+  gv_weight: "Weight",
 };
 
 export default function ViewPrescriptionDetailsModal() {
@@ -51,6 +58,10 @@ export default function ViewPrescriptionDetailsModal() {
     singlePrescriptionDetails,
     singleCaseDetails,
   } = useSelector((state: any) => state.digitalPrescription);
+
+  console.log("singleCaseDetails", singleCaseDetails);
+  console.log("singlePrescriptionDetails", singlePrescriptionDetails);
+
 
   const [targetLang, setTargetLang] = useState<string>("en");
   const [lTLoading, setLTLoading] = useState<boolean>(false);
@@ -66,6 +77,7 @@ export default function ViewPrescriptionDetailsModal() {
     reports: [],
     diagnosis: "",
     symptoms: "",
+    general_vitals: {}
   });
 
   useEffect(() => {
@@ -81,6 +93,7 @@ export default function ViewPrescriptionDetailsModal() {
         reports: singlePrescriptionDetails?.reports || [],
         diagnosis: singlePrescriptionDetails?.diagnosis || "",
         symptoms: singlePrescriptionDetails?.symptoms || "",
+        general_vitals: singlePrescriptionDetails?.general_vital || null,
       });
     }
   }, [singlePrescriptionDetails, singleCaseDetails]);
