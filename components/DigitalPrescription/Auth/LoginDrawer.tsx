@@ -194,7 +194,6 @@ export default function LoginDrawer() {
       toast.error(err.response?.data?.detail || "Error resending OTP");
     }
   };
-
   return (
     <>
       <Modal
@@ -210,6 +209,7 @@ export default function LoginDrawer() {
                 <p>Sign-in to nextcare.life</p>
                 <div />
                 <button
+                  type="button"
                   className="w-7 h-7 rounded-full flex justify-center items-center hover:bg-gray-100"
                   onClick={onClose}
                 >
