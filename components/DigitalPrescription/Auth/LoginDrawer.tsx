@@ -48,17 +48,15 @@ export default function LoginDrawer() {
 
   const isIndia = selectedCountry === "IN";
 
-// Reset form fields and OTP state when country changes
-useEffect(() => {
-  formik.setFieldValue("phone", "");
-  formik.setFieldValue("email", "");
-  setIsOTPSent(false);
-  setResponseOtp("");
-  setTimer(30);
-  setCanResend(false);
-}, [selectedCountry]);
-
-
+  // Reset form fields and OTP state when country changes
+  useEffect(() => {
+    formik.setFieldValue("phone", "");
+    formik.setFieldValue("email", "");
+    setIsOTPSent(false);
+    setResponseOtp("");
+    setTimer(30);
+    setCanResend(false);
+  }, [selectedCountry]);
 
   useEffect(() => {
     // Fetch countries data when component mounts
@@ -90,7 +88,6 @@ useEffect(() => {
       return () => clearInterval(interval);
     }
   }, [isOTPSent]);
-  
 
   useEffect(() => {
     if (isModalOpen && inputRef.current) {
@@ -152,7 +149,6 @@ useEffect(() => {
               user_role: "1",
               email_or_phone_no: identifier,
               session_id,
-              
             });
             dispatch(setUser({ userId: data.user_id, sessionId: session_id }));
             toast.success("Logged in successfully!");
@@ -177,9 +173,8 @@ useEffect(() => {
     setTimer(30);
     setCanResend(false);
   }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [formik.values.phone, formik.values.email]);
-
 
   const onClose = () => {
     dispatch(setLoginModal(false));
@@ -206,8 +201,10 @@ useEffect(() => {
       }, 100); // Small delay ensures useEffect catches the change
     } catch (err: any) {
       const errorMessage = err.response?.data?.detail || "Error sending OTP";
-    
-      if (errorMessage.includes("not registered") || errorMessage.includes("not exist")) {
+      if (
+        errorMessage.includes("not registered") ||
+        errorMessage.includes("not exist")
+      ) {
         toast.error("User not found. Please register first.");
       } else {
         toast.error(errorMessage);
@@ -228,28 +225,22 @@ useEffect(() => {
       });
     }, 1000);
   };
-  
-
 
   const handleResendOtp = async () => {
     try {
       const value = isIndia ? formik.values.phone : formik.values.email;
       const payload = isIndia ? { phone_number: value } : { email_id: value };
-  
+
       const res = await sendOtp(payload);
       setResponseOtp(res.verification_code);
       toast.success("OTP resent successfully!");
-      
+
       formik.setFieldTouched("otp", false); // Optional: prevent showing 'required'
       startResendTimer(); // Restart timer manually
     } catch (err: any) {
       toast.error(err.response?.data?.detail || "Error resending OTP");
     }
   };
-  
-
- 
-
   return (
     <>
       <Modal
@@ -265,6 +256,7 @@ useEffect(() => {
                 <p>Sign-in to nextcare.life</p>
                 <div />
                 <button
+                  type="button"
                   className="w-7 h-7 rounded-full flex justify-center items-center hover:bg-gray-100"
                   onClick={onClose}
                 >
@@ -362,14 +354,13 @@ useEffect(() => {
                   {isOTPSent && (
                     <div className="text-end mr-2 text-sm text-gray-500">
                       {canResend ? (
-                       <button
-                       type="button"
-                       onClick={handleResendOtp}
-                       className="text-sky-700 font-semibold"
-                     >
-                       Resend OTP
-                     </button>
-                     
+                        <button
+                          type="button"
+                          onClick={handleResendOtp}
+                          className="text-sky-700 font-semibold"
+                        >
+                          Resend OTP
+                        </button>
                       ) : (
                         `Resend OTP in ${timer}s`
                       )}
