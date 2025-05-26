@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -9,7 +7,6 @@ import {
   ModalFooter,
 } from "@heroui/modal";
 import { Button } from "@heroui/button";
-import { useEffect } from "react";
 import InputField from "@/components/common/InputField";
 import { toast } from "react-toastify";
 import { sendOtp } from "@/services/api.digitalPrescription.service";
@@ -34,15 +31,23 @@ export default function PhoneVerificationModal({
   const [verificationCode, setVerificationCode] = useState("");
   const [userId, setUserId] = useState("");
 
+  // 💡 Reset modal state when phone number changes
+  useEffect(() => {
+    setOtp("");
+    setIsOTPSent(false);
+    setVerificationCode("");
+    setUserId("");
+    setLoading(false);
+    setVerifying(false);
+  }, [phoneNumber, isOpen]);
+
   const handleSendOtp = async () => {
     try {
       setLoading(true);
       const response = await sendOtp({ phone_number: phoneNumber });
 
-      // Store code and user ID
       setVerificationCode(response.verification_code);
       setUserId(response.user_id);
-
       setIsOTPSent(true);
       toast.success("OTP sent successfully!");
     } catch (err: any) {
@@ -55,10 +60,16 @@ export default function PhoneVerificationModal({
   const handleVerifyOtp = async () => {
     try {
       setVerifying(true);
+
+      if (!otp.trim()) {
+        toast.warn("Please enter the OTP.");
+        return;
+      }
+
       if (otp === verificationCode) {
         toast.success("Phone number verified successfully!");
-        onVerified(); // Notify parent
-        onClose(); // Close modal
+        onVerified();
+        onClose();
       } else {
         toast.error("Invalid OTP. Please try again.");
       }
@@ -88,17 +99,15 @@ export default function PhoneVerificationModal({
               Send OTP
             </Button>
           ) : (
-            <>
-              <InputField
-                type="text"
-                name="otp"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                placeholder="Enter OTP"
-                isLabel
-                className="text-xl py-2 px-2 h-10"
-              />
-            </>
+            <InputField
+              type="text"
+              name="otp"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              placeholder="Enter OTP"
+              isLabel
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
+            />
           )}
         </ModalBody>
         <ModalFooter>
@@ -107,7 +116,7 @@ export default function PhoneVerificationModal({
           </Button>
           {isOTPSent && (
             <Button
-              color="success"
+              color="primary"
               isLoading={verifying}
               onPress={handleVerifyOtp}
             >
