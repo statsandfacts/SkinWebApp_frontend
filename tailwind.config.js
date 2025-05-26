@@ -1,4 +1,5 @@
 const { heroui } = require("@heroui/react");
+const typography = require("@tailwindcss/typography");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -41,6 +42,7 @@ module.exports = {
   },
   darkMode: "class",
   plugins: [heroui()],
+  typography,
   // plugins: [
   //   heroui({
   //     theme: {
