@@ -29,6 +29,9 @@ const NCTemplate1 = ({ DpKeys, dpData }: NCtemplateProps) => {
     (state: any) => state.digitalPrescription
   );
 
+  console.log(dpData);
+  console.log(DpKeys);
+
   return (
     <>
       <div className="overflow-y-auto max-h-[35rem]">
@@ -82,6 +85,34 @@ const NCTemplate1 = ({ DpKeys, dpData }: NCtemplateProps) => {
             {DpKeys.remarks}: {dpData.remarks}{" "}
           </p>
         )}
+
+        {dpData?.general_vitals !== null && <div>
+          <h1 className="mt-5 mb-3">{DpKeys.general_vitals_heading}</h1>
+          <div className="flex gap-1">
+            <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_blood_pressure} :</h3>
+            <p className="font-bold">{dpData.general_vitals.BP}</p>
+          </div>
+          <div className="flex gap-1">
+            <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_heart_rate} :</h3>
+            <p className="font-bold">{dpData.general_vitals.HR}</p>
+          </div>
+          <div className="flex gap-1">
+            <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_resp_rate} :</h3>
+            <p className="font-bold">{dpData.general_vitals.RR}</p>
+          </div>
+          <div className="flex gap-1">
+            <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_oxg_lvl} :</h3>
+            <p className="font-bold">{dpData.general_vitals.SpO2}</p>
+          </div>
+          <div className="flex gap-1">
+            <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_temp} :</h3>
+            <p className="font-bold">{dpData.general_vitals.Temperature}{dpData.general_vitals.tempratureCategory}</p>
+          </div>
+          <div className="flex gap-1">
+            <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_weight} :</h3>
+            <p className="font-bold">{dpData.general_vitals.Weight}{dpData.general_vitals.weightCategory}</p>
+          </div>
+        </div>}
 
         <div className="mt-2">
           <h1>{DpKeys.medicine_heading}</h1>
@@ -218,6 +249,8 @@ const NCTemplate1 = ({ DpKeys, dpData }: NCtemplateProps) => {
             </TableBody>
           </Table>
         </div>
+
+
 
         <div className="mt-4">
           <div>
