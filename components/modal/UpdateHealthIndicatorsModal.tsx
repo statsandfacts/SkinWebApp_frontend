@@ -166,7 +166,7 @@ export default function UpdateHealthIndicatorsModal({
         date: dayjs(updateData?.date).format("DD/MM/YYYY"),
         time: updateData?.time
           ? moment(updateData?.time, "HH:mm").format("HH:mm A")
-          : "", // fallback to empty string if time is not set
+          : "Invalid Time",
         fbs: updateData?.fbs ? updateData?.fbs : "",
         ppbs: updateData?.ppbs ? updateData?.ppbs : "",
       };
