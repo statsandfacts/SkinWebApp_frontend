@@ -311,6 +311,17 @@ export const getBlogDtlsBySlug = async (blog_id: string) => {
   return data;
 };
 
+export const getRelatedBlogs = async (
+  subcategory_slug: string | string[],
+  exclude_blog_slug: string | string[]
+) => {
+  const { data } = await axios.get(
+    `${baseUrl}blogs/related-by-subcategory?subcategory_slug=${subcategory_slug}&exclude_blog_slug=${exclude_blog_slug}`,
+    headers
+  );
+  return data;
+};
+
 export const getAllCategories = async () => {
   const { data } = await axios.get(`${baseUrl}blogs/categories/all`, headers);
   return data;
@@ -318,7 +329,7 @@ export const getAllCategories = async () => {
 
 // comments
 export const createComment = (payload: any) => {
-  return axios.post(`${baseUrl}blogs/comments`, payload, headers);
+  return axios.post(`${baseUrl}blogs/comments/`, payload, headers);
 };
 export const updateComment = async (payload: any, comment_id: string) => {
   const { data } = await axios.put(

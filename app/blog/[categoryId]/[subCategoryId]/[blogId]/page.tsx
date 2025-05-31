@@ -69,7 +69,6 @@ export async function generateMetadata({
 
 const BlogByIdPage = ({ params }: { params: { blogId: string } }) => {
   const { blogId } = params;
-  // console.log(blogId);
   return (
     <>
       <BlogOverview />
