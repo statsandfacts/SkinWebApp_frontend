@@ -350,7 +350,7 @@ export const createFamilyMember = async (payload: any) => {
 
 /**
  *
- * @param payload {family_member_id, member_name, relation, gender, phone_no, dob, email }
+ * @param payload {family_member_id, member_name, relation, gender, phone_no, dob, email,user_id }
  * @returns
  */
 export const updateFamilyMember = async (payload: any) => {
@@ -689,6 +689,48 @@ export const getRefillReminders = async (user_id: string) => {
 export const deleteRefillReminder = async (reminder_id: string | number) => {
   const { data } = await axios.delete(
     baseUrl + `refill-reminders/?reminder_id=${reminder_id}`,
+    headers
+  );
+  return data;
+};
+
+/**
+ * Fetches all doctors from the server.
+ * @returns Array of doctor objects
+ */
+export const getAllDoctors = async () => {
+  const { data } = await axios.get(`${baseUrl}doctors/get-all-doctor`, headers);
+  return data;
+};
+
+/**
+ * Fetches availability slots for a specific doctor by ID.
+ * @param doctor_id - The unique ID of the doctor
+ * @returns Array of availability entries
+ */
+export const getAvailabilityByDoctorId = async (doctor_id: string) => {
+  const { data } = await axios.get(
+    `${baseUrl}doctors/availability/?doctor_id=${doctor_id}`,
+    headers
+  );
+  return data;
+};
+
+/**
+ * @param payload {
+ *   patient_id: string,
+ *   doctor_id: string,
+ *   appointment_date: string (YYYY-MM-DD),
+ *   time: string (HH:mm:ss),
+ *   purpose: string,
+ *   appointment_type: string
+ * }
+ * @returns Promise<{ message: string, status: number }>
+ */
+export const bookAppointment = async (payload: any) => {
+  const { data } = await axios.post(
+    baseUrl + "appointment/",
+    payload,
     headers
   );
   return data;

@@ -12,7 +12,7 @@ import abdmReducer from "./slices/abdm.slics";
 import careerReducer from "./slices/digitalPrescription/career.slice";
 import saltCompositionReducer from './slices/digitalPrescription/saltComposition.slice';
 import refillReminderReducer from "@/redux/slices/digitalPrescription/refillReminder.slice";
-
+import symptomsReducer from "@/redux/slices/digitalPrescription/symptoms.slice";
 export const store = configureStore({
   reducer: {
     questionary: counterReducer,
@@ -29,6 +29,7 @@ export const store = configureStore({
     abdm: abdmReducer,
     career: careerReducer,
     refillReminder: refillReminderReducer,
+    symptoms: symptomsReducer,
   },
 });
 
