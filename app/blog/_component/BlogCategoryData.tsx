@@ -14,7 +14,6 @@ const BlogCategoryData = () => {
   );
 
   useEffect(() => {
-    // console.log(reduxCatData);
     if (!reduxCatData) {
       router.replace("/blog");
     }
@@ -49,11 +48,16 @@ const BlogCategoryData = () => {
                   reduxCatData?.sub_categories?.flatMap(
                     (subCat: any) => subCat?.blogs || []
                   ) || []
-                ).map((blog: any, index: number) => (
-                  <div key={index}>
-                    <BlogItem blog={blog} />
-                  </div>
-                ))}
+                )
+                  .sort(
+                    (a: any, b: any) =>
+                      new Date(b.date).getTime() - new Date(a.date).getTime()
+                  )
+                  .map((blog: any, index: number) => (
+                    <div key={index}>
+                      <BlogItem blog={blog} />
+                    </div>
+                  ))}
               </div>
             </div>
           </div>

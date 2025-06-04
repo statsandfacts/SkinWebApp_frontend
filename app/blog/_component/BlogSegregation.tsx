@@ -67,7 +67,6 @@ const BlogSegregation = () => {
                       allBlogsByCategories.data?.recent_blogs
                         .slice(0, 3)
                         .map((item: any, index: number) => (
-                          
                           <Link
                             href={`/blog/${item?.categories[0].slug}/${item?.sub_categories[0].slug}/${item?.slug}`}
                             key={index}
@@ -114,8 +113,12 @@ const BlogSegregation = () => {
                         (subCat: any) => subCat?.blogs || []
                       ) || [];
 
-                    const topBlogs = allBlogs.slice(0, 3);
-                    console.log(cat);
+                    const sortedBlogs = allBlogs.sort(
+                      (a: any, b: any) =>
+                        new Date(b.date).getTime() - new Date(a.date).getTime()
+                    );
+
+                    const topBlogs = sortedBlogs.slice(0, 3);
                     return (
                       <div key={index}>
                         <div className="flex justify-between mt-4">
@@ -124,7 +127,7 @@ const BlogSegregation = () => {
                           </p>
                           <button
                             onClick={() => {
-                              dispatch(setReduxCatData(cat)); 
+                              dispatch(setReduxCatData(cat));
                               router.push(`/blog/${cat.slug}`);
                             }}
                             className="text-sky-800 flex items-center text-sm md:text-xl transition ease-in-out duration-200 hover:translate-x-1 hover:text-sky-700"

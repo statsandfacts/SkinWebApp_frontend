@@ -28,6 +28,7 @@ import { useAuthInfo } from "@/hooks/useAuthInfo";
 import ViewOriginalPrescriptionImage from "@/components/DigitalPrescription/ViewOriginalPrescriptionImage";
 import ViewGenerateReportModal from "@/components/DigitalPrescription/Details/ViewGenerateReportModal";
 import SLRModal from "@/components/DigitalPrescription/Details/Report/SLRModal";
+import moment from "moment";
 
 const Reports = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -88,7 +89,13 @@ const Reports = () => {
                                   ? "Health Camp Report"
                                   : report?.report_type}
                               </TableCell>
-                              <TableCell>{report?.ocr_op?.Date}</TableCell>
+                              <TableCell>
+                                {report?.date
+                                  ? moment(report.date).format(
+                                      "MM/DD/YYYY hh:mm A"
+                                    )
+                                  : "N/A"}
+                              </TableCell>
                               <TableCell className="flex gap-2">
                                 <ToolTipBtn
                                   onClick={() => {

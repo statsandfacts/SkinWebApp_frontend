@@ -1,12 +1,23 @@
 import type { Metadata } from "next";
 import { DigitalPrescriptionFAQ } from "./_components/DigitalPrescriptionFAQ";
+import CommonHeroSection from "@/components/common/CommonHeroSection";
 
 export const metadata: Metadata = {
   title: "FAQ",
 };
 
 const howWorks = () => {
-  return <DigitalPrescriptionFAQ />;
+  return (
+    <>
+      <CommonHeroSection
+        key={"faq-hero"}
+        title="Frequently Asked Questions"
+        subtitle="Get answers about NextCare app and services."
+      />
+
+      <DigitalPrescriptionFAQ />
+    </>
+  );
 };
 
 export default howWorks;
@@ -138,5 +149,3 @@ const SkinCareFAQ = () => {
     </div>
   );
 };
-
-

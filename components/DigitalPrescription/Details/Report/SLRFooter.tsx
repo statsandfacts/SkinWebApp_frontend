@@ -3,17 +3,23 @@ import React from "react";
 import Link from "next/link";
 import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 import FontAwesomeXIcon from "@/components/SvgIcon/FontAwesomeXIcon";
+import FeedBackGroupIcon from "@/components/SvgIcon/FeedBackGroupIcon";
 
 const SLRFooter = () => {
   return (
     <div className="mt-6">
-      <h2 className="text-xl text-primary font-bold mb-2 mr-10">
-        Your Opinion Matters</h2>
+      <div className="flex items-center gap-2 mb-2">
+        <FeedBackGroupIcon color="red" height={16} width={16} />
+        <h2 className="text-xl text-primary font-bold mb-2 mr-10">
+          Your Opinion Matters
+        </h2>
+      </div>
+
       <p className="text-gray-700 mb-2">
         We are the first of our kind in the industry, and we had love to hear
         how we did to help you understand your health better. Do share your
         thoughts using the feedback link below or simply drop us a note on our
-        social media pages. Every word goes a long way in motivating our team 
+        social media pages. Every word goes a long way in motivating our team
         and delivering better.
       </p>
 
@@ -50,9 +56,11 @@ const SLRFooter = () => {
           <Youtube className="h-4 w-4" />
         </Link>
       </div>
-      <h5 className="text-sm text-sky-700 ">@2025 Stats & Facts Technologies Pvt. Ltd.</h5>
+      <h5 className="text-xs italic text-sky-700 ">
+        @2025 Stats & Facts Technologies Pvt. Ltd.
+      </h5>
 
-      <div className="mt-2 text-gray-800 italic">
+      <div className="mt-2 text-sm text-gray-800 italic">
         Your health deserves more than numbers — it deserves insight.
         <br />
         Thank you for trusting us with your care.

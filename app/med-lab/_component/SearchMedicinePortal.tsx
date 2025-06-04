@@ -6,6 +6,8 @@ import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { baseUrl } from "@/services/api.digitalPrescription.service";
+import { drugUrl, investigationUrl } from "@/services/urls.service";
 
 interface Medicine {
   Id?: string;
@@ -35,11 +37,10 @@ const SearchMedicinePortal: React.FC<{
     }
 
     setIsLoading(true);
+
     try {
       let url =
-        name === "medicine"
-          ? `https://nextcare.life:8000/api/stage1/drug/search?name=${input}`
-          : `https://nextcare.life:8000/api/stage1/investigation/search?name=${input}`;
+        name === "medicine" ? drugUrl + input : investigationUrl + input;
 
       const response = await axios.get(url);
       if (name === "medicine") {

@@ -117,11 +117,7 @@ const DiabetesRiskCalculator: React.FC = () => {
   return (
     <div className="p-10 md:px-40">
       <BackButton />
-      <CustomHeader
-        header="Diabetes Risk Calculator"
-        subHeader="Assess your risk for developing Type 2 diabetes based on common risk factors."
-        imageURL="/vector/calculator_diabetes_risk.png"
-      />
+
       <section className="mt-6 animate-slide-up">
         <p className="text-gray-600 text-center md:text-left">
           This tool provides an estimate of your risk for developing Type 2

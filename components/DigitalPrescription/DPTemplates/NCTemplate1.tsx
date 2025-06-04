@@ -10,10 +10,9 @@ import {
 } from "@heroui/table";
 import {
   setIsReminderModal,
-  setReminderActionKey,
   setReminderDetails,
 } from "@/redux/slices/digitalPrescription/drug.slice";
-import { Timer } from "lucide-react";
+import { CalendarClockIcon } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { useRouter } from "next/navigation";
@@ -118,16 +117,26 @@ const NCTemplate1 = ({ DpKeys, dpData }: NCtemplateProps) => {
                       >
                         <b>{medicineDetail?.medicine_name}</b>
                       </button>
-                      <button
-                        className="bg-transparent text-orange-400"
-                        onClick={() => {
-                          dispatch(setReminderDetails(medicineDetail));
-                          dispatch(setReminderActionKey("create"));
-                          dispatch(setIsReminderModal(true));
-                        }}
-                      >
-                        <Timer size={28} />
-                      </button>
+                      {medicineDetail?.is_reminder_set ? (
+                        <button
+                          className="bg-transparent text-green-400"
+                          onClick={() => {
+                            router.push("/dashboard/reminders");
+                          }}
+                        >
+                          <CalendarClockIcon size={18} />
+                        </button>
+                      ) : (
+                        <button
+                          className="bg-transparent text-orange-400"
+                          onClick={() => {
+                            dispatch(setReminderDetails(medicineDetail));
+                            dispatch(setIsReminderModal(true));
+                          }}
+                        >
+                          <CalendarClockIcon size={18} />
+                        </button>
+                      )}
                     </TableCell>
 
                     <TableCell className="uppercase">

@@ -27,4 +27,5 @@ export interface AuthState {
   isRedeemDiscountOpen: boolean;
   isRedeemPopoverOpen: boolean;
   securityQuestions: any;
+  countries: any[];
 }

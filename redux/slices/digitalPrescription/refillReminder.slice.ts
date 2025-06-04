@@ -3,8 +3,6 @@ import { fetchRefillReminders } from "@/services/api.digitalPrescription.service
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 
-
-// Define a type for a single refill reminder item
 export interface RefillReminderType {
   medicine_name: string;
   medicine_o_id: string;
@@ -12,20 +10,14 @@ export interface RefillReminderType {
   start_date: string;
   days: string;
   user_id: string;
+  created_at?: string | null;
+  created_by?: string | null;
+  end_date?: string | null;
+  id?: string | null;
+  is_active?: boolean;
+  updated_at?: string | null;
+  updated_by?: string | null;
 }
-
-
-// export const fetchRefillRemindersApi = createAsyncThunk(
-//   "refillReminder/fetchRefillReminders",
-//   async (userId: string, thunkAPI) => {
-//     try {
-//       const data = await fetchRefillReminders (userId); // your existing API function
-//       return data;
-//     } catch (error: any) {
-//       return thunkAPI.rejectWithValue(error?.response?.data || "Something went wrong");
-//     }
-//   }
-// );
 
 export const fetchRefillRemindersApi = createAsyncThunk<
   any, // Adjust the return type according to the expected data from API
@@ -50,18 +42,25 @@ export const fetchRefillRemindersApi = createAsyncThunk<
   }
 });
 
-
 // Define the shape of the state
 interface RefillReminderState {
   isRefillReminderOpen: boolean;
   refillReminderActionKey: "create" | "edit" | "view" | null;
   refillReminderData: RefillReminderType | null;
+
+  rr_error: string | null;
+  rr_loading: boolean;
+  rr_data: RefillReminderType[] | null;
 }
 
 const initialState: RefillReminderState = {
   isRefillReminderOpen: false,
   refillReminderActionKey: null,
   refillReminderData: null,
+
+  rr_error: null,
+  rr_loading: false,
+  rr_data: null,
 };
 
 const refillReminderSlice = createSlice({
@@ -83,6 +82,27 @@ const refillReminderSlice = createSlice({
     ) {
       state.refillReminderData = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchRefillRemindersApi.pending, (state) => {
+        state.rr_loading = true;
+        state.rr_error = null;
+        state.rr_data = null;
+      })
+      .addCase(
+        fetchRefillRemindersApi.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.rr_loading = false;
+          state.rr_error = null;
+          state.rr_data = action.payload;
+        }
+      )
+      .addCase(fetchRefillRemindersApi.rejected, (state, action) => {
+        state.rr_loading = false;
+        state.rr_error = action.payload as string;
+        state.rr_data = null;
+      });
   },
 });
 
