@@ -37,3 +37,26 @@ export const endChat = async (payload: any) => {
   );
   return data;
 };
+
+export const goBack = async (payload: any) => {
+  const { data } = await axios.post(
+    baseUrl + "symptom/go_back",
+      payload,
+      headers
+  );
+  return data;
+};
+
+export const handleSearchSymptom = async (payload: any) => {
+  const { data } = await axios.get(
+    baseUrl + `symptom/search_symptom?query=${payload}`
+  );
+  return data;
+};
+
+export const getSymptomHistory = async (payload: string | null) => {
+  const { data } = await axios.get(
+    baseUrl + `symptom/symptom-history?user_id=${payload}`,
+  );
+  return data;
+};
