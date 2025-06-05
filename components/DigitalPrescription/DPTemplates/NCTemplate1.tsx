@@ -44,6 +44,13 @@ const NCTemplate1 = ({ DpKeys, dpData }: NCtemplateProps) => {
               {DpKeys.doctor_redg_number}:{" "}
               {singlePrescriptionDetails?.doctor_redg_number}
             </p>
+            <p className="text-xs font-normal text-slate-400 capitalize">
+              {DpKeys.pharmacist_name}: {dpData?.ph_name}
+            </p>
+            <p className="text-xs font-normal text-slate-400">
+              {DpKeys.pharmacist_certificate_no}:{" "}
+              {singleCaseDetails?.pharmacist_certificate_no}
+            </p>
           </div>
           <div className="flex flex-col">
             <p className="text-xs font-semibold text-slate-600">
@@ -55,10 +62,17 @@ const NCTemplate1 = ({ DpKeys, dpData }: NCtemplateProps) => {
             <p className="text-xs font-normal text-slate-400 capitalize">
               {DpKeys.provider_dtls}: {dpData?.prv_dtls}
             </p>
+            <p className="text-xs font-normal text-slate-400">
+              {DpKeys.prescription_date}: {dpData?.prsc_date}
+            </p>
+            <p className="text-xs font-normal text-slate-400">
+              {DpKeys.prescription_id}:{" "}
+              {singlePrescriptionDetails?.prescription_id}
+            </p>
           </div>
         </div>
 
-        <div className="flex justify-between items-center mt-2">
+        {/* <div className="flex justify-between items-center mt-2">
           <div>
             <p className="text-xs font-normal text-slate-400 capitalize">
               {DpKeys.pharmacist_name}: {dpData?.ph_name}
@@ -77,7 +91,7 @@ const NCTemplate1 = ({ DpKeys, dpData }: NCtemplateProps) => {
               {singlePrescriptionDetails?.prescription_id}
             </p>
           </div>
-        </div>
+        </div> */}
 
         {dpData?.remarks && (
           <p className="mt-2 text-orange-600 rounded-sm bg-orange-50 text-xs font-semibold w-fit py-1 px-2">
@@ -86,33 +100,65 @@ const NCTemplate1 = ({ DpKeys, dpData }: NCtemplateProps) => {
           </p>
         )}
 
-        {dpData?.general_vitals !== null && <div>
-          <h1 className="mt-5 mb-3">{DpKeys.general_vitals_heading}</h1>
-          <div className="flex gap-1">
-            <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_blood_pressure} :</h3>
-            <p className="font-bold">{dpData.general_vitals.BP}</p>
-          </div>
-          <div className="flex gap-1">
-            <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_heart_rate} :</h3>
-            <p className="font-bold">{dpData.general_vitals.HR}</p>
-          </div>
-          <div className="flex gap-1">
-            <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_resp_rate} :</h3>
-            <p className="font-bold">{dpData.general_vitals.RR}</p>
-          </div>
-          <div className="flex gap-1">
-            <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_oxg_lvl} :</h3>
-            <p className="font-bold">{dpData.general_vitals.SpO2}</p>
-          </div>
-          <div className="flex gap-1">
-            <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_temp} :</h3>
-            <p className="font-bold">{dpData.general_vitals.Temperature}{dpData.general_vitals.tempratureCategory}</p>
-          </div>
-          <div className="flex gap-1">
-            <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_weight} :</h3>
-            <p className="font-bold">{dpData.general_vitals.Weight}{dpData.general_vitals.weightCategory}</p>
-          </div>
-        </div>}
+        {dpData?.general_vitals !== null && (
+          // <div>
+          //   <h1 className="mt-5 mb-3">{DpKeys.general_vitals_heading}</h1>
+          //   <div className="flex gap-1">
+          //     <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_blood_pressure} :</h3>
+          //     <p className="font-bold">{dpData.general_vitals.BP}</p>
+          //   </div>
+          //   <div className="flex gap-1">
+          //     <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_heart_rate} :</h3>
+          //     <p className="font-bold">{dpData.general_vitals.HR}</p>
+          //   </div>
+          //   <div className="flex gap-1">
+          //     <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_resp_rate} :</h3>
+          //     <p className="font-bold">{dpData.general_vitals.RR}</p>
+          //   </div>
+          //   <div className="flex gap-1">
+          //     <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_oxg_lvl} :</h3>
+          //     <p className="font-bold">{dpData.general_vitals.SpO2}</p>
+          //   </div>
+          //   <div className="flex gap-1">
+          //     <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_temp} :</h3>
+          //     <p className="font-bold">{dpData.general_vitals.Temperature}{dpData.general_vitals.tempratureCategory}</p>
+          //   </div>
+          //   <div className="flex gap-1">
+          //     <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_weight} :</h3>
+          //     <p className="font-bold">{dpData.general_vitals.Weight}{dpData.general_vitals.weightCategory}</p>
+          //   </div>
+          // </div>
+          <>
+            <h1 className="mt-5 mb-3">{DpKeys.general_vitals_heading}</h1>
+            <div className="flex gap-10">
+
+              <div className="flex flex-col">
+                <p className="text-xs font-normal capitalize text-slate-400">
+                  {DpKeys.gv_blood_pressure}: {dpData.general_vitals.BP}
+                </p>
+                <p className="text-xs font-normal text-slate-400">
+                  {DpKeys.gv_heart_rate}:{" "}
+                  {dpData.general_vitals.HR}
+                </p>
+                <p className="text-xs font-normal text-slate-400 capitalize">
+                  {DpKeys.gv_resp_rate}: {dpData.general_vitals.RR}
+                </p>
+              </div>
+
+              <div className="flex flex-col">
+                <p className="text-xs font-normal text-slate-400 capitalize">
+                  {DpKeys.gv_oxg_lvl}: {dpData.general_vitals.SpO2}
+                </p>
+                <p className="text-xs font-normal text-slate-400 capitalize">
+                  {DpKeys.gv_temp}: {dpData.general_vitals.Temperature}{dpData.general_vitals.tempratureCategory}
+                </p>
+                <p className="text-xs font-normal text-slate-400">
+                  {DpKeys.gv_weight}: {dpData.general_vitals.Weight}{dpData.general_vitals.weightCategory}
+                </p>
+              </div>
+            </div>
+          </>
+        )}
 
         <div className="mt-2">
           <h1>{DpKeys.medicine_heading}</h1>
@@ -249,8 +295,6 @@ const NCTemplate1 = ({ DpKeys, dpData }: NCtemplateProps) => {
             </TableBody>
           </Table>
         </div>
-
-
 
         <div className="mt-4">
           <div>
