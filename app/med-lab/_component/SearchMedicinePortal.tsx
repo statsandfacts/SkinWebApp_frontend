@@ -19,7 +19,7 @@ interface Medicine {
   manufacturers?: string;
   Dosage?: string;
   mrp?: string;
-  image_url?: string;
+  image_urls?: string;
 }
 
 const SearchMedicinePortal: React.FC<{
@@ -95,15 +95,22 @@ const SearchMedicinePortal: React.FC<{
                 className="border p-4 rounded-md shadow-md hover:shadow-lg text-left transition-all cursor-pointer"
                 onClick={() => handleArrowClick(item)}
               >
-                {/* <Image
-    src=""
-    alt="Medicine Image"
-    width={400}
-    height={260}
-    className="w-100 h-40 object-contain rounded-lg"
-  /> */}
+                <div className="w-full h-40 flex items-center justify-center bg-white rounded-lg overflow-hidden border">
+                  {item.image_urls && item.image_urls.length > 0 ? (
+                    <Image
+                      src={item.image_urls[0]}
+                      alt={item.name || "Medicine Image"}
+                      width={400}
+                      height={200}
+                      className="object-contain"
+                      unoptimized
+                    />
+                  ) : (
+                    <div className="text-gray-400 text-sm">No preview</div>
+                  )}
+                </div>
 
-                <h3 className="text-xl font-semibold">{item.name}</h3>
+                <h3 className="text-xl font-semibold mt-2">{item.name}</h3>
                 {name === "medicine" ? (
                   <>
                     <p className="text-sm text-gray-500">
@@ -119,14 +126,12 @@ const SearchMedicinePortal: React.FC<{
                     <p className="text-sm text-gray-500">Price: ₹{item.mrp}</p>
                   </>
                 ) : (
-                  <>
-                    <p className="text-sm text-gray-500">{item.description}</p>
-                  </>
+                  <p className="text-sm text-gray-500">{item.description}</p>
                 )}
               </button>
             ))
           ) : (
-            <div className="col-span-full text-center text-gray-500"></div>
+            <div className="col-span-full text-center text-gray-500 mt-5"></div>
           )}
         </div>
       )}
