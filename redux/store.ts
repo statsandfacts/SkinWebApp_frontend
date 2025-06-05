@@ -10,8 +10,9 @@ import drugReducer from "./slices/digitalPrescription/drug.slice";
 import blogReducer from "./slices/digitalPrescription/blog.slice";
 import abdmReducer from "./slices/abdm.slics";
 import careerReducer from "./slices/digitalPrescription/career.slice";
-import saltCompositionReducer from './slices/digitalPrescription/saltComposition.slice';
-import symptomBotReducer from './slices/symptomBot.slice'
+import saltCompositionReducer from "./slices/digitalPrescription/saltComposition.slice";
+import symptomBotReducer from "./slices/symptomBot.slice";
+import refillReminderReducer from "./slices/digitalPrescription/refillReminder.slice";
 
 export const store = configureStore({
   reducer: {
@@ -28,7 +29,8 @@ export const store = configureStore({
     blogs: blogReducer,
     abdm: abdmReducer,
     career: careerReducer,
-    symptomBot: symptomBotReducer
+    symptomBot: symptomBotReducer,
+    refillReminder: refillReminderReducer,
   },
 });
 

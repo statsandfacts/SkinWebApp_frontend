@@ -87,7 +87,25 @@ const CollectSignUpData = () => {
             toast.success("User Signup successful!");
             // router.push("/");
             const patient_user_id = response.user_id;
-            CreateCase(patient_user_id);
+            // CreateCase(patient_user_id);
+
+            const payloadLogin = {
+              user_role: "1",
+              email_or_phone_no: signUpData.phone_number,
+              session_id: new Date().getTime().toString(),
+            };
+            login(payloadLogin)
+              .then((data) => {
+                const userId = data.user_id;
+                dispatch(
+                  setUser({ userId, sessionId: payloadLogin.session_id })
+                );
+                router.replace("/dashboard");
+                cleanUp();
+              })
+              .catch((error) => {
+                toast.success("Login failed");
+              });
           })
           .catch((error: any) => {
             toast.error(
@@ -216,17 +234,10 @@ const CollectSignUpData = () => {
               ? formik.errors.gender
               : ""
           }
-          onSelectionChange={(key) => formik.setFieldValue("gender", key)}
+          onSelectionChange={(key) =>
+            formik.setFieldValue("gender", key.currentKey)
+          }
         >
-          {/* <SelectItem value={"male"} key={"male"}>
-            Male
-          </SelectItem>
-          <SelectItem value={"female"} key={"female"}>
-            Female
-          </SelectItem>
-          <SelectItem value={"other"} key={"other"}>
-            Other
-          </SelectItem> */}
           {genderOptions.map((option) => (
             <SelectItem key={option.id}>{option.name}</SelectItem>
           ))}
@@ -237,7 +248,7 @@ const CollectSignUpData = () => {
           label="Marital Status"
           // onChange={formik.handleChange}
           onSelectionChange={(key) =>
-            formik.setFieldValue("marital_status", key)
+            formik.setFieldValue("marital_status", key.currentKey)
           }
           value={formik.values.marital_status}
           errorMessage={
@@ -246,15 +257,6 @@ const CollectSignUpData = () => {
               : ""
           }
         >
-          {/* <SelectItem value={"single"} key={"single"}>
-            Single
-          </SelectItem>
-          <SelectItem value={"married"} key={"married"}>
-            Married
-          </SelectItem>
-          <SelectItem value={"separated"} key={"separated"}>
-            Separated
-          </SelectItem> */}
           {maritalStatusOptions.map((option) => (
             <SelectItem key={option.id}>{option.name}</SelectItem>
           ))}

@@ -3,7 +3,9 @@
 import React from "react";
 import Link from "next/link";
 
-const calculatorMap: { [key: string]: { label: string; href: string; r_key: string } } = {
+const calculatorMap: {
+  [key: string]: { label: string; href: string; r_key: string };
+} = {
   bmi: {
     label: "BMI Calculator",
     href: "/calculator/bmi",
@@ -35,7 +37,8 @@ const RelatedCalculator = ({ keywords }: { keywords: string[] }) => {
   const matchedCalculators = keywords.flatMap((keyword) => {
     const match = Object.values(calculatorMap).find(
       (item) =>
-        item.r_key === keyword.trim() || item.label.toLowerCase().includes(keyword.trim().toLowerCase())
+        item.r_key === keyword.trim() ||
+        item.label.toLowerCase().includes(keyword.trim().toLowerCase())
     );
     return match ? [match] : [];
   });
@@ -49,9 +52,12 @@ const RelatedCalculator = ({ keywords }: { keywords: string[] }) => {
       </h2>
       <div className="flex flex-col items-center gap-2">
         {matchedCalculators.map((calc, index) => (
-          <Link key={index} href={calc.href} className="text-blue-600 hover:underline">
+          <Link
+            key={index}
+            href={calc.href}
+            className="text-sky-700 hover:underline"
+          >
             {calc.label}
-            
           </Link>
         ))}
       </div>

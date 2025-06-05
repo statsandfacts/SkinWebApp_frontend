@@ -6,6 +6,8 @@ import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { baseUrl } from "@/services/api.digitalPrescription.service";
+import { drugUrl, investigationUrl } from "@/services/urls.service";
 
 interface Medicine {
   Id?: string;
@@ -35,11 +37,10 @@ const SearchMedicinePortal: React.FC<{
     }
 
     setIsLoading(true);
+
     try {
       let url =
-        name === "medicine"
-          ? `https://nextcare.life:8000/api/stage1/drug/search?name=${input}`
-          : `https://nextcare.life:8000/api/stage1/investigation/search?name=${input}`;
+        name === "medicine" ? drugUrl + input : investigationUrl + input;
 
       const response = await axios.get(url);
       if (name === "medicine") {
@@ -72,16 +73,14 @@ const SearchMedicinePortal: React.FC<{
   };
 
   return (
-    <div className="w-full">
-      <div className="w-full flex justify-center items-center">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={handleSearch}
-          placeholder={`Search for ${name}`}
-          className="p-2 border border-gray-300 text-sm font-light rounded-md w-full mb-4 max-w-4xl"
-        />
-      </div>
+    <div className="w-full max-w-3xl">
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={handleSearch}
+        placeholder={`Search for ${name}`}
+        className="p-4 border border-gray-300 text-sm font-light rounded-full mb-4 mt-3 w-full bg-sky-100 focus:outline-none"
+      />
 
       {isLoading ? (
         <div className="flex justify-center items-center">
@@ -96,15 +95,14 @@ const SearchMedicinePortal: React.FC<{
                 className="border p-4 rounded-md shadow-md hover:shadow-lg text-left transition-all cursor-pointer"
                 onClick={() => handleArrowClick(item)}
               >
-                {/*
-  <Image
-    src="https://onemg.gumlet.io/l_watermark_346,w_690,h_700/a_ignore,w_690,h_700,c_pad,q_auto,f_auto/cropped/mu5bahqxfrp28cut6que.jpg"
+                {/* <Image
+    src=""
     alt="Medicine Image"
     width={400}
     height={260}
     className="w-100 h-40 object-contain rounded-lg"
-  />
-  */}
+  /> */}
+
                 <h3 className="text-xl font-semibold">{item.name}</h3>
                 {name === "medicine" ? (
                   <>

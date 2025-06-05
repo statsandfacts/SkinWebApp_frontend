@@ -76,11 +76,6 @@ const BMICalculator: React.FC = () => {
   return (
     <div className="p-10 md:px-40">
       <BackButton />
-      <CustomHeader
-        header="BMI Calculator"
-        subHeader="Calculate your Body Mass Index and learn about your health category."
-        imageURL="/vector/calculator_bmi.png"
-      />
       <section className="mt-6 animate-slide-up">
         <p className="text-gray-600 text-center md:text-left">
           Body Mass Index (BMI) is a way to measure body fat using your height

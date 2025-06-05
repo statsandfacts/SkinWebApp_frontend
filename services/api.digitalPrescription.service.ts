@@ -239,7 +239,10 @@ export const getProfileCompletionPercentage = async (
  * @returns
  */
 export const fetchDrugDetails = async (drug_id: string | null) => {
-  const { data } = await axios.get(`${baseUrl}drug?id=${drug_id}`, headers);
+  const { data } = await axios.get(
+    `https://nextcare.life/api/api/stage1/drug/drug-data?id=${drug_id}`,
+    headers
+  );
   return data;
 };
 
@@ -302,7 +305,18 @@ export const getBlogDtls = async (blog_id: string) => {
 
 export const getBlogDtlsBySlug = async (blog_id: string) => {
   const { data } = await axios.get(
-    `${baseUrl}blogs/blog-by-slug?slug=${blog_id}`,
+    `${baseUrl}blogs/blog-by-slug/?slug=${blog_id}`,
+    headers
+  );
+  return data;
+};
+
+export const getRelatedBlogs = async (
+  subcategory_slug: string | string[],
+  exclude_blog_slug: string | string[]
+) => {
+  const { data } = await axios.get(
+    `${baseUrl}blogs/related-by-subcategory?subcategory_slug=${subcategory_slug}&exclude_blog_slug=${exclude_blog_slug}`,
     headers
   );
   return data;
@@ -315,7 +329,7 @@ export const getAllCategories = async () => {
 
 // comments
 export const createComment = (payload: any) => {
-  return axios.post(`${baseUrl}blogs/comments`, payload, headers);
+  return axios.post(`${baseUrl}blogs/comments/`, payload, headers);
 };
 export const updateComment = async (payload: any, comment_id: string) => {
   const { data } = await axios.put(

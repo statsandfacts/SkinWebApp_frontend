@@ -82,7 +82,7 @@ const SLRModalContent = () => {
                 <div className="flex justify-between items-start gap-x-10">
                   <div className="flex items-start gap-3">
                     <UserIcon className="h-8 w-8 text-primary" />
-                    <div className="flex flex-col text-white text-xl font-medium space-y-1">
+                    <div className="flex flex-col text-white text-lg font-medium space-y-1">
                       <p>{userDetails?.name}</p>
                       {/* <p>Age: {userDetails?.age}</p> */}
                       <p>Gender: {userDetails?.gender}</p>
@@ -108,7 +108,7 @@ const SLRModalContent = () => {
                       alt="Health Summary Icon"
                       className="mt-1"
                     />
-                    <p className="text-white font-medium text-xl">
+                    <p className="text-white font-medium text-lg">
                       Your Health Summary
                     </p>
                   </div>
@@ -154,7 +154,7 @@ const SLRModalContent = () => {
               </div> */}
               {/* Guide Flow */}
               <div className="flex flex-col items-center my-6 w-full">
-                <p className="text-primary font-medium text-xl mb-4">
+                <p className="text-primary font-semibold text-xl mb-4">
                   <HandIcon color="#ffffff" height={16} width={16} />
                   Step-by-Step Lab Report Guide
                 </p>

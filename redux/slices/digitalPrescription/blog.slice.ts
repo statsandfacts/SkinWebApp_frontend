@@ -68,7 +68,7 @@ export const fetchBlogDtls = createAsyncThunk(
       const response = await getBlogDtlsBySlug(blogId);
       return response;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data || error.message);
+      return rejectWithValue(error.response?.data?.detail || error.message);
     }
   }
 );

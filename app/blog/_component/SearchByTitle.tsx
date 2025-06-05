@@ -42,8 +42,10 @@ const SearchByTitle = () => {
     }
   };
 
-  const handleClick = (slug: string) => {
-    router.push(`/blog/${slug}`);
+  const handleClick = (blog: any) => {
+    router.push(
+      `/blog/${blog?.categories[0].slug}/${blog?.sub_categories[0].slug}/${blog?.slug}`
+    );
   };
 
   return (
@@ -63,7 +65,7 @@ const SearchByTitle = () => {
               {blogs.map((blog) => (
                 <div
                   key={blog.blog_id}
-                  onClick={() => handleClick(blog.slug)}
+                  onClick={() => handleClick(blog)}
                   className="bg-white p-3 border rounded-md shadow-sm hover:bg-blue-100 cursor-pointer transition"
                 >
                   <p className="text-sm font-medium text-gray-800">

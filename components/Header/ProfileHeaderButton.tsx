@@ -76,26 +76,30 @@ const ProfileHeaderButton = () => {
               size="md"
               src={userDetails?.user_profile_image_path}
             />
-            {profileCompletionData?.profileCompletionPercentage &&
+            {/* {profileCompletionData?.profileCompletionPercentage &&
               profileCompletionData?.profileCompletionPercentage !== 100 && (
                 <p className="text-xs font-semibold text-primary p-1 bg-primary-mute rounded-2xl">
                   {profileCompletionData?.profileCompletionPercentage + "%"}
                 </p>
-              )}
+              )} */}
           </div>
         </DropdownTrigger>
         <DropdownMenu aria-label="Link Actions" variant="flat">
-          <DropdownItem key="profile" className="h-14 gap-2">
+          <DropdownItem
+            key="dashboard"
+            href="/dashboard"
+            className="h-14 gap-2"
+          >
             <p className="font-semibold">Signed in as</p>
             <p className="font-semibold">{userDetails?.name}</p>
           </DropdownItem>
-          <DropdownItem key="prescriptions" href="/dashboard/my-account">
+          <DropdownItem key="my-account" href="/dashboard/my-account">
             My Account
           </DropdownItem>
-          <DropdownItem key="prescriptions" href="/dashboard/prescriptions">
-            View Documents
+          <DropdownItem key="view-documents" href="/dashboard/prescriptions">
+            View Prescriptions
           </DropdownItem>
-          <DropdownItem key="prescriptions" href="/upload-prescription">
+          <DropdownItem key="upload-documents" href="/upload-prescription">
             Upload Documents
           </DropdownItem>
           <DropdownItem

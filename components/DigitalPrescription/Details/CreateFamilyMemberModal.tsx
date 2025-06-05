@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-
-
-
 import {
   Modal,
   ModalContent,
@@ -30,6 +27,7 @@ import {
 } from "@/services/api.digitalPrescription.service";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { AppDispatch } from "@/redux/store";
+import PhoneVerificationModal from "./Report/PhoneVerificationModal";
 
 interface FamilyMemberFormValues {
   name: string;
@@ -53,6 +51,8 @@ export default function CreateFamilyMemberModal({
     (state: { familyMember: FamilyMembersState }) => state.familyMember
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [showOTPModal, setShowOTPModal] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
 
   const initialValues: FamilyMemberFormValues = {
     name: "",
@@ -145,6 +145,7 @@ export default function CreateFamilyMemberModal({
     dispatch(setCreateMemberModal(false));
     dispatch(setSingleMember(null));
     formik.resetForm();
+    setIsVerified(false);
   };
 
   return (
@@ -208,7 +209,7 @@ export default function CreateFamilyMemberModal({
               name="dob"
               placeholder="Date of Birth"
               error={
-                formik.touched.dob && formik.errors.dob ? formik.errors.dob :""
+                formik.touched.dob && formik.errors.dob ? formik.errors.dob : ""
               }
               onBlur={formik.handleBlur}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -248,6 +249,30 @@ export default function CreateFamilyMemberModal({
                   onBlur={formik.handleBlur}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
+                {!isVerified && (
+                  <div className="mt-2">
+                    <p className="text-sm text-blue-600 mb-2">
+                      Just confirm your phone number to continue.&nbsp;
+                      <span
+                        className="text-primary font-medium cursor-pointer underline"
+                        onClick={() => {
+                          if (!formik.values.phone_number) {
+                            toast.warn("Please enter your phone number");
+                          } else {
+                            setShowOTPModal(true);
+                          }
+                        }}
+                      >
+                        Verify
+                      </span>
+                    </p>
+                  </div>
+                )}
+                {isVerified && (
+                  <p className="text-sm text-green-600">
+                    Phone number verified!
+                  </p>
+                )}
               </>
             )}
 
@@ -317,6 +342,7 @@ export default function CreateFamilyMemberModal({
                 color="primary"
                 onPress={() => formik.handleSubmit()}
                 isLoading={isLoading}
+                isDisabled={isUnder18 && !isVerified}
               >
                 {actionKey === "edit" ? "Update" : "Add Member"}
               </Button>
@@ -324,6 +350,13 @@ export default function CreateFamilyMemberModal({
           )}
         </ModalFooter>
       </ModalContent>
+      <PhoneVerificationModal
+        isOpen={showOTPModal}
+        onClose={() => setShowOTPModal(false)}
+        phoneNumber={formik.values.phone_number}
+        onVerified={() => setIsVerified(true)}
+      />
+      ;
     </Modal>
   );
 }
