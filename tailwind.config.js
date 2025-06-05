@@ -41,8 +41,10 @@ module.exports = {
     },
   },
   darkMode: "class",
-  plugins: [heroui()],
-  typography,
+  plugins: [
+    heroui(),
+    typography,
+  ],
   // plugins: [
   //   heroui({
   //     theme: {
