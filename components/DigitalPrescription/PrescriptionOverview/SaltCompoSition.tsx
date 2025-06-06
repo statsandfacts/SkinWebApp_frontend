@@ -1,14 +1,12 @@
 "use client";
-import  { useState } from "react";
+import { useState } from "react";
 
 import { fetchSaltComposition } from "@/services/api.digitalPrescription.service";
-import { getSaltComposition } from "@/redux/slices/digitalPrescription/drug.slice";
+import { getSaltComposition } from "@/redux/slices/digitalPrescription/saltComposition.slice";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
-
-
 
 const SaltCompoSition: React.FC<{ medicineName: string }> = ({
   medicineName,
@@ -24,7 +22,6 @@ const SaltCompoSition: React.FC<{ medicineName: string }> = ({
       dispatch(getSaltComposition(medicineName));
     }
   }, [dispatch, medicineName]);
-
 
   const [substitutes, setSubstitutes] = useState<SubstituteType[]>([]);
 
@@ -62,27 +59,24 @@ const SaltCompoSition: React.FC<{ medicineName: string }> = ({
     manufacturers: string;
   };
 
-  
+  //   useEffect(() => {
+  //     const fetchData = async () => {
+  //       try {
+  //         const defaultId = "D280098"; // Default ID
+  //         const data = await fetchSaltComposition(defaultId);
+  //         setMedicineDetails(data.drug_common_data);
+  //         setSubstitutes(data.substitutes);
+  //         if (data.substitutes.length > 0) {
+  //           setSelectedMedicineId(data.substitutes[0].id);
+  //         }
+  //       } catch (error) {
+  //         console.error("Error fetching data:", error);
+  //       }
+  //     };
+  //     fetchData();
+  //   }, []);
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const defaultId = "D280098"; // Default ID
-//         const data = await fetchSaltComposition(defaultId);
-//         setMedicineDetails(data.drug_common_data);
-//         setSubstitutes(data.substitutes);
-//         if (data.substitutes.length > 0) {
-//           setSelectedMedicineId(data.substitutes[0].id);
-//         }
-//       } catch (error) {
-//         console.error("Error fetching data:", error);
-//       }
-//     };
-//     fetchData();
-//   }, []);
-
-
- const fetchDrugDetails = useCallback(() => {
+  const fetchDrugDetails = useCallback(() => {
     if (medicineName) {
       dispatch(getSaltComposition(medicineName));
     }
@@ -92,20 +86,18 @@ const SaltCompoSition: React.FC<{ medicineName: string }> = ({
     fetchDrugDetails();
   }, [fetchDrugDetails]);
 
-  
-
   const handleMedicineClick = (id: string) => {
     setSelectedMedicineId(id);
   };
 
   return (
     <div className="flex p-8 font-sans">
-  {/* Medicine Information */}
-  <div className="flex-[2] mr-4">
+      {/* Medicine Information */}
+      <div className="flex-[2] mr-4">
         {medicineDetails ? (
           <>
             <h2>
-              INFORMATION ABOUT {medicineDetails.salt_composition.toUpperCase()} 
+              INFORMATION ABOUT {medicineDetails.salt_composition.toUpperCase()}
             </h2>
             <hr />
             <h3>Uses and Benefits</h3>
@@ -124,14 +116,12 @@ const SaltCompoSition: React.FC<{ medicineName: string }> = ({
 
       {/* Substitutes List */}
       <div className="flex-1 mr-4 max-h-[80vh] overflow-y-auto border border-gray-300 p-4">
-
         <h3 className="text-lg font-semibold mb-2">Available Substitutes</h3>
         <ul style={{ listStyleType: "none", padding: 0 }}>
           {substitutes.map((substitute) => (
             <li
               key={substitute.id}
               onClick={() => handleMedicineClick(substitute.id)}
-              
             >
               <strong>{substitute.name}</strong> - ₹{substitute.MRP} -{" "}
               {substitute.manufacturers}
@@ -147,7 +137,7 @@ const SaltCompoSition: React.FC<{ medicineName: string }> = ({
           faqs.map((faq, index) => (
             <div key={index} className="mb-4">
               <h4 className="text-md font-medium">{faq.Value_1}</h4>
-              <p className="text-sm text-gray-700">{faq.Value_2}</p> 
+              <p className="text-sm text-gray-700">{faq.Value_2}</p>
             </div>
           ))
         ) : (
@@ -156,6 +146,6 @@ const SaltCompoSition: React.FC<{ medicineName: string }> = ({
       </div>
     </div>
   );
-}
+};
 
 export default SaltCompoSition;
