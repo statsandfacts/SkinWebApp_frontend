@@ -1,6 +1,10 @@
 "use client";
 
-import { setErrorMessageForRedFlag, setMessageModalVisible, setModalVisible } from "@/redux/slices/symptomBot.slice";
+import {
+  setErrorMessageForRedFlag,
+  setMessageModalVisible,
+  setModalVisible,
+} from "@/redux/slices/symptomBot.slice";
 import { RootState } from "@/redux/store";
 import {
   Modal,
@@ -16,7 +20,10 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FamilyMembersState } from "@/redux/slices/digitalPrescription/familyMembers.slice";
-import { CheckCircleIcon, ExclamationTriangleIcon } from "@heroicons/react/24/solid";
+import {
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/solid";
 
 export default function MessageModal({
   Question,
@@ -34,38 +41,48 @@ export default function MessageModal({
   userID: any;
 }) {
   const dispatch = useDispatch();
-  const { isModalOpen, ExplanationData, RedflagQuestion, messageModalVisible, errorMessageForRedFlag } = useSelector(
-    (state: RootState) => state.symptomBot
-  );
+  const {
+    isModalOpen,
+    ExplanationData,
+    RedflagQuestion,
+    messageModalVisible,
+    errorMessageForRedFlag,
+  } = useSelector((state: RootState) => state.symptomBot);
 
   const [accepted, setAccepted] = useState(false);
   const [accepted1, setAccepted1] = useState(false);
   const router = useRouter();
 
   const handleRedirectToBookAppointment = () => {
-    console.log("Question data : ", Question);
+    //console.log("Question data : ", Question);
     closeFunction(false);
-    dispatch(setErrorMessageForRedFlag(false)); 
+    dispatch(setErrorMessageForRedFlag(false));
     dispatch(setMessageModalVisible(false));
-    router.push('/dashboard/chats')
+    router.push("/dashboard/appoinment");
     // setData({
     //   user_id: userID || "",
     //   question_id:
     //     Question?.next_question_id || Question?.previous_question_id,
     //   answer: "ok",
     // });
+  };
+
+  const handleClose = () => {
+    dispatch(setMessageModalVisible(false));
+    dispatch(setErrorMessageForRedFlag(false));
   }
 
-  if(errorMessageForRedFlag){
-    return(
+  //console.log("RedflagQuestion data : ", errorMessageForRedFlag);
+
+  if (errorMessageForRedFlag) {
+    return (
       <Modal
         isOpen={messageModalVisible}
-        onClose={() => dispatch(setMessageModalVisible(false))}
+        onClose={handleClose}
         placement="center"
       >
         {/* <ModalContent className="mx-4 sm:mx-auto sm:max-w-md"> */}
         <ModalContent className="mx-4 sm:mx-auto sm:max-w-2xl rounded-xl shadow-xl border border-gray-200">
-
           <ModalHeader>
             <p className="text-2xl font-semibold text-left mb-4 text-red-600">
               ALERT
@@ -90,7 +107,7 @@ export default function MessageModal({
           </ModalFooter>
         </ModalContent>
       </Modal>
-    )
+    );
   }
 
   return (
@@ -102,13 +119,17 @@ export default function MessageModal({
       >
         {/* <ModalContent className="mx-4 sm:mx-auto sm:max-w-md"> */}
         <ModalContent className="mx-4 sm:mx-auto sm:max-w-2xl rounded-xl shadow-xl border border-gray-200">
-
           <ModalHeader>
             {Question?.next_question_id === "Q5" ? "BMI Check" : "INFO"}
           </ModalHeader>
           <ModalBody>
-            <div className={Question?.next_question_id === "Q5" ? "px-2 py-6 rounded-lg flex flex-col justify-center items-center min-w-full": "px-6 py-8 rounded-lg bg-gray-200 flex flex-col justify-center items-start w-full"}>
-
+            <div
+              className={
+                Question?.next_question_id === "Q5"
+                  ? "px-2 py-6 rounded-lg flex flex-col justify-center items-center min-w-full"
+                  : "px-6 py-8 rounded-lg bg-gray-200 flex flex-col justify-center items-start w-full"
+              }
+            >
               {(() => {
                 // Check if message has bullet points
                 const hasBullets = Question?.message?.includes("•");
@@ -117,7 +138,9 @@ export default function MessageModal({
                   const [headerPart, ...conditionPart] = Question.message
                     .trim()
                     .split("\n");
-                  const bulletPoints = conditionPart.filter((line: string) => line.trim().startsWith("•")).map((line: string) => line.replace(/^•\s*/, ""));
+                  const bulletPoints = conditionPart
+                    .filter((line: string) => line.trim().startsWith("•"))
+                    .map((line: string) => line.replace(/^•\s*/, ""));
 
                   return (
                     <>
@@ -131,52 +154,65 @@ export default function MessageModal({
                             className="flex space-x-2 items-center"
                           >
                             <CheckCircleIcon className="w-5 h-5 text-green-600 mt-1" />
-                            <span className="text-base text-gray-900 leading-relaxed font-semibold">{point}</span>
+                            <span className="text-base text-gray-900 leading-relaxed font-semibold">
+                              {point}
+                            </span>
                           </div>
                         ))}
                       </div>
                     </>
                   );
                 } else {
-                 const match = Question?.message?.match(/^(.*)\((.*)\)\.?$/);
-                  if (!match) {
-                    return (
-                      <p className="font-bold text-lg text-center">
-                        {Question?.message}
-                      </p>
-                    );
-                  }
+                  // //console.log("Question data : ", Array.isArray(Question?.message));
+                  // //console.log("Question data : ", Question?.message.map((item: string) => //console.log(item)));
 
-                  const [_, scoreText, category] = match;
-                  let colorClass = "";
+                  return (Array.isArray(Question?.message) ? (
+                    <ul className="list-disc list-inside text-left">
+                      {Question?.message.map((item: string, index: number) => (
+                        <li key={index} className="text-black font-semibold">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    (() => {
+                      const match =
+                        Question?.message?.match(/^(.*)\((.*)\)\.?$/);
+                      if (!match) {
+                        return (
+                          <p className="font-bold text-lg text-center">
+                            {Question?.message}
+                          </p>
+                        );
+                      }
 
-                  switch (category.toLowerCase()) {
-                    case "normal weight":
-                      colorClass = "text-green-600";
-                      break;
-                    case "overweight":
-                      colorClass = "text-red-600";
-                      break;
-                    case "obesity":
-                      colorClass = "text-orange-500";
-                      break;
-                    case "underweight":
-                      colorClass = "text-orange-500";
-                      break;
-                    case "Immediate medical attention required":
-                      colorClass = "text-red-600";
-                      break;
-                    default:
-                      colorClass = "text-red-500";
-                  }
+                      const [_, scoreText, category] = match;
+                      let colorClass = "";
 
-                  return (
-                    <p className="font-bold text-lg text-center">
-                      {scoreText}(
-                      <span className={colorClass}> {category} </span>)
-                    </p>
-                  );
+                      switch (category.toLowerCase()) {
+                        case "normal weight":
+                          colorClass = "text-green-600";
+                          break;
+                        case "overweight":
+                        case "immediate medical attention required":
+                          colorClass = "text-red-600";
+                          break;
+                        case "obesity":
+                        case "underweight":
+                          colorClass = "text-orange-500";
+                          break;
+                        default:
+                          colorClass = "text-red-500";
+                      }
 
+                      return (
+                        <p className="font-bold text-lg text-center">
+                          {scoreText}(
+                          <span className={colorClass}> {category} </span>)
+                        </p>
+                      );
+                    })()
+                  ))
                 }
               })()}
             </div>

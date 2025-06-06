@@ -252,7 +252,7 @@ const QuestionRenderer: React.FC<Props> = ({
     "HbA1c": "",
   });
 
-  console.log(question?.next_question_id);
+  //console.log(question?.next_question_id);
   const { RedflagQuestion } = useSelector(
     (state: RootState) => state.symptomBot
   );
@@ -280,7 +280,7 @@ const QuestionRenderer: React.FC<Props> = ({
     const fetchResults = async () => {
       try {
         const response = await handleSearchSymptom(debouncedValue);
-        console.log("Search response : ", response);
+        //console.log("Search response : ", response);
         setSearchResults(response.results || []);
       } catch (error) {
         console.error("Search API error:", error);
@@ -294,7 +294,7 @@ const QuestionRenderer: React.FC<Props> = ({
     dispatch(setModalVisible(true));
     moreDetails.map((data, index) => {
       if (data.question_number === question?.next_question_id) {
-        // console.log(data.details);
+        // //console.log(data.details);
         dispatch(setExplanationData(data.details));
       }
     });
@@ -314,7 +314,7 @@ const QuestionRenderer: React.FC<Props> = ({
   };
 
   const inputFieldValueSubmit = (data?: any) => {
-    console.log(data);
+    //console.log(data);
     if (inputFieldValue || data !== null) {
       setAnswersField({
         user_id: userID || "",
