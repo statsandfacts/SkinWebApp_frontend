@@ -41,6 +41,7 @@ type ResponseQuestionType = {
   next_available: boolean | null;
   previous_question_id?: string | null;
   image_url?: string | null;
+  list?: string[] | null;
 };
 
 const BotTestPage: React.FC = () => {
@@ -89,8 +90,8 @@ const BotTestPage: React.FC = () => {
     if (count1.current) {
       // setloading(true);
       const response = await getQuestion(symptomData);
-      // console.log("Axios respones", response);
-      console.log(response);
+      // //console.log("Axios respones", response);
+      //console.log(response);
       setQuestion(response);
       setQuestionId(response.next_question_id as string);
       if (response.recap !== undefined) {
@@ -101,9 +102,12 @@ const BotTestPage: React.FC = () => {
         setBmiResponse(response?.message as string);
         // setResponseBmiModal(true);
       }
+      //console.log("red flag is there or not", response?.red_flag);
       if(response?.red_flag){
+        //console.log("Red flag is there");
         dispatch(setRedflagQuestion(true));
       }else{
+        //console.log("Red flag is not there");
         dispatch(setRedflagQuestion(false));
       }
     } else {
@@ -144,6 +148,17 @@ const BotTestPage: React.FC = () => {
             {Question?.question}
           </p>
         </div>
+        {Question?.list && (
+          <div className="mb-7">
+            <ul className="grid grid-cols-2 md:grid-cols-2 gap-y-2 gap-x-8 pl-6 mt-4 max-w-[800px] list-disc">
+              {Question?.list.map((item: string, index: number) => (
+                <li key={index} className="text-gray-700 font-bold">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         {Question?.image_url && (
           <div>
             <Image
