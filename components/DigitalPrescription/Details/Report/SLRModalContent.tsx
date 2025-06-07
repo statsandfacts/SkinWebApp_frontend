@@ -88,7 +88,7 @@ const SLRModalContent = () => {
                   Empowering Health Decision with clarity and insight
                 </small>
               </div> */}
-              <DoctorReview/>
+              {/* <DoctorReview/>
               <HealthScore/>
               <HeartHealth/>
               <Insights/>
@@ -99,7 +99,7 @@ const SLRModalContent = () => {
               <HormonalHealth/>
               <HormonalInsight/>
               <HormonalDietPlan/>
-              <NonDetectedParameter/>
+              <NonDetectedParameter/> */}
 
               {/* User Details */}
               <div className="w-full bg-primary-lite shadow-primary-50 shadow-lg p-6 rounded-xl">
