@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { useRouter } from "next/navigation";
 import { CircleX } from "lucide-react";
@@ -20,14 +19,10 @@ const DoctorModal: React.FC<DoctorModalProps> = ({ doctors, onClose }) => {
   const router = useRouter();
 
   const handleDoctorClick = (doctorId: string) => {
-  const query = new URLSearchParams({
-    doctor: doctorId,
-
-  }).toString();
-
-  router.push(`/dashboard/appoinment/calendar?${query}`);
-};
-
+    onClose(); 
+    const query = new URLSearchParams({ doctor: doctorId }).toString();
+    router.push(`/dashboard/appoinment/calendar?${query}`);
+  };
 
   return (
     <div
@@ -42,7 +37,7 @@ const DoctorModal: React.FC<DoctorModalProps> = ({ doctors, onClose }) => {
       >
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold">Available Doctors</h3>
-          <button onClick={onClose} aria-label="Close modal">
+          <button onClick={onClose} aria-label="Close">
             <CircleX className="text-gray-600 hover:text-black" />
           </button>
         </div>
@@ -56,9 +51,8 @@ const DoctorModal: React.FC<DoctorModalProps> = ({ doctors, onClose }) => {
             {doctors.map((doc) => (
               <div
                 key={doc.id}
-                className="border p-6 rounded shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                className="border p-6 rounded shadow-sm hover:shadow-md cursor-pointer"
                 onClick={() => handleDoctorClick(doc.id)}
-
               >
                 <h4 className="font-medium text-lg">{doc.name}</h4>
                 <p className="text-sm text-gray-600">

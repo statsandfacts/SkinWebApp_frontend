@@ -1,42 +1,43 @@
+
 "use client";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addSymptom } from "@/redux/slices/digitalPrescription/symptoms.slice";
-import { getAllDoctors } from "@/services/api.digitalPrescription.service";
-import BackButton from "@/components/common/BackButton";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { usePathname } from "next/navigation";
+import type { RootState, AppDispatch } from "@/redux/store";
+import { fetchDoctors } from "@/redux/slices/digitalPrescription/doctors.slice";
+import { addSymptom,clearSymptoms } from "@/redux/slices/digitalPrescription/symptoms.slice";
 import DoctorModal from "./DoctorListModal";
+import BackButton from "@/components/common/BackButton";
 
 const OnlineConsultation = () => {
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [doctors, setDoctors] = useState([]);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const pathname = usePathname();
 
-  const addSymptomHandler = (symptom: string) => {
-    if (!symptom.trim()) return;
-    dispatch(addSymptom(symptom.trim()));
-    setSearch(""); // Optionally clear input
-  };
+  const { list: doctors, loading } = useSelector(
+    (state: RootState) => state.doctors
+  );
+   console.log("Doctors in redux store:", doctors);
 
-  const handleProceed = async () => {
-    // Add symptom ONLY on proceed
-    if (search.trim()) {
-      addSymptomHandler(search);
-    }
 
-    try {
-      const response = await getAllDoctors();
-      const mappedDoctors = (response || []).map((doc: any) => ({
-        id: doc.doctor_id,
-        name: doc.name,
-        specialization: doc.doctor_specialization,
-        price: Number(doc.doctor_consulting_price),
-      }));
-      setDoctors(mappedDoctors);
-      setIsModalOpen(true);
-    } catch (error) {
-      console.error("Failed to fetch doctors:", error);
-    }
+  // ❌ Close modal if user navigates back or to another route
+  useEffect(() => {
+    setIsModalOpen(false);
+  }, [pathname]);
+
+ const addSymptomHandler = (symptom: string) => {
+  if (!symptom.trim()) return;
+  dispatch(clearSymptoms());               // ✨ Reset Redux symptom state
+  dispatch(addSymptom(symptom.trim()));    // Add only the current value
+  setSearch("");                           // Clear input field UI
+};
+
+  const handleProceed = () => {
+    if (search.trim()) addSymptomHandler(search);
+    dispatch(fetchDoctors());
+    setSearch("");         // 🧹 Clear input immediately
+    setIsModalOpen(true);  // Open modal
   };
 
   return (
@@ -56,8 +57,7 @@ const OnlineConsultation = () => {
 
       <div className="flex justify-between items-center mt-5">
         <BackButton />
-
-        <div className="flex gap-3 mt-5">
+        <div className="flex gap-3">
           <button
             className="bg-red-100 text-red-400 text-sm px-4 py-2 rounded"
             onClick={handleProceed}
@@ -73,8 +73,13 @@ const OnlineConsultation = () => {
         </div>
       </div>
 
-      {isModalOpen && (
-        <DoctorModal doctors={doctors} onClose={() => setIsModalOpen(false)} />
+      {loading && <p className="mt-4 text-center">Loading doctors…</p>}
+
+      {isModalOpen && doctors.length > 0 && (
+        <DoctorModal
+          doctors={doctors}
+          onClose={() => setIsModalOpen(false)}
+        />
       )}
     </div>
   );

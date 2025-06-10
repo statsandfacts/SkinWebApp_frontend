@@ -749,3 +749,32 @@ export const bookAppointment = async (payload: any) => {
   );
   return data;
 };
+
+
+/**
+ * @param payload {
+ *   appointment_id: string,
+ *   amount: number
+ * }
+ * @returns Promise<{
+ *   id: string;
+ *   appointment_id: string;
+ *   amount: number;
+ *   status: string;
+ *   method: string;
+ *   razorpay_payment_id: string | null;
+ *   created_at: string;
+ *   updated_at: string;
+ * }>
+ */
+export const initiatePayment = async (payload: {
+  appointment_id: string;
+  amount: number;
+}) => {
+  const { data } = await axios.post(
+    baseUrl + "payment/initiate",
+    payload,
+    headers
+  );
+  return data;
+};

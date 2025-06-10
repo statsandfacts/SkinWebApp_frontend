@@ -14,6 +14,7 @@ import saltCompositionReducer from "./slices/digitalPrescription/saltComposition
 import symptomBotReducer from "./slices/symptomBot.slice";
 import refillReminderReducer from "./slices/digitalPrescription/refillReminder.slice";
 import symptomsReducer from "@/redux/slices/digitalPrescription/symptoms.slice";
+import doctorsReducer from "@/redux/slices/digitalPrescription/doctors.slice";
 
 export const store = configureStore({
   reducer: {
@@ -33,6 +34,7 @@ export const store = configureStore({
     symptomBot: symptomBotReducer,
     refillReminder: refillReminderReducer,
     symptoms: symptomsReducer,
+    doctors: doctorsReducer,
   },
 });
 

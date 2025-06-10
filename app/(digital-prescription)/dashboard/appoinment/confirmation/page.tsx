@@ -1,5 +1,5 @@
 "use client";
-import { RootState } from "@/redux/store"; 
+import { RootState } from "@/redux/store";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import BackButton from "@/components/common/BackButton";
@@ -7,8 +7,7 @@ import { toast } from "react-toastify";
 import { bookAppointment } from "@/services/api.digitalPrescription.service";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { useDispatch, useSelector } from "react-redux";
-import { clearSymptoms } from "@/redux/slices/digitalPrescription/symptoms.slice"; 
-
+import { clearSymptoms } from "@/redux/slices/digitalPrescription/symptoms.slice";
 
 export default function ConfirmationPage() {
   const searchParams = useSearchParams();
@@ -20,12 +19,15 @@ export default function ConfirmationPage() {
   const date = searchParams.get("date");
   const time = searchParams.get("time");
   const [isSubmitting, setIsSubmitting] = useState(false);
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const symptoms = useSelector((state: RootState) => state.symptoms.symptoms);
-  console.log("symptoms",symptoms)
+  console.log("symptoms", symptoms);
   // Join symptoms into a single string (comma-separated)
-  const purpose = symptoms.length > 0 ? symptoms.join(", ") : "General consultation";
+  const purpose =
+    symptoms.length > 0 ? symptoms.join(", ") : "General consultation";
+  const doctors = useSelector((state: RootState) => state.doctors.list);
+  const selectedDoctor = doctors.find((doc) => doc.id?.toString() === doctorId);
 
   const handleConfirmBooking = async () => {
     if (!doctorId || !date || !time) {
@@ -46,7 +48,7 @@ const dispatch = useDispatch();
         doctor_id: doctorId,
         appointment_date: date?.split("T")[0],
         time: time,
-        purpose: purpose, 
+        purpose: purpose,
       };
 
       const res = await bookAppointment(payload);
@@ -69,14 +71,30 @@ const dispatch = useDispatch();
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-        <h2 className="text-2xl font-bold mb-4 text-center">Confirm Your Appointment</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          Confirm Your Appointment
+        </h2>
 
         <div className="space-y-2 text-gray-700 mb-6">
-          {/* <p><strong>Doctor ID:</strong> {doctorId}</p>
-          <p><strong>Doctor Name:</strong> {doctorName}</p> */}
-          <p><strong>Date:</strong> {date}</p>
-          <p><strong>Time:</strong> {time}</p>
-          <p><strong>Symptoms:</strong> {purpose}</p>
+          <p>
+            <strong>Doctor Name:</strong> {selectedDoctor?.name || doctorName}
+          </p>
+          <p>
+            <strong>Specialization:</strong>{" "}
+            {selectedDoctor?.specialization || "N/A"}
+          </p>
+          <p>
+            <strong>Consultation Fee:</strong> ₹{selectedDoctor?.price || "N/A"}
+          </p>
+          <p>
+            <strong>Date:</strong> {date}
+          </p>
+          <p>
+            <strong>Time:</strong> {time}
+          </p>
+          <p>
+            <strong>Symptoms:</strong> {purpose}
+          </p>
         </div>
 
         <div className="flex gap-4 justify-center">

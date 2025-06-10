@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Script from "next/script";
+import { initiatePayment } from "@/services/api.digitalPrescription.service";
 
 declare global {
   interface Window {
@@ -9,59 +10,68 @@ declare global {
 }
 
 export default function PaymentPage() {
-  const Amount = 100; // in INR
+  const appointmentId = "49fb2b5b-3852-4b4e-b586-b21f90246bc5"; 
+  const Amount = 500; 
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handlePayment = async () => {
     setIsProcessing(true);
     try {
-      const response = await fetch("/api/create-order", { method: "POST" });0
-      const data = await response.json();
+      const initRes = await initiatePayment({
+        appointment_id: appointmentId,
+        amount: Amount,
+      });
+      console.log("Payment initiated:", initRes);
 
-      if (!data.order_id) {
-        throw new Error("No order_id returned from backend");
-      }
+      // We'll assume initRes.id === Razorpay order_id
+      const razorOrderId = initRes.id;
+      if (!razorOrderId) throw new Error("Missing order ID");
 
+      // 2️⃣ Configure Razorpay checkout
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: Amount * 100, // in paise
         currency: "INR",
         name: "Nextcare.life",
-        description: "Test Transaction",
-        order_id: data.order_id,
-        handler: function (response: any) {
-          console.log("Payment successful", response);
-          // TODO: Handle success (e.g., call backend to mark payment as verified)
+        description: "Doctor Consultation Payment",
+        order_id: razorOrderId,
+        handler: (razorResp: any) => {
+          console.log("Razorpay payment successful:", razorResp);
+          
         },
         prefill: {
           name: "John Doe",
           email: "johndoe@example.com",
           contact: "9999999999",
         },
-        theme: {
-          color: "#3399cc",
-        },
+        theme: { color: "#3399cc" },
       };
 
       const rzp = new window.Razorpay(options);
+      rzp.on("payment.failed", (err: any) => {
+        console.error("Payment failed:", err.error);
+      });
       rzp.open();
-    } catch (error) {
-      console.error("Payment failed", error);
+    } catch (error: any) {
+      console.error("Payment error:", error.message || error);
+      alert("Payment initiation failed: " + (error.message || error));
     } finally {
       setIsProcessing(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
       <Script src="https://checkout.razorpay.com/v1/checkout.js" />
-      <div className="p-6 bg-white rounded-lg shadow-md">
+      <div className="bg-white shadow-md rounded p-6 max-w-md w-full text-center">
         <h1 className="text-2xl font-bold mb-4">Payment Page</h1>
         <p className="mb-4">Amount to pay: ₹{Amount}</p>
         <button
           onClick={handlePayment}
           disabled={isProcessing}
-          className="px-4 py-2 bg-primary text-white rounded"
+          className={`px-4 py-2 rounded text-white ${
+            isProcessing ? "bg-gray-400" : "bg-primary hover:bg-primary/90"
+          }`}
         >
           {isProcessing ? "Processing..." : "Pay Now"}
         </button>

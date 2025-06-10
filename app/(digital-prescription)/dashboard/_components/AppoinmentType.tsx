@@ -21,7 +21,7 @@ const AppoinmentsType = () => {
   };
 
   const handleAddMember = () => {
-    toast.warning("we re working on it")
+    toast.warning("working on progress")
   };
 
   return (
