@@ -60,8 +60,8 @@ export default function ViewPrescriptionDetailsModal() {
     singleCaseDetails,
   } = useSelector((state: any) => state.digitalPrescription);
 
-  console.log("singleCaseDetails", singleCaseDetails);
-  console.log("singlePrescriptionDetails", singlePrescriptionDetails);
+  // console.log("singleCaseDetails", singleCaseDetails);
+  // console.log("singlePrescriptionDetails", singlePrescriptionDetails);
 
 
   const [targetLang, setTargetLang] = useState<string>("en");

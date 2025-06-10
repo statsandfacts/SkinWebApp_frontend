@@ -29,9 +29,6 @@ const NCTemplate1 = ({ DpKeys, dpData }: NCtemplateProps) => {
     (state: any) => state.digitalPrescription
   );
 
-  console.log(dpData);
-  console.log(DpKeys);
-
   return (
     <>
       <div className="overflow-y-auto max-h-[35rem]">

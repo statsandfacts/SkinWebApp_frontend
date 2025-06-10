@@ -15,6 +15,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import {
   ArrowUpTrayIcon,
   DocumentMagnifyingGlassIcon,
+  ChatBubbleLeftIcon,
 } from "@heroicons/react/24/outline";
 import { Chip } from "@heroui/chip";
 import {
@@ -32,12 +33,17 @@ import { useDispatch, useSelector } from "react-redux";
 import ViewPrescriptionDetailsModal from "../ViewPrescriptionDetailsModal";
 import ViewOriginalPrescriptionImage from "../ViewOriginalPrescriptionImage";
 import ReUploadImageModal from "../Details/ReUploadImageModal";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { createChat, getChatByCaseId } from "@/services/app.chat";
+import { setChatId } from "@/redux/slices/user.chats.slice";
 
 const CasesDetails = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { prescriptionStatus = "unknown" }: { prescriptionStatus?: string } =
     useParams();
   const { userId } = useAuthInfo();
+  const router = useRouter();
 
   const { dashboardData, loading, error, prescriptionCases } = useSelector(
     (state: RootState) => state.userDashboard
@@ -72,7 +78,49 @@ const CasesDetails = () => {
     reupload: "danger",
   };
 
-  console.log("getCasesByStatus()", getCasesByStatus());
+  // console.log("getCasesByStatus()", getCasesByStatus());
+
+  const handleCreateChat = async(payload: any) => {
+    try{
+      const response = await createChat(payload);
+      // console.log("Chat created successfully:", response);
+      router.push(`/dashboard/chats`);
+    }catch (error) {
+      toast.error("Failed to create chat. Please try again later.");
+    }
+  }
+
+  const handleOpenChat = async(cases: any) => {
+    dispatch(
+      setSinglePrescriptionDetails(
+        cases?.prescription_dtls[0]
+      )
+    );
+    dispatch(setSingleCaseDetails(cases));
+    // console.log("Single Prescription Details:", cases);
+    // console.log("Payload for create chat", {
+    //   case_id: cases?.case_id,
+    //   participants: [userId, "1afe1faa-4306-425e-8fc2-72ede35d2cf4"], // Replace with actual pharmacist ID
+    // });
+
+    //check if chat already exists
+    try{
+      const response = await getChatByCaseId(cases?.case_id);
+      // console.log("Chat response:", response);
+      if(response.error){
+        handleCreateChat({
+          case_id: cases?.case_id,
+          participants: [userId, "1afe1faa-4306-425e-8fc2-72ede35d2cf4"],
+        });
+      }else{
+        router.push(`/dashboard/chats`);
+        dispatch(setChatId(response));
+      }
+    }catch (error) {
+      toast.error("Failed to fetch chat. Please try again later.");
+      console.error("Error fetching chat:", error);
+    }
+  }
 
   return (
     <>
@@ -321,6 +369,7 @@ const CasesDetails = () => {
                                 {["approve", "conditionally-approve"].includes(
                                   cases?.status
                                 ) && (
+                                  <>
                                   <ToolTipBtn
                                     onClick={() => {
                                       dispatch(
@@ -338,6 +387,15 @@ const CasesDetails = () => {
                                   >
                                     <DocumentMagnifyingGlassIcon className="h-5 w-5" />
                                   </ToolTipBtn>
+
+                                  <ToolTipBtn
+                                    onClick={() => handleOpenChat(cases)}
+                                    title="View chat"
+                                    key={1}
+                                  >
+                                    <ChatBubbleLeftIcon className="h-5 w-5"/>
+                                  </ToolTipBtn>
+                                  </>
                                 )}
 
                                 {cases?.status === "reupload" && (
