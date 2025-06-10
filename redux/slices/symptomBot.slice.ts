@@ -8,6 +8,10 @@ interface symptombotInitialState {
         content: string[];
         colors: string[];
     }
+    BmiResponseData: string;
+    symptHistoryVisible: boolean;
+    messageModalVisible: boolean;
+    RedflagQuestion: boolean;
 }
 
 export const symptomBotSlice = createSlice({
@@ -15,16 +19,33 @@ export const symptomBotSlice = createSlice({
   initialState: {
     isModalOpen: false,
     ExplanationData: null,
+    BmiResponseData: '',
+    symptHistoryVisible: false,
+    RedflagQuestion: false,
+    messageModalVisible: false,
+    errorMessageForRedFlag: false,
   },
   reducers: {
-    setExplanationModal: (state, action) => {
+    setModalVisible: (state, action) => {
         state.isModalOpen = action.payload;
     },
     setExplanationData: (state, action) => {
         state.ExplanationData = action.payload;
     },
+    setSymptHistoryVisible: (state, action) => {
+        state.symptHistoryVisible = action.payload;
+    },
+    setRedflagQuestion: (state, action) => {
+      state.RedflagQuestion = action.payload;
+    },
+    setMessageModalVisible: (state, action) => {
+      state.messageModalVisible = action.payload;
+    },
+    setErrorMessageForRedFlag: (state, action) => {
+      state.errorMessageForRedFlag = action.payload;
+    },
   },
 });
 
-export const { setExplanationModal, setExplanationData } = symptomBotSlice.actions;
+export const { setModalVisible, setExplanationData, setSymptHistoryVisible, setRedflagQuestion, setMessageModalVisible, setErrorMessageForRedFlag } = symptomBotSlice.actions;
 export default symptomBotSlice.reducer;

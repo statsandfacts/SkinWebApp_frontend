@@ -6,7 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useParams, useRouter } from "next/navigation";
 import ManageComments from "./ManageComments";
-import { fetchBlogDtls } from "@/redux/slices/digitalPrescription/blog.slice";
+import {
+  fetchAllBlogs,
+  fetchBlogDtls,
+} from "@/redux/slices/digitalPrescription/blog.slice";
 import Loader from "@/components/Loader";
 import dayjs from "dayjs";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
@@ -16,46 +19,32 @@ import {
   MessageSquare,
   FacebookIcon,
   CopyIcon,
-  LoaderIcon,
 } from "lucide-react";
 import BlogItem from "./BlogItem";
 import styles from "./BlogContent.module.css";
 import QuizClient from "./QuizClient";
-import RelatedCalculator from "@/components/Blog/RelatedCalculator";
-import { getRelatedBlogs } from "@/services/api.digitalPrescription.service";
 
 interface BlogOverviewProps {}
 
 const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
   const router = useRouter();
-  const { subCategoryId, blogId } = useParams();
+  const { blogId } = useParams();
+  // console.log(blogId);
   const dispatch = useDispatch<AppDispatch>();
-  const [rbLoading, setRbLoading] = useState<boolean>(false);
-  const [relatedBlogs, setRelatedBlogs] = useState<any[]>([]);
 
-  const { singleBlog, sbErrorMessage, sbLoading } = useSelector(
-    (state: RootState) => state.blogs
-  );
+  const { singleBlog, sbErrorMessage, sbLoading, data, errorMessage, loading } =
+    useSelector((state: RootState) => state.blogs);
 
   const [copySuccess, setCopySuccess] = useState<boolean>(false);
   useEffect(() => {
+    // console.log(singleBlog);
     // if (!singleBlog) {
     dispatch(fetchBlogDtls(blogId));
     // }
-    getAllRelatedBlogs();
+    if (!data || data.length <= 0) {
+      dispatch(fetchAllBlogs());
+    }
   }, []);
-
-  const getAllRelatedBlogs = () => {
-    setRbLoading(true);
-    getRelatedBlogs(subCategoryId, blogId)
-      .then((response) => {
-        setRelatedBlogs(response);
-      })
-      .catch((error) => {
-        console.error("Error fetching related blogs:", error);
-      })
-      .finally(() => setRbLoading(false));
-  };
 
   const blogUrl = typeof window !== "undefined" ? window.location.href : "";
   const shareText = encodeURIComponent(
@@ -194,7 +183,7 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
               )}
 
               <h1 className="text-lg sm:text-xl md:text-4xl font-bold mb-8">
-                {singleBlog?.title}
+               {singleBlog?.title}
               </h1>
 
               <div className={styles.content}>
@@ -203,7 +192,7 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
                   <QuizClient questions={singleBlog.quiz_questions} />
                 ) : (
                   <div
-                    className="prose"
+                    className="prose max-w-screen-2xl prose-p:my-1"
                     dangerouslySetInnerHTML={{ __html: singleBlog?.content }}
                   />
                 )}
@@ -212,9 +201,11 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
               <ManageComments />
             </div>
             <div className="w-full md:w-1/5 mt-3 md:mt-0">
-              {rbLoading ? (
-                <LoaderIcon className="h-4 animate-spin flex w-full justify-center" />
-              ) : relatedBlogs ? (
+              {loading ? (
+                <Loader />
+              ) : errorMessage ? (
+                <p className="p-10 md:px-40 text-red-500">{errorMessage}</p>
+              ) : data.length > 0 ? (
                 <div className="h-[650px] overflow-y-auto border rounded-lg p-3">
                   {/* Heading moved inside the card */}
                   <p className="font-semibold text-slate-700 text-center mb-3">
@@ -222,8 +213,8 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
                   </p>
 
                   <div className="grid gap-5 grid-cols-1">
-                    {relatedBlogs.length > 0 ? (
-                      relatedBlogs.map((blog: any, index: number) => (
+                    {filterData(data).length > 0 ? (
+                      filterData(data).map((blog: any, index: number) => (
                         <BlogItem blog={blog} key={index} isReadMore={false} />
                       ))
                     ) : (
@@ -234,10 +225,6 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
                   </div>
                 </div>
               ) : null}
-
-              {singleBlog?.related_key_word && (
-                <RelatedCalculator keywords={[singleBlog?.related_key_word]} />
-              )}
             </div>
           </article>
         </div>

@@ -1,11 +1,39 @@
 "use client";
+import { setLoginModal } from "@/redux/slices/digitalPrescription/auth.slice";
+import { RootState } from "@/redux/store";
 import { Button } from "@heroui/button";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import LoginDrawer from "../Auth/LoginDrawer";
+import { setSymptHistoryVisible } from "@/redux/slices/symptomBot.slice";
+import SymptomHistoryDrawer from "@/app/test-bot/components/SymptomHistoryDrawer";
 
 const SymptomBotDtls = () => {
-
+  const dispatch = useDispatch();
   const router = useRouter();
+  const { userId  } = useSelector(
+    (state: RootState) => state.auth
+  );
+  const [dpuserid, setDpuserid] = useState<string | null>("");
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem("dpUserId");
+    setDpuserid(storedUserId ? JSON.parse(storedUserId) : "");
+  }, []);
+
+
+  const { isModalOpen } = useSelector((state: any) => state.loginModal);
+  
+
+  const trySymptomBotHandleClick = () => {
+    console.log("User ID : ", dpuserid);
+    if(dpuserid){
+      router.push("/test-bot")
+    }else{
+      dispatch(setLoginModal(true));
+    }
+  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-16 text-center space-y-8">
@@ -52,9 +80,12 @@ const SymptomBotDtls = () => {
           <p className="text-lg font-semibold text-red-600 animate-pulse">
             🛠 In Progress – Launching Soon!
           </p>
-          <Button onClick={() => {router.push("/test-bot")}} className="my-2 bg-primary-lite font-bold ml-4 animate-pulse text-white">
+          <Button onClick={trySymptomBotHandleClick} className="my-2 bg-primary-lite font-bold ml-4 animate-pulse text-white">
             Try Now
           </Button>
+        </div>
+        <div className="mb-10">
+          <Button onPress={() => dispatch(setSymptHistoryVisible(true))} className="">Check Your Symptom History</Button>
         </div>
         <p className="text-gray-600">
           We’re building something powerful — a smart, empathetic health
@@ -66,6 +97,8 @@ const SymptomBotDtls = () => {
           </span>
         </p>
       </div>
+      <LoginDrawer />
+      <SymptomHistoryDrawer />
     </div>
   );
 };
