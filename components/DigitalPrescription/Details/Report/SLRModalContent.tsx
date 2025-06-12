@@ -85,16 +85,6 @@ const SLRModalContent = () => {
               </div> */}
               <SLRDoctorReview />
               <SLRHealthScore />
-
-              {/* <SLRHeartHealthInsights />
-              <SLRHeartHealthDietPlan /> */}
-
-              {/* <SLRMetabolicHealthInsight />
-              <SLRMetabolicHearthDietPlanCards /> */}
-              {/* <SLRHormonalHealth /> */}
-              {/* <SLRHormonalInsight />
-              <SLRHormonalDietplan /> */}
-
               <AllReports />
               <SLRNonDetectedParametr />
 
