@@ -18,24 +18,17 @@ import { useParams, useRouter } from "next/navigation";
 import { fetchSingleReportData } from "@/redux/slices/digitalPrescription/userDashboard.slice";
 import HandIcon from "@/components/SvgIcon/HandIcon";
 import SLRHealthScore from "./SLRHeathScore";
-import SLRHeartHealth from "./SLRHeartHealth";
+
 import SLRHeartHealthInsights from "./SLRHeartHealthInsights";
 import SLRHeartHealthDietPlan from "./SLRHeartHealthDietPlan";
 import SLRMetabolicHealth from "./SLRMetabolicHealth";
 import SLRMetabolicHealthInsight from "./SLRMetabolicHealthInsight";
 import SLRMetabolicHearthDietPlanCards from "./SLRMetabolicHearthDietPlanCards";
 import SLRHormonalHealth from "./SLRHormonalHealth";
-import SLRHormonalInsight from "./SLRHormonalInsight"; 
+import SLRHormonalInsight from "./SLRHormonalInsight";
 import SLRHormonalDietplan from "./SLRHormonalDietplan";
-import SLRLiverFunctionTest from "./SLRLiverFunctionTest";
-import SLRMetabolicPanel from "./SLRMetabolicPanel";
-import SLRTumorMarkers from "./SLRTumorMarkers";
-import SLRIronStudies from "./SLRIronStudies";
 import SLRNonDetectedParametr from "./SLRNonDetectedParametr";
-import SLRRenalFunctionTest from "./SLRRenalFunctionTest";
-import SLRBloodGasAnalysis from "./SLRBloodGasAnalysis";
-import SLRUrineAnalysis from "./SLRUrineAnalysis";
-import SLRHemogram from "./SLRHemogram";
+
 import AllReports from "./AllgGroup";
 const guideSteps = [
   "Your Health Summary",
@@ -101,24 +94,17 @@ const SLRModalContent = () => {
               </div> */}
               <SLRDoctorReview />
               <SLRHealthScore />
-              {/* <SLRHeartHealth /> */}
+
               {/* <SLRHeartHealthInsights />
               <SLRHeartHealthDietPlan /> */}
-              {/* <SLRMetabolicHealth /> */}
+
               {/* <SLRMetabolicHealthInsight />
               <SLRMetabolicHearthDietPlanCards /> */}
               {/* <SLRHormonalHealth /> */}
               {/* <SLRHormonalInsight />
               <SLRHormonalDietplan /> */}
-              {/* <SLRLiverFunctionTest />
-              <SLRMetabolicPanel />
-              <SLRTumorMarkers/>
-              <SLRIronStudies/>
-              <SLRRenalFunctionTest/>
-              <SLRBloodGasAnalysis/>
-               <SLRUrineAnalysis/>
-               <SLRHemogram/> */}
-               <AllReports/>
+
+              <AllReports />
               <SLRNonDetectedParametr />
 
               {/* User Details */}
