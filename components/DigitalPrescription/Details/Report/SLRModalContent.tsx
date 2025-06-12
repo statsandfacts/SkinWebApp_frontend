@@ -8,9 +8,8 @@ import {
   SLRGrpExp,
   SLRNotDetected,
   SLRParExp,
-  
 } from "./index";
-import DoctorReview from "./DoctorReview";
+import SLRDoctorReview from "./SLRDoctorReview";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { UserIcon, ArrowRight, Loader, ChevronLeftIcon } from "lucide-react";
 import SLRFooter from "./SLRFooter";
@@ -18,17 +17,26 @@ import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { fetchSingleReportData } from "@/redux/slices/digitalPrescription/userDashboard.slice";
 import HandIcon from "@/components/SvgIcon/HandIcon";
-import HealthScore from "./HeathScore";
-import HeartHealth from "./HeartHealth";
-import Insights from "./Insights";
-import DietPlan from "./DietPlan";
-import MetabolicHealth from "./MetabolicHealth";
-import TriglycerideInsight from "./TriglycerideInsight";
-import DietPlanCards from "./DietPlanCards";
-import HormonalHealth from "./HormonalHealth";
-import HormonalInsight from "./HormonalInsight";
-import HormonalDietPlan from "./HormonalDietplan";
-import NonDetectedParameter from "./NonDetectedParametr";
+import SLRHealthScore from "./SLRHeathScore";
+import SLRHeartHealth from "./SLRHeartHealth";
+import SLRHeartHealthInsights from "./SLRHeartHealthInsights";
+import SLRHeartHealthDietPlan from "./SLRHeartHealthDietPlan";
+import SLRMetabolicHealth from "./SLRMetabolicHealth";
+import SLRMetabolicHealthInsight from "./SLRMetabolicHealthInsight";
+import SLRMetabolicHearthDietPlanCards from "./SLRMetabolicHearthDietPlanCards";
+import SLRHormonalHealth from "./SLRHormonalHealth";
+import SLRHormonalInsight from "./SLRHormonalInsight"; 
+import SLRHormonalDietplan from "./SLRHormonalDietplan";
+import SLRLiverFunctionTest from "./SLRLiverFunctionTest";
+import SLRMetabolicPanel from "./SLRMetabolicPanel";
+import SLRTumorMarkers from "./SLRTumorMarkers";
+import SLRIronStudies from "./SLRIronStudies";
+import SLRNonDetectedParametr from "./SLRNonDetectedParametr";
+import SLRRenalFunctionTest from "./SLRRenalFunctionTest";
+import SLRBloodGasAnalysis from "./SLRBloodGasAnalysis";
+import SLRUrineAnalysis from "./SLRUrineAnalysis";
+import SLRHemogram from "./SLRHemogram";
+import AllReports from "./AllgGroup";
 const guideSteps = [
   "Your Health Summary",
   "Parameters at a glance",
@@ -44,15 +52,18 @@ const SLRModalContent = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { reportId } = useParams();
   const { userDetails } = useAuthInfo();
+  console.log(userDetails);
   const { singleReport } = useSelector(
     (state: RootState) => state.userDashboard
   );
+  console.log("single", singleReport);
 
   useEffect(() => {
     if (reportId) {
       dispatch(fetchSingleReportData(reportId));
     }
   }, []);
+  console.log("single report", fetchSingleReportData);
 
   return (
     <div className="flex flex-col items-center bg-white mt-2">
@@ -88,18 +99,27 @@ const SLRModalContent = () => {
                   Empowering Health Decision with clarity and insight
                 </small>
               </div> */}
-              {/* <DoctorReview/>
-              <HealthScore/>
-              <HeartHealth/>
-              <Insights/>
-              <DietPlan/>
-              <MetabolicHealth/>
-              <TriglycerideInsight/>
-              <DietPlanCards/>
-              <HormonalHealth/>
-              <HormonalInsight/>
-              <HormonalDietPlan/>
-              <NonDetectedParameter/> */}
+              <SLRDoctorReview />
+              <SLRHealthScore />
+              {/* <SLRHeartHealth /> */}
+              {/* <SLRHeartHealthInsights />
+              <SLRHeartHealthDietPlan /> */}
+              {/* <SLRMetabolicHealth /> */}
+              {/* <SLRMetabolicHealthInsight />
+              <SLRMetabolicHearthDietPlanCards /> */}
+              {/* <SLRHormonalHealth /> */}
+              {/* <SLRHormonalInsight />
+              <SLRHormonalDietplan /> */}
+              {/* <SLRLiverFunctionTest />
+              <SLRMetabolicPanel />
+              <SLRTumorMarkers/>
+              <SLRIronStudies/>
+              <SLRRenalFunctionTest/>
+              <SLRBloodGasAnalysis/>
+               <SLRUrineAnalysis/>
+               <SLRHemogram/> */}
+               <AllReports/>
+              <SLRNonDetectedParametr />
 
               {/* User Details */}
               <div className="w-full bg-primary-lite shadow-primary-50 shadow-lg p-6 rounded-xl">

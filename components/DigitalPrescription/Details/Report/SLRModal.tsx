@@ -16,7 +16,7 @@ import { BookTextIcon, UserIcon } from "lucide-react";
 import SLRFooter from "./SLRFooter";
 import Image from "next/image";
 import { ArrowRight } from 'lucide-react';
-import DoctorReview from "./DoctorReview";
+import DoctorReview from "./SLRDoctorReview";
 
 const SLRModal = () => {
   const dispatch = useDispatch();
