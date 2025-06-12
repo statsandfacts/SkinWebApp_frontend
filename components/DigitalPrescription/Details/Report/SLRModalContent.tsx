@@ -18,18 +18,9 @@ import { useParams, useRouter } from "next/navigation";
 import { fetchSingleReportData } from "@/redux/slices/digitalPrescription/userDashboard.slice";
 import HandIcon from "@/components/SvgIcon/HandIcon";
 import SLRHealthScore from "./SLRHeathScore";
-
-import SLRHeartHealthInsights from "./SLRHeartHealthInsights";
-import SLRHeartHealthDietPlan from "./SLRHeartHealthDietPlan";
-import SLRMetabolicHealth from "./SLRMetabolicHealth";
-import SLRMetabolicHealthInsight from "./SLRMetabolicHealthInsight";
-import SLRMetabolicHearthDietPlanCards from "./SLRMetabolicHearthDietPlanCards";
-import SLRHormonalHealth from "./SLRHormonalHealth";
-import SLRHormonalInsight from "./SLRHormonalInsight";
-import SLRHormonalDietplan from "./SLRHormonalDietplan";
 import SLRNonDetectedParametr from "./SLRNonDetectedParametr";
-
 import AllReports from "./AllgGroup";
+
 const guideSteps = [
   "Your Health Summary",
   "Parameters at a glance",
