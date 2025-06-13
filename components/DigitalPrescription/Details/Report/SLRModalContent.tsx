@@ -9,6 +9,7 @@ import {
   SLRNotDetected,
   SLRParExp,
 } from "./index";
+import SLRDoctorReview from "./SLRDoctorReview";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { UserIcon, ArrowRight, Loader, ChevronLeftIcon } from "lucide-react";
 import SLRFooter from "./SLRFooter";
@@ -16,6 +17,9 @@ import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { fetchSingleReportData } from "@/redux/slices/digitalPrescription/userDashboard.slice";
 import HandIcon from "@/components/SvgIcon/HandIcon";
+import SLRHealthScore from "./SLRHeathScore";
+import SLRNonDetectedParametr from "./SLRNonDetectedParametr";
+import AllReports from "./AllgGroup";
 
 const guideSteps = [
   "Your Health Summary",
@@ -32,15 +36,18 @@ const SLRModalContent = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { reportId } = useParams();
   const { userDetails } = useAuthInfo();
+  console.log(userDetails);
   const { singleReport } = useSelector(
     (state: RootState) => state.userDashboard
   );
+  console.log("single", singleReport);
 
   useEffect(() => {
     if (reportId) {
       dispatch(fetchSingleReportData(reportId));
     }
   }, []);
+  console.log("single report", fetchSingleReportData);
 
   return (
     <div className="flex flex-col items-center bg-white mt-2">
@@ -61,7 +68,7 @@ const SLRModalContent = () => {
         ) : (
           <>
             <div className="flex flex-col justify-center items-start w-full gap-4 p-4">
-              <div className="flex flex-col items-start">
+              {/* <div className="flex flex-col items-start">
                 <Image
                   src="/logo_with_bg.svg"
                   alt="Logo"
@@ -75,7 +82,11 @@ const SLRModalContent = () => {
                 <small className="text-lg font-light text-gray-400">
                   Empowering Health Decision with clarity and insight
                 </small>
-              </div>
+              </div> */}
+              <SLRDoctorReview />
+              <SLRHealthScore />
+              <AllReports />
+              <SLRNonDetectedParametr />
 
               {/* User Details */}
               <div className="w-full bg-primary-lite shadow-primary-50 shadow-lg p-6 rounded-xl">

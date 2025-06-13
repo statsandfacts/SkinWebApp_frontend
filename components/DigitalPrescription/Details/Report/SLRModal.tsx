@@ -16,6 +16,7 @@ import { BookTextIcon, UserIcon } from "lucide-react";
 import SLRFooter from "./SLRFooter";
 import Image from "next/image";
 import { ArrowRight } from 'lucide-react';
+import DoctorReview from "./SLRDoctorReview";
 
 const SLRModal = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const SLRModal = () => {
     >
       <ModalContent>
         <ModalHeader className="flex flex-col">
-          <div className="flex flex-col items-start ml-2">
+          {/* <div className="flex flex-col items-start ml-2">
             <Image
               src="/logo_with_bg.svg"
               alt="Logo"
@@ -56,21 +57,21 @@ const SLRModal = () => {
             <small className="text-xl font-light text-gray-600">
               Empowering Health Decision with clarity and insight
             </small>
-          </div>
+          </div> */}
+         
         </ModalHeader>
 
         <ModalBody>
           <div className="flex flex-col justify-center items-center w-full gap-4">
-            {/* Section: User Details & Lab Information */}
             <div className="w-full bg-[#75AFD2] shadow-primary-50 shadow-lg p-6 rounded-xl">
               <div className="flex justify-between items-start gap-x-10">
                 <div className="flex items-start gap-3">
                 <UserIcon className="h-6 w-6 text-primary" />
-                  <div className="flex flex-col text-white text-sm font-medium space-y-1">
+                  {/* <div className="flex flex-col text-white text-sm font-medium space-y-1">
                     <p>{userDetails?.name}</p>
                     <p>Age: {userDetails?.age}</p>
                     <p>Gender: {userDetails?.gender}</p>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="flex flex-col text-white text-sm font-medium space-y-1 text-right">
@@ -170,6 +171,7 @@ const SLRModal = () => {
             </div>
 
             {/* Further Sections */}
+             <DoctorReview/>
             <SLRGrpExp data={slrRes?.grouped_results || []} />
             <SLRParExp data={slrRes?.smartlab_data || []} />
           </div>

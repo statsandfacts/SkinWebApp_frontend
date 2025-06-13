@@ -46,11 +46,12 @@ const CollectSignUpData = () => {
     initialValues: {
       first_name: "",
       last_name: "",
-      email: "",
+      email: signUpData?.email || "",
       dob: "",
       gender: "",
       marital_status: "",
     },
+
     validationSchema: Yup.object().shape({
       first_name: Yup.string().required("First name is required"),
       last_name: Yup.string().required("Last name is required"),
@@ -67,13 +68,10 @@ const CollectSignUpData = () => {
       setIsLoading(true);
       try {
         dispatch(setSignUpData(values));
-        // toast.success("Data submitted successfully!");
-        // dispatch(setStep(5));
-        // dispatch(setSignUpProcess2Step(2));
+        console.log(values);
 
         const payload = {
           name: `${values.first_name} ${values.last_name}`,
-          // password_hash: values.confirm_password,
           email: values.email,
           phone_no: signUpData?.phone_number,
           user_type: "patient",
@@ -82,77 +80,33 @@ const CollectSignUpData = () => {
           marital_status: values?.marital_status,
         };
 
-        CreateUser(payload)
-          .then((response: any) => {
-            toast.success("User Signup successful!");
-            // router.push("/");
-            const patient_user_id = response.user_id;
-            // CreateCase(patient_user_id);
+        const response = await CreateUser(payload);
+        toast.success("User Signup successful!");
 
-            const payloadLogin = {
-              user_role: "1",
-              email_or_phone_no: signUpData.phone_number,
-              session_id: new Date().getTime().toString(),
-            };
-            login(payloadLogin)
-              .then((data) => {
-                const userId = data.user_id;
-                dispatch(
-                  setUser({ userId, sessionId: payloadLogin.session_id })
-                );
-                router.replace("/dashboard");
-                cleanUp();
-              })
-              .catch((error) => {
-                toast.success("Login failed");
-              });
-          })
-          .catch((error: any) => {
-            toast.error(
-              error.response?.data?.details || "Something went wrong"
-            );
-          })
-          .finally(() => setIsLoading(false));
-      } catch (error) {
-        toast.error("Error submitting data");
+        // const patient_user_id = response.user_id;
+        // await CreateCase(patient_user_id); // Commented out as requested
+
+        // Optional: login directly after signup
+        const session_id = new Date().getTime().toString();
+        const loginPayload = {
+          user_role: "1",
+          email_or_phone_no: signUpData.phone_number || signUpData.email,
+          session_id,
+        };
+
+        const loginResponse = await login(loginPayload);
+        dispatch(
+          setUser({ userId: loginResponse.user_id, sessionId: session_id })
+        );
+        router.replace("/dashboard");
+        cleanUp();
+      } catch (error: any) {
+        toast.error(error?.response?.data?.details || "Something went wrong");
       } finally {
         setIsLoading(false);
       }
     },
   });
-
-  const CreateCase = (patient_user_id: string | any) => {
-    createCase({
-      patient_user_id,
-      prescription_urls: signUpData.uploaded_files.map(
-        (file: any) => file.file_url
-      ),
-      report_dtls: [],
-    })
-      .then((response) => {
-        toast.success("Case Created Successfully.");
-
-        //!Login Process
-        const payloadLogin = {
-          user_role: "1",
-          email_or_phone_no: signUpData.phone_number,
-          session_id: new Date().getTime().toString(),
-        };
-        login(payloadLogin)
-          .then((data) => {
-            const userId = data.user_id;
-            dispatch(setUser({ userId, sessionId: payloadLogin.session_id }));
-            router.replace("/dashboard");
-            cleanUp();
-          })
-          .catch((error) => {
-            toast.success("Login failed");
-          });
-      })
-      .catch((error) => {
-        toast.error("Case Created Failed, Please try After Few Time.");
-      });
-  };
 
   const cleanUp = () => {
     dispatch(setStep(0));
@@ -204,6 +158,7 @@ const CollectSignUpData = () => {
         type="email"
         name="email"
         placeholder="Email"
+        disabled={!!signUpData?.email} // disable if already filled
         error={
           formik.touched.email && formik.errors.email ? formik.errors.email : ""
         }
@@ -227,16 +182,16 @@ const CollectSignUpData = () => {
         <Select
           name="gender"
           label="Gender"
-          // onChange={formik.handleChange}
           value={formik.values.gender}
           errorMessage={
             formik.touched.gender && formik.errors.gender
               ? formik.errors.gender
               : ""
           }
-          onSelectionChange={(key) =>
-            formik.setFieldValue("gender", key.currentKey)
-          }
+          onSelectionChange={(key) => {
+            const selected = Array.from(key)[0];
+            formik.setFieldValue("gender", selected);
+          }}
         >
           {genderOptions.map((option) => (
             <SelectItem key={option.id}>{option.name}</SelectItem>
@@ -246,16 +201,16 @@ const CollectSignUpData = () => {
         <Select
           name="marital_status"
           label="Marital Status"
-          // onChange={formik.handleChange}
-          onSelectionChange={(key) =>
-            formik.setFieldValue("marital_status", key.currentKey)
-          }
           value={formik.values.marital_status}
           errorMessage={
             formik.touched.marital_status && formik.errors.marital_status
               ? formik.errors.marital_status
               : ""
           }
+          onSelectionChange={(key) => {
+            const selected = Array.from(key)[0];
+            formik.setFieldValue("marital_status", selected);
+          }}
         >
           {maritalStatusOptions.map((option) => (
             <SelectItem key={option.id}>{option.name}</SelectItem>
@@ -263,7 +218,7 @@ const CollectSignUpData = () => {
         </Select>
       </div>
 
-      <div className="w-full flex justify-between max-w-lg  mt-3">
+      <div className="w-full flex justify-between max-w-lg mt-3">
         <Button
           variant="flat"
           onClick={() => {

@@ -6,11 +6,12 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { getDrugDetails } from "@/redux/slices/digitalPrescription/drug.slice";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/navigation";
-import { ChevronLeftIcon } from "lucide-react";
+import { ChevronLeftIcon, Fullscreen } from "lucide-react";
 import FAQ from "@/app/(digital-prescription)/investigation/[investigationId]/_components/FAQ";
 import { FactBox, SubstitutesMedicines } from "./SubstitutesMedicines";
+import ImageCarousel from "./ImageCarousel";
 import { SafetyAdvice } from "./SafetyAdvice";
-
+import Image from "next/image";
 const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
   medicineName,
 }) => {
@@ -70,71 +71,84 @@ const PrescriptionOverview: React.FC<{ medicineName: string }> = ({
                 <div className="mt-2">
                   {data.map((section: any, i: number) => (
                     <ScrollElement key={i} name={section.name} className="mb-2">
-                      <div className="bg-white shadow-md rounded-lg mb-4 transition-transform duration-200 p-4">
+                      <div className="bg-white shadow-md rounded-lg mb-2 transition-transform duration-200 p-4">
                         {section.keyName === "overview" ? (
-                          <div>
-                            <h1 className="text-2xl font-semibold text-sky-700 mb-4 border-b pb-2 border-sky-500">
-                              {section.overview?.name}
-                            </h1>
+                          <div className="flex flex-col lg:flex-row ">
+                            <div className="flex-1">
+                              <h1 className="text-2xl font-semibold text-sky-700 mb-4 border-b pb-2 border-sky-500">
+                                {section.overview?.name}
+                              </h1>
 
-                            <div className="mb-2">
-                              <label className="text-sky-900 font-medium block uppercase">
-                                Manufacturers
-                              </label>
-                              <p className="text-slate-500 text-sm font-normal">
-                                {section.overview?.manufacturers}
-                              </p>
-                            </div>
-
-                            <div className="mb-2">
-                              <label className="text-sky-900 font-medium block uppercase">
-                                SALT COMPOSITION
-                              </label>
-                              <p className="text-slate-500 text-sm font-normal">
-                                {section.overview?.salt_composition}
-                              </p>
-                            </div>
-
-                            {section.overview?.MRP &&
-                              section.overview?.MRP !== "0.0" && (
-                                <div className="mb-2">
+                              <div className="space-y-3">
+                                <div>
                                   <label className="text-sky-900 font-medium block uppercase">
-                                    MRP
+                                    Manufacturers
                                   </label>
                                   <p className="text-slate-500 text-sm font-normal">
-                                    ₹{section.overview?.MRP}
+                                    {section.overview?.manufacturers}
                                   </p>
                                 </div>
-                              )}
 
-                            <div className="mb-2">
-                              <label className="text-sky-900 font-medium block uppercase ">
-                                Storage
-                              </label>
-                              <p className="text-slate-500 text-sm font-normal">
-                                {section.overview?.storage}
-                              </p>
+                                <div>
+                                  <label className="text-sky-900 font-medium block uppercase">
+                                    Salt Composition
+                                  </label>
+                                  <p className="text-slate-500 text-sm font-normal">
+                                    {section.overview?.salt_composition}
+                                  </p>
+                                </div>
+
+                                {section.overview?.MRP &&
+                                  section.overview?.MRP !== "0.0" && (
+                                    <div>
+                                      <label className="text-sky-900 font-medium block uppercase">
+                                        MRP
+                                      </label>
+                                      <p className="text-slate-500 text-sm font-normal">
+                                        ₹{section.overview.MRP}
+                                      </p>
+                                    </div>
+                                  )}
+
+                                <div>
+                                  <label className="text-sky-900 font-medium block uppercase">
+                                    Storage
+                                  </label>
+                                  <p className="text-slate-500 text-sm font-normal">
+                                    {section.overview?.storage}
+                                  </p>
+                                </div>
+
+                                <div>
+                                  <label className="text-sky-900 font-medium block uppercase">
+                                    Prescription Required
+                                  </label>
+                                  <p className="text-slate-500 text-sm font-normal">
+                                    {section.overview?.prescription_required
+                                      ? "Yes"
+                                      : "No"}
+                                  </p>
+                                </div>
+
+                                <div>
+                                  <label className="text-sky-900 font-medium block uppercase">
+                                    Product Introduction
+                                  </label>
+                                  <p className="text-slate-500 text-sm font-normal">
+                                    {section.overview?.product_information}
+                                  </p>
+                                </div>
+                              </div>
                             </div>
 
-                            <div className="mb-2">
-                              <label className="text-sky-900 font-medium block uppercase ">
-                                Prescription Required
-                              </label>
-                              <p className="text-slate-500 text-sm font-normal">
-                                {section.overview?.prescription_required
-                                  ? "Yes"
-                                  : "No"}
-                              </p>
-                            </div>
-
-                            <div className="mb-2">
-                              <label className="text-sky-900 font-medium block uppercase ">
-                                Product Introduction
-                              </label>
-                              <p className="text-slate-500 text-sm font-normal">
-                                {section.overview?.product_information}
-                              </p>
-                            </div>
+                            {/* RIGHT: IMAGE CAROUSEL */}
+                            {section.overview?.image_urls?.length > 0 && (
+                              <div className="flex justify-center lg:justify-end w-full lg:w-[300px] mx-auto">
+                                <ImageCarousel
+                                  imageUrls={section.overview.image_urls}
+                                />
+                              </div>
+                            )}
                           </div>
                         ) : section.keyName === "uses_and_benefits" ? (
                           <div>

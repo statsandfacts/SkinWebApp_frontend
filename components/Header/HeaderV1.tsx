@@ -96,7 +96,7 @@ export default function HeaderV1() {
 
         <NavbarContent justify="center">
           <NavbarContent className="hidden sm:flex gap-4">
-            {isUserReady && userId ? (
+            { userId ? (
               <NavbarItem
                 key={"/dashboard"}
                 isActive={"/dashboard" === pathname}

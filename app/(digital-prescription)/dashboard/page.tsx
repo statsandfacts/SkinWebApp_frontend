@@ -9,6 +9,9 @@ import {
   User,
   Phone,
   LucideHandHeart,
+  Bookmark,
+  BookUser,
+  HeartHandshake,
   MessageCircleCode
 } from "lucide-react";
 import ItemCard from "./_components/ItemCard";
@@ -50,9 +53,9 @@ const Dashboard = () => {
       icon: User,
     },
     {
-      title: "Calculators",
-      link: "/calculator",
-      icon: LucideHandHeart,
+      title: "Book Appointment",
+      link: "/dashboard/appoinment",
+      icon: HeartHandshake,
     },
     // {
     //   title: "Chats",
