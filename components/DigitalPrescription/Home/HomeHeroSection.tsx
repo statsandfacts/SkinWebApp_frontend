@@ -40,7 +40,7 @@ const HomeHeroSection: FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-            className="text-md sm:text-lg md:text-xl lg:text-3xl w-3/4 sm:w-3/6 mx-auto mt-2 sm:mt-4 text-secondary"
+            className="text-md sm:text-lg md:text-xl lg:text-3xl w-3/4 sm:w-3/6 mx-auto mt-2 sm:mt-4 text-white"
           >
             Revolutionizing healthcare with digitized prescriptions, smart lab
             reports, and an AI-powered symptom bot.
