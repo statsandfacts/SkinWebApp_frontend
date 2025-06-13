@@ -15,6 +15,7 @@ import symptomBotReducer from "./slices/symptomBot.slice";
 import refillReminderReducer from "./slices/digitalPrescription/refillReminder.slice";
 import symptomsReducer from "@/redux/slices/digitalPrescription/symptoms.slice";
 import doctorsReducer from "@/redux/slices/digitalPrescription/doctors.slice";
+import UserChatsReducer from "./slices/user.chats.slice";
 
 export const store = configureStore({
   reducer: {
@@ -35,6 +36,7 @@ export const store = configureStore({
     refillReminder: refillReminderReducer,
     symptoms: symptomsReducer,
     doctors: doctorsReducer,
+    UserChats: UserChatsReducer,
   },
 });
 

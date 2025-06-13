@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import LoginDrawer from "../Auth/LoginDrawer";
-import { setSymptHistoryVisible } from "@/redux/slices/symptomBot.slice";
-import SymptomHistoryDrawer from "@/app/test-bot/components/SymptomHistoryDrawer";
+import { setSymptomHistoryVisible } from "@/redux/slices/symptomBot.slice";
+import SymptomHistoryDrawer from "@/components/SymptomBot/SymptomHistoryDrawer";
 
 const SymptomBotDtls = () => {
   const dispatch = useDispatch();
@@ -85,7 +85,7 @@ const SymptomBotDtls = () => {
           </Button>
         </div>
         <div className="mb-10">
-          <Button onPress={() => dispatch(setSymptHistoryVisible(true))} className="">Check Your Symptom History</Button>
+          <Button onPress={() => dispatch(setSymptomHistoryVisible(true))} className="">Check Your Symptom History</Button>
         </div>
         <p className="text-gray-600">
           We’re building something powerful — a smart, empathetic health
@@ -98,7 +98,7 @@ const SymptomBotDtls = () => {
         </p>
       </div>
       <LoginDrawer />
-      <SymptomHistoryDrawer />
+      <SymptomHistoryDrawer drawerFor={"history"}/>
     </div>
   );
 };

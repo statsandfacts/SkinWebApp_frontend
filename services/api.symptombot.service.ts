@@ -60,3 +60,10 @@ export const getSymptomHistory = async (payload: string | null) => {
   );
   return data;
 };
+
+export const getSymptomFaqs = async (payload: number | null) => {
+  const { data } = await axios.get(
+    baseUrl + `symptom/faq?symptom_id=${payload}`,
+  );
+  return data;
+};

@@ -12,6 +12,7 @@ import {
   Bookmark,
   BookUser,
   HeartHandshake,
+  MessageCircleCode
 } from "lucide-react";
 import ItemCard from "./_components/ItemCard";
 import DashboardHeader from "./_components/DashboardHeader";
@@ -56,6 +57,11 @@ const Dashboard = () => {
       link: "/dashboard/appoinment",
       icon: HeartHandshake,
     },
+    // {
+    //   title: "Chats",
+    //   link: "/dashboard/chats",
+    //   icon: MessageCircleCode,
+    // },
   ];
 
   return (

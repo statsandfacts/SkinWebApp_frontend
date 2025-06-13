@@ -1,29 +1,27 @@
-import ExplanationModal from '@/app/test-bot/components/ExplanationModal';
+import ExplanationModal from '@/components/SymptomBot/ExplanationModal';
 import { createSlice } from '@reduxjs/toolkit';
 
-interface symptombotInitialState {
+interface symptomBotInitialState {
     isModalOpen: boolean;
-    ExplanationData: {
-        header: string;
-        content: string[];
-        colors: string[];
-    }
+    ExplanationData: any;
     BmiResponseData: string;
-    symptHistoryVisible: boolean;
+    symptomHistoryVisible: boolean;
     messageModalVisible: boolean;
-    RedflagQuestion: boolean;
+    redFlagQuestion: boolean;
+    errorMessageForRedFlag: boolean;
 }
 
 export const symptomBotSlice = createSlice({
-  name: 'symptombot',
+  name: 'symptomBot',
   initialState: {
     isModalOpen: false,
     ExplanationData: null,
     BmiResponseData: '',
-    symptHistoryVisible: false,
-    RedflagQuestion: false,
+    symptomHistoryVisible: false,
+    redFlagQuestion: false,
     messageModalVisible: false,
     errorMessageForRedFlag: false,
+    symptomId: null,
   },
   reducers: {
     setModalVisible: (state, action) => {
@@ -32,11 +30,11 @@ export const symptomBotSlice = createSlice({
     setExplanationData: (state, action) => {
         state.ExplanationData = action.payload;
     },
-    setSymptHistoryVisible: (state, action) => {
-        state.symptHistoryVisible = action.payload;
+    setSymptomHistoryVisible: (state, action) => {
+        state.symptomHistoryVisible = action.payload;
     },
-    setRedflagQuestion: (state, action) => {
-      state.RedflagQuestion = action.payload;
+    setRedFlagQuestion: (state, action) => {
+      state.redFlagQuestion = action.payload;
     },
     setMessageModalVisible: (state, action) => {
       state.messageModalVisible = action.payload;
@@ -44,8 +42,11 @@ export const symptomBotSlice = createSlice({
     setErrorMessageForRedFlag: (state, action) => {
       state.errorMessageForRedFlag = action.payload;
     },
+    setSymptomId: (state, action) => {
+      state.symptomId = action.payload;
+    },
   },
 });
 
-export const { setModalVisible, setExplanationData, setSymptHistoryVisible, setRedflagQuestion, setMessageModalVisible, setErrorMessageForRedFlag } = symptomBotSlice.actions;
+export const { setModalVisible, setExplanationData, setSymptomHistoryVisible, setRedFlagQuestion, setMessageModalVisible, setErrorMessageForRedFlag, setSymptomId } = symptomBotSlice.actions;
 export default symptomBotSlice.reducer;

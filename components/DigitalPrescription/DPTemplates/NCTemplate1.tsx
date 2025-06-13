@@ -29,9 +29,6 @@ const NCTemplate1 = ({ DpKeys, dpData }: NCtemplateProps) => {
     (state: any) => state.digitalPrescription
   );
 
-  console.log(dpData);
-  console.log(DpKeys);
-
   return (
     <>
       <div className="overflow-y-auto max-h-[35rem]">
@@ -69,29 +66,12 @@ const NCTemplate1 = ({ DpKeys, dpData }: NCtemplateProps) => {
               {DpKeys.prescription_id}:{" "}
               {singlePrescriptionDetails?.prescription_id}
             </p>
+            <p className="text-xs font-normal text-slate-400">
+              {DpKeys.provider_contact}:{" "}
+              {singlePrescriptionDetails?.provider_contact}
+            </p>
           </div>
         </div>
-
-        {/* <div className="flex justify-between items-center mt-2">
-          <div>
-            <p className="text-xs font-normal text-slate-400 capitalize">
-              {DpKeys.pharmacist_name}: {dpData?.ph_name}
-            </p>
-            <p className="text-xs font-normal text-slate-400">
-              {DpKeys.pharmacist_certificate_no}:{" "}
-              {singleCaseDetails?.pharmacist_certificate_no}
-            </p>
-          </div>
-          <div>
-            <p className="text-xs font-normal text-slate-400">
-              {DpKeys.prescription_date}: {dpData?.prsc_date}
-            </p>
-            <p className="text-xs font-normal text-slate-400">
-              {DpKeys.prescription_id}:{" "}
-              {singlePrescriptionDetails?.prescription_id}
-            </p>
-          </div>
-        </div> */}
 
         {dpData?.remarks && (
           <p className="mt-2 text-orange-600 rounded-sm bg-orange-50 text-xs font-semibold w-fit py-1 px-2">
@@ -101,33 +81,6 @@ const NCTemplate1 = ({ DpKeys, dpData }: NCtemplateProps) => {
         )}
 
         {dpData?.general_vitals !== null && (
-          // <div>
-          //   <h1 className="mt-5 mb-3">{DpKeys.general_vitals_heading}</h1>
-          //   <div className="flex gap-1">
-          //     <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_blood_pressure} :</h3>
-          //     <p className="font-bold">{dpData.general_vitals.BP}</p>
-          //   </div>
-          //   <div className="flex gap-1">
-          //     <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_heart_rate} :</h3>
-          //     <p className="font-bold">{dpData.general_vitals.HR}</p>
-          //   </div>
-          //   <div className="flex gap-1">
-          //     <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_resp_rate} :</h3>
-          //     <p className="font-bold">{dpData.general_vitals.RR}</p>
-          //   </div>
-          //   <div className="flex gap-1">
-          //     <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_oxg_lvl} :</h3>
-          //     <p className="font-bold">{dpData.general_vitals.SpO2}</p>
-          //   </div>
-          //   <div className="flex gap-1">
-          //     <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_temp} :</h3>
-          //     <p className="font-bold">{dpData.general_vitals.Temperature}{dpData.general_vitals.tempratureCategory}</p>
-          //   </div>
-          //   <div className="flex gap-1">
-          //     <h3 className="font-medium text-gray-400 text-small">{DpKeys.gv_weight} :</h3>
-          //     <p className="font-bold">{dpData.general_vitals.Weight}{dpData.general_vitals.weightCategory}</p>
-          //   </div>
-          // </div>
           <>
             <h1 className="mt-5 mb-3">{DpKeys.general_vitals_heading}</h1>
             <div className="flex gap-10">
