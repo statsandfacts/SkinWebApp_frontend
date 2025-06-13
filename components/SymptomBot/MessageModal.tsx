@@ -17,6 +17,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/solid";
+import { AlertTriangle } from "lucide-react";
 
 export default function MessageModal({
   Question,
@@ -154,6 +155,7 @@ export default function MessageModal({
 
   // DATA MODAL (MULTI OR SINGLE)
   const dataArray = Question?.message?.data || [];
+  console.log("Question Dtaa : ", Question?.message);
 
   return (
     <Modal isOpen={messageModalVisible} onClose={handleClose} placement="center">
@@ -174,6 +176,13 @@ export default function MessageModal({
                 renderCategoryWithColor(dataArray[0]?.category, dataArray[0]?.value)
               )}
             </div>
+            {Question?.message?.title === "Provisional Diagnosis" && <div className="flex gap-4 mt-5 items-center p-4 border-red-600 border-2 rounded-lg">
+                <AlertTriangle size={60} className="text-red-600"/>
+                <div>
+                  <p className="text-sm text-red-600 font-medium">DISCLAIMER</p>
+                <p className="text-gray-600 text-xs">This is an AI-generated preliminary report. It suggests possible conditions based on the symptoms provided but is not a substitute for professional medical advice or diagnosis. Always consult a doctor for a confirmed diagnosis.</p>
+                </div>
+              </div>}
           </div>
         </ModalBody>
         <ModalFooter>
