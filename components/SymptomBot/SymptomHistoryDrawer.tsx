@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useEffect, useState } from "react";
 import {
   Drawer,
@@ -6,28 +8,37 @@ import {
   DrawerBody,
   DrawerFooter,
   Button,
+  Accordion,
+  AccordionItem,
 } from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { setSymptHistoryVisible } from "@/redux/slices/symptomBot.slice";
-import { getSymptomHistory } from "@/services/api.symptombot.service";
+import { setSymptomHistoryVisible } from "@/redux/slices/symptomBot.slice";
+import { getSymptomFaqs, getSymptomHistory } from "@/services/api.symptombot.service";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+dayjs.extend(customParseFormat);
 
-const SymptomHistoryDrawer = () => {
-  const { symptHistoryVisible } = useSelector(
+
+const SymptomHistoryDrawer = ({drawerFor} : {drawerFor: string}) => {
+
+  console.log("Drawer of : ", drawerFor);
+  const { symptomHistoryVisible, symptomId } = useSelector(
     (state: RootState) => state.symptomBot
   );
   const dispatch = useDispatch();
   // const [dpuserid, setDpuserid] = useState<string | null>("");
   const [historydata, setHistoryData] = useState<any>();
+  const [faqData, setFaqData] = useState<any[]>();
+  
 
   const symptomHistoryData = async () => {
     const storedUserId = localStorage.getItem("dpUserId");
     console.log("UserID : ", storedUserId);
     if (!storedUserId) {
       toast.error("User not found! Please login.");
-      dispatch(setSymptHistoryVisible(false));
+      dispatch(setSymptomHistoryVisible(false));
       return;
     }
     try {
@@ -38,27 +49,39 @@ const SymptomHistoryDrawer = () => {
       toast.error("Something went wrong !");
     }
   };
+  const getFaqData = async() => {
+      try{
+          // setLoading(true);
+          const response = await getSymptomFaqs(symptomId);
+          console.log(response);
+          setFaqData(response.data.faqs);
+      }catch(err){
+          // toast.error("Something went wrong! Please try again");
+      }finally{
+          // setLoading(false);
+      }
+  }
 
   useEffect(() => {
-    symptomHistoryData();
-  }, []);
+    if(drawerFor === "history"){
+      symptomHistoryData();
+    }else if(drawerFor === "faqs"){
+     getFaqData();
+    }
+  }, [symptomHistoryVisible, drawerFor]);
 
   return (
     <Drawer
       backdrop="blur"
-      isOpen={symptHistoryVisible}
-      onOpenChange={() => dispatch(setSymptHistoryVisible(false))}
+      isOpen={symptomHistoryVisible}
+      onOpenChange={() => dispatch(setSymptomHistoryVisible(false))}
     >
       <DrawerContent>
-        {(onClose) => (
           <>
             <DrawerHeader className="flex justify-between items-center">
               <h2 className="text-lg font-semibold">Symptom History</h2>
-              {/* <Button isIconOnly variant="light" onPress={onClose}>
-                ✕
-              </Button> */}
             </DrawerHeader>
-            <DrawerBody>
+            {drawerFor === "history" ? <DrawerBody>
               <p className="text-sm text-gray-600">
                 This is where your symptom history will go.
               </p>
@@ -69,26 +92,41 @@ const SymptomHistoryDrawer = () => {
                       Date : {dayjs(item.date).format("MMMM D, YYYY")}
                     </h3>
                     <ul className="text-sm text-gray-600 mt-1">
-                      {item?.symptoms && item.symptoms.length > 0 && item.symptoms.map((symptom: string, idx: number) => (
+                      {item?.symptoms && item.symptoms.length > 0 && item.symptoms.map((symptom: any, idx: number) => (
                         <li key={idx} className="list-disc list-inside">
-                          {symptom}
+                          {dayjs(symptom?.time, "HH:mm:ss").format("h:mm A")} - {symptom?.symptom}
                         </li>
                       ))}
                     </ul>
                   </div>)
               )): null
               }
+            </DrawerBody> : 
+
+            <DrawerBody>
+              {faqData && <Accordion
+                variant="shadow"
+                defaultExpandedKeys={["0"]}
+                className="animate-slide-up shadow-none"
+              >
+                {faqData.map((faq: any, index: number) => (
+                  <AccordionItem key={index} aria-label={faq?.question} title={faq?.question}>
+                    <p className="text-slate-500 "> {faq?.answer} </p>
+                  </AccordionItem>
+                ))}
+              </Accordion>}
             </DrawerBody>
+
+            }
             <DrawerFooter>
               <Button
                 color="primary"
-                onPress={() => dispatch(setSymptHistoryVisible(false))}
+                onPress={() => dispatch(setSymptomHistoryVisible(false))}
               >
                 Close
               </Button>
             </DrawerFooter>
           </>
-        )}
       </DrawerContent>
     </Drawer>
   );

@@ -3,9 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Loader2, UserPen } from "lucide-react";
 import { Button } from "@heroui/button";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
-import SymptomBotRecapModal from "@/app/test-bot/components/SymptomBotRecapModal";
 import {
   endChat,
   getFirstQuestion,
@@ -18,9 +16,10 @@ import ExplanationModal from "./ExplanationModal";
 import DisclamerModal from "./DisclamerModal";
 import MessageModal from "./MessageModal";
 import { useDispatch, useSelector } from "react-redux";
-import { setMessageModalVisible, setModalVisible, setRedflagQuestion, setSymptHistoryVisible } from "@/redux/slices/symptomBot.slice";
+import { setMessageModalVisible, setModalVisible, setRedFlagQuestion, setSymptomHistoryVisible, setSymptomId } from "@/redux/slices/symptomBot.slice";
 import { RootState } from "@/redux/store";
 import { clsx } from "clsx";
+import SymptomHistoryDrawer from "./SymptomHistoryDrawer";
 
 type ResponseQuestionType = {
   question: string;
@@ -42,11 +41,12 @@ type ResponseQuestionType = {
   previous_question_id?: string | null;
   image_url?: string | null;
   list?: string[] | null;
+  more_q_info: any | null;
 };
 
 const BotTestPage: React.FC = () => {
   const [ModalViewFor, setModalViewFor] = useState<string>("");
-  const { RedflagQuestion } = useSelector(
+  const { redFlagQuestion } = useSelector(
     (state: RootState) => state.symptomBot
   );
 
@@ -62,16 +62,17 @@ const BotTestPage: React.FC = () => {
     user_id: string;
     question_id: string;
     answer: string | string[] | number;
+    symptomId?: number | null;
   }>({
     user_id: "",
     question_id: "",
     answer: "",
+    symptomId: null
   });
 
   const count = useRef(false);
   const count1 = useRef(false);
   const [bmiResponse, setBmiResponse] = useState<string>("");
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -88,27 +89,28 @@ const BotTestPage: React.FC = () => {
 
   const getQuestions = async () => {
     if (count1.current) {
-      // setloading(true);
       const response = await getQuestion(symptomData);
-      // //console.log("Axios respones", response);
-      //console.log(response);
+
       setQuestion(response);
       setQuestionId(response.next_question_id as string);
+
       if (response.recap !== undefined) {
         setSummaryModal(false);
       } else if (response?.message) {
         dispatch(setMessageModalVisible(true));
         setModalViewFor("message");
-        setBmiResponse(response?.message as string);
+        // setBmiResponse(response?.message as string);
         // setResponseBmiModal(true);
       }
-      //console.log("red flag is there or not", response?.red_flag);
+
+      if(response?.symptom_id){
+        dispatch(setSymptomId(response?.symptom_id));
+      }
+
       if(response?.red_flag){
-        //console.log("Red flag is there");
-        dispatch(setRedflagQuestion(true));
+        dispatch(setRedFlagQuestion(true));
       }else{
-        //console.log("Red flag is not there");
-        dispatch(setRedflagQuestion(false));
+        dispatch(setRedFlagQuestion(false));
       }
     } else {
       count1.current = true;
@@ -126,9 +128,10 @@ const BotTestPage: React.FC = () => {
   };
 
   const setOkayAfterRecap = () => {
+    console.log("Question Data : ", Question)
     setSymptomData({
       user_id: dpuserid || "",
-      question_id: "Q38",
+      question_id: Question?.next_question_id || "",
       answer: "Okay",
     });
   };
@@ -138,9 +141,6 @@ const BotTestPage: React.FC = () => {
         "h-auto min-h-screen pb-20 px-10 flex flex-col justify-center items-center",
         
       )}>
-      {/* <div className="fixed top-24 left-4 z-50">
-        <Button onPress={() => dispatch(setSymptHistoryVisible(true))}>Symptom History</Button>
-      </div> */}
       <>
         <div className="lg:px-28 lg:mx-20 py-6 rounded-lg flex justify-center items-center min-w-full sm:py-4">
           <p></p>
@@ -226,8 +226,7 @@ const BotTestPage: React.FC = () => {
       <ExplanationModal />  
       <DisclamerModal open={disclamerModal} closeFunction = {setDisclamerModal}/>
       <MessageModal Question={Question} ModalFor={ModalViewFor} open={responseBmiModal} closeFunction={setResponseBmiModal} setData={setSymptomData} userID={dpuserid}/>
-
-      {/* <SymptomHistoryDrawer /> */}
+      <SymptomHistoryDrawer drawerFor={"faqs"}/>
     </div>
   );
 };
