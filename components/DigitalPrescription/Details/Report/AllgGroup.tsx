@@ -104,9 +104,7 @@ export default function AllReports() {
                 }}
               >
                 {tabList.map((st) => (
-                  <Tab key={st} value={st} className={statusColors[st]}>
-                    {st}
-                  </Tab>
+                  <Tab key={st} title={st} className={statusColors[st]} />
                 ))}
               </Tabs>
 
@@ -115,7 +113,7 @@ export default function AllReports() {
                   filtered.map((d, idx) => (
                     <div
                       key={idx}
-                      className="bg-white rounded-lg shadow-md p-4 flex flex-col sm:flex-row gap-1 items-start"
+                      className="bg-white rounded-lg shadow-md p-4 flex flex-col justify-between sm:flex-row gap-1 items-start"
                     >
                       <div>
                         <h3 className="font-semibold">{d.name}</h3>
@@ -125,20 +123,15 @@ export default function AllReports() {
                           </p>
                         )}
                       </div>
-                      <div className="mt-4 sm:mt-0 flex items-center gap-0 space-x-4">
-                        <div className="flex flex-col items-end">
-                          <span className="text-xs bg-gray-200 px-2 py-0.5 rounded-full">
-                            Lab says: in range
-                          </span>
-                          <div
-                            className={`h-2 w-24 rounded mt-1 ${
-                              statusColors[simplifyStatus(d.classification)]
-                            }`}
-                          />
-                        </div>
-                        <div className=" font-semibold">
+                      <div className="flex flex-col items-end">
+                        <div className="font-semibold">
                           {d.value} {d.unit}
                         </div>
+                        <div
+                          className={`h-2 w-24 rounded mt-1 ${
+                            statusColors[simplifyStatus(d.classification)]
+                          }`}
+                        />
                       </div>
                     </div>
                   ))

@@ -8,8 +8,8 @@ import {
   SLRGrpExp,
   SLRNotDetected,
   SLRParExp,
+  SLRDoctorReview,
 } from "./index";
-import SLRDoctorReview from "./SLRDoctorReview";
 import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { UserIcon, ArrowRight, Loader, ChevronLeftIcon } from "lucide-react";
 import SLRFooter from "./SLRFooter";
@@ -17,7 +17,6 @@ import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { fetchSingleReportData } from "@/redux/slices/digitalPrescription/userDashboard.slice";
 import HandIcon from "@/components/SvgIcon/HandIcon";
-import SLRHealthScore from "./SLRHeathScore";
 import AllReports from "./AllgGroup";
 
 const guideSteps = [
@@ -83,7 +82,6 @@ const SLRModalContent = () => {
                 </small>
               </div> */}
               <SLRDoctorReview />
-              <SLRHealthScore />
               <AllReports />
 
               {/* User Details */}
