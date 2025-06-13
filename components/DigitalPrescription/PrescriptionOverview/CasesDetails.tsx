@@ -388,13 +388,13 @@ const CasesDetails = () => {
                                     <DocumentMagnifyingGlassIcon className="h-5 w-5" />
                                   </ToolTipBtn>
 
-                                  <ToolTipBtn
+                                  {/* <ToolTipBtn
                                     onClick={() => handleOpenChat(cases)}
                                     title="View chat"
                                     key={1}
                                   >
                                     <ChatBubbleLeftIcon className="h-5 w-5"/>
-                                  </ToolTipBtn>
+                                  </ToolTipBtn> */}
                                   </>
                                 )}
 

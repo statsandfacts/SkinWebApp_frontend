@@ -13,6 +13,7 @@ import careerReducer from "./slices/digitalPrescription/career.slice";
 import saltCompositionReducer from "./slices/digitalPrescription/saltComposition.slice";
 import symptomBotReducer from "./slices/symptomBot.slice";
 import refillReminderReducer from "./slices/digitalPrescription/refillReminder.slice";
+import UserChatsReducer from "./slices/user.chats.slice";
 
 export const store = configureStore({
   reducer: {
@@ -31,6 +32,7 @@ export const store = configureStore({
     career: careerReducer,
     symptomBot: symptomBotReducer,
     refillReminder: refillReminderReducer,
+    UserChats: UserChatsReducer,
   },
 });
 

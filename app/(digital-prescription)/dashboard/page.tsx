@@ -9,6 +9,7 @@ import {
   User,
   Phone,
   LucideHandHeart,
+  MessageCircleCode
 } from "lucide-react";
 import ItemCard from "./_components/ItemCard";
 import DashboardHeader from "./_components/DashboardHeader";
@@ -53,6 +54,11 @@ const Dashboard = () => {
       link: "/calculator",
       icon: LucideHandHeart,
     },
+    // {
+    //   title: "Chats",
+    //   link: "/dashboard/chats",
+    //   icon: MessageCircleCode,
+    // },
   ];
 
   return (
