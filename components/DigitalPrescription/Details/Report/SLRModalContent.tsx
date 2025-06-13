@@ -18,7 +18,6 @@ import { useParams, useRouter } from "next/navigation";
 import { fetchSingleReportData } from "@/redux/slices/digitalPrescription/userDashboard.slice";
 import HandIcon from "@/components/SvgIcon/HandIcon";
 import SLRHealthScore from "./SLRHeathScore";
-import SLRNonDetectedParametr from "./SLRNonDetectedParametr";
 import AllReports from "./AllgGroup";
 
 const guideSteps = [
@@ -86,30 +85,26 @@ const SLRModalContent = () => {
               <SLRDoctorReview />
               <SLRHealthScore />
               <AllReports />
-              <SLRNonDetectedParametr />
 
               {/* User Details */}
-              <div className="w-full bg-primary-lite shadow-primary-50 shadow-lg p-6 rounded-xl">
+              {/* <div className="w-full bg-primary-lite shadow-primary-50 shadow-lg p-6 rounded-xl">
                 <div className="flex justify-between items-start gap-x-10">
                   <div className="flex items-start gap-3">
                     <UserIcon className="h-8 w-8 text-primary" />
                     <div className="flex flex-col text-white text-lg font-medium space-y-1">
                       <p>{userDetails?.name}</p>
-                      {/* <p>Age: {userDetails?.age}</p> */}
                       <p>Gender: {userDetails?.gender}</p>
                     </div>
                   </div>
                   <div className="flex flex-col text-white text-sm font-medium space-y-1 text-right">
-                    {/* <p>Lab No: {singlePrescriptionDetails?.lab_number || "123456"}</p>
-            <p>
-              Test date: {singlePrescriptionDetails?.test_date || "03-05-2025"}
-            </p> */}
+                    <p>Lab No: {"123456"}</p>
+                    <p>Test date: {"03-05-2025"}</p>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* Health Summary */}
-              <div className="w-full bg-primary-lite shadow-primary-50 shadow-lg p-6 rounded-xl">
+              {/* <div className="w-full bg-primary-lite shadow-primary-50 shadow-lg p-6 rounded-xl">
                 <div className="flex justify-between items-center mb-2">
                   <div className="flex gap-2 items-center">
                     <Image
@@ -123,7 +118,7 @@ const SLRModalContent = () => {
                       Your Health Summary
                     </p>
                   </div>
-                  {/* <p className="text-white font-medium text-sm">Health Score</p> */}
+                  <p className="text-white font-medium text-sm">Health Score</p>
                 </div>
                 <div className="flex justify-between items-start mt-2">
                   <p className="w-4/5 font-light text-sm text-white ml-6">
@@ -133,14 +128,14 @@ const SLRModalContent = () => {
                     personalized guidance to help you stay on top of your
                     well-being.
                   </p>
-                  {/* <div className="flex flex-col items-center gap-1 mr-4">
+                  <div className="flex flex-col items-center gap-1 mr-4">
                     <p className="text-white text-xs">Score</p>
                     <div className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-white text-white font-semibold">
-                      {singlePrescriptionDetails?.health_score ?? "75"}
+                      {"75"}
                     </div>
-                  </div> */}
+                  </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* Guide Flow  */}
               {/* <div className="flex flex-col items-center my-6 w-full">
@@ -164,7 +159,8 @@ const SLRModalContent = () => {
                 </div>
               </div> */}
               {/* Guide Flow */}
-              <div className="flex flex-col items-center my-6 w-full">
+
+              {/* <div className="flex flex-col items-center my-6 w-full">
                 <p className="text-primary font-semibold text-xl mb-4">
                   <HandIcon color="#ffffff" height={16} width={16} />
                   Step-by-Step Lab Report Guide
@@ -186,12 +182,12 @@ const SLRModalContent = () => {
                     </React.Fragment>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
               {/* Dynamic Sections */}
-              <SLRGrpExp
+              {/* <SLRGrpExp
                 data={singleReport.data?.data?.slr_res?.grouped_results || []}
-              />
+              /> */}
               <SLRParExp
                 data={singleReport.data?.data?.slr_res?.smartlab_data || []}
               />
