@@ -18,7 +18,7 @@ const BlogItem: React.FC<BlogProps> = ({ blog, isReadMore = true }) => {
   const dispatch = useDispatch();
   return (
     <Card className="rounded-lg shadow-lg h-full animate-fade-in">
-      <CardBody className="overflow-visible p-0">
+      <CardBody className="overflow-visible p-2">
         <Image
           alt={blog?.title}
           className="object-cover cursor-pointer"
@@ -30,8 +30,6 @@ const BlogItem: React.FC<BlogProps> = ({ blog, isReadMore = true }) => {
             );
           }}
         />
-      </CardBody>
-      <CardFooter className="flex flex-col gap-2 p-4">
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -40,15 +38,17 @@ const BlogItem: React.FC<BlogProps> = ({ blog, isReadMore = true }) => {
               `/blog/${blog?.categories[0].slug}/${blog?.sub_categories[0].slug}/${blog?.slug}`
             );
           }}
-          className="text-lg text-gray-700 text-center sm:text-left font-bold w-full hover:text-sky-700 transition duration-200 hover:underline"
+          className="text-lg text-gray-700 text-center sm:text-left font-bold w-full hover:text-sky-700 transition duration-200 hover:underline mt-1"
         >
           {blog?.title}
         </button>
+        <small className="text-gray-600 line-clamp-2 w-full mt-1">
+          {blog?.meta_description}
+        </small>
+      </CardBody>
+      <CardFooter className="flex flex-col gap-2 p-4">
         {isReadMore && (
           <>
-            <small className="text-gray-600 line-clamp-2 w-full">
-              {blog?.meta_description}
-            </small>
             <motion.button
               whileHover={{ x: 5 }}
               className="flex items-center justify-end w-full text-sky-700 text-sm font-medium"
