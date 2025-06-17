@@ -19,10 +19,11 @@ import { toast } from "react-toastify";
 
 const dpKeysInitial = {
   doctor_name: "Doctor Name",
-  doctor_redg_number: "Doctor Redg. No.",
+  doctor_redg_number: "Doctor Redg. No",
   provider_heading: "Hospital/Clinic Details",
   provider_name: "Name",
   provider_dtls: "Address",
+  provider_contact: "Provider Contact No",
   pharmacist_name: "Pharmacist Name",
   pharmacist_certificate_no: "Pharmacist License",
   prescription_date: "Date",
@@ -59,8 +60,8 @@ export default function ViewPrescriptionDetailsModal() {
     singleCaseDetails,
   } = useSelector((state: any) => state.digitalPrescription);
 
-  console.log("singleCaseDetails", singleCaseDetails);
-  console.log("singlePrescriptionDetails", singlePrescriptionDetails);
+  // console.log("singleCaseDetails", singleCaseDetails);
+  // console.log("singlePrescriptionDetails", singlePrescriptionDetails);
 
 
   const [targetLang, setTargetLang] = useState<string>("en");

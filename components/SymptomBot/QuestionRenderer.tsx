@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Button } from "@heroui/button";
-import ScrollingOptions from "@/app/test-bot/components/ScrollingOptions";
+import ScrollingOptions from "@/components/SymptomBot/ScrollingOptions";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import {
@@ -9,24 +9,18 @@ import {
   goBack,
   handleSearchSymptom,
 } from "@/services/api.symptombot.service";
-import SymptomBotRecapModal from "@/app/test-bot/components/SymptomBotRecapModal";
+import SymptomBotRecapModal from "@/components/SymptomBot/SymptomBotRecapModal";
 import { useRouter } from "next/navigation";
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@heroui/dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setErrorMessageForRedFlag,
   setExplanationData,
   setMessageModalVisible,
   setModalVisible,
+  setSymptomHistoryVisible,
+  setSymptomId,
 } from "@/redux/slices/symptomBot.slice";
-import Image from "next/image";
 import { Slider } from "@heroui/react";
-import axios from "axios";
 import { RootState } from "@/redux/store";
 
 type QuestionType = {
@@ -49,6 +43,8 @@ type QuestionType = {
   message?: string | null;
   next_available: boolean | null;
   previous_question_id?: string | null;
+  more_q_info: any | null;
+  dr_apnt?: boolean | null;
 };
 
 type Props = {
@@ -218,12 +214,11 @@ const QuestionRenderer: React.FC<Props> = ({
   const [inputFieldValue, setInputFieldValue] = useState<
     string | number | null
   >(null);
-  const [painLevel, setPainLevel] = useState<number[] | number>();
+  const [painLevel, setPainLevel] = useState<number[] | number>(5);
   const [DataforSummaryModal, setDataforSummaryModal] = useState<any | null>(
     null
   );
   const [summaryData, setSummaryData] = useState<any>("");
-  const [explanationContent, setExplanationContent] = useState<any>();
   const [wieghtHeightFieldValue, setWieghtHeightFieldValue] = useState<{
     weight: string;
     height_ft: string;
@@ -253,16 +248,19 @@ const QuestionRenderer: React.FC<Props> = ({
   });
 
   //console.log(question?.next_question_id);
-  const { RedflagQuestion } = useSelector(
+  const { redFlagQuestion, symptomId } = useSelector(
     (state: RootState) => state.symptomBot
   );
 
   const [inputSearchValue, setInputSearchValue] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [debouncedValue, setDebouncedValue] = useState("");
+  const [isLoadingResults, setIsLoadingResults] = useState(false);
 
   // Debounce input value
   useEffect(() => {
+      setIsLoadingResults(true);
+
     const handler = setTimeout(() => {
       setDebouncedValue(inputSearchValue);
     }, 300); // 300ms debounce delay
@@ -271,37 +269,60 @@ const QuestionRenderer: React.FC<Props> = ({
   }, [inputSearchValue]);
 
   // Fetch search results when debounced input changes
-  useEffect(() => {
-    if (debouncedValue.trim() === "") {
-      setSearchResults([]);
-      return;
-    }
+  // useEffect(() => {
+  //   if (debouncedValue.trim() === "") {
+  //     setSearchResults([]);
+  //     return;
+  //   }
 
-    const fetchResults = async () => {
-      try {
-        const response = await handleSearchSymptom(debouncedValue);
-        //console.log("Search response : ", response);
-        setSearchResults(response.results || []);
-      } catch (error) {
-        console.error("Search API error:", error);
-        setSearchResults([]);
-      }
-    };
-    fetchResults();
-  }, [debouncedValue]);
+  //   const fetchResults = async () => {
+  //     try {
+  //       const response = await handleSearchSymptom(debouncedValue);
+  //       //console.log("Search response : ", response);
+  //       setSearchResults(response.results || []);
+  //     } catch (error) {
+  //       console.error("Search API error:", error);
+  //       setSearchResults([]);
+  //     }
+  //   };
+  //   fetchResults();
+  // }, [debouncedValue]);
+
+  useEffect(() => {
+  if (debouncedValue.trim() === "") {
+    setSearchResults([]);
+    setIsLoadingResults(false);
+    return;
+  }
+
+  const fetchResults = async () => {
+    try {
+      setIsLoadingResults(true);
+      const response = await handleSearchSymptom(debouncedValue);
+      setSearchResults(response.results || []);
+    } catch (error) {
+      console.error("Search API error:", error);
+      setSearchResults([]);
+    } finally {
+      setIsLoadingResults(false);
+    }
+  };
+
+  fetchResults();
+}, [debouncedValue]);
 
   const handleSetExplanationData = () => {
     dispatch(setModalVisible(true));
-    moreDetails.map((data, index) => {
-      if (data.question_number === question?.next_question_id) {
-        // //console.log(data.details);
-        dispatch(setExplanationData(data.details));
-      }
-    });
-  };
+    dispatch(setExplanationData(question?.more_q_info));
+  };  
 
   const handleonYesNoClick = (options: string) => {
+    console.log(options)
     if (options !== null) {
+      if(options === "yes" && question?.dr_apnt){
+        router.push("/dashboard/appoinment");
+        return;
+      }
       question?.next_question_id === "Q1" && options === "no"
         ? endChatApicall()
         : setAnswersField({
@@ -309,6 +330,7 @@ const QuestionRenderer: React.FC<Props> = ({
             question_id:
               question?.next_question_id || question?.previous_question_id,
             answer: options,
+            symptom_id: symptomId || null,
           });
     }
   };
@@ -321,6 +343,7 @@ const QuestionRenderer: React.FC<Props> = ({
         question_id:
           question?.next_question_id || question?.previous_question_id,
         answer: data ? data : inputFieldValue,
+        symptom_id: symptomId || null,
       });
       setInputFieldValue(null);
     } else {
@@ -329,7 +352,7 @@ const QuestionRenderer: React.FC<Props> = ({
   };
 
   const handleMultipleChoiceClick = (value: string | number) => {
-    if (RedflagQuestion) {
+    if (redFlagQuestion) {
       if (value !== "None of the above") {
         dispatch(setMessageModalVisible(true));
         dispatch(setErrorMessageForRedFlag(true));
@@ -338,6 +361,7 @@ const QuestionRenderer: React.FC<Props> = ({
           question_id:
             question?.next_question_id || question?.previous_question_id,
           answer: value,
+          symptom_id: symptomId || null,
         });
       }else{
         setAnswersField({
@@ -345,6 +369,7 @@ const QuestionRenderer: React.FC<Props> = ({
           question_id:
             question?.next_question_id || question?.previous_question_id,
           answer: value,
+          symptom_id: symptomId || null,
         });
       }
     }else{
@@ -354,6 +379,7 @@ const QuestionRenderer: React.FC<Props> = ({
           question_id:
             question?.next_question_id || question?.previous_question_id,
           answer: value,
+          symptom_id: symptomId || null,
         });
       }
     }
@@ -387,7 +413,8 @@ const QuestionRenderer: React.FC<Props> = ({
         toast.warn("Enter all fields !");
       }
     } else if (question?.next_question_id === "Q8") {
-      if (value3.fasting !== "" || value3.postprandial !== "") {
+      console.log(value3);
+      if (value3.fasting !== "" || value3.postprandial !== "" || value3.HbA1c !== "") {
         setAnswersField({
           user_id: userID || "",
           question_id:
@@ -395,7 +422,7 @@ const QuestionRenderer: React.FC<Props> = ({
           answer: value3,
         });
       } else {
-        toast.warn("Enter all fields !");
+        toast.warn("Enter atleast one field !");
       }
     }
   };
@@ -466,11 +493,13 @@ const QuestionRenderer: React.FC<Props> = ({
   };
 
   const handleSearchFieldData = (data: any) => {
+    dispatch(setSymptomId(data.symptom_id));
     setAnswersField({
       // user_id: data?.symptom === "Headache" ? "Q61" : "",
       user_id: userID,
       question_id: question?.next_question_id || question?.previous_question_id,
       answer: data.symptom,
+      symptom_id: data.symptom_id,
     });
   };
 
@@ -569,9 +598,16 @@ const QuestionRenderer: React.FC<Props> = ({
                     <Button
                       variant="ghost"
                       className="border-primary-lite border-2 text-white bg-red-700 font-semibold px-4 py-5 mt-5 rounded-full w-full"
-                      onClick={endChatApicall}
+                      onPress={endChatApicall}
                     >
                       End Chat
+                    </Button>
+                    <Button
+                      variant="bordered"
+                      className="border-primary-lite border-2 font-semibold px-4 py-5 mt-1 rounded-full w-full"
+                      onPress={() => dispatch(setSymptomHistoryVisible(true))}
+                    >
+                      {`FAQ's`}
                     </Button>
                   </div>
                 );
@@ -583,16 +619,13 @@ const QuestionRenderer: React.FC<Props> = ({
                     <Button
                       key={option}
                       variant="ghost"
-                      className="border-primary-lite border-2 text-slate-800 font-semibold px-4 py-5 rounded-full"
+                      className="border-primary-lite border-2 text-slate-800 font-semibold px-4 py-5 rounded-full text-wrap"
                       onClick={() => handleMultipleChoiceClick(option)}
                     >
                       {option}
                     </Button>
                   ))}
-                  {question?.next_question_id &&
-                    QuestionForMoreDetails.includes(
-                      question?.next_question_id
-                    ) && (
+                  {question?.more_q_info && (
                       <div className="w-full flex justify-end">
                         <Button
                           variant="light"
@@ -702,29 +735,28 @@ const QuestionRenderer: React.FC<Props> = ({
                     value={inputSearchValue}
                     placeholder="Search your symptom"
                     className="w-full p-3 pl-6 h-12 border-2 border-primary-lite text-zinc-950 rounded-full mt-2"
-                    onChange={(e) => setInputSearchValue(e.target.value)}
-                    // onKeyDown={(e) => {
-                    //   if (e.key === "Enter") inputFieldValueSubmit();
-                    // }}
+                    onChange={(e) => {setInputSearchValue(e.target.value); setIsLoadingResults(true);}} 
                   />
 
                   {/* Results list */}
-                  {searchResults.length > 0 && (
+                  {(searchResults?.length > 0 || isLoadingResults)&& (
                     <ul className="bg-white border border-slate-200 rounded-md shadow-sm max-h-60 overflow-y-auto mt-2">
-                      {searchResults.map((item, i) => (
-                        <li
-                          key={i}
-                          className="p-3 hover:bg-slate-100 cursor-pointer"
-                          onClick={() => handleSearchFieldData(item)}
-                        >
-                          <div className="font-semibold text-primary-dark">
-                            {item.symptom}
-                          </div>
-                          <div className="text-sm text-gray-500">
-                            {item.description}
-                          </div>
-                        </li>
-                      ))}
+                      {isLoadingResults ? (
+                        <div className="flex justify-center items-center py-4">
+                          <Loader2 className="animate-spin" size={24} />
+                        </div>
+                      ) : (
+                        searchResults.map((item, i) => (
+                          <li
+                            key={i}
+                            className="p-3 hover:bg-slate-100 cursor-pointer"
+                            onClick={() => handleSearchFieldData(item)}
+                          >
+                            <div className="font-semibold text-primary-dark">{item.symptom}</div>
+                            <div className="text-sm text-gray-500">{item.description}</div>
+                          </li>
+                        ))
+                      )}
                     </ul>
                   )}
 
