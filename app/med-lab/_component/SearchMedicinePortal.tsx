@@ -92,7 +92,7 @@ const SearchMedicinePortal: React.FC<{
             filteredResults.map((item, index) => (
               <button
                 key={index}
-                className="border p-4 rounded-md shadow-md hover:shadow-lg text-left transition-all cursor-pointer"
+                className="border p-4 rounded-md shadow-md hover:shadow-lg text-left transition-all cursor-pointer flex flex-col items-start"
                 onClick={() => handleArrowClick(item)}
               >
                 <div className="w-full h-40 flex items-center justify-center bg-white rounded-lg overflow-hidden border">
