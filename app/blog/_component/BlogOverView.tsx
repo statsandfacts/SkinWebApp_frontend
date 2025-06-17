@@ -20,6 +20,8 @@ import {
   FacebookIcon,
   CopyIcon,
 } from "lucide-react";
+import WhatsAppIcon from "@/components/SvgIcon/WhatsAppIcon";
+import FontAwesomeXIcon from "@/components/SvgIcon/FontAwesomeXIcon";
 import BlogItem from "./BlogItem";
 import styles from "./BlogContent.module.css";
 import QuizClient from "./QuizClient";
@@ -130,9 +132,9 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
                   href={`https://twitter.com/intent/tweet?url=${blogUrl}&text=${shareText}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-full bg-blue-400 text-white hover:bg-blue-500 transition"
+                  className="p-2 rounded-full bg-black text-white  transition"
                 >
-                  <Twitter className="h-4 w-4" />
+                   <FontAwesomeXIcon color="#ffffff"  height={16} width={16} />
                 </a>
                 <a
                   href={`https://www.linkedin.com/shareArticle?url=${blogUrl}&title=${shareText}`}
@@ -146,9 +148,9 @@ const BlogOverview: React.FC<BlogOverviewProps> = ({}) => {
                   href={`https://wa.me/?text=${shareText} ${blogUrl}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-full bg-green-500 text-white hover:bg-green-600 transition"
+                  className="p-2 rounded-full bg-green-600 text-white transition"
                 >
-                  <MessageSquare className="h-4 w-4" />{" "}
+                 <WhatsAppIcon color="#ffffff"  height={18} width={18} />
                 </a>
                 <button
                   onClick={handleCopyUrl}
