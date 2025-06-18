@@ -96,7 +96,7 @@ export default function HeaderV1() {
 
         <NavbarContent justify="center">
           <NavbarContent className="hidden sm:flex gap-4">
-            { userId ? (
+            {isUserReady && userId && (
               <NavbarItem
                 key={"/dashboard"}
                 isActive={"/dashboard" === pathname}
@@ -111,7 +111,7 @@ export default function HeaderV1() {
                   {"Dashboard"}
                 </Link>
               </NavbarItem>
-            ) : null}
+            )}
 
             {menuItems.map((item) => (
               <NavbarItem key={item.link} isActive={item.link === pathname}>
