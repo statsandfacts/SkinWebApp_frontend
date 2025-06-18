@@ -11,66 +11,83 @@ const teamMembers = [
     degree: "(MBBS, MD, DNB, FICS)",
     role: "Chief Medical Officer & Founding Member",
     isViewMore: true,
+    slug: "col-dr-surendra-ramamurthy",
   },
   {
     imageSrc: "/aboutus/ceo.png",
     name: "Sidharth Mohanty",
     role: "Co-founder & CEO",
     isViewMore: false,
+    slug: "sidharth-mohanty",
+  },
+  {
+    imageSrc: "/aboutus/abid.jpeg",
+    name: "Abid Hussain",
+    role: "Advisor",
+    isViewMore: true,
+    slug: "abid-hussain",
   },
   {
     imageSrc: "/aboutus/kanha.png",
     name: "Kanha Kumar Khatua",
     role: "SDE & Founding Member",
     isViewMore: false,
+    slug: "kanha-kumar-khatua",
   },
   {
     imageSrc: "/aboutus/swasata.png",
     name: "Shaswata Shrinivas Panda",
     role: "Lead Pharmacist",
     isViewMore: false,
+    slug: "shaswata-shrinivas-panda",
   },
   {
     imageSrc: "/aboutus/ayushman.png",
     name: "Ayusman Bibhuprasad",
     role: "UX Designer & QA Engineer",
     isViewMore: false,
+    slug: "ayusman-bibhuprasad",
   },
   {
     imageSrc: "/aboutus/piyush-backend.png",
     name: "Piyush Prateem",
     role: "Backend Developer",
     isViewMore: false,
+    slug: "piyush-prateem",
   },
   {
     imageSrc: "/aboutus/guru-fronted.png",
     name: "Guruprasad Rana",
     role: "Frontend Developer",
     isViewMore: false,
+    slug: "guruprasad-rana",
   },
   {
     imageSrc: "/aboutus/subash-qa.png",
     name: "Subas Lenka",
     role: "QA and Database professional",
     isViewMore: false,
+    slug: "subas-lenka",
   },
   {
     imageSrc: "/aboutus/amiya-backend.png",
     name: "Amiya Ranjan Padhi",
     role: "Backend Developer",
     isViewMore: false,
+    slug: "amiya-ranjan-padhi",
   },
   {
     imageSrc: "/aboutus/dknextcare.png",
     name: "Dyutikrushna Dhal",
     role: "Frontend Developer",
     isViewMore: false,
+    slug: "dyutikrushna-dhal",
   },
 ];
 
 const MeetTheTeam = () => {
   const [viewMore, setViewMore] = useState<boolean>(false);
-  const [viewMoreTeamName, setViewMoreTeamName] = useState<string>("");
+  const [viewMoreTeamDetails, setViewMoreTeamDetails] = useState<any>("");
   return (
     <>
       <motion.div
@@ -156,7 +173,7 @@ const MeetTheTeam = () => {
               {member.isViewMore && (
                 <button
                   onClick={() => {
-                    setViewMoreTeamName(member.name);
+                    setViewMoreTeamDetails(member);
                     setViewMore(true);
                   }}
                   className="mt-2 px-4 py-1 text-sm bg-primary text-white rounded-full hover:bg-primary-dark transition"
@@ -171,7 +188,7 @@ const MeetTheTeam = () => {
 
       <ViewMoreTeamDrawer
         viewMore={viewMore}
-        viewMoreTeamName={viewMoreTeamName}
+        viewMoreTeamDetails={viewMoreTeamDetails}
         onClose={() => setViewMore(false)}
       />
     </>
