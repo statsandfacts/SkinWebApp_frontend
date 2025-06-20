@@ -20,6 +20,7 @@ interface Medicine {
   Dosage?: string;
   mrp?: string;
   image_urls?: string;
+  ValueID?:number;
 }
 
 const SearchMedicinePortal: React.FC<{
@@ -67,10 +68,18 @@ const SearchMedicinePortal: React.FC<{
     setFilteredResults([]);
   }, [name]);
 
-  const handleArrowClick = (item: Medicine) => {
-    const changeRoute = name === "medicine" ? "prescription" : "investigation";
-    router.push(`/${changeRoute}/${item.Id}`);
-  };
+  // const handleArrowClick = (item: Medicine) => {
+  //   const changeRoute = name === "medicine" ? "prescription" : "investigation";
+  //   // console.log(item)
+  //   router.push(`/${changeRoute}/${item.ValueID}`);
+  // };
+const handleArrowClick = (item: Medicine) => {
+  const isMedicine = name === "medicine";
+  const changeRoute = isMedicine ? "prescription" : "investigation";
+  const itemId = isMedicine ? item.Id : item.ValueID;
+
+  router.push(`/${changeRoute}/${itemId}`);
+};
 
   return (
     <div className="w-full max-w-3xl">
