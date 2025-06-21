@@ -1,7 +1,11 @@
 "use client";
-
 import React, { useEffect, useRef, useState } from "react";
-import { Loader2, UserPen } from "lucide-react";
+import {
+  Loader2,
+  UserPen,
+  CircleChevronRight,
+  CircleChevronLeft,
+} from "lucide-react";
 import { Button } from "@heroui/button";
 import Image from "next/image";
 import {
@@ -16,10 +20,17 @@ import ExplanationModal from "./ExplanationModal";
 import DisclamerModal from "./DisclamerModal";
 import MessageModal from "./MessageModal";
 import { useDispatch, useSelector } from "react-redux";
-import { setMessageModalVisible, setModalVisible, setRedFlagQuestion, setSymptomHistoryVisible, setSymptomId } from "@/redux/slices/symptomBot.slice";
+import {
+  setMessageModalVisible,
+  setModalVisible,
+  setRedFlagQuestion,
+  setSymptomHistoryVisible,
+  setSymptomId,
+} from "@/redux/slices/symptomBot.slice";
 import { RootState } from "@/redux/store";
 import { clsx } from "clsx";
 import SymptomHistoryDrawer from "./SymptomHistoryDrawer";
+import SymptomSlider from "./SymptomSlider";
 
 type ResponseQuestionType = {
   question: string;
@@ -67,12 +78,16 @@ const BotTestPage: React.FC = () => {
     user_id: "",
     question_id: "",
     answer: "",
-    symptomId: null
+    symptomId: null,
   });
 
   const count = useRef(false);
   const count1 = useRef(false);
   const [bmiResponse, setBmiResponse] = useState<string>("");
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const itemsPerSlide = 2;
+  const autoSlideInterval = 5000;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -103,13 +118,13 @@ const BotTestPage: React.FC = () => {
         // setResponseBmiModal(true);
       }
 
-      if(response?.symptom_id){
+      if (response?.symptom_id) {
         dispatch(setSymptomId(response?.symptom_id));
       }
 
-      if(response?.red_flag){
+      if (response?.red_flag) {
         dispatch(setRedFlagQuestion(true));
-      }else{
+      } else {
         dispatch(setRedFlagQuestion(false));
       }
     } else {
@@ -128,7 +143,7 @@ const BotTestPage: React.FC = () => {
   };
 
   const setOkayAfterRecap = () => {
-    console.log("Question Data : ", Question)
+    console.log("Question Data : ", Question);
     setSymptomData({
       user_id: dpuserid || "",
       question_id: Question?.next_question_id || "",
@@ -136,29 +151,28 @@ const BotTestPage: React.FC = () => {
     });
   };
 
+  const visibleList =
+    Question?.list?.slice(currentIndex, currentIndex + itemsPerSlide) || [];
+
   return (
-    <div className={clsx(
-        "h-auto min-h-screen pb-20 px-10 flex flex-col justify-center items-center",
-        
-      )}>
+    <div
+      className={clsx(
+        "h-auto min-h-screen pb-20 px-10 flex flex-col justify-center items-center"
+      )}
+    >
       <>
         <div className="lg:px-28 lg:mx-20 py-6 rounded-lg flex justify-center items-center min-w-full sm:py-4">
-          <p></p>
+          {/* <p></p> */}
           <p className="font-bold mt-1 text-lg text-center">
             {Question?.question}
           </p>
         </div>
-        {Question?.list && (
-          <div className="mb-7">
-            <ul className="grid grid-cols-2 md:grid-cols-2 gap-y-2 gap-x-8 pl-6 mt-4 max-w-[800px] list-disc">
-              {Question?.list.map((item: string, index: number) => (
-                <li key={index} className="text-gray-700 font-bold">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+        {/* <div className="h-10 bg-black w-96"></div> */}
+        {Question?.list && Question.list.length > 0 && (
+          <SymptomSlider list={Question.list} />
         )}
+        {/* <div className="h-10 bg-gray-500 w-96"></div> */}
+
         {Question?.image_url && (
           <div>
             <Image
@@ -223,10 +237,17 @@ const BotTestPage: React.FC = () => {
           </div>
         </div>
       )}
-      <ExplanationModal />  
-      <DisclamerModal open={disclamerModal} closeFunction = {setDisclamerModal}/>
-      <MessageModal Question={Question} ModalFor={ModalViewFor} open={responseBmiModal} closeFunction={setResponseBmiModal} setData={setSymptomData} userID={dpuserid}/>
-      <SymptomHistoryDrawer drawerFor={"faqs"}/>
+      <ExplanationModal />
+      <DisclamerModal open={disclamerModal} closeFunction={setDisclamerModal} />
+      <MessageModal
+        Question={Question}
+        ModalFor={ModalViewFor}
+        open={responseBmiModal}
+        closeFunction={setResponseBmiModal}
+        setData={setSymptomData}
+        userID={dpuserid}
+      />
+      <SymptomHistoryDrawer drawerFor={"faqs"} />
     </div>
   );
 };
