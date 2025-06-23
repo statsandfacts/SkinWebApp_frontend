@@ -20,6 +20,7 @@ interface Medicine {
   Dosage?: string;
   mrp?: string;
   image_urls?: string;
+  ValueID?: string;
 }
 
 const SearchMedicinePortal: React.FC<{
@@ -69,6 +70,10 @@ const SearchMedicinePortal: React.FC<{
 
   const handleArrowClick = (item: Medicine) => {
     const changeRoute = name === "medicine" ? "prescription" : "investigation";
+    if (item?.ValueID) {
+      router.push(`/${changeRoute}/${item.ValueID}`);
+      return;
+    }
     router.push(`/${changeRoute}/${item.Id}`);
   };
 
