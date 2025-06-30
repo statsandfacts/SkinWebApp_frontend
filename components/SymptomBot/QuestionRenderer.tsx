@@ -54,145 +54,6 @@ type Props = {
   setquestion: React.Dispatch<React.SetStateAction<any>>;
 };
 
-const moreDetails = [
-  {
-    question_number: "Q62A",
-    details: {
-      header:
-        "Duration and onset are critical in identifying the nature of the headache:",
-      content: [
-        "•	Sudden onset: A thunderclap headache could indicate a subarachnoid hemorrhage or other neurological emergency (stroke, aneurysm). The bot should trigger immediate referral to urgent care.",
-        "•	Gradual onset: More likely to be benign conditions like tension-type headaches or migraines.",
-      ],
-      colors: [
-        "text-red-500 font-semibold",
-        "text-orange-400 font-semibold",
-        "",
-        "",
-      ],
-      images: null,
-    },
-  },
-  {
-    question_number: "Q63",
-    details: {
-      header:
-        "The location of the headache provides insight into its possible cause:",
-      content: [
-        "Unilateral pain: Likely a migraine or cluster headache.",
-        "Bilateral pain: Often seen with tension headaches or could indicate systemic issues (e.g., high blood pressure).",
-        "Back of the head/neck: Suggests tension-type headaches or pain related to cervical issues.",
-        "Forehead/behind the eyes: Common in sinusitis or eye strain.",
-      ],
-      colors: [
-        "text-orange-500",
-        "text-blue-500",
-        "text-violet-500",
-        "text-teal-500",
-      ],
-      images: [
-        "/images/Img_for_symptom_bot_static/headache_images/one_side_unilateral_headache.png",
-        "/images/Img_for_symptom_bot_static/headache_images/both_sides_biletral_headache.png",
-        "/images/Img_for_symptom_bot_static/headache_images/back_of_head_headache.png",
-        "/images/Img_for_symptom_bot_static/headache_images/forehead_headache.png",
-      ],
-    },
-  },
-  {
-    question_number: "Q64",
-    details: {
-      header:
-        "The quality of pain helps differentiate between various headache types:",
-      content: [
-        "Throbbing/pulsing: Typical of migraines or vascular headaches.",
-        "Dull, aching: Suggests tension-type headaches.",
-        "Sharp, stabbing: Could indicate cluster headaches or neuralgia.",
-        "Pressure-like/tightening: Common in tension-type headaches.",
-      ],
-      colors: [
-        "text-orange-500",
-        "text-blue-500",
-        "text-violet-500",
-        "text-teal-500",
-      ],
-      images: null,
-    },
-  },
-  {
-    question_number: "Q65",
-    details: {
-      header:
-        "Associated symptoms are key for diagnosing the type of headache:",
-      content: [
-        "Nausea, vomiting, photophobia, phonophobia, and aura: Strong signs of a migraine.",
-        "Neck stiffness and fever: Possible signs of meningitis; requires urgent referral.",
-        "Runny nose or nasal congestion: Likely sinusitis.",
-        "Eye redness, tearing: Indicative of cluster headaches.",
-        "Weakness, slurred speech, confusion: Major red flags for a neurological emergency (stroke or brain tumor).",
-      ],
-      colors: [
-        "text-orange-500",
-        "text-blue-500",
-        "text-violet-500",
-        "text-teal-500",
-        "text-cyan-500",
-      ],
-      images: null,
-    },
-  },
-  {
-    question_number: "Q66",
-    details: {
-      header: "Triggers help further identify the type of headache:",
-      content: [
-        "Physical activity/exertion: Suggests migraine or exertional headaches.",
-        "Stress, emotional strain, sleep disturbances: Common triggers for tension headaches.",
-        "Weather changes, hunger, alcohol, specific foods: These are classic migraine triggers.",
-      ],
-      colors: ["text-orange-500", "text-blue-500", "text-violet-500", "", ""],
-      images: null,
-    },
-  },
-  {
-    question_number: "Q67",
-    details: {
-      header:
-        "Medical history and red flags provide crucial context for serious conditions:",
-      content: [
-        "Recent head injury: Could indicate a concussion or subdural hematoma; requires urgent evaluation.",
-        "Hypertension: Can lead to a hypertensive crisis, which might present with a headache. Immediate medical evaluation is needed.",
-        "Pregnancy/recent childbirth: Could signal preeclampsia, requiring immediate care.",
-        "Cancer/immune suppression: May suggest brain metastasis or an infection (e.g., abscess, meningitis).",
-        "Stroke/brain aneurysm history: Increased risk of a neurological emergency.",
-      ],
-      colors: [
-        "text-orange-500",
-        "text-blue-500",
-        "text-violet-500",
-        "text-teal-500",
-        "text-cyan-500",
-      ],
-      images: null,
-    },
-  },
-  {
-    question_number: "Q68",
-    details: {
-      header: "",
-      content: [
-        "Frequent or daily headaches suggest a chronic condition (e.g., chronic migraines or medication overuse headache). This step helps to gauge whether the user requires long-term management or referral to a specialist.",
-      ],
-      colors: [
-        "text-orange-500",
-        "text-blue-500",
-        "text-violet-500",
-        "text-teal-500",
-        "text-cyan-500",
-      ],
-      images: null,
-    },
-  },
-];
 
 const QuestionRenderer: React.FC<Props> = ({
   question,
@@ -200,15 +61,6 @@ const QuestionRenderer: React.FC<Props> = ({
   userID,
   setquestion,
 }) => {
-  const QuestionForMoreDetails = [
-    "Q62A",
-    "Q63",
-    "Q64",
-    "Q65",
-    "Q66",
-    "Q67",
-    "Q68",
-  ];
   const router = useRouter();
   const dispatch = useDispatch();
   const [inputFieldValue, setInputFieldValue] = useState<
@@ -347,7 +199,7 @@ const QuestionRenderer: React.FC<Props> = ({
       });
       setInputFieldValue(null);
     } else {
-      toast.warn("Field is empty !");
+      toast.warn("Field is empty!");
     }
   };
 
@@ -502,11 +354,14 @@ const QuestionRenderer: React.FC<Props> = ({
       symptom_id: data.symptom_id,
     });
   };
-
-  const handleBackClick = async () => {
+const handleBackClick = async () => {
+  try {
     const response = await goBack({ user_id: userID });
     setquestion(response);
-  };
+  } catch (error) {
+    console.error("Error in handleBackClick:", error);
+  }
+};
 
   if (question === undefined) {
     return (
