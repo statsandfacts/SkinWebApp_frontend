@@ -142,13 +142,28 @@ const BotTestPage: React.FC = () => {
     }
   };
 
+  // const setOkayAfterRecap = () => {
+  //   console.log("Question Data : ", Question);
+  //   setSymptomData({
+  //     user_id: dpuserid || "",
+  //     question_id: Question?.next_question_id || "",
+  //     answer: "Okay",
+  //   });
+  // };
+
   const setOkayAfterRecap = () => {
     console.log("Question Data : ", Question);
+
     setSymptomData({
       user_id: dpuserid || "",
       question_id: Question?.next_question_id || "",
       answer: "Okay",
     });
+
+    // Delay scroll until after render cycle
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 0);
   };
 
   const visibleList =
@@ -229,6 +244,7 @@ const BotTestPage: React.FC = () => {
           </div>
           <div>
             <Button
+              type="button" // ✅ Important to prevent form submit default
               className="w-full mt-5 bg-primary-lite font-medium"
               onClick={() => setOkayAfterRecap()}
             >
