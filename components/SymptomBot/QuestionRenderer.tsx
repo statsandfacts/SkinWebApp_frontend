@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Button } from "@heroui/button";
 import ScrollingOptions from "@/components/SymptomBot/ScrollingOptions";
 import { ArrowLeft, Loader2 } from "lucide-react";
@@ -33,7 +33,8 @@ type QuestionType = {
     | "numeric_input"
     | "input_slider"
     | "input_text_search"
-    | "info";
+    | "info"
+    | "input_calendar";
   options: string[] | null;
   next: string | { yes: string; no: string | null };
   fields: any | null;
@@ -45,6 +46,7 @@ type QuestionType = {
   previous_question_id?: string | null;
   more_q_info: any | null;
   dr_apnt?: boolean | null;
+  diagnosis_key?: string | null;
 };
 
 type Props = {
@@ -53,7 +55,6 @@ type Props = {
   userID: any;
   setquestion: React.Dispatch<React.SetStateAction<any>>;
 };
-
 
 const QuestionRenderer: React.FC<Props> = ({
   question,
@@ -108,10 +109,12 @@ const QuestionRenderer: React.FC<Props> = ({
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [debouncedValue, setDebouncedValue] = useState("");
   const [isLoadingResults, setIsLoadingResults] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+ 
 
   // Debounce input value
   useEffect(() => {
-      setIsLoadingResults(true);
+    setIsLoadingResults(true);
 
     const handler = setTimeout(() => {
       setDebouncedValue(inputSearchValue);
@@ -119,6 +122,20 @@ const QuestionRenderer: React.FC<Props> = ({
 
     return () => clearTimeout(handler);
   }, [inputSearchValue]);
+
+  useEffect(() => {
+    const focusTypes = [
+      "input_text",
+      "input_number",
+      "numeric_input",
+      "input_text_search",
+      "number",
+    ];
+
+    if (focusTypes.includes(question?.type ?? "")) {
+      inputRef.current?.focus();
+    }
+  }, [question?.type]);
 
   // Fetch search results when debounced input changes
   // useEffect(() => {
@@ -141,37 +158,37 @@ const QuestionRenderer: React.FC<Props> = ({
   // }, [debouncedValue]);
 
   useEffect(() => {
-  if (debouncedValue.trim() === "") {
-    setSearchResults([]);
-    setIsLoadingResults(false);
-    return;
-  }
-
-  const fetchResults = async () => {
-    try {
-      setIsLoadingResults(true);
-      const response = await handleSearchSymptom(debouncedValue);
-      setSearchResults(response.results || []);
-    } catch (error) {
-      console.error("Search API error:", error);
+    if (debouncedValue.trim() === "") {
       setSearchResults([]);
-    } finally {
       setIsLoadingResults(false);
+      return;
     }
-  };
 
-  fetchResults();
-}, [debouncedValue]);
+    const fetchResults = async () => {
+      try {
+        setIsLoadingResults(true);
+        const response = await handleSearchSymptom(debouncedValue);
+        setSearchResults(response.results || []);
+      } catch (error) {
+        console.error("Search API error:", error);
+        setSearchResults([]);
+      } finally {
+        setIsLoadingResults(false);
+      }
+    };
+
+    fetchResults();
+  }, [debouncedValue]);
 
   const handleSetExplanationData = () => {
     dispatch(setModalVisible(true));
     dispatch(setExplanationData(question?.more_q_info));
-  };  
+  };
 
   const handleonYesNoClick = (options: string) => {
-    console.log(options)
+    console.log(options);
     if (options !== null) {
-      if(options === "yes" && question?.dr_apnt){
+      if (options === "yes" && question?.dr_apnt){
         router.push("/dashboard/appoinment");
         return;
       }
@@ -215,7 +232,7 @@ const QuestionRenderer: React.FC<Props> = ({
           answer: value,
           symptom_id: symptomId || null,
         });
-      }else{
+      } else {
         setAnswersField({
           user_id: userID || "",
           question_id:
@@ -224,7 +241,7 @@ const QuestionRenderer: React.FC<Props> = ({
           symptom_id: symptomId || null,
         });
       }
-    }else{
+    } else {
       if (value !== null) {
         setAnswersField({
           user_id: userID || "",
@@ -266,7 +283,11 @@ const QuestionRenderer: React.FC<Props> = ({
       }
     } else if (question?.next_question_id === "Q8") {
       console.log(value3);
-      if (value3.fasting !== "" || value3.postprandial !== "" || value3.HbA1c !== "") {
+      if (
+        value3.fasting !== "" ||
+        value3.postprandial !== "" ||
+        value3.HbA1c !== ""
+      ) {
         setAnswersField({
           user_id: userID || "",
           question_id:
@@ -354,14 +375,14 @@ const QuestionRenderer: React.FC<Props> = ({
       symptom_id: data.symptom_id,
     });
   };
-const handleBackClick = async () => {
-  try {
-    const response = await goBack({ user_id: userID });
-    setquestion(response);
-  } catch (error) {
-    console.error("Error in handleBackClick:", error);
-  }
-};
+  const handleBackClick = async () => {
+    try {
+      const response = await goBack({ user_id: userID });
+      setquestion(response);
+    } catch (error) {
+      console.error("Error in handleBackClick:", error);
+    }
+  };
 
   if (question === undefined) {
     return (
@@ -410,6 +431,7 @@ const handleBackClick = async () => {
               return (
                 <div className="space-y-2">
                   <input
+                    ref={inputRef}
                     type={question.type === "input_number" ? "number" : "text"}
                     value={inputFieldValue === null ? "" : inputFieldValue}
                     placeholder="Enter your response"
@@ -430,6 +452,39 @@ const handleBackClick = async () => {
                     <Button
                       variant="bordered"
                       size={"sm"}
+                      className="py-4 rounded-full"
+                      onPress={handleBackClick}
+                    >
+                      <ArrowLeft size={18} className="text-slate-600" />
+                    </Button>
+                  </div>
+                </div>
+              );
+            case "input_calendar":
+              return (
+                <div className="space-y-2">
+                  <input
+                    ref={inputRef}
+                    type="date"
+                    value={inputFieldValue === null ? "" : inputFieldValue}
+                    placeholder="Select date"
+                    className="w-full p-3 pl-6 h-12 border-2 border-primary-lite text-zinc-950 rounded-full mt-2"
+                    onChange={(e) => setInputFieldValue(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") inputFieldValueSubmit();
+                    }}
+                  />
+                  <Button
+                    variant="ghost"
+                    className="border-slate-100 border-2 text-white bg-primary-lite font-semibold px-4 py-2 rounded-full w-full"
+                    onClick={() => inputFieldValueSubmit()}
+                  >
+                    Send
+                  </Button>
+                  <div>
+                    <Button
+                      variant="bordered"
+                      size="sm"
                       className="py-4 rounded-full"
                       onPress={handleBackClick}
                     >
@@ -481,16 +536,16 @@ const handleBackClick = async () => {
                     </Button>
                   ))}
                   {question?.more_q_info && (
-                      <div className="w-full flex justify-end">
-                        <Button
-                          variant="light"
-                          className="text-primary-lite"
-                          onPress={handleSetExplanationData}
-                        >
-                          What does this mean ?
-                        </Button>
-                      </div>
-                    )}
+                    <div className="w-full flex justify-end">
+                      <Button
+                        variant="light"
+                        className="text-primary-lite"
+                        onPress={handleSetExplanationData}
+                      >
+                        What does this mean ?
+                      </Button>
+                    </div>
+                  )}
                   <div>
                     <Button
                       variant="bordered"
@@ -509,6 +564,7 @@ const handleBackClick = async () => {
                 <div className="flex flex-col space-y-2">
                   {question.fields?.map((field: any, index: number) => (
                     <input
+                      ref={inputRef}
                       key={index}
                       type={field.type}
                       placeholder={field.label}
@@ -586,15 +642,19 @@ const handleBackClick = async () => {
               return (
                 <div className="space-y-2">
                   <input
+                    ref={inputRef}
                     type="text"
                     value={inputSearchValue}
                     placeholder="Search your symptom"
                     className="w-full p-3 pl-6 h-12 border-2 border-primary-lite text-zinc-950 rounded-full mt-2"
-                    onChange={(e) => {setInputSearchValue(e.target.value); setIsLoadingResults(true);}} 
+                    onChange={(e) => {
+                      setInputSearchValue(e.target.value);
+                      setIsLoadingResults(true);
+                    }}
                   />
 
                   {/* Results list */}
-                  {(searchResults?.length > 0 || isLoadingResults)&& (
+                  {(searchResults?.length > 0 || isLoadingResults) && (
                     <ul className="bg-white border border-slate-200 rounded-md shadow-sm max-h-60 overflow-y-auto mt-2">
                       {isLoadingResults ? (
                         <div className="flex justify-center items-center py-4">
@@ -607,8 +667,12 @@ const handleBackClick = async () => {
                             className="p-3 hover:bg-slate-100 cursor-pointer"
                             onClick={() => handleSearchFieldData(item)}
                           >
-                            <div className="font-semibold text-primary-dark">{item.symptom}</div>
-                            <div className="text-sm text-gray-500">{item.description}</div>
+                            <div className="font-semibold text-primary-dark">
+                              {item.symptom}
+                            </div>
+                            <div className="text-sm text-gray-500">
+                              {item.description}
+                            </div>
                           </li>
                         ))
                       )}
