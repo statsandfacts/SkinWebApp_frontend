@@ -29,7 +29,7 @@ export default function SymptomBotRecapModal({
         size={summary === "Feel free to visit anytime !" ? "md" : "5xl"}
         placement="center"
       >
-        <ModalContent className="mb-20 h-auto">
+        <ModalContent className="mb-20 h-auto w-50">
           <ModalHeader className="flex flex-col gap-1 ">
             {summary === "Feel free to visit anytime !"
               ? "Info"
