@@ -27,6 +27,8 @@ import {
 } from "lucide-react";
 
 import { Typewriter } from "./Typewriter";
+import type { Tip, Condition } from "@/types/digitalPrescription/symptom.types";
+
 
 export default function MessageModal({
   Question,
@@ -47,6 +49,17 @@ export default function MessageModal({
   const { messageModalVisible, errorMessageForRedFlag } = useSelector(
     (state: RootState) => state.symptomBot
   );
+  interface Tip {
+  title: string;
+  description: string;
+  color: string;
+}
+
+interface Condition {
+  title: string;
+  description: string;
+  data: Tip[];
+}
 
   const [accepted, setAccepted] = useState(false);
   const [accepted1, setAccepted1] = useState(false);
@@ -488,12 +501,8 @@ export default function MessageModal({
                           <p className="font-bold text-black">{data.data}</p>
                         </div>
                         {data.more_info && (
-                          <p className="text-gray-600 text-sm">
-                            <Typewriter
-                              text={data.more_info}
-                              speed={50}
-                              pause={2000}
-                            />
+                          <p className="text-sky-600 text-base italic">
+                           {data.more_info}
                           </p>
                         )}
                         {/* {data.more_info} */}
@@ -503,6 +512,41 @@ export default function MessageModal({
                 )}
               </div>
             )}
+
+           {Question?.message?.title === "Management Recommendations" && (
+  <div className="space-y-6">
+    {/* Main title and description */}
+    <div>
+      <h2 className="text-2xl font-bold text-[#0D1B39]">{Question.message.title}</h2>
+      <p className="text-gray-700 mt-1 text-sm">{Question.message.description}</p>
+    </div>
+
+    {/* Loop through each condition block */}
+    {Question.message.data?.map((condition: Condition, index: number) => (
+      <div
+        key={index}
+        className="p-5 rounded-2xl border border-gray-200 bg-white shadow-sm space-y-4"
+      >
+        {/* Condition title and summary description */}
+        <div>
+          <h3 className="text-lg font-semibold text-black">{condition.title}</h3>
+          <p className="text-gray-600 text-sm">{condition.description}</p>
+        </div>
+
+        {/* Loop through tips */}
+        <div className="space-y-3 border-l-4 border-gray-200 pl-4">
+          {condition.data?.map((tip: Tip, tipIndex: number) => (
+            <div key={tipIndex}>
+              <p className={`font-semibold ${tip.color}`}>{tip.title}</p>
+              <p className="text-sm text-gray-800">{tip.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+)}
+
 
             {Question?.message?.title === "Provisional Diagnosis" && (
               <div className="space-y-4">
@@ -546,7 +590,7 @@ export default function MessageModal({
                               <CircleCheckBig className="ml-2 h-5 w-5 text-success" />
                             </h3>
 
-                            <p className="text-sm text-gray-700 mt-2 mb-">
+                            <p className="text-sm text-gray-700 mt-2 font-bold ">
                               {item.description}
                             </p>
                           </div>
@@ -558,12 +602,8 @@ export default function MessageModal({
                             {item.data}
                           </p>
                           {item.more_info && (
-                            <p className="text-sky-600 text-sm italic">
-                              <Typewriter
-                                text={item.more_info}
-                                speed={50}
-                                pause={2000}
-                              />
+                            <p className="text-sky-600 text-base italic">
+                              {item.more_info}
                             </p>
                           )}
                         </div>

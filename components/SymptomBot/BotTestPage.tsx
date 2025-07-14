@@ -6,6 +6,7 @@ import {
   CircleChevronRight,
   CircleChevronLeft,
 } from "lucide-react";
+import { ArrowLeft, Bot, CheckCircle2 } from "lucide-react";
 import { Button } from "@heroui/button";
 import Image from "next/image";
 import {
@@ -26,11 +27,15 @@ import {
   setRedFlagQuestion,
   setSymptomHistoryVisible,
   setSymptomId,
+  setMultipleQuestions,
+  setMultipleQuestionsCompleted,
+  setCurrentQuestionIndex,
 } from "@/redux/slices/symptomBot.slice";
 import { RootState } from "@/redux/store";
 import { clsx } from "clsx";
 import SymptomHistoryDrawer from "./SymptomHistoryDrawer";
 import SymptomSlider from "./SymptomSlider";
+import MultipleQuestion from "./MultipleQuestion";
 
 type ResponseQuestionType = {
   question: string;
@@ -53,14 +58,22 @@ type ResponseQuestionType = {
   image_url?: string | null;
   list?: string[] | null;
   more_q_info: any | null;
+  multiple_questions?: [];
 };
 
 const BotTestPage: React.FC = () => {
   const [ModalViewFor, setModalViewFor] = useState<string>("");
-  const { redFlagQuestion } = useSelector(
+  const { redFlagQuestion, consecutiveQuestions } = useSelector(
     (state: RootState) => state.symptomBot
   );
 
+  const multipleQuestions = useSelector(
+    (state: RootState) => state.symptomBot.multipleQuestions
+  );
+
+  const multipleQuestionsCompleted = useSelector(
+    (state: RootState) => state.symptomBot.multipleQuestionsCompleted
+  );
   const dispatch = useDispatch();
   const [Question, setQuestion] = useState<ResponseQuestionType>();
   const [dpuserid, setDpuserid] = useState<string | null>("");
@@ -94,7 +107,12 @@ const BotTestPage: React.FC = () => {
       const storedUserId = localStorage.getItem("dpUserId");
       setDpuserid(storedUserId ? JSON.parse(storedUserId) : "");
     }
+    if (multipleQuestionsCompleted) {
+      dispatch(setMultipleQuestionsCompleted(true));
+  
+    }
     if (count.current) {
+      
       getQuestions();
     } else {
       count.current = true;
@@ -105,6 +123,7 @@ const BotTestPage: React.FC = () => {
   const getQuestions = async () => {
     if (count1.current) {
       const response = await getQuestion(symptomData);
+      console.log("symdata", symptomData);
 
       setQuestion(response);
       setQuestionId(response.next_question_id as string);
@@ -122,6 +141,20 @@ const BotTestPage: React.FC = () => {
         dispatch(setSymptomId(response?.symptom_id));
       }
 
+      if (response?.multiple_questions) {
+        console.log("multipleQuestion", response.multiple_questions);
+        dispatch(setMultipleQuestions(response.multiple_questions));
+      } else {
+        dispatch(setMultipleQuestions([])); // clear if not present
+      }
+      if (response?.multiple_questions?.length > 0) {
+        // 👇 New batch of multiple questions — restart flow
+        dispatch(setMultipleQuestions(response.multiple_questions));
+        console.log(setCurrentQuestionIndex);
+        setCurrentQuestionIndex(0);
+        return;
+      }
+      dispatch(setMultipleQuestionsCompleted(true));
       if (response?.red_flag) {
         dispatch(setRedFlagQuestion(true));
       } else {
@@ -157,7 +190,7 @@ const BotTestPage: React.FC = () => {
     setSymptomData({
       user_id: dpuserid || "",
       question_id: Question?.next_question_id || "",
-      answer: "Okay",
+      answer: "",
     });
 
     // Delay scroll until after render cycle
@@ -178,9 +211,70 @@ const BotTestPage: React.FC = () => {
       <>
         <div className="lg:px-28 lg:mx-20 py-6 rounded-lg flex justify-center items-center min-w-full sm:py-4">
           {/* <p></p> */}
+          {/* <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl mb-4 shadow-lg">
+            <Bot className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="mb-8 ml-7 font-bold text-lg"> Dr.Bot:-</h1>
           <p className="font-bold mt-1 text-lg text-center">
             {Question?.question}
-          </p>
+          </p> */}
+          <div className="flex flex-col items-center justify-center text-center">
+            {/* Bot Icon */}
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl mb-2 shadow-lg">
+              <Bot className="w-8 h-8 text-white" />
+            </div>
+
+            {/* Dr.Bot Label - force align left */}
+            <div className="w-full px-4">
+              <h1 className="font-bold text-lg mb-1 text-left">Dr.Bot:-</h1>
+            </div>
+
+            {/* Question */}
+           {Array.isArray(Question?.question) ? (
+              Question.question.map((q: any, index: number) => (
+                <div
+                  key={index}
+                  className="mb-4 text-left w-full px-4 space-y-4"
+                >
+                  {/* Scenario Block */}
+                  {(q.scenario_title || q.scenario_question) && (
+                    <div className="bg-pink-200 p-4 rounded-xl">
+                      {q.scenario_title && (
+                        <h2 className="font-semibold text-[#4C1D95] mb-1">
+                          {q.scenario_title}
+                        </h2>
+                      )}
+                      {q.scenario_question && (
+                        <p className="text-lg font-bold text-[#334155]">
+                          {q.scenario_question}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Associated Block */}
+                  {(q.associated_title || q.associated_question) && (
+                    <div className="bg-blue-200 p-4 rounded-xl">
+                      {q.associated_title && (
+                        <h3 className="font-semibold text-[#4C1D95] mb-1">
+                          {q.associated_title}
+                        </h3>
+                      )}
+                      {q.associated_question && (
+                        <p className="text-lg font-bold text-[#334155]">
+                          {q.associated_question}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))
+            ) : typeof Question?.question === "string" ? (
+              <p className="font-bold mt-1 text-lg text-center">
+                {Question?.question}
+              </p>
+            ) : null}
+          </div>
         </div>
         {/* <div className="h-10 bg-black w-96"></div> */}
         {Question?.list && Question.list.length > 0 && (
@@ -198,6 +292,8 @@ const BotTestPage: React.FC = () => {
             />
           </div>
         )}
+        {/* {multipleQuestions.length > 0 && <MultipleQuestion />}
+
         <div className="lg:px-96 lg:w-5/6 w-80">
           <QuestionRenderer
             question={Question}
@@ -205,7 +301,21 @@ const BotTestPage: React.FC = () => {
             userID={dpuserid}
             setquestion={setQuestion}
           />
-        </div>
+        </div> */}
+        {multipleQuestions.length > 0 ? (
+          // Multiple question flow is active
+          <MultipleQuestion setSymptomData={setSymptomData} />
+        ) : (
+          // Single question flow is active
+          <div className="lg:px-96 lg:w-5/6 w-80">
+            <QuestionRenderer
+              question={Question}
+              setAnswersField={setSymptomData}
+              userID={dpuserid}
+              setquestion={setQuestion}
+            />
+          </div>
+        )}
       </>
       {Question?.next_available && ( //Create a component for recap
         <div className="lg:px-48 ">
@@ -244,7 +354,7 @@ const BotTestPage: React.FC = () => {
           </div>
           <div>
             <Button
-              type="button" // ✅ Important to prevent form submit default
+              type="button"
               className="w-full mt-5 bg-primary-lite font-medium"
               onClick={() => setOkayAfterRecap()}
             >
