@@ -109,10 +109,8 @@ const BotTestPage: React.FC = () => {
     }
     if (multipleQuestionsCompleted) {
       dispatch(setMultipleQuestionsCompleted(true));
-  
     }
     if (count.current) {
-      
       getQuestions();
     } else {
       count.current = true;
@@ -230,8 +228,8 @@ const BotTestPage: React.FC = () => {
             </div>
 
             {/* Question */}
-           {Array.isArray(Question?.question) ? (
-              Question.question.map((q: any, index: number) => (
+            {Array.isArray(Question?.question) ? (
+              Question?.question.map((q: any, index: number) => (
                 <div
                   key={index}
                   className="mb-4 text-left w-full px-4 space-y-4"
