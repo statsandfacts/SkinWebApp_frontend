@@ -109,10 +109,8 @@ const BotTestPage: React.FC = () => {
     }
     if (multipleQuestionsCompleted) {
       dispatch(setMultipleQuestionsCompleted(true));
-  
     }
     if (count.current) {
-      
       getQuestions();
     } else {
       count.current = true;
@@ -190,7 +188,7 @@ const BotTestPage: React.FC = () => {
     setSymptomData({
       user_id: dpuserid || "",
       question_id: Question?.next_question_id || "",
-      answer: "",
+      answer: "yes",
     });
 
     // Delay scroll until after render cycle
@@ -230,7 +228,7 @@ const BotTestPage: React.FC = () => {
             </div>
 
             {/* Question */}
-           {Array.isArray(Question?.question) ? (
+            {Array.isArray(Question?.question) ? (
               Question.question.map((q: any, index: number) => (
                 <div
                   key={index}
@@ -318,40 +316,75 @@ const BotTestPage: React.FC = () => {
         )}
       </>
       {Question?.next_available && ( //Create a component for recap
-        <div className="lg:px-48 ">
+        <div className="lg:px-48">
           <div className="flex justify-between items-center">
             <p className="font-bold mb-6 text-xl">Your Recap</p>
             <Button className="bg-primary-lite px-6 py-2 rounded-full">
               <UserPen />
             </Button>
           </div>
+
           <div className="w-full flex flex-col gap-1">
             <div className="h-auto overflow-y-auto">
               {Question.recap?.map((item: any, index: number) => (
                 <div key={index} className="flex flex-col gap-2 mb-4">
                   <div className="flex">
-                    <div className="font-bold mr-3">
-                      {index + 1 + "." + " "}
-                    </div>
-                    <div className="font-bold ml-1">{item.question}</div>
-                  </div>
-                  <div className="text-gray-700 ml-9">
-                    {" "}
-                    {typeof item.answer === "string"
-                      ? "Ans -  " + item.answer
-                      : Object.entries(item.answer).map(
-                          ([key, value], subIndex) => (
-                            <div key={subIndex} className="flex">
-                              <span className="font-semibold">{key}:</span>
-                              <span>{String(value)}</span>
+                    <div className="font-bold mr-3">{index + 1}.</div>
+
+                    <div className="font-bold ml-1">
+                      {/* Handle string vs object[] questions */}
+                      {typeof item.question === "string" ? (
+                        item.question
+                      ) : Array.isArray(item.question) ? (
+                        item.question.map(
+                          (
+                            qObj: {
+                              scenario_title: string;
+                              scenario_question: string;
+                              associated_title: string;
+                              associated_question: string;
+                            },
+                            qIndex: number
+                          ) => (
+                            <div key={qIndex} className="mb-2">
+                              <div className="font-semibold">
+                                {qObj.scenario_title}
+                              </div>
+                              <div>{qObj.scenario_question}</div>
+                              <div className="font-semibold mt-1">
+                                {qObj.associated_title}
+                              </div>
+                              <div>{qObj.associated_question}</div>
                             </div>
                           )
-                        )}
+                        )
+                      ) : (
+                        <span className="text-red-500">
+                          Invalid question format
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="text-gray-700 ml-9">
+                    {typeof item.answer === "string" ? (
+                      <div>Ans - {item.answer}</div>
+                    ) : (
+                      Object.entries(item.answer).map(
+                        ([key, value], subIndex) => (
+                          <div key={subIndex} className="flex gap-1">
+                            <span className="font-semibold">{key}:</span>
+                            <span>{String(value)}</span>
+                          </div>
+                        )
+                      )
+                    )}
                   </div>
                 </div>
               ))}
             </div>
           </div>
+
           <div>
             <Button
               type="button"
@@ -363,6 +396,7 @@ const BotTestPage: React.FC = () => {
           </div>
         </div>
       )}
+
       <ExplanationModal />
       <DisclamerModal open={disclamerModal} closeFunction={setDisclamerModal} />
       <MessageModal

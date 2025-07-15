@@ -38,6 +38,17 @@ export const endChat = async (payload: any) => {
   return data;
 };
 
+export const endChatOnly = async (payload: { user_id: string }) => {
+  const { data } = await axios.post(
+    `${baseUrl}symptom/chat/end`,
+    payload,
+    headers
+  );
+  return data; // response will be null
+};
+
+
+
 export const goBack = async (payload: any) => {
   const { data } = await axios.post(
     baseUrl + "symptom/go_back",

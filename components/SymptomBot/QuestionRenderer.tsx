@@ -6,6 +6,7 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import {
   endChat,
+  endChatOnly,
   goBack,
   handleSearchSymptom,
 } from "@/services/api.symptombot.service";
@@ -47,15 +48,14 @@ type QuestionType = {
   more_q_info: any | null;
   dr_apnt?: boolean | null;
   diagnosis_key?: string | null;
-  flow_name?:string|null;
+  flow_name?: string | null;
 };
 
 type Props = {
   question: QuestionType | undefined;
   setAnswersField: React.Dispatch<React.SetStateAction<any>>;
   userID: any;
-  setquestion: React.Dispatch<React.SetStateAction<any>>; 
-  
+  setquestion: React.Dispatch<React.SetStateAction<any>>;
 };
 
 const QuestionRenderer: React.FC<Props> = ({
@@ -95,11 +95,11 @@ const QuestionRenderer: React.FC<Props> = ({
   const [diabetesValues, setDiabetesValues] = useState<{
     "Fasting (FBS)": string;
     "Postprandial (PPBS)": string;
-    "HbA1c": string;
+    HbA1c: string;
   }>({
     "Fasting (FBS)": "",
     "Postprandial (PPBS)": "",
-    "HbA1c": "",
+    HbA1c: "",
   });
 
   //console.log(question?.next_question_id);
@@ -112,11 +112,10 @@ const QuestionRenderer: React.FC<Props> = ({
   const [debouncedValue, setDebouncedValue] = useState("");
   const [isLoadingResults, setIsLoadingResults] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  
-    const multipleQuestions = useSelector(
-      (state: RootState) => state.symptomBot.multipleQuestions
-    );
- 
+
+  const multipleQuestions = useSelector(
+    (state: RootState) => state.symptomBot.multipleQuestions
+  );
 
   // Debounce input value
   useEffect(() => {
@@ -191,26 +190,57 @@ const QuestionRenderer: React.FC<Props> = ({
     dispatch(setExplanationData(question?.more_q_info));
   };
 
-  const handleonYesNoClick = (options: string,) => {
+  // const handleonYesNoClick = (options: string,) => {
+  //   console.log("yesno optn from question", options);
+  //   if (options !== null) {
+  //     if (options === "yes" && question?.dr_apnt){
+  //       router.push("/dashboard/appoinment");
+  //       return;
+  //     }
+  //     question?.next_question_id === "Q1" && options === "no" && question?.flow_name==="main"
+  //       ? endChatApicall()
+  //       : setAnswersField({
+  //           user_id: userID || "",
+  //           question_id:
+  //             question?.next_question_id || question?.previous_question_id,
+  //           answer: options,
+  //           symptom_id: symptomId || null,
+  //         });
+  //   }
+  // };
+
+  const handleonYesNoClick = async (options: string) => {
     console.log("yesno optn from question", options);
+
     if (options !== null) {
-      if (options === "yes" && question?.dr_apnt){
+      if (options === "yes" && question?.dr_apnt) {
         router.push("/dashboard/appoinment");
         return;
       }
-      question?.next_question_id === "Q2" && options === "no" && question?.flow_name==="main"
-        ? endChatApicall()
-        : setAnswersField({
-            user_id: userID || "",
-            question_id:
-              question?.next_question_id || question?.previous_question_id,
-            answer: options,
-            symptom_id: symptomId || null,
-          });
+
+      if (
+        question?.next_question_id === "Q1" &&
+        options === "no" &&
+        question?.flow_name === "main"
+      ) {
+        try {
+          await endChatOnly({ user_id: userID || "" });
+          console.log("Chat ended via endChatOnly");
+          router.push("/");
+        } catch (error) {
+          console.error("Failed to end chat:", error);
+        }
+      } else {
+        setAnswersField({
+          user_id: userID || "",
+          question_id:
+            question?.next_question_id || question?.previous_question_id,
+          answer: options,
+          symptom_id: symptomId || null,
+        });
+      }
     }
   };
-  
-
 
   const inputFieldValueSubmit = (data?: any) => {
     //console.log(data);
@@ -348,7 +378,7 @@ const QuestionRenderer: React.FC<Props> = ({
     } else if (field.label === "HbA1c") {
       setDiabetesValues((prev: any) => ({
         ...prev,
-        "HbA1c": value,
+        HbA1c: value,
       }));
     }
   };
@@ -383,7 +413,7 @@ const QuestionRenderer: React.FC<Props> = ({
       symptom_id: data.symptom_id,
     });
   };
-  
+
   const handleBackClick = async () => {
     try {
       const response = await goBack({ user_id: userID });
@@ -420,7 +450,7 @@ const QuestionRenderer: React.FC<Props> = ({
                       </Button>
                     </>
                   ))}
-                  {question?.next_question_id !== "Q1" && ( 
+                  {question?.next_question_id !== "Q1" && (
                     <div>
                       <Button
                         variant="bordered"
@@ -428,7 +458,10 @@ const QuestionRenderer: React.FC<Props> = ({
                         className="py-4 rounded-xl"
                         onPress={handleBackClick}
                       >
-                        <ArrowLeft size={18} className="text-slate-600" />Back
+                        <ArrowLeft size={18} className="text-slate-600" />
+                        Back
+          
+
                       </Button>
                     </div>
                   )}
@@ -464,7 +497,8 @@ const QuestionRenderer: React.FC<Props> = ({
                       className="py-4 rounded-xl"
                       onPress={handleBackClick}
                     >
-                      <ArrowLeft size={18} className="text-slate-600" />Back
+                      <ArrowLeft size={18} className="text-slate-600" />
+                      Back
                     </Button>
                   </div>
                 </div>
@@ -497,7 +531,8 @@ const QuestionRenderer: React.FC<Props> = ({
                       className="py-4 rounded-xl"
                       onPress={handleBackClick}
                     >
-                      <ArrowLeft size={18} className="text-slate-600" />Back
+                      <ArrowLeft size={18} className="text-slate-600" />
+                      Back
                     </Button>
                   </div>
                 </div>
@@ -562,7 +597,8 @@ const QuestionRenderer: React.FC<Props> = ({
                       className="py-4 rounded-xl"
                       onPress={handleBackClick}
                     >
-                      <ArrowLeft size={18} className="text-slate-600" />Back
+                      <ArrowLeft size={18} className="text-slate-600" />
+                      Back
                     </Button>
                   </div>
                 </div>
@@ -603,7 +639,8 @@ const QuestionRenderer: React.FC<Props> = ({
                       className="py-4 rounded-xl"
                       onPress={handleBackClick}
                     >
-                      <ArrowLeft size={18} className="text-slate-600" />Back
+                      <ArrowLeft size={18} className="text-slate-600" />
+                      Back
                     </Button>
                   </div>
                 </div>
@@ -641,7 +678,8 @@ const QuestionRenderer: React.FC<Props> = ({
                       className="py-4 rounded-xl"
                       onPress={handleBackClick}
                     >
-                      <ArrowLeft size={18} className="text-slate-600" />Back
+                      <ArrowLeft size={18} className="text-slate-600" />
+                      Back
                     </Button>
                   </div>
                 </div>
@@ -702,7 +740,8 @@ const QuestionRenderer: React.FC<Props> = ({
                       className="py-4 rounded-xl"
                       onPress={handleBackClick}
                     >
-                      <ArrowLeft size={18} className="text-slate-600" />Back
+                      <ArrowLeft size={18} className="text-slate-600" />
+                      Back
                     </Button>
                   </div>
                 </div>
