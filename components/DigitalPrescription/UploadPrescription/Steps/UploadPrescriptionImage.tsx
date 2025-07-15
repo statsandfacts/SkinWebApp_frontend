@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import {
@@ -10,6 +10,7 @@ import {
   setUploadedImageDetails,
   setUploadMoreReportsPopoverOpen,
 } from "@/redux/slices/digitalPrescription/stepManagement.slice";
+import { fetchPatientDashboard } from "@/redux/slices/digitalPrescription/userDashboard.slice";
 import { motion } from "framer-motion";
 import UploadImageComponent from "../Common/UploadImageComponent";
 import { Button } from "@heroui/button";
@@ -29,23 +30,32 @@ import {
 } from "@/services/api.digitalPrescription.service";
 import { useRouter } from "next/navigation";
 import { set } from "lodash";
+import type { AppDispatch } from "@/redux/store"; 
+
 
 const UploadDocumentImage: React.FC = () => {
-  const dispatch = useDispatch();
+  
   const router = useRouter();
   const { singleDocumentDetails, uploadImageDetail } = useSelector(
     (state: RootState) => state.stepManagement
   );
   const { userDetails, userId } = useAuthInfo();
+  console.log("userDetails",userDetails)
   const [loading, setLoading] = useState<boolean>(false);
+  const dispatch = useDispatch<AppDispatch>(); 
+
+
+  useEffect(() => {
+    dispatch(fetchPatientDashboard(userId));
+  }, [dispatch, userId]);
 
   const UploadHealthCampReport = () => {
     if (!uploadImageDetail[0]?.file) {
       toast.warning("Please select test report file to upload.");
       return;
     }
-    if (!userDetails?.phone_no) {
-      toast.warning("Phone number is missing.");
+    if (!userDetails?.phone_no || userDetails?.email) {
+      toast.warning("Phone number or email is missing.");
       return;
     }
     if (!singleDocumentDetails?.selectedSubType) {
@@ -76,8 +86,10 @@ const UploadDocumentImage: React.FC = () => {
             setLoading(false);
             toast.success("Case created successfully.");
             toast.success("Documents Submitted Successfully.");
-            router.push("/dashboard");
-            dispatch(resetDetailsAfterSubmit());
+            dispatch(fetchPatientDashboard(userId)).then(() => {
+              dispatch(resetDetailsAfterSubmit());
+              router.push("/dashboard");
+            });
           })
           .catch((error: any) => {
             setLoading(false);
@@ -128,15 +140,15 @@ const UploadDocumentImage: React.FC = () => {
               }
               if (singleDocumentDetails.selectedSubType === "Test Report") {
                 dispatch(setUploadMoreReportsPopoverOpen(true));
-                
+
                 return;
-                
+
                 // if (
-              //   singleDocumentDetails.selectedSubType === "Health Camp Report"
-              // ) {
-              //   UploadHealthCampReport();
-              //   return;
-              // }
+                //   singleDocumentDetails.selectedSubType === "Health Camp Report"
+                // ) {
+                //   UploadHealthCampReport();
+                //   return;
+                // }
               }
               if (singleDocumentDetails.selectedType === "Prescription") {
                 dispatch(setFirstScreenNextPopoverOpen(true));

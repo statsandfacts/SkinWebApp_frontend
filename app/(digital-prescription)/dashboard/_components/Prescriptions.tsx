@@ -24,11 +24,15 @@ const Prescriptions = () => {
     (state: RootState) => state.userDashboard
   );
 
+  // useEffect(() => {
+  //   if (!dashboardData) {
+  //     dispatch(fetchPatientDashboard(userId));
+  //   }
+  // }, [dispatch, dashboardData]);
   useEffect(() => {
-    if (!dashboardData) {
-      dispatch(fetchPatientDashboard(userId));
-    }
-  }, [dispatch, dashboardData]);
+  dispatch(fetchPatientDashboard(userId));
+}, [dispatch, userId]);
+
 
   return (
     <>
