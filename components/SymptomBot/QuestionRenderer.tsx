@@ -22,7 +22,7 @@ import {
 } from "@/redux/slices/symptomBot.slice";
 import { Slider } from "@heroui/react";
 import { RootState } from "@/redux/store";
-
+import { setMultipleQuestions } from "@/redux/slices/symptomBot.slice";
 type QuestionType = {
   question: string;
   type:
@@ -47,13 +47,15 @@ type QuestionType = {
   more_q_info: any | null;
   dr_apnt?: boolean | null;
   diagnosis_key?: string | null;
+  flow_name?:string|null;
 };
 
 type Props = {
   question: QuestionType | undefined;
   setAnswersField: React.Dispatch<React.SetStateAction<any>>;
   userID: any;
-  setquestion: React.Dispatch<React.SetStateAction<any>>;
+  setquestion: React.Dispatch<React.SetStateAction<any>>; 
+  
 };
 
 const QuestionRenderer: React.FC<Props> = ({
@@ -110,6 +112,10 @@ const QuestionRenderer: React.FC<Props> = ({
   const [debouncedValue, setDebouncedValue] = useState("");
   const [isLoadingResults, setIsLoadingResults] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  
+    const multipleQuestions = useSelector(
+      (state: RootState) => state.symptomBot.multipleQuestions
+    );
  
 
   // Debounce input value
@@ -185,14 +191,14 @@ const QuestionRenderer: React.FC<Props> = ({
     dispatch(setExplanationData(question?.more_q_info));
   };
 
-  const handleonYesNoClick = (options: string) => {
-    console.log(options);
+  const handleonYesNoClick = (options: string,) => {
+    console.log("yesno optn from question", options);
     if (options !== null) {
       if (options === "yes" && question?.dr_apnt){
         router.push("/dashboard/appoinment");
         return;
       }
-      question?.next_question_id === "Q1" && options === "no"
+      question?.next_question_id === "Q2" && options === "no" && question?.flow_name==="main"
         ? endChatApicall()
         : setAnswersField({
             user_id: userID || "",
@@ -203,6 +209,8 @@ const QuestionRenderer: React.FC<Props> = ({
           });
     }
   };
+  
+
 
   const inputFieldValueSubmit = (data?: any) => {
     //console.log(data);
@@ -375,6 +383,7 @@ const QuestionRenderer: React.FC<Props> = ({
       symptom_id: data.symptom_id,
     });
   };
+  
   const handleBackClick = async () => {
     try {
       const response = await goBack({ user_id: userID });
@@ -411,15 +420,15 @@ const QuestionRenderer: React.FC<Props> = ({
                       </Button>
                     </>
                   ))}
-                  {question?.next_question_id !== "Q1" && (
+                  {question?.next_question_id !== "Q1" && ( 
                     <div>
                       <Button
                         variant="bordered"
                         size={"sm"}
-                        className="py-4 rounded-full"
+                        className="py-4 rounded-xl"
                         onPress={handleBackClick}
                       >
-                        <ArrowLeft size={18} className="text-slate-600" />
+                        <ArrowLeft size={18} className="text-slate-600" />Back
                       </Button>
                     </div>
                   )}
@@ -452,10 +461,10 @@ const QuestionRenderer: React.FC<Props> = ({
                     <Button
                       variant="bordered"
                       size={"sm"}
-                      className="py-4 rounded-full"
+                      className="py-4 rounded-xl"
                       onPress={handleBackClick}
                     >
-                      <ArrowLeft size={18} className="text-slate-600" />
+                      <ArrowLeft size={18} className="text-slate-600" />Back
                     </Button>
                   </div>
                 </div>
@@ -485,10 +494,10 @@ const QuestionRenderer: React.FC<Props> = ({
                     <Button
                       variant="bordered"
                       size="sm"
-                      className="py-4 rounded-full"
+                      className="py-4 rounded-xl"
                       onPress={handleBackClick}
                     >
-                      <ArrowLeft size={18} className="text-slate-600" />
+                      <ArrowLeft size={18} className="text-slate-600" />Back
                     </Button>
                   </div>
                 </div>
@@ -550,10 +559,10 @@ const QuestionRenderer: React.FC<Props> = ({
                     <Button
                       variant="bordered"
                       size={"sm"}
-                      className="py-4 rounded-full"
+                      className="py-4 rounded-xl"
                       onPress={handleBackClick}
                     >
-                      <ArrowLeft size={18} className="text-slate-600" />
+                      <ArrowLeft size={18} className="text-slate-600" />Back
                     </Button>
                   </div>
                 </div>
@@ -591,10 +600,10 @@ const QuestionRenderer: React.FC<Props> = ({
                     <Button
                       variant="bordered"
                       size={"sm"}
-                      className="py-4 rounded-full"
+                      className="py-4 rounded-xl"
                       onPress={handleBackClick}
                     >
-                      <ArrowLeft size={18} className="text-slate-600" />
+                      <ArrowLeft size={18} className="text-slate-600" />Back
                     </Button>
                   </div>
                 </div>
@@ -629,10 +638,10 @@ const QuestionRenderer: React.FC<Props> = ({
                     <Button
                       variant="bordered"
                       size={"sm"}
-                      className="py-4 rounded-full"
+                      className="py-4 rounded-xl"
                       onPress={handleBackClick}
                     >
-                      <ArrowLeft size={18} className="text-slate-600" />
+                      <ArrowLeft size={18} className="text-slate-600" />Back
                     </Button>
                   </div>
                 </div>
@@ -690,10 +699,10 @@ const QuestionRenderer: React.FC<Props> = ({
                     <Button
                       variant="bordered"
                       size={"sm"}
-                      className="py-4 rounded-full"
+                      className="py-4 rounded-xl"
                       onPress={handleBackClick}
                     >
-                      <ArrowLeft size={18} className="text-slate-600" />
+                      <ArrowLeft size={18} className="text-slate-600" />Back
                     </Button>
                   </div>
                 </div>
