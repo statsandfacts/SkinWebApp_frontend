@@ -105,32 +105,43 @@ const MobileApp = () => {
           <h2 className="text-2xl lg:text-3xl font-bold text-[#025687]">
             Download the App for Free
           </h2>
-          <h5 className="text-sm text-gray-500 font-medium mt-1">
-            (Coming Soon)
-          </h5>
         </div>
 
         {/* Image Row for App Download */}
-        <div className="flex justify-center gap-4 mt-6">
+        <div className="flex justify-center gap-6 mt-6 items-end">
+          {/* Google Play */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
             viewport={{ once: true }}
+            className="flex flex-col items-center"
           >
-            <Image
-              src="/homepage/playstore.png"
-              alt="Google Play Store"
-              width={164}
-              height={55}
-            />
+            <a
+              href="https://play.google.com/store/apps/details?id=com.nextcaremobile"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="/homepage/playstore.png"
+                alt="Google Play Store"
+                width={164}
+                height={55}
+              />
+            </a>
           </motion.div>
+
+          {/* App Store with label */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
             viewport={{ once: true }}
+            className="flex flex-col items-center"
           >
+            <span className="text-xs text-black-500 mb-1 font-bold">
+              Coming Soon on App Store
+            </span>
             <Image
               src="/homepage/apploplaystore.png"
               alt="Apple App Store"
