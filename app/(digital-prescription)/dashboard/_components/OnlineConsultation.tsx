@@ -1,11 +1,13 @@
-
 "use client";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { usePathname } from "next/navigation";
 import type { RootState, AppDispatch } from "@/redux/store";
 import { fetchDoctors } from "@/redux/slices/digitalPrescription/doctors.slice";
-import { addSymptom,clearSymptoms } from "@/redux/slices/digitalPrescription/symptoms.slice";
+import {
+  addSymptom,
+  clearSymptoms,
+} from "@/redux/slices/digitalPrescription/symptoms.slice";
 import DoctorModal from "./DoctorListModal";
 import BackButton from "@/components/common/BackButton";
 
@@ -18,26 +20,25 @@ const OnlineConsultation = () => {
   const { list: doctors, loading } = useSelector(
     (state: RootState) => state.doctors
   );
-   console.log("Doctors in redux store:", doctors);
-
+  console.log("Doctors in redux store:", doctors);
 
   // ❌ Close modal if user navigates back or to another route
   useEffect(() => {
     setIsModalOpen(false);
   }, [pathname]);
 
- const addSymptomHandler = (symptom: string) => {
-  if (!symptom.trim()) return;
-  dispatch(clearSymptoms());               // ✨ Reset Redux symptom state
-  dispatch(addSymptom(symptom.trim()));    // Add only the current value
-  setSearch("");                           // Clear input field UI
-};
+  const addSymptomHandler = (symptom: string) => {
+    if (!symptom.trim()) return;
+    dispatch(clearSymptoms()); // ✨ Reset Redux symptom state
+    dispatch(addSymptom(symptom.trim())); // Add only the current value
+    setSearch(""); // Clear input field UI
+  };
 
   const handleProceed = () => {
     if (search.trim()) addSymptomHandler(search);
     dispatch(fetchDoctors());
-    setSearch("");         // 🧹 Clear input immediately
-    setIsModalOpen(true);  // Open modal
+    setSearch(""); // 🧹 Clear input immediately
+    setIsModalOpen(true); // Open modal
   };
 
   return (
@@ -75,11 +76,11 @@ const OnlineConsultation = () => {
 
       {loading && <p className="mt-4 text-center">Loading doctors…</p>}
 
-      {isModalOpen && doctors.length > 0 && (
-        <DoctorModal
-          doctors={doctors}
-          onClose={() => setIsModalOpen(false)}
-        />
+      {isModalOpen && (
+        <div className="mt-6 p-4 bg-yellow-50 text-yellow-800 text-center rounded-md border border-yellow-200">
+          Currently, no doctors are available for online or offline
+          consultation. Please try again later.
+        </div>
       )}
     </div>
   );
