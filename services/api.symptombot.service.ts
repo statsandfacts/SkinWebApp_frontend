@@ -47,6 +47,20 @@ export const endChatOnly = async (payload: { user_id: string }) => {
   return data; // response will be null
 };
 
+export const forceSkipToQ10A = async (payload: {
+  user_id: string;
+  question_id: string;
+  answer: string;
+  symptom_id: number;
+}) => {
+  const { data } = await axios.post(
+    `${baseUrl}symptom/skip?force_skip_to_q10a=true`,
+    payload,
+    headers
+  );
+  return data;
+};
+
 
 
 export const goBack = async (payload: any) => {

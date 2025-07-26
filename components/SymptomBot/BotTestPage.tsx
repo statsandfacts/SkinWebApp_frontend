@@ -1,19 +1,9 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import { Bot } from "lucide-react";
 import {
-  Loader2,
-  UserPen,
-  CircleChevronRight,
-  CircleChevronLeft,
-} from "lucide-react";
-import { ArrowLeft, Bot, CheckCircle2 } from "lucide-react";
-import { Button } from "@heroui/button";
-import Image from "next/image";
-import {
-  endChat,
   getFirstQuestion,
   getQuestion,
-  goBack,
 } from "@/services/api.symptombot.service";
 import QuestionRenderer from "./QuestionRenderer";
 import { toast } from "react-toastify";
@@ -32,10 +22,13 @@ import {
   setCurrentQuestionIndex,
 } from "@/redux/slices/symptomBot.slice";
 import { RootState } from "@/redux/store";
-import { clsx } from "clsx";
 import SymptomHistoryDrawer from "./SymptomHistoryDrawer";
 import SymptomSlider from "./SymptomSlider";
 import MultipleQuestion from "./MultipleQuestion";
+import Image from "next/image";
+import { Button } from "@heroui/button";
+import IntroScreen from "./Introcard";
+
 
 type ResponseQuestionType = {
   question: string;
@@ -66,16 +59,16 @@ const BotTestPage: React.FC = () => {
   const { redFlagQuestion, consecutiveQuestions } = useSelector(
     (state: RootState) => state.symptomBot
   );
-
   const multipleQuestions = useSelector(
     (state: RootState) => state.symptomBot.multipleQuestions
   );
-
   const multipleQuestionsCompleted = useSelector(
     (state: RootState) => state.symptomBot.multipleQuestionsCompleted
   );
+
   const dispatch = useDispatch();
   const [Question, setQuestion] = useState<ResponseQuestionType>();
+  const [chatHistory, setChatHistory] = useState<any[]>([]);
   const [dpuserid, setDpuserid] = useState<string | null>("");
   const [userID, setUserID] = useState<string>("");
   const [QuestionId, setQuestionId] = useState<string>("");
@@ -96,20 +89,60 @@ const BotTestPage: React.FC = () => {
 
   const count = useRef(false);
   const count1 = useRef(false);
-  const [bmiResponse, setBmiResponse] = useState<string>("");
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const [isAutoScroll, setIsAutoScroll] = useState(true);
+  const [showStartScreen, setShowStartScreen] = useState(true);
+  const [initialBotQuestion, setInitialBotQuestion] =
+    useState<ResponseQuestionType | null>(null);
+  const [showIntroCard, setShowIntroCard] = useState(true);
+  const [showIntroScreen, setShowIntroScreen] = useState(true);
 
-  const itemsPerSlide = 2;
-  const autoSlideInterval = 5000;
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedUserId = localStorage.getItem("dpUserId");
-      setDpuserid(storedUserId ? JSON.parse(storedUserId) : "");
+  const lastMessage = chatHistory[chatHistory.length - 1];
+  const isBotMessage = lastMessage?.sender === "bot";
+
+  const buildChatHistoryFromRecap = (response: ResponseQuestionType) => {
+    const history: any[] = [];
+    if (response?.recap) {
+      response.recap.forEach((item: any) => {
+        history.push({
+          sender: "bot",
+          content: item.question,
+          question_id: item.question_id,
+        });
+        history.push({
+          sender: "user",
+          content: item.answer,
+          question_id: item.question_id,
+        });
+      });
     }
+    history.push({
+      sender: "bot",
+      content: response.question,
+      image: response.image_url,
+      list: response.list,
+      renderQuestion: true,
+      question_id: response.next_question_id,
+    });
+    return history;
+  };
+useEffect(() => {
+  if (chatContainerRef.current) {
+    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+  }
+}, [chatHistory]);
+  useEffect(() => {
+    const storedUserId = localStorage.getItem("dpUserId");
+    setDpuserid(storedUserId ? JSON.parse(storedUserId) : "");
     if (multipleQuestionsCompleted) {
       dispatch(setMultipleQuestionsCompleted(true));
     }
+    if (symptomData.question_id === "Q1") {
+      setShowIntroScreen(false); // 👈 hide intro card after answering Q1
+    }
+
     if (count.current) {
       getQuestions();
     } else {
@@ -118,46 +151,64 @@ const BotTestPage: React.FC = () => {
     }
   }, [symptomData]);
 
+ 
+  
+
+  useEffect(() => {
+    localStorage.removeItem("dpUserId");
+    localStorage.removeItem("lastSymptomData");
+    localStorage.removeItem("symptomChatHistory");
+    const newUserId = Date.now().toString(); 
+    localStorage.setItem("dpUserId", JSON.stringify(newUserId));
+    setDpuserid(newUserId);
+
+    count.current = true;
+    count1.current = false;
+
+    dispatch(setMultipleQuestions([]));
+    dispatch(setMultipleQuestionsCompleted(false));
+    dispatch(setSymptomId(null));
+    dispatch(setRedFlagQuestion(false));
+    dispatch(setCurrentQuestionIndex(0));
+    dispatch(setMessageModalVisible(false));
+    dispatch(setModalVisible(false));
+    dispatch(setSymptomHistoryVisible(false));
+
+    setChatHistory([]);
+    setSymptomData({
+      user_id: newUserId,
+      question_id: "",
+      answer: "",
+      symptomId: null,
+    });
+
+    getFirstQuestions();
+  }, []);
+
+
+
   const getQuestions = async () => {
     if (count1.current) {
       const response = await getQuestion(symptomData);
-      console.log("symdata", symptomData);
-
       setQuestion(response);
       setQuestionId(response.next_question_id as string);
+      setChatHistory(buildChatHistoryFromRecap(response));
 
-      if (response.recap !== undefined) {
-        setSummaryModal(false);
-      } else if (response?.message) {
+      if (response?.message) {
         dispatch(setMessageModalVisible(true));
         setModalViewFor("message");
-        // setBmiResponse(response?.message as string);
-        // setResponseBmiModal(true);
       }
-
       if (response?.symptom_id) {
         dispatch(setSymptomId(response?.symptom_id));
       }
-
-      if (response?.multiple_questions) {
-        console.log("multipleQuestion", response.multiple_questions);
-        dispatch(setMultipleQuestions(response.multiple_questions));
-      } else {
-        dispatch(setMultipleQuestions([])); // clear if not present
-      }
       if (response?.multiple_questions?.length > 0) {
-        // 👇 New batch of multiple questions — restart flow
         dispatch(setMultipleQuestions(response.multiple_questions));
-        console.log(setCurrentQuestionIndex);
-        setCurrentQuestionIndex(0);
+        dispatch(setCurrentQuestionIndex(0));
         return;
       }
       dispatch(setMultipleQuestionsCompleted(true));
-      if (response?.red_flag) {
-        dispatch(setRedFlagQuestion(true));
-      } else {
-        dispatch(setRedFlagQuestion(false));
-      }
+
+      dispatch(setRedFlagQuestion(!!response?.red_flag));
     } else {
       count1.current = true;
     }
@@ -168,236 +219,172 @@ const BotTestPage: React.FC = () => {
       const response = await getFirstQuestion();
       setQuestion(response);
       setQuestionId(response.next_question_id as string);
+      setChatHistory(buildChatHistoryFromRecap(response));
     } catch (error) {
       toast.error("Something went wrong !");
     }
   };
 
-  // const setOkayAfterRecap = () => {
-  //   console.log("Question Data : ", Question);
-  //   setSymptomData({
-  //     user_id: dpuserid || "",
-  //     question_id: Question?.next_question_id || "",
-  //     answer: "Okay",
-  //   });
-  // };
-
   const setOkayAfterRecap = () => {
-    console.log("Question Data : ", Question);
-
     setSymptomData({
       user_id: dpuserid || "",
       question_id: Question?.next_question_id || "",
       answer: "yes",
     });
-
-    // Delay scroll until after render cycle
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 0);
+    setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
   };
 
-  const visibleList =
-    Question?.list?.slice(currentIndex, currentIndex + itemsPerSlide) || [];
+if (showIntroScreen) {
+  return <IntroScreen onStart={() => setShowIntroScreen(false)} />;
+}
 
   return (
     <div
-      className={clsx(
-        "h-auto min-h-screen pb-20 px-10 flex flex-col justify-center items-center"
-      )}
+      
+      className="flex flex-col h-screen max-w-4xl mx-auto bg-white shadow-lg rounded-lg"
+      ref={chatContainerRef}
     >
-      <>
-        <div className="lg:px-28 lg:mx-20 py-6 rounded-lg flex justify-center items-center min-w-full sm:py-4">
-          {/* <p></p> */}
-          {/* <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl mb-4 shadow-lg">
-            <Bot className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="mb-8 ml-7 font-bold text-lg"> Dr.Bot:-</h1>
-          <p className="font-bold mt-1 text-lg text-center">
-            {Question?.question}
-          </p> */}
-          <div className="flex flex-col items-center justify-center text-center">
-            {/* Bot Icon */}
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl mb-2 shadow-lg">
-              <Bot className="w-8 h-8 text-white" />
-            </div>
+      <div className="flex items-center gap-2 px-6 py-4 shadow-md border-b">
+        <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-white border border-gray-200">
+          <Image
+            src="/symptombot/symp_image.jpg"
+            alt="Bot"
+            width={100}
+            height={70}
+            className="object-contain"
+          />
+        </div>
+        <div>
+          <p className="text-base font-bold">Dr. Avika</p>
+          <p className="text-xs text-green-500">Active now</p>
+        </div>
+      </div>
 
-            {/* Dr.Bot Label - force align left */}
-            <div className="w-full px-4">
-              <h1 className="font-bold text-lg mb-1 text-left">Dr.Bot:-</h1>
-            </div>
-
-            {/* Question */}
-            {Array.isArray(Question?.question) ? (
-              Question.question.map((q: any, index: number) => (
-                <div
-                  key={index}
-                  className="mb-4 text-left w-full px-4 space-y-4"
-                >
-                  {/* Scenario Block */}
-                  {(q.scenario_title || q.scenario_question) && (
-                    <div className="bg-pink-200 p-4 rounded-xl">
-                      {q.scenario_title && (
-                        <h2 className="font-semibold text-[#4C1D95] mb-1">
-                          {q.scenario_title}
-                        </h2>
-                      )}
-                      {q.scenario_question && (
-                        <p className="text-lg font-bold text-[#334155]">
-                          {q.scenario_question}
-                        </p>
-                      )}
-                    </div>
+      <div
+        className="flex flex-col border border-gray-300 rounded-lg bg-gray-50 overflow-hidden max-h-[75vh] overflow-y-auto p-4 mt-4 h-screen"
+        
+      >
+        {chatHistory.map((msg, index) => (
+          <div key={index} className="flex gap-2 items-start mb-2 " > 
+            {msg.sender === "bot" && (
+              <>
+                <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-white border border-gray-200">
+                  <Image
+                    src="/symptombot/symp_image.jpg"
+                    alt="Bot"
+                    width={40}
+                    height={40}
+                    className="object-contain"
+                  />
+                </div>
+                <div className="bg-blue-200 px-4 py-2 rounded-2xl text-lg text-gray-800 max-w-xs shadow">
+                  {typeof msg.content === "string"
+                    ? msg.content
+                    : Array.isArray(msg.content)
+                    ? msg.content.map((q: any, i: number) => (
+                        <div key={i}>
+                          {q.scenario_title && (
+                            <p className="font-semibold">{q.scenario_title}</p>
+                          )}
+                          {q.scenario_question && <p>{q.scenario_question}</p>}
+                          {q.associated_title && (
+                            <p className="font-semibold mt-2">
+                              {q.associated_title}
+                            </p>
+                          )}
+                          {q.associated_question && (
+                            <p>{q.associated_question}</p>
+                          )}
+                        </div>
+                      ))
+                    : null}
+                  {msg?.list?.length > 0 && <SymptomSlider list={msg.list} />}
+                  {msg?.image && (
+                    <Image
+                      src={msg.image}
+                      alt="Symptom"
+                      width={300}
+                      height={300}
+                      className="mt-2 rounded-lg"
+                    />
                   )}
-
-                  {/* Associated Block */}
-                  {(q.associated_title || q.associated_question) && (
-                    <div className="bg-blue-200 p-4 rounded-xl">
-                      {q.associated_title && (
-                        <h3 className="font-semibold text-[#4C1D95] mb-1">
-                          {q.associated_title}
-                        </h3>
-                      )}
-                      {q.associated_question && (
-                        <p className="text-lg font-bold text-[#334155]">
-                          {q.associated_question}
-                        </p>
-                      )}
-                    </div>
+                  {index === chatHistory.length - 1 && (
+                    <QuestionRenderer
+                    setchatHistory={setChatHistory}
+                      question={Question}
+                      setAnswersField={setSymptomData}
+                      userID={dpuserid}
+                      setquestion={setQuestion}
+                      buildChatHistoryFunction={buildChatHistoryFromRecap}
+                    />
                   )}
                 </div>
-              ))
-            ) : typeof Question?.question === "string" ? (
-              <p className="font-bold mt-1 text-lg text-center">
-                {Question?.question}
-              </p>
-            ) : null}
+              </>
+            )}
+            {msg.sender === "user" && (
+              <div className="ml-auto">
+                <div className="bg-blue-500 text-white px-4 py-2 rounded-2xl max-w-xs shadow text-sm">
+                  {typeof msg.content === "object" && msg.content !== null ? (
+                    <ul className="list-disc list-inside space-y-1">
+                      {Object.entries(msg.content).map(([key, value]) => (
+                        <li key={key}>
+                          <strong>{key}:</strong>{" "}
+                          {typeof value === "string" ||
+                          typeof value === "number"
+                            ? value
+                            : JSON.stringify(value)}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-base">{msg.content}</p>
+                  )}
+                </div>
+                
+              </div>
+              
+            )}
+           
           </div>
-        </div>
-        {/* <div className="h-10 bg-black w-96"></div> */}
-        {Question?.list && Question.list.length > 0 && (
-          <SymptomSlider list={Question.list} />
-        )}
-        {/* <div className="h-10 bg-gray-500 w-96"></div> */}
+        ))}
 
-        {Question?.image_url && (
-          <div>
-            <Image
-              src={Question?.image_url || ""}
-              alt={"Symptom Image"}
-              width={350}
-              height={350}
-            />
-          </div>
-        )}
-        {/* {multipleQuestions.length > 0 && <MultipleQuestion />}
-
-        <div className="lg:px-96 lg:w-5/6 w-80">
-          <QuestionRenderer
-            question={Question}
-            setAnswersField={setSymptomData}
-            userID={dpuserid}
-            setquestion={setQuestion}
-          />
-        </div> */}
-        {multipleQuestions.length > 0 ? (
-          // Multiple question flow is active
+        {multipleQuestions.length > 0 && (
           <MultipleQuestion setSymptomData={setSymptomData} />
-        ) : (
-          // Single question flow is active
-          <div className="lg:px-96 lg:w-5/6 w-80">
-            <QuestionRenderer
-              question={Question}
-              setAnswersField={setSymptomData}
-              userID={dpuserid}
-              setquestion={setQuestion}
-            />
-          </div>
         )}
-      </>
-      {Question?.next_available && ( //Create a component for recap
-        <div className="lg:px-48">
-          <div className="flex justify-between items-center">
-            <p className="font-bold mb-6 text-xl">Your Recap</p>
-            <Button className="bg-primary-lite px-6 py-2 rounded-full">
-              <UserPen />
-            </Button>
-          </div>
 
-          <div className="w-full flex flex-col gap-1">
-            <div className="h-auto overflow-y-auto">
+        {Question?.next_available && (
+          <div className="mt-6">
+            <h2 className="font-bold text-lg mb-2">Your Recap</h2>
+            <div className="space-y-4">
               {Question.recap?.map((item: any, index: number) => (
-                <div key={index} className="flex flex-col gap-2 mb-4">
-                  <div className="flex">
-                    <div className="font-bold mr-3">{index + 1}.</div>
-
-                    <div className="font-bold ml-1">
-                      {/* Handle string vs object[] questions */}
-                      {typeof item.question === "string" ? (
-                        item.question
-                      ) : Array.isArray(item.question) ? (
-                        item.question.map(
-                          (
-                            qObj: {
-                              scenario_title: string;
-                              scenario_question: string;
-                              associated_title: string;
-                              associated_question: string;
-                            },
-                            qIndex: number
-                          ) => (
-                            <div key={qIndex} className="mb-2">
-                              <div className="font-semibold">
-                                {qObj.scenario_title}
-                              </div>
-                              <div>{qObj.scenario_question}</div>
-                              <div className="font-semibold mt-1">
-                                {qObj.associated_title}
-                              </div>
-                              <div>{qObj.associated_question}</div>
-                            </div>
-                          )
-                        )
-                      ) : (
-                        <span className="text-red-500">
-                          Invalid question format
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="text-gray-700 ml-9">
-                    {typeof item.answer === "string" ? (
-                      <div>Ans - {item.answer}</div>
-                    ) : (
-                      Object.entries(item.answer).map(
-                        ([key, value], subIndex) => (
-                          <div key={subIndex} className="flex gap-1">
-                            <span className="font-semibold">{key}:</span>
-                            <span>{String(value)}</span>
+                <div key={index} className="bg-gray-100 p-4 rounded-xl">
+                  <p className="font-semibold mb-1">
+                    {index + 1}.{" "}
+                    {typeof item.question === "string" ? item.question : ""}
+                  </p>
+                  <div className="text-sm text-gray-700">
+                    {typeof item.answer === "string"
+                      ? `Ans - ${item.answer}`
+                      : Object.entries(item.answer).map(([key, value]) => (
+                          <div key={key}>
+                            <strong>{key}:</strong> {String(value)}
                           </div>
-                        )
-                      )
-                    )}
+                        ))}
                   </div>
                 </div>
               ))}
             </div>
-          </div>
-
-          <div>
             <Button
               type="button"
-              className="w-full mt-5 bg-primary-lite font-medium"
-              onClick={() => setOkayAfterRecap()}
+              className="w-full mt-4 bg-primary-lite font-medium"
+              onClick={setOkayAfterRecap}
             >
               Okay
             </Button>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
-      <ExplanationModal />
       <DisclamerModal open={disclamerModal} closeFunction={setDisclamerModal} />
       <MessageModal
         Question={Question}
@@ -407,7 +394,8 @@ const BotTestPage: React.FC = () => {
         setData={setSymptomData}
         userID={dpuserid}
       />
-      <SymptomHistoryDrawer drawerFor={"faqs"} />
+      <ExplanationModal />
+      <SymptomHistoryDrawer drawerFor="faqs" />
     </div>
   );
 };
