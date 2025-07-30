@@ -300,7 +300,7 @@ const BotTestPage: React.FC = () => {
                   )}
                   {index === chatHistory.length - 1 && (
                     <QuestionRenderer
-                      setchatHistory={setChatHistory}
+                      setChatHistory={setChatHistory}
                       question={Question}
                       setAnswersField={setSymptomData}
                       userID={dpuserid}

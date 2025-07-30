@@ -75,9 +75,10 @@ type Props = {
   setAnswersField: React.Dispatch<React.SetStateAction<any>>;
   userID: any;
   setquestion: React.Dispatch<React.SetStateAction<any>>;
-  buildChatHistoryFunction?: any;
-  setchatHistory?: React.Dispatch<React.SetStateAction<any[]>>;
-  scrollToBottom?: () => void;
+
+  buildChatHistoryFunction: any;
+  setChatHistory: React.Dispatch<React.SetStateAction<any[]>>;
+  scrollToBottom?: () => void; // Optional prop for scrolling
 };
 
 const QuestionRenderer: React.FC<Props> = ({
@@ -86,7 +87,8 @@ const QuestionRenderer: React.FC<Props> = ({
   userID,
   setquestion,
   buildChatHistoryFunction,
-  setchatHistory,
+  setChatHistory,
+  scrollToBottom = () => {}, // Default to a no-op if not provided
 }) => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -290,7 +292,7 @@ const QuestionRenderer: React.FC<Props> = ({
 
       // Build chat history from the response
       console.log("res", response);
-      // setchatHistory(buildChatHistoryFunction(response));
+      setChatHistory(buildChatHistoryFunction(response));
     } catch (err) {
       console.error("Go back failed:", err);
     }
@@ -311,7 +313,7 @@ const QuestionRenderer: React.FC<Props> = ({
       // Set new question
       setquestion(response);
 
-      // setchatHistory(buildChatHistoryFunction(response));
+      setChatHistory(buildChatHistoryFunction(response));
 
       // Set symptom ID if provided
       if (response.symptom_id) {
