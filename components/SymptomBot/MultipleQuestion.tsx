@@ -11,12 +11,14 @@ import { useAuthInfo } from "@/hooks/useAuthInfo";
 import { getQuestion, goBack } from "@/services/api.symptombot.service";
 
 interface MultipleQuestionProps {
-  setSymptomData: (data: any) => void; 
+  setSymptomData: (data: any) => void;
 }
 
-export default function MultipleQuestion({ setSymptomData }: MultipleQuestionProps) {
+export default function MultipleQuestion({
+  setSymptomData,
+}: MultipleQuestionProps) {
   const dispatch = useDispatch();
-  
+
   const multipleQuestions = useSelector(
     (state: RootState) => state.symptomBot.multipleQuestions
   );
@@ -25,31 +27,30 @@ export default function MultipleQuestion({ setSymptomData }: MultipleQuestionPro
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const handleAnswer = (answer: string, index: number) => {
-    console.log("mlqa")
-  const currentQuestion = multipleQuestions[index];
-  
-  const payload = {
-    user_id: userId?.userId,
-    question_id: currentQuestion.id,
-    answer: answer,
+    console.log("mlqa");
+    const currentQuestion = multipleQuestions[index];
+
+    const payload = {
+      user_id: userId?.userId,
+      question_id: currentQuestion.id,
+      answer: answer,
+    };
+
+    // This triggers BotTestPage's useEffect
+    setSymptomData(payload);
+
+    // Advance the index locally for the UI
+    if (
+      index === currentQuestionIndex &&
+      index < multipleQuestions.length - 1
+    ) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    }
+
+    if (index === multipleQuestions.length - 1) {
+      console.log("All multiple questions answered!");
+    }
   };
-
-  // This triggers BotTestPage's useEffect
-  setSymptomData(payload);
-
-  // Advance the index locally for the UI
-  if (
-        index === currentQuestionIndex &&
-        index < multipleQuestions.length - 1
-      ) {
-        setCurrentQuestionIndex((prev) => prev + 1);
-      }
-
-      if (index === multipleQuestions.length - 1) {
-        console.log("All multiple questions answered!");
-      }
-};
-
 
   // ✅ Go back to the previous question
   const handleBackClick = async () => {
@@ -78,7 +79,7 @@ export default function MultipleQuestion({ setSymptomData }: MultipleQuestionPro
           className={`border p-4 rounded shadow ${
             index <= currentQuestionIndex
               ? "bg-white"
-              : "bg-gray-200 opacity-50 pointer-events-none" 
+              : "bg-gray-200 opacity-50 pointer-events-none"
           }`}
         >
           <p className="mb-4 font-semibold">{question.associated_symptom}</p>
@@ -88,21 +89,11 @@ export default function MultipleQuestion({ setSymptomData }: MultipleQuestionPro
           <QuestionRenderer
             question={question}
             setAnswersField={(answerData: any) => {
-              console.log("ad",answerData)
-              handleAnswer(answerData.answer, index);  
+              handleAnswer(answerData.answer, index);
             }}
             userID={userId}
             setquestion={() => {}} // Optional
           />
-          {/* <QuestionRenderer
-  question={question}
-  setAnswersField={setSymptomData}  // Pass your next single question payload handler if needed
-  userID={userId}
-  setquestion={() => {}}
-/> */}
-
-
-          
         </div>
       ))}
     </div>
