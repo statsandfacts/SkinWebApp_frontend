@@ -1,44 +1,47 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { usePathname } from "next/navigation";
-import type { RootState, AppDispatch } from "@/redux/store";
-import { fetchDoctors } from "@/redux/slices/digitalPrescription/doctors.slice";
+import type { AppDispatch } from "@/redux/store";
 import {
   addSymptom,
   clearSymptoms,
 } from "@/redux/slices/digitalPrescription/symptoms.slice";
-import DoctorModal from "./DoctorListModal";
 import BackButton from "@/components/common/BackButton";
+import { toast } from "react-toastify";
 
 const OnlineConsultation = () => {
   const [search, setSearch] = useState("");
+  const [email, setEmail] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const pathname = usePathname();
 
-  const { list: doctors, loading } = useSelector(
-    (state: RootState) => state.doctors
-  );
-  console.log("Doctors in redux store:", doctors);
-
-  // ❌ Close modal if user navigates back or to another route
   useEffect(() => {
     setIsModalOpen(false);
   }, [pathname]);
 
   const addSymptomHandler = (symptom: string) => {
     if (!symptom.trim()) return;
-    dispatch(clearSymptoms()); // ✨ Reset Redux symptom state
-    dispatch(addSymptom(symptom.trim())); // Add only the current value
-    setSearch(""); // Clear input field UI
+    dispatch(clearSymptoms());
+    dispatch(addSymptom(symptom.trim()));
+    setSearch("");
   };
 
   const handleProceed = () => {
     if (search.trim()) addSymptomHandler(search);
-    dispatch(fetchDoctors());
-    setSearch(""); // 🧹 Clear input immediately
-    setIsModalOpen(true); // Open modal
+    setIsModalOpen(true);
+  };
+
+  const handleNotify = () => {
+    if (!email.trim() || !email.includes("@")) {
+     toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    console.log("Notify Me email submitted:", email);
+    setEmail("");
+    setIsModalOpen(false);
   };
 
   return (
@@ -74,12 +77,26 @@ const OnlineConsultation = () => {
         </div>
       </div>
 
-      {loading && <p className="mt-4 text-center">Loading doctors…</p>}
-
       {isModalOpen && (
         <div className="mt-6 p-4 bg-yellow-50 text-yellow-800 text-center rounded-md border border-yellow-200">
-          Currently, no doctors are available for online or offline
-          consultation. Please try again later.
+          <p>
+            No doctors are currently available for online or offline
+            consultation. Please submit your Email ID, and we’ll notify you as
+            soon as appointments open.
+          </p>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            className="w-full mt-4 px-4 py-2 border rounded-md"
+          />
+          <button
+            onClick={handleNotify}
+            className="mt-3 bg-primary text-white px-6 py-2 rounded "
+          >
+            Notify Me
+          </button>
         </div>
       )}
     </div>
