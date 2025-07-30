@@ -82,9 +82,6 @@ const SymptomHistoryDrawer = ({drawerFor} : {drawerFor: string}) => {
               <h2 className="text-lg font-semibold">Symptom History</h2>
             </DrawerHeader>
             {drawerFor === "history" ? <DrawerBody>
-              <p className="text-sm text-gray-600">
-                This is where your symptom history will go.
-              </p>
               {historydata && historydata.length > 0 ? (
                 historydata.map((item: any, index: number) => (
                   <div key={index} className="mt-4 p-4 bg-gray-50 rounded-lg shadow-sm">

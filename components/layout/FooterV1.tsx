@@ -217,36 +217,7 @@ const FooterV1 = (props: Props) => {
             </div>
           </div>
 
-          <div className="flex flex-col justify-center px-16 py-6 w-full bg-primary text-stone-900 max-md:px-5 max-md:max-w-full">
-            <div className="flex flex-wrap gap-5 justify-between mx-5 max-md:flex-wrap max-md:mr-2.5 max-md:max-w-full">
-              <div className="flex-auto my-auto text-sm text-white">
-                Copyright © {new Date().getFullYear()}
-                <div className="flex gap-2 my-auto text-sm text-white">
-                  Stats & Facts Technologies Pvt. Ltd.
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-2 pb-1.5 text-xs whitespace-nowrap">
-                <Link
-                  href={"/policy/terms-and-condition"}
-                  className="grow justify-center px-2 py-1.5 border border-solid border-black border-opacity-0 text-white"
-                >
-                  Terms & Conditions
-                </Link>
-                <Link
-                  href={"/policy"}
-                  className="grow justify-center px-2 py-1.5 border border-solid border-black border-opacity-0 text-white"
-                >
-                  Privacy Policy
-                </Link>
-                <Link
-                  href={"/policy/refund-cancellation"}
-                  className="grow justify-center px-2 py-1.5 border border-solid border-black border-opacity-0 text-white"
-                >
-                  Refund & Cancellation Policy
-                </Link>
-              </div>
-            </div>
-          </div>
+         
         </div>
       </footer>
     </>

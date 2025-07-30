@@ -27,7 +27,6 @@ import {
 } from "lucide-react";
 
 import { Typewriter } from "./Typewriter";
-import type { Tip, Condition } from "@/types/digitalPrescription/symptom.types";
 
 
 export default function MessageModal({

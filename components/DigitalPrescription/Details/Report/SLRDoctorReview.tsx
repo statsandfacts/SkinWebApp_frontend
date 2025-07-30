@@ -35,7 +35,7 @@ export default function SLRDoctorReview() {
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
+        {/* <div className="flex items-center space-x-2">
           <Image
             src="/aboutus/swasata.png"
             alt="SS Panda"
@@ -48,7 +48,7 @@ export default function SLRDoctorReview() {
             <div className="text-green-600">✔ Reviewed</div>
             <div className="text-gray-400">What is this?</div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-6 md:p-10 rounded-2xl shadow-lg bg-white w-full mt-2">
