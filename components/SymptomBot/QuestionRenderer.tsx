@@ -162,28 +162,7 @@ const QuestionRenderer: React.FC<Props> = ({
     fetchSearchResults();
   }, [debouncedValue]);
 
-  const sendUserResponse = async (answer: any) => {
-    if (
-      answer === "no" &&
-      question?.next_question_id === "Q1" &&
-      question?.flow_name === "main"
-    ) {
-      await endChatOnly({ user_id: userID });
-      router.push("/");
-      return;
-    }
-
-    if (answer === "yes" && question?.dr_apnt) {
-      router.push("/dashboard/appoinment");
-      return;
-    }
-
-    if (redFlagQuestion && answer !== "None of the above") {
-      dispatch(setMessageModalVisible(true));
-      dispatch(setErrorMessageForRedFlag(true));
-    }
-
-    const handleNumericInputFields = (e: any, field: any, index: number) => {
+  const handleNumericInputFields = (e: any, field: any, index: number) => {
       const { value } = e.target;
       if (field.label === "Weight (kg)") {
         setWieghtHeightFieldValue((prev: any) => ({
@@ -227,12 +206,81 @@ const QuestionRenderer: React.FC<Props> = ({
         }));
       }
     };
+    const handleMultipleInputField = (value1: any, value2: any, value3: any) => {
+    if (question?.next_question_id === "Q4") {
+      if (
+        value1.weight !== "" &&
+        value1.height_ft !== "" &&
+        value1.height_inches !== ""
+      ) {
+        setAnswersField({
+          user_id: userID || "",
+          question_id:
+            question?.next_question_id || question?.previous_question_id,
+          answer: value1,
+        });
+      } else {
+        toast.warn("Enter all fields !");
+      }
+    } else if (question?.next_question_id === "Q10") {
+      if (value2.systolic !== "" && value2.diastolic !== "") {
+        setAnswersField({
+          user_id: userID || "",
+          question_id:
+            question?.next_question_id || question?.previous_question_id,
+          answer: value2,
+        });
+      } else {
+        toast.warn("Enter all fields !");
+      }
+    } else if (question?.next_question_id === "Q8") {
+      console.log(value3);
+      if (
+        value3.fasting !== "" ||
+        value3.postprandial !== "" ||
+        value3.HbA1c !== ""
+      ) {
+        setAnswersField({
+          user_id: userID || "",
+          question_id:
+            question?.next_question_id || question?.previous_question_id,
+          answer: value3,
+        });
+      } else {
+        toast.warn("Enter atleast one field !");
+      }
+    }
+  };
+
+
+  const sendUserResponse = async (answer: any) => {
+    if (
+      answer === "no" &&
+      question?.next_question_id === "Q1" &&
+      question?.flow_name === "main"
+    ) {
+      await endChatOnly({ user_id: userID });
+      router.push("/");
+      return;
+    }
+
+    if (answer === "yes" && question?.dr_apnt) {
+      router.push("/dashboard/appoinment");
+      return;
+    }
+
+    if (redFlagQuestion && answer !== "None of the above") {
+      dispatch(setMessageModalVisible(true));
+      dispatch(setErrorMessageForRedFlag(true));
+    }
     setAnswersField({
       user_id: userID,
       question_id: question?.next_question_id || question?.previous_question_id,
       answer,
       symptom_id: symptomId || null,
     });
+
+     
   };
 
   const handleMultipleChoiceClick = (value: string | number) => {
@@ -552,26 +600,31 @@ const QuestionRenderer: React.FC<Props> = ({
     case "numeric_input":
       questionContent = (
         <div className="space-y-3 w-full max-w-xs ml-auto">
-          {question.fields?.map((field) => (
-            <input
-              key={field.label}
-              type={field.type}
-              placeholder={field.label}
-              className="w-full p-3 border border-gray-300 rounded-full"
-              onChange={(e) =>
-                setNumericInputs((prev) => ({
-                  ...prev,
-                  [field.label]: e.target.value,
-                }))
-              }
-            />
-          ))}
-          <Button
-            className="bg-blue-500 text-white w-full rounded-full"
-            onClick={handleNumericSubmit}
-          >
-            Submit
-          </Button>
+         {question.fields?.map((field: any, index: number) => (
+                    <input
+                      ref={inputRef}
+                      key={index}
+                      type={field.type}
+                      placeholder={field.label}
+                      className="w-full border-2 py-2 px-4 border-primary-lite text-zinc-950 rounded-full mt-2"
+                      onChange={(e) =>
+                        handleNumericInputFields(e, field, index)
+                      }
+                    />
+                  ))}
+         <Button
+                    variant="ghost"
+                    className="border-slate-100 border-2 text-white bg-primary-lite font-semibold px-4 py-2 rounded-full w-full"
+                    onClick={() =>
+                      handleMultipleInputField(
+                        wieghtHeightFieldValue,
+                        diabetesFieldValue,
+                        diabetesValues
+                      )
+                    }
+                  >
+                    Send
+                  </Button>
           {question.skip && (
             <Button
               variant="ghost"
