@@ -72,12 +72,12 @@ export type ResponseQuestionType = {
 
 type Props = {
   question: QuestionType | undefined;
-  setAnswersField: React.Dispatch<React.SetStateAction<any>>;
+  setAnswersField: React.Dispatch<React.SetStateAction<any>> | any;
   userID: any;
   setquestion: React.Dispatch<React.SetStateAction<any>>;
 
-  buildChatHistoryFunction: any;
-  setChatHistory: React.Dispatch<React.SetStateAction<any[]>>;
+  buildChatHistoryFunction?: any;
+  setChatHistory?: React.Dispatch<React.SetStateAction<any[]>>;
   scrollToBottom?: () => void; // Optional prop for scrolling
 };
 
@@ -163,50 +163,50 @@ const QuestionRenderer: React.FC<Props> = ({
   }, [debouncedValue]);
 
   const handleNumericInputFields = (e: any, field: any, index: number) => {
-      const { value } = e.target;
-      if (field.label === "Weight (kg)") {
-        setWieghtHeightFieldValue((prev: any) => ({
-          ...prev,
-          weight: value,
-        }));
-      } else if (field.label === "Height (ft)") {
-        setWieghtHeightFieldValue((prev: any) => ({
-          ...prev,
-          height_ft: value,
-        }));
-      } else if (field.label === "Height (inches)") {
-        setWieghtHeightFieldValue((prev: any) => ({
-          ...prev,
-          height_inches: value,
-        }));
-      } else if (field.label === "Systolic") {
-        setDiabetesFieldValue((prev: any) => ({
-          ...prev,
-          systolic: value,
-        }));
-      } else if (field.label === "Diastolic") {
-        setDiabetesFieldValue((prev: any) => ({
-          ...prev,
-          diastolic: value,
-        }));
-      } else if (field.label === "Fasting (FBS)") {
-        setDiabetesValues((prev: any) => ({
-          ...prev,
-          "Fasting (FBS)": value,
-        }));
-      } else if (field.label === "Postprandial (PPBS)") {
-        setDiabetesValues((prev: any) => ({
-          ...prev,
-          "Postprandial (PPBS)": value,
-        }));
-      } else if (field.label === "HbA1c") {
-        setDiabetesValues((prev: any) => ({
-          ...prev,
-          HbA1c: value,
-        }));
-      }
-    };
-    const handleMultipleInputField = (value1: any, value2: any, value3: any) => {
+    const { value } = e.target;
+    if (field.label === "Weight (kg)") {
+      setWieghtHeightFieldValue((prev: any) => ({
+        ...prev,
+        weight: value,
+      }));
+    } else if (field.label === "Height (ft)") {
+      setWieghtHeightFieldValue((prev: any) => ({
+        ...prev,
+        height_ft: value,
+      }));
+    } else if (field.label === "Height (inches)") {
+      setWieghtHeightFieldValue((prev: any) => ({
+        ...prev,
+        height_inches: value,
+      }));
+    } else if (field.label === "Systolic") {
+      setDiabetesFieldValue((prev: any) => ({
+        ...prev,
+        systolic: value,
+      }));
+    } else if (field.label === "Diastolic") {
+      setDiabetesFieldValue((prev: any) => ({
+        ...prev,
+        diastolic: value,
+      }));
+    } else if (field.label === "Fasting (FBS)") {
+      setDiabetesValues((prev: any) => ({
+        ...prev,
+        "Fasting (FBS)": value,
+      }));
+    } else if (field.label === "Postprandial (PPBS)") {
+      setDiabetesValues((prev: any) => ({
+        ...prev,
+        "Postprandial (PPBS)": value,
+      }));
+    } else if (field.label === "HbA1c") {
+      setDiabetesValues((prev: any) => ({
+        ...prev,
+        HbA1c: value,
+      }));
+    }
+  };
+  const handleMultipleInputField = (value1: any, value2: any, value3: any) => {
     if (question?.next_question_id === "Q4") {
       if (
         value1.weight !== "" &&
@@ -252,7 +252,6 @@ const QuestionRenderer: React.FC<Props> = ({
     }
   };
 
-
   const sendUserResponse = async (answer: any) => {
     if (
       answer === "no" &&
@@ -279,8 +278,6 @@ const QuestionRenderer: React.FC<Props> = ({
       answer,
       symptom_id: symptomId || null,
     });
-
-     
   };
 
   const handleMultipleChoiceClick = (value: string | number) => {
@@ -340,6 +337,9 @@ const QuestionRenderer: React.FC<Props> = ({
 
       // Build chat history from the response
       console.log("res", response);
+      if (!setChatHistory) {
+        return "";
+      }
       setChatHistory(buildChatHistoryFunction(response));
     } catch (err) {
       console.error("Go back failed:", err);
@@ -360,7 +360,9 @@ const QuestionRenderer: React.FC<Props> = ({
 
       // Set new question
       setquestion(response);
-
+      if (!setChatHistory) {
+        return "";
+      }
       setChatHistory(buildChatHistoryFunction(response));
 
       // Set symptom ID if provided
@@ -600,31 +602,29 @@ const QuestionRenderer: React.FC<Props> = ({
     case "numeric_input":
       questionContent = (
         <div className="space-y-3 w-full max-w-xs ml-auto">
-         {question.fields?.map((field: any, index: number) => (
-                    <input
-                      ref={inputRef}
-                      key={index}
-                      type={field.type}
-                      placeholder={field.label}
-                      className="w-full border-2 py-2 px-4 border-primary-lite text-zinc-950 rounded-full mt-2"
-                      onChange={(e) =>
-                        handleNumericInputFields(e, field, index)
-                      }
-                    />
-                  ))}
-         <Button
-                    variant="ghost"
-                    className="border-slate-100 border-2 text-white bg-primary-lite font-semibold px-4 py-2 rounded-full w-full"
-                    onClick={() =>
-                      handleMultipleInputField(
-                        wieghtHeightFieldValue,
-                        diabetesFieldValue,
-                        diabetesValues
-                      )
-                    }
-                  >
-                    Send
-                  </Button>
+          {question.fields?.map((field: any, index: number) => (
+            <input
+              ref={inputRef}
+              key={index}
+              type={field.type}
+              placeholder={field.label}
+              className="w-full border-2 py-2 px-4 border-primary-lite text-zinc-950 rounded-full mt-2"
+              onChange={(e) => handleNumericInputFields(e, field, index)}
+            />
+          ))}
+          <Button
+            variant="ghost"
+            className="border-slate-100 border-2 text-white bg-primary-lite font-semibold px-4 py-2 rounded-full w-full"
+            onClick={() =>
+              handleMultipleInputField(
+                wieghtHeightFieldValue,
+                diabetesFieldValue,
+                diabetesValues
+              )
+            }
+          >
+            Send
+          </Button>
           {question.skip && (
             <Button
               variant="ghost"
