@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { Bot } from "lucide-react";
+import { Bot, SendHorizonal } from "lucide-react";
 import {
   getFirstQuestion,
   getQuestion,
@@ -99,6 +99,7 @@ const BotTestPage: React.FC = () => {
 
   const lastMessage = chatHistory[chatHistory.length - 1];
   const isBotMessage = lastMessage?.sender === "bot";
+  const [message, setMessage] = useState("");
 
   const buildChatHistoryFromRecap = (response: ResponseQuestionType) => {
     const history: any[] = [];
@@ -132,6 +133,14 @@ const BotTestPage: React.FC = () => {
         chatContainerRef.current.scrollHeight;
     }
   }, [chatHistory]);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [chatHistory]);
+
   useEffect(() => {
     const storedUserId = localStorage.getItem("dpUserId");
     setDpuserid(storedUserId ? JSON.parse(storedUserId) : "");
@@ -232,11 +241,14 @@ const BotTestPage: React.FC = () => {
     return <IntroScreen onStart={() => setShowIntroScreen(false)} />;
   }
 
+  const handleSend = () => {
+    if (!message.trim()) return;
+    setChatHistory((prev) => [...prev, { sender: "user", content: message }]);
+    setMessage("");
+    // Optionally call your backend here to get bot response...
+  };
   return (
-    <div
-      className="flex flex-col h-screen max-w-4xl mx-auto bg-white shadow-lg rounded-lg"
-      ref={chatContainerRef}
-    >
+    <div className="flex flex-col h-screen max-w-4xl mx-auto bg-white shadow-lg rounded-lg">
       <div className="flex items-center gap-2 px-6 py-4 shadow-md border-b">
         <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-white border border-gray-200">
           <Image
@@ -253,7 +265,10 @@ const BotTestPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex flex-col border border-gray-300 rounded-lg bg-gray-50 overflow-hidden max-h-[75vh] overflow-y-auto p-4 mt-4 h-screen">
+      <div
+        ref={chatContainerRef}
+        className="flex flex-col border border-gray-300 rounded-lg bg-gray-50 overflow-hidden max-h-[75vh] overflow-y-auto p-4 mt-4 h-screen"
+      >
         {chatHistory.map((msg, index) => (
           <div key={index} className="flex gap-2 items-start mb-2 ">
             {msg.sender === "bot" && (
@@ -313,6 +328,7 @@ const BotTestPage: React.FC = () => {
             )}
             {msg.sender === "user" && (
               <div className="ml-auto">
+                
                 <div className="bg-blue-500 text-white px-4 py-2 rounded-2xl max-w-xs shadow text-sm">
                   {typeof msg.content === "object" && msg.content !== null ? (
                     <ul className="list-disc list-inside space-y-1">
@@ -330,6 +346,16 @@ const BotTestPage: React.FC = () => {
                     <p className="text-base">{msg.content}</p>
                   )}
                 </div>
+               
+                {/* <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-white border border-gray-200">
+                  <Image
+                    src="/symptombot/symp_image.jpg" // 👈 Static placeholder, change when API is ready
+                    alt="User"
+                    width={40}
+                    height={40}
+                    className="object-cover"
+                  />
+                </div> */}
               </div>
             )}
           </div>
@@ -371,6 +397,24 @@ const BotTestPage: React.FC = () => {
           </div>
         )}
       </div>
+      {/* Typing bar
+    <div className="border-t border-gray-200 p-3 flex items-center gap-2 bg-white">
+      <input
+        type="text"
+        placeholder="Type your message..."
+        className="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && handleSend()}
+      />
+      <button
+        onClick={handleSend}
+        className="bg-blue-500 p-2 rounded-full text-white hover:bg-blue-600 transition"
+      >
+        <SendHorizonal size={20} />
+      </button>
+    </div> */}
+      
 
       <DisclamerModal open={disclamerModal} closeFunction={setDisclamerModal} />
       <MessageModal
