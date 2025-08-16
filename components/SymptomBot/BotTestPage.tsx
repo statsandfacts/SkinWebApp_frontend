@@ -328,7 +328,6 @@ const BotTestPage: React.FC = () => {
             )}
             {msg.sender === "user" && (
               <div className="ml-auto">
-                
                 <div className="bg-blue-500 text-white px-4 py-2 rounded-2xl max-w-xs shadow text-sm">
                   {typeof msg.content === "object" && msg.content !== null ? (
                     <ul className="list-disc list-inside space-y-1">
@@ -346,7 +345,7 @@ const BotTestPage: React.FC = () => {
                     <p className="text-base">{msg.content}</p>
                   )}
                 </div>
-               
+
                 {/* <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-white border border-gray-200">
                   <Image
                     src="/symptombot/symp_image.jpg" // 👈 Static placeholder, change when API is ready
@@ -373,7 +372,20 @@ const BotTestPage: React.FC = () => {
                 <div key={index} className="bg-gray-100 p-4 rounded-xl">
                   <p className="font-semibold mb-1">
                     {index + 1}.{" "}
-                    {typeof item.question === "string" ? item.question : ""}
+                    {typeof item.question === "string"
+                      ? item.question
+                      : Array.isArray(item.question)
+                      ? item.question.map((q: any, i: number) => (
+                          <div key={i} className="ml-2">
+                            <p className="font-medium">
+                              {q.scenario_title}: {q.scenario_question}
+                            </p>
+                            <p className="text-gray-600">
+                              {q.associated_title}: {q.associated_question}
+                            </p>
+                          </div>
+                        ))
+                      : null}
                   </p>
                   <div className="text-sm text-gray-700">
                     {typeof item.answer === "string"
@@ -414,7 +426,6 @@ const BotTestPage: React.FC = () => {
         <SendHorizonal size={20} />
       </button>
     </div> */}
-      
 
       <DisclamerModal open={disclamerModal} closeFunction={setDisclamerModal} />
       <MessageModal
